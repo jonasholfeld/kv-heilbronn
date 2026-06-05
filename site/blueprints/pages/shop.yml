@@ -1,0 +1,22 @@
+title: Shop
+icon: cart
+
+options:
+  changeTemplate: false
+  delete: false
+
+tabs:
+  shop:
+    sections:
+      kataloge:
+        type: pages
+        label: Kataloge
+        templates:
+          - katalog
+        status: all
+      editionen:
+        type: pages
+        label: Editionen
+        templates:
+          - edition
+        status: all

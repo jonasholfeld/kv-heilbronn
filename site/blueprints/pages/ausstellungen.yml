@@ -1,0 +1,24 @@
+title: Ausstellungen
+icon: image
+
+options:
+    changeTemplate: false
+    delete: false
+
+tabs:
+    ausstellungen:
+        sections:
+            drafts:
+                type: pages
+                label: Entwürfe
+                status: draft
+                sortBy: startdatum desc
+                templates:
+                    - ausstellung
+            published:
+                type: pages
+                label: Ausstellungen
+                status: all
+                templates:
+                    - ausstellung
+                sortBy: startdatum desc

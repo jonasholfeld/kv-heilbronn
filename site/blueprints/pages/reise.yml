@@ -1,0 +1,68 @@
+title: Reise
+icon: globe
+
+tabs:
+    content:
+        label: Inhalt
+        fields:
+            wordpressId:
+                label: WordPress-ID
+                type: hidden
+                width: 1/4
+            category:
+                label: Kategorie
+                type: select
+                width: 1/4
+                options:
+                    atelierbesuch: Atelierbesuch
+                    kunstreise: Kunstreise
+            veroeffentlichtAm:
+                label: WordPress-Datum
+                type: date
+                width: 1/3
+            reiseDatumText:
+                label: Reise-Datumstext
+                type: text
+                width: 1/3
+                help: Freies Datumslabel aus dem Export, falls es von den strukturierten Feldern abweicht.
+            reiseStart:
+                label: Reisebeginn
+                type: date
+                width: 1/6
+            reiseEnde:
+                label: Reiseende
+                type: date
+                width: 1/6
+            beschreibung:
+                label: Beschreibung
+                type: writer
+                size: large
+            reiseplan:
+                label: Reiseplan
+                type: writer
+            anmeldung:
+                label: Anmeldung
+                type: writer
+    media:
+        label: Medien
+        fields:
+            titelbild:
+                label: Titelbild
+                type: files
+                max: 1
+                store: id
+                layout: cards
+                size: medium
+            galerie:
+                label: Galerie
+                type: files
+                store: id
+                layout: cards
+                size: medium
+    import:
+        label: Import
+        fields:
+            legacyBildquellen:
+                label: Ursprüngliche Bildreferenzen
+                type: textarea
+                buttons: false

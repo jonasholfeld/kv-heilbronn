@@ -1,0 +1,17 @@
+title: Kunstverein
+
+fields:
+    color:
+        label: Farbe
+        type: color
+        width: 1/2
+    gallery:
+        label: Galerie
+        type: files
+        width: 1/2
+    blockseditor:
+        label: Textblöcke
+        type: blocks
+        fieldsets:
+            - text
+            - file

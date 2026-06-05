@@ -1,0 +1,393 @@
+body.home-body-class {
+    .site-menu {
+        .site-menu__lang-btn {
+            background-color: white;
+        }
+    }
+    &.pre-init {
+        .home {
+            .exhibition-gallery {
+                transition: none !important;
+            }
+        }
+    }
+}
+
+.home {
+    padding-top: $headerHeight;
+    width: calc(100vw - 2 * $generalPadding);
+    isolation: isolate; // confine child stacking contexts so menu z-index works correctly
+    // overflow: hidden;
+
+    > div {
+        opacity: 0;
+        transform: translateY(90px);
+        transition:
+            opacity 1s ease,
+            transform 1s ease;
+        &:last-child {
+            margin-bottom: calc(100vh - 30rem);
+        }
+    }
+
+    > div.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .scroll-top-element {
+        margin-bottom: 0 !important;
+        header {
+            position: sticky;
+            top: $generalPadding;
+        }
+    }
+
+    // .home-item {
+    //     padding-bottom: 10rem;
+    //     position: relative;
+    //     height: 100vh;
+    //     .inner-home-item {
+    //         position: sticky;
+    //         top: 1rem;
+    //     }
+    // }
+
+    .home-item {
+        margin-bottom: $verticalMargin;
+    }
+
+    .exhibition-wrapper {
+        .exhibition-info {
+            display: flex;
+            align-items: baseline;
+            gap: 1.2rem;
+            padding: $innerBoxPadding;
+            padding-bottom: 1.3rem;
+            margin-left: calc($sideWidth + $generalPadding);
+            background-color: var(--color);
+            flex-wrap: wrap;
+            @include sansserif;
+            .exhibition__label {
+                margin: 0;
+                text-transform: uppercase;
+                white-space: nowrap;
+                flex-shrink: 0;
+                width: 100%;
+            }
+
+            .exhibition__details {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                align-items: end;
+            }
+        }
+
+        &__label-wrapper {
+            margin-left: calc($sideWidth + $generalPadding);
+            padding: 1rem 0;
+            .section-label {
+                overflow: hidden;
+                @include bubble;
+            }
+        }
+
+        .exhibition-gallery {
+            display: flex;
+            gap: 1rem;
+            transition: margin-left 0.3s ease;
+            &__item {
+                img {
+                    display: block;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: width 0.3s ease;
+                }
+            }
+            &.exhibition-gallery--count-1 {
+                &.exhibition-gallery--single-landscape {
+                    .exhibition-gallery__item {
+                        img {
+                            width: 98rem;
+                        }
+                    }
+                }
+                &.exhibition-gallery--single-portrait {
+                    margin-left: calc($sideWidth + 1rem);
+                    .exhibition-gallery__item {
+                        img {
+                            width: calc(98rem / 2);
+                        }
+                    }
+                }
+            }
+            &.exhibition-gallery--count-2 {
+                margin-left: calc($sideWidth + 1rem);
+                .exhibition-gallery__item {
+                    img {
+                        width: calc(72.5rem / 2);
+                    }
+                }
+            }
+            &.exhibition-gallery--count-3 {
+                .exhibition-gallery__item {
+                    img {
+                        width: calc(96rem / 3);
+                    }
+                }
+            }
+        }
+    }
+
+    // ── Termine section ──────────────────────────────────────────────────────
+    .termine-section {
+        .termin-item__wrapper-link {
+            color: inherit;
+            text-decoration: none;
+
+            &:hover,
+            &:focus,
+            &:visited,
+            &:active {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+
+        .termin-item {
+            margin-bottom: $generalPadding;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: $innerBoxPadding;
+            margin-left: calc($sideWidth + $generalPadding);
+            background-color: var(--color, #e0d5da);
+            transition: background-color 0.3s ease;
+            @include sansserif;
+
+            &:hover {
+                cursor: pointer;
+                background-color: var(--hovercolor, #d8c0c8);
+                ul li > p::before {
+                    background-color: color-mix(
+                        in srgb,
+                        var(--hovercolor, #d8c0c8) 75%,
+                        black
+                    );
+                }
+            }
+
+            .termin__label {
+                margin: 0;
+                text-transform: uppercase;
+            }
+
+            .termin__body {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                gap: 2rem;
+            }
+
+            .termin__content {
+                flex: 1;
+                .termin__top-info-row {
+                    display: flex;
+                    justify-content: flex-start;
+                    position: relative;
+                    width: 100%;
+                    margin-bottom: $horizontalMargin;
+                    .termin__event-category {
+                        text-decoration: none;
+                        text-transform: uppercase;
+                    }
+                    .termin__date {
+                        text-decoration: none;
+                        position: absolute;
+                        left: 50%;
+                        transform: translateX(0%);
+                    }
+                }
+                .termin__bodytext {
+                    text-decoration: none;
+                    margin-bottom: $horizontalMargin;
+                }
+                .termin__cta-link {
+                    color: inherit;
+                    text-decoration: underline;
+                    text-underline-offset: 0.1em;
+                    white-space: nowrap;
+                }
+            }
+        }
+
+        &__label-wrapper {
+            margin-left: calc($sideWidth + $generalPadding);
+            padding: 1rem 0;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            .section-label {
+                @include bubble;
+            }
+        }
+    }
+
+    // ── Shop item (Edition / Katalog) ────────────────────────────────────────
+    .shop-item-wrapper {
+        .shop-item-body {
+            display: flex;
+            margin-left: calc($sideWidth + $generalPadding);
+        }
+
+        .shop-item-info {
+            flex: 40% 0 0;
+            background-color: var(--color, #f0f0f0);
+            padding: $innerBoxPadding;
+            display: flex;
+            flex-direction: column;
+            margin-right: 1rem;
+            @include sansserif;
+
+            .shop-item__label {
+                margin: 0 0 2rem 0;
+            }
+
+            .shop-item__names {
+                flex: 1;
+                p {
+                    margin: 0;
+                }
+            }
+
+            .shop-item__link {
+                margin-top: 2rem;
+                text-decoration: underline;
+                text-underline-offset: 0.1em;
+                color: inherit;
+                display: block;
+            }
+        }
+
+        .shop-item-image {
+            flex: 1;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                display: block;
+                max-width: 56%;
+                max-height: 84%;
+                object-fit: contain;
+                box-shadow:
+                    0 4px 24px 0 rgba(0, 0, 0, 0.18),
+                    0 1.5px 6px 0 rgba(80, 80, 80, 0.12);
+            }
+        }
+
+        &__label-wrapper {
+            margin-left: calc($sideWidth + $generalPadding);
+            padding: 1rem 0;
+            .section-label {
+                @include bubble;
+            }
+        }
+    }
+
+    // ── Infobox (Reisen & Mitgliedschaft) ────────────────────────────────────
+    .infobox-wrapper {
+        .infobox-info {
+            margin-left: calc($sideWidth + $generalPadding);
+            padding: $innerBoxPadding;
+            background-color: var(--color, #f0f0f0);
+            @include sansserif;
+            display: flex;
+            flex-direction: column;
+
+            .infobox__title {
+                margin-bottom: $horizontalMargin;
+                text-transform: uppercase;
+            }
+
+            .infobox__text {
+                max-width: 90%;
+                p {
+                    margin-bottom: $horizontalMargin;
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            .infobox__link {
+                margin-top: auto;
+                padding-top: 2rem;
+                text-decoration: underline;
+                text-underline-offset: 0.1em;
+                color: inherit;
+                display: block;
+            }
+        }
+
+        &__label-wrapper {
+            margin-left: calc($sideWidth + $generalPadding);
+            padding: 1rem 0;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            .section-label {
+                @include bubble;
+            }
+        }
+    }
+}
+
+body.menu-is-open {
+    .exhibition-gallery {
+        &.exhibition-gallery--count-1.exhibition-gallery--single-landscape {
+            margin-left: calc($sideWidth + $generalPadding);
+            img {
+                width: 73.5rem !important;
+            }
+        }
+        &.exhibition-gallery--count-3 {
+            margin-left: calc($sideWidth + $generalPadding);
+            img {
+                width: calc(71.5rem / 3) !important;
+            }
+        }
+    }
+}
+
+.section-label {
+    transform: translateX(-0.3rem);
+}
+
+.category-label {
+    display: inline-block !important;
+    max-width: 0;
+    margin: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition:
+        max-width 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        margin 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.18s ease !important;
+
+    &.show {
+        max-width: 20rem;
+        margin: initial !important;
+        padding: $generalPadding 0.8rem 0.2rem 0.8rem !important;
+        margin-right: 1rem !important;
+        opacity: 1;
+        transform: none;
+    }
+}

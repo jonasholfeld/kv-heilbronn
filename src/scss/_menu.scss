@@ -1,0 +1,220 @@
+// ── Site menu overlay ─────────────────────────────────────────────────────────
+
+.site-menu {
+    position: fixed;
+    top: $generalPadding;
+    left: $generalPadding;
+    width: $sideWidth;
+    bottom: $generalPadding;
+    background: white;
+    z-index: 9;
+    overflow-y: auto;
+    margin-top: 7rem;
+    // Hidden by default
+    opacity: 0;
+    pointer-events: none;
+    transform-origin: top center;
+    transform: scaleY(0);
+    // Hide all scrollbars but keep scroll functionality
+
+    transition:
+        opacity 0.2s ease,
+        background-color 0.5s ease,
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+
+    @include short-window-ratio {
+        margin-top: 0;
+        z-index: 11;
+    }
+
+    .inner-page-logo {
+        display: none;
+    }
+
+    .site-menu__toggle-container {
+        margin: $generalPadding;
+        display: flex;
+        justify-content: space-between;
+        button {
+            border: none;
+            @include sansserif;
+            text-transform: uppercase;
+            background-color: transparent;
+            cursor: pointer;
+        }
+    }
+
+    &.is-closing-fast {
+        opacity: 0;
+        transition:
+            opacity 0s linear,
+            background-color 0.5s ease,
+            transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    &.is-instant-hidden {
+        opacity: 0;
+        transition: none;
+    }
+
+    &.is-open {
+        pointer-events: all;
+        transform: scaleY(1);
+        opacity: 1;
+    }
+
+    &__inner {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 10.4rem);
+        padding-bottom: $generalPadding;
+    }
+
+    // Override global link underlines
+    a,
+    a:link,
+    a:visited {
+        text-decoration: none;
+    }
+
+    &__group {
+        padding: $innerBoxPadding;
+        background-color: white;
+        margin: $generalPadding $generalPadding 0 $generalPadding;
+        transition: border-radius 0.3s ease;
+        &:hover {
+            border-radius: 2rem;
+        }
+        &:first-child {
+            border-radius: 2rem;
+            &:hover {
+                border-radius: 0;
+            }
+        }
+    }
+
+    &__group-title {
+        display: block;
+        @include sansserif;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 0.04em;
+
+        &--single {
+            &:hover {
+                opacity: 0.6;
+            }
+        }
+    }
+
+    &__entries {
+        list-style: none;
+        padding: 0;
+        margin: 0.4rem 0 0 0;
+
+        li {
+            line-height: 1.4;
+        }
+    }
+
+    &__entry {
+        @include sansserif;
+        display: block;
+
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+
+    &__languages {
+        margin-top: auto;
+        padding: $generalPadding $generalPadding 0;
+        display: flex;
+        gap: $generalPadding;
+        .site-menu__lang-btn {
+            flex: 0 0 calc(50% - #{$generalPadding} / 2);
+            text-align: center;
+            cursor: pointer;
+            transition: border-radius 0.3s ease;
+            &:hover {
+                border-radius: 0;
+            }
+        }
+    }
+}
+
+body.ausstellung.text-mode,
+body.edition,
+body.katalog,
+body.shop,
+body.reise {
+    .site-menu {
+        margin-top: 0;
+        background-color: transparent !important;
+        transform-origin: top left;
+        transform: scaleX(0);
+        opacity: 1 !important;
+        transition:
+            opacity 0.3s ease,
+            background-color 0.5s ease,
+            transform 0.3s ease;
+        &.is-open {
+            transform: scaleX(1);
+        }
+        .site-menu__toggle-container,
+        .site-menu__inner {
+            background-color: var(--colorPage);
+        }
+        .site-menu__toggle-container {
+            margin: 0;
+            padding: $generalPadding;
+        }
+        .inner-page-logo {
+            display: block;
+            svg {
+                border-width: 0.4rem;
+                border-style: solid;
+                border-color: var(--colorPage);
+                box-shadow: inset 0 0 0 1px var(--colorPage);
+                .st0 {
+                    fill: var(--colorPage) !important;
+                }
+            }
+        }
+        @include short-window-ratio {
+            #header-svg {
+                display: none;
+            }
+            .site-menu__inner {
+                min-height: calc(100vh - 3.4rem);
+            }
+        }
+        .site-menu__lang-btn {
+            background-color: white;
+        }
+    }
+    .site-menu {
+        background-color: white !important;
+        &.is-open {
+            left: 0.5rem !important;
+        }
+        #header-svg {
+            background-color: var(--colorPage) !important;
+            border-color: white !important;
+            box-shadow: inset 0 0 0 1px white !important;
+            .st0 {
+                fill: white !important;
+            }
+        }
+        .site-menu__toggle-container,
+        .site-menu__inner {
+            background-color: transparent !important;
+        }
+        .site-menu__group {
+            background-color: var(--colorPage) !important;
+        }
+        .site-menu__lang-btn {
+            background-color: var(--colorPage) !important;
+        }
+    }
+}

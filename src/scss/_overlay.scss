@@ -1,0 +1,103 @@
+.home-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    padding: 1.2rem;
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    background: rgba(220, 224, 227, 0.38);
+    cursor: pointer;
+    transition: opacity 0.5s ease;
+    width: calc(100% - (#{$generalPadding} * 2));
+    left: $generalPadding;
+    height: calc(100% - (#{$generalPadding} * 2));
+    top: $generalPadding;
+
+    // Set color variable so the bullet circles (from global ul li > p::before) render visibly
+    --color: #{$lightgrey};
+
+    &.is-dismissed {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    // ── Main content (header + bullets) ─────────────────────────────────────
+    &__main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-bottom: 40vh;
+    }
+
+    &__header {
+        font-family: AkzidenzGrotesk, sans-serif;
+        font-size: 3rem;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        line-height: 1.05;
+        margin: 0;
+    }
+
+    &__bullets {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 3rem;
+
+        li {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        // Override global line-height for <p> inside the overlay bullets
+        li > p {
+            font-family: AkzidenzGrotesk, sans-serif;
+            font-size: 3rem;
+            letter-spacing: 0.02em;
+            line-height: 1.2;
+            margin: 0 0 0.4rem;
+            &::before {
+                --size: 2.4rem;
+                width: var(--size);
+                height: var(--size);
+                border-radius: var(--size);
+                flex: 0 0 var(--size);
+                background-color: color-mix(in srgb, var(--color) 75%, black);
+                transform: translate(-0.1rem, 0.3rem);
+                margin-right: 0.8rem;
+            }
+        }
+    }
+
+    // ── Footer columns ───────────────────────────────────────────────────────
+    &__footer {
+        display: flex;
+        gap: 1rem;
+        font-family: AkzidenzGrotesk, sans-serif;
+        font-size: 1rem;
+        letter-spacing: 0.02em;
+    }
+
+    &__footer-col {
+        flex: 1;
+
+        h2 {
+            font-family: AkzidenzGrotesk, sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-weight: normal;
+            margin-bottom: 0.6rem;
+        }
+
+        p,
+        a {
+            font-size: 1rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+    }
+}

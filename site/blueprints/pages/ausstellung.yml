@@ -1,0 +1,90 @@
+title: Ausstellung
+icon: image
+
+tabs:
+    content:
+        label: Inhalt
+        fields:
+            canBeDisplayedOnHomepage:
+                label: Auf Startseite anzeigen
+                type: toggle
+                width: 1/4
+                translate: false
+            wordpressId:
+                label: WordPress-ID
+                type: text
+                width: 1/4
+                translate: false
+            kuenstler:
+                label: Künstler:in
+                type: text
+                width: 2/4
+                translate: false
+            color:
+                label: Farbe
+                type: color
+                width: 1/4
+                translate: false
+            jahr:
+                label: Jahr
+                type: number
+                width: 1/4
+                min: 0
+                translate: false
+            eroffnungsdatum:
+                label: Eröffnung
+                type: date
+                time: true
+                width: 1/4
+                translate: false
+            startdatum:
+                label: Startdatum
+                type: date
+                width: 1/4
+                translate: false
+            enddatum:
+                label: Enddatum
+                type: date
+                width: 1/4
+                translate: false
+            beschreibung:
+                label: Beschreibung
+                type: writer
+                size: large
+            katalog:
+                label: Katalog
+                type: pages
+                multiple: false
+                width: 1/2
+                query: site.find('shop').children.filterBy('template', 'katalog')
+            edition:
+                label: Edition
+                type: pages
+                multiple: false
+                width: 1/2
+                query: site.find('shop').children.filterBy('template', 'edition')
+    media:
+        label: Medien
+        fields:
+            galerie:
+                label: Galerie
+                type: files
+                store: id
+                layout: cards
+                size: medium
+                width: 1/2
+                translate: false
+            homepageImages:
+                help: Wählen Sie hier die Bilder aus, die auf der Startseite als Teil der Ausstellungsankündigung angezeigt werden sollen. Es können maximal 3 Bilder ausgewählt werden. Bei Querformaten sollte nur ein Bild ausgewählt werden. Sind keine Bilder ausgewählt, werden automatisch die ersten 3 Bilder aus der Galerie verwendet.
+                label: Homepage-Bilder
+                type: files
+                width: 1/2
+                translate: false
+    import:
+        label: Import
+        fields:
+            legacyBildquellen:
+                label: Ursprüngliche Bildreferenzen
+                type: textarea
+                buttons: false
+                help: Sammelfeld für alte WordPress-URLs oder IDs aus mehreren Bildspalten.

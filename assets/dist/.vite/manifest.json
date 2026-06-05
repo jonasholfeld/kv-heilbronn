@@ -1,0 +1,30 @@
+{
+  "src/fonts/AkzidenzGrotesk.woff2": {
+    "file": "assets/AkzidenzGrotesk-DdqcRqkk.woff2",
+    "src": "src/fonts/AkzidenzGrotesk.woff2"
+  },
+  "src/js/ausstellung.js": {
+    "file": "assets/ausstellung-CoE09wvW.js",
+    "name": "ausstellung",
+    "src": "src/js/ausstellung.js",
+    "isEntry": true
+  },
+  "src/js/main.js": {
+    "file": "assets/main-DozqF5Qo.js",
+    "name": "main",
+    "src": "src/js/main.js",
+    "isEntry": true,
+    "css": [
+      "assets/main-h8kyS5oB.css"
+    ],
+    "assets": [
+      "assets/AkzidenzGrotesk-DdqcRqkk.woff2"
+    ]
+  },
+  "src/js/reise.js": {
+    "file": "assets/reise-C5qQIGvB.js",
+    "name": "reise",
+    "src": "src/js/reise.js",
+    "isEntry": true
+  }
+}

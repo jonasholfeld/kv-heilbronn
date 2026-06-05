@@ -1,0 +1,31 @@
+@mixin sansserif {
+    font-family: AkzidenzGrotesk, sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.02em;
+}
+
+@mixin bubble {
+    border: none;
+    @include sansserif;
+    border-radius: 2rem;
+    text-transform: uppercase;
+    padding: $generalPadding 0.8rem 0.2rem 0.8rem;
+    background-color: #dce0e3;
+    display: inline-block;
+    transition: border-radius 0.3s ease;
+    text-decoration: none !important;
+    cursor: pointer;
+    text-align: center;
+    a {
+        text-decoration: none !important;
+    }
+    &:hover {
+        border-radius: 0;
+    }
+}
+
+@mixin invertedBubble {
+    @include bubble;
+    background-color: black;
+    color: white;
+}

@@ -1,0 +1,57 @@
+<?php
+
+return [
+  'code'      => 'de',
+  'default'   => true,
+  'direction' => 'ltr',
+  'locale'    => 'de_DE',
+  'name'      => 'Deutsch',
+  'translations' => [
+    'ui.menu' => 'Menü',
+    'ui.menu_open' => 'Menü öffnen',
+    'ui.menu_close' => 'Menü schließen',
+    'ui.close' => 'Schließen',
+    'ui.homepage' => 'Startseite',
+    'ui.exhibitions' => 'Ausstellungen',
+    'ui.travels' => 'Reisen',
+    'ui.dates' => 'Termine',
+    'ui.visit' => 'Besuch',
+    'ui.preview' => 'Vorschau',
+    'ui.archive' => 'Archiv',
+    'ui.current' => 'Aktuell',
+    'ui.exhibition_preview' => 'Ausstellungsvorschau',
+    'ui.from_archives' => 'Aus dem Archiv',
+    'ui.more_information' => 'Mehr Information',
+    'ui.opening' => 'Eröffnung',
+    'ui.contact' => 'Kontakt',
+    'ui.opening_hours' => 'Öffnungszeiten',
+    'ui.membership' => 'Mitgliedschaft',
+    'ui.directions' => 'Anfahrt',
+    'ui.directions_to_kunstverein' => 'Anfahrt zum Kunstverein',
+    'ui.contacts' => 'Ansprechpartner',
+    'ui.to_exhibition' => 'Zur Ausstellung',
+    'ui.to_travel' => 'Zur Reise',
+    'ui.all_travels_overview' => 'Alle Reisen im Überblick',
+    'ui.art_trips' => 'Kunstreisen',
+    'ui.studio_visits' => 'Atelierbesuche',
+    'ui.art_trip' => 'Kunstreise',
+    'ui.studio_visit' => 'Atelierbesuch',
+    'ui.registration' => 'Anmeldung',
+    'ui.imprint' => 'Impressum',
+    'ui.privacy' => 'Datenschutz',
+    'ui.current_information' => 'Aktuelle Information',
+    'ui.address' => 'Adresse',
+    'ui.kunstverein' => 'Kunstverein',
+    'ui.shop' => 'Shop',
+    'ui.order' => 'Bestellen',
+    'ui.editions' => 'Editionen',
+    'ui.catalogues' => 'Kataloge',
+    'ui.supercategory' => 'Überkategorie'
+    ,'ui.filter' => 'Filter'
+    ,'ui.year' => 'Jahr'
+    ,'ui.all_years' => 'Alle Jahre'
+    ,'ui.artists' => 'Künstler*innen'
+    ,'ui.all_artists' => 'Alle Künstler*innen'
+    ,'ui.without_year' => 'Ohne Jahr'
+  ]
+];

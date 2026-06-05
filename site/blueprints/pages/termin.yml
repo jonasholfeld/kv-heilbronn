@@ -1,0 +1,86 @@
+title: Termin
+icon: calendar
+
+tabs:
+    content:
+        label: Inhalt
+        fields:
+            eventCategory:
+                label: Veranstaltungskategorie
+                type: text
+            showOnHomepage:
+                label: Auf der Startseite anzeigen
+                type: toggle
+                default: true
+            eventTime:
+                label: Veranstaltungszeit
+                type: time
+            parentPage:
+                label: Zugeordneter Bereich
+                type: select
+                options:
+                    - Ausstellungen
+                    - Reisen
+            bodytext:
+                label: Beschreibungstext
+                type: writer
+                size: medium
+            wordpressId:
+                label: WordPress-ID
+                type: text
+                width: 1/4
+            kalender:
+                label: Kalender
+                type: tags
+                width: 3/4
+            startdatum:
+                label: Startdatum
+                type: date
+                width: 1/2
+            enddatum:
+                label: Enddatum
+                type: date
+                width: 1/2
+            ausstellung:
+                when:
+                    parentPage: 'Ausstellungen'
+                label: Zugehörige Ausstellung
+                type: pages
+                max: 1
+                store: id
+                query: site.index.filterBy("intendedTemplate", "ausstellung")
+            reise:
+                when:
+                    parentPage: 'Reisen'
+                type: pages
+                max: 1
+                store: id
+                query: site.index.filterBy("intendedTemplate", "reise")
+            notiz:
+                label: Notiz
+                type: writer
+                size: medium
+                help: Optional, falls beim Import ergänzende Beschreibungstexte hinzukommen.
+    media:
+        label: Medien
+        fields:
+            titelbild:
+                label: Titelbild
+                type: files
+                max: 1
+                store: id
+                layout: cards
+                size: medium
+            galerie:
+                label: Galerie
+                type: files
+                store: id
+                layout: cards
+                size: medium
+    import:
+        label: Import
+        fields:
+            legacyBildquellen:
+                label: Ursprüngliche Bildreferenzen
+                type: textarea
+                buttons: false

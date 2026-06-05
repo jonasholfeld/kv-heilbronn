@@ -1,0 +1,345 @@
+body.ausstellung {
+    ul li > p::before {
+        background-color: var(--colorPage);
+    }
+    .go-back-button-js,
+    .home-button-js {
+        background-color: var(--colorPage);
+    }
+    .site-menu {
+        background-color: var(--colorPage) !important;
+        margin-top: 0;
+        .site-menu__lang-btn {
+            background-color: white !important;
+        }
+        .inner-page-logo {
+            display: block;
+            svg {
+                border-width: 0.4rem;
+                border-style: solid;
+                border-color: var(--colorPage);
+                background-color: white;
+                box-shadow: inset 0 0 0 1px var(--colorPage);
+                .st0 {
+                    fill: var(--colorPage) !important;
+                }
+            }
+
+            @include short-window-ratio {
+                #header-svg {
+                    display: none;
+                }
+                .site-menu__inner {
+                    min-height: calc(100vh - 3.4rem);
+                }
+            }
+        }
+    }
+    .site-header {
+        width: $sideWidth;
+        transform: scaleY(0);
+        transition: transform 0.3s ease;
+        transform-origin: top center;
+        &.open {
+            transform: scaleY(1);
+        }
+        svg {
+            border-color: var(--colorPage) !important;
+            .st0 {
+                fill: var(--colorPage) !important;
+            }
+        }
+        .side-navigation {
+            display: none;
+        }
+        @include short-window-ratio {
+            .site-header__title {
+                display: none;
+            }
+        }
+    }
+    .single-ausstellung-page__text-container {
+        display: none;
+    }
+    .single-ausstellung-page {
+        margin: 0;
+        transition: margin 0.3s ease;
+        &.menu-is-open {
+            margin-left: 24rem;
+            .single-ausstellung-page__images-wrapper {
+                margin-left: 0rem;
+            }
+            .image-coupler {
+                padding-right: 0rem;
+            }
+            img.landscape {
+                width: 75rem;
+            }
+        }
+        &__top-info-box {
+            background-color: var(--ausstellung-color);
+            @include sansserif;
+            padding: $generalPadding;
+            font-size: 3rem;
+            &__artist-title {
+                text-transform: uppercase;
+                margin-bottom: 8rem;
+                span {
+                    display: block;
+                    line-height: 1;
+                }
+            }
+            &__date {
+                margin-bottom: 5rem;
+            }
+        }
+        side {
+            position: sticky;
+            top: $generalPadding;
+            width: $sideWidth;
+            display: block;
+            .single-ausstellung-page__small-top-info-box-wrapper {
+                height: 0;
+                overflow: hidden;
+            }
+            .single-ausstellung-page__text-mode-buttons-wrapper {
+                display: none;
+            }
+            .single-ausstellung-page__small-top-info-box {
+                text-transform: uppercase;
+                background-color: var(--ausstellung-color);
+                @include sansserif;
+                padding: $generalPadding;
+                transform-origin: top center;
+                span {
+                    display: block;
+                    line-height: 1;
+                }
+            }
+            .single-ausstellung-page__buttons-wrapper {
+                padding-top: $generalPadding;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: $generalPadding;
+                button:nth-child(2) {
+                    @include invertedBubble;
+                    cursor: pointer;
+                }
+                .menu-button-js {
+                    transform: scaleY(1);
+                    transition: transform 0.3s ease;
+                    transform-origin: top center;
+                    &.close-button-js {
+                        transform: scaleY(0);
+                    }
+                }
+                .toggle-text-mode-js {
+                    background-color: var(--colorPage);
+                }
+                .menu-button-js,
+                .toggle-text-mode-js {
+                    cursor: pointer;
+                    transition: border-radius 0.3s ease;
+                    &:hover {
+                        border-radius: 0;
+                    }
+                }
+            }
+        }
+        &__images-wrapper {
+            margin-left: 10rem;
+            transition: margin-left 0.3s ease;
+            img.portrait {
+                height: 50rem;
+            }
+            img.landscape {
+                width: 80rem;
+                transition: width 0.3s ease;
+            }
+            .image-coupler,
+            &__image {
+                margin-bottom: 10rem;
+            }
+            .image-coupler {
+                display: flex;
+                gap: $generalPadding;
+                justify-content: space-between;
+                padding-right: 10rem;
+                transition: padding-right 0.3s ease;
+            }
+            &__image {
+                display: flex;
+                .inner-image-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: end;
+                }
+            }
+            .credits-wrapper {
+                margin-top: $generalPadding;
+                background-color: var(--colorPage);
+                cursor: pointer;
+                transition: border-radius 0.3s ease;
+                .credits-collapse-wrapper {
+                    height: 0;
+                    width: 0;
+                    transition:
+                        height 0.3s ease,
+                        width 0.3s ease;
+                    overflow: hidden;
+                }
+                .credits-content-wrapper {
+                    min-width: 16rem;
+                    text-transform: none;
+                    padding-top: 0.4rem;
+                }
+                &.is-open {
+                    border-radius: 0;
+                    padding-bottom: 0.4rem;
+                }
+            }
+        }
+    }
+    .bottom-button-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        a {
+            margin-bottom: $generalPadding;
+            text-decoration: none;
+            &:first-child {
+                background-color: var(--colorPage);
+            }
+            &:last-child {
+                @include invertedBubble;
+            }
+            transition: border-radius 0.3s ease;
+            &:hover {
+                border-radius: 0;
+            }
+        }
+    }
+    &.text-mode {
+        background-color: var(--colorPage);
+        &.menu-is-open {
+            main {
+                margin-left: 0;
+                side {
+                    flex: 0 0 23.5rem;
+                    // width: 0;
+                }
+                .single-ausstellung-page__text-container {
+                    // margin-left: $sideWidth;
+                    flex: 0 0 32.5rem;
+                }
+            }
+            #header-svg {
+                background-color: white;
+            }
+        }
+        main {
+            display: flex;
+            gap: $generalPadding;
+            margin-bottom: $generalPadding;
+            side {
+                flex: 0 0 14rem;
+                background-color: white;
+                transition:
+                    flex 0.3s ease,
+                    width 0.3s ease;
+                .single-ausstellung-page__small-top-info-box-wrapper,
+                .single-ausstellung-page__buttons-wrapper {
+                    display: none;
+                }
+                .single-ausstellung-page__text-mode-buttons-wrapper {
+                    display: flex;
+                }
+            }
+            .single-ausstellung-page__text-container {
+                display: block;
+                flex: 0 0 42rem;
+                background-color: white;
+                padding: $generalPadding;
+                height: calc(100vh - 2 * #{$generalPadding});
+                overflow: scroll;
+                transition:
+                    margin-left 0.3s ease,
+                    flex 0.3s ease;
+                h2 {
+                    @include sansserif;
+                    font-size: 3rem;
+                    span {
+                        display: block;
+                        line-height: 1;
+                        text-transform: uppercase;
+                    }
+                }
+                .ausstellungen-row-dates {
+                    margin-bottom: 0 !important;
+                }
+                &__links {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: $generalPadding;
+                    margin-top: 3.3rem;
+                    margin-bottom: 1.3rem;
+                    a {
+                        text-decoration: none;
+                        transition: border-radius 0.3s ease;
+                        &:hover {
+                            border-radius: 0;
+                        }
+                    }
+                }
+                .single-ausstellung-page__text-container__dateime,
+                .single-ausstellung-page__text-container__text {
+                    margin-top: 1.1rem;
+                    @include sansserif;
+                    letter-spacing: normal;
+                    font-size: 1.1rem;
+                    p {
+                        margin-bottom: 1.1rem;
+                    }
+                }
+            }
+            .single-ausstellung-page__images-wrapper {
+                .single-ausstellung-page__text-container__text {
+                    margin-top: 1.1rem;
+                    @include sansserif;
+                    letter-spacing: normal;
+                    font-size: 1.1rem;
+                    p {
+                        margin-bottom: 1.1rem;
+                    }
+                }
+                flex: 0 0 42rem;
+                background-color: white;
+                margin-left: 0;
+                padding: $generalPadding;
+                height: calc(100vh - 2 * #{$generalPadding});
+                overflow: scroll;
+                .single-ausstellung-page__images-wrapper__image {
+                    margin-bottom: $generalPadding;
+                }
+                .image-coupler {
+                    flex-direction: column;
+                    padding-right: 0;
+                    margin-bottom: 0;
+                }
+                img {
+                    width: 41rem;
+                    height: auto;
+                }
+            }
+            .bottom-button-wrapper {
+                display: none;
+            }
+            .single-ausstellung-page {
+                &__top-info-box {
+                    display: none;
+                }
+            }
+        }
+    }
+}

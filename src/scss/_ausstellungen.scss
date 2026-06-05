@@ -1,0 +1,325 @@
+body.ausstellungen {
+    background-color: $lightgrey;
+    @include sansserif;
+    .site-header {
+        display: none;
+    }
+    .site-menu {
+        margin-top: 0;
+        .inner-page-logo {
+            display: block;
+            svg {
+                border-width: 0.4rem;
+                border-style: solid;
+                border-color: white;
+                box-shadow: inset 0 0 0 1px white;
+                background-color: #dce0e3;
+                .st0 {
+                    fill: white !important;
+                }
+            }
+        }
+        .site-menu__group {
+            background-color: $lightgrey;
+        }
+        @include short-window-ratio {
+            #header-svg {
+                display: none;
+            }
+            .site-menu__inner {
+                min-height: calc(100vh - 3.4rem);
+            }
+        }
+    }
+
+    main.ausstellungen-template {
+        width: calc(100vw - 2 * $generalPadding);
+        min-height: calc(100vh - 2 * $generalPadding);
+        display: flex;
+        gap: $generalPadding;
+
+        .ausstellungen-sidebar {
+            padding: $generalPadding;
+            flex: 0 0 $sideWidth;
+            height: calc(100vh - (2 * $generalPadding));
+            position: sticky;
+            top: $generalPadding;
+            display: flex;
+            flex-direction: column;
+            gap: $generalPadding;
+            background-color: white;
+
+            .ausstellungen-page-info {
+                padding: 0.5rem;
+                text-transform: uppercase;
+                text-align: center;
+                padding-bottom: 0;
+            }
+
+            .ausstellungen-filter-group {
+                transition: border-radius 0.3s ease;
+                overflow: hidden;
+                &:hover {
+                    border-radius: 2rem !important;
+                }
+            }
+
+            .ausstellungen-pill,
+            .ausstellungen-filter,
+            .ausstellungen-filter-group-title {
+                @include bubble;
+                width: 100%;
+                border-radius: 0;
+            }
+
+            .menu-button-js {
+                transition: border-radius 0.3s ease;
+                &:hover {
+                    border-radius: 0 !important;
+                }
+            }
+
+            .ausstellungen-filter {
+                border-radius: 0 !important;
+                transition: border-radius 0.3s ease;
+                &[aria-expanded='true'] {
+                    border-radius: 0 !important;
+                    background-color: black;
+                    color: white;
+                    &:hover {
+                        border-radius: 0 !important;
+                    }
+                }
+                &:hover {
+                    border-radius: 2rem !important;
+                }
+            }
+
+            .ausstellungen-pill {
+                border-radius: 2rem;
+                background: $lightgrey;
+                transition: border-radius 0.3s ease;
+                &:hover {
+                    border-radius: 0;
+                }
+            }
+
+            .ausstellungen-pill--dark {
+                background: #000;
+                color: #fff;
+            }
+
+            .ausstellungen-pill--active {
+                pointer-events: none;
+            }
+
+            .ausstellungen-filter {
+                border-radius: 2rem;
+                background: $lightgrey;
+            }
+
+            .ausstellungen-filter-panels {
+                display: flex;
+                flex-direction: column;
+                gap: $generalPadding;
+                width: 100%;
+                transform-origin: top center;
+                transform: scaleY(0);
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+                pointer-events: none;
+                transition:
+                    opacity 0.2s ease,
+                    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                    max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+
+                &.is-open {
+                    transform: scaleY(1);
+                    opacity: 1;
+                    max-height: calc(100vh - 14rem);
+                    pointer-events: all;
+                }
+            }
+
+            .ausstellungen-filter-group-title {
+                background: $lightgrey;
+            }
+
+            .ausstellungen-filter-options {
+                background: $lightgrey;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0.2rem;
+                max-height: calc(100vh - 25rem);
+                overflow-y: auto;
+                border: none;
+                transform-origin: top center;
+                transform: scaleY(0);
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+                pointer-events: none;
+                transition:
+                    opacity 0.2s ease,
+                    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                    max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+
+                &.is-open {
+                    transform: scaleY(1);
+                    opacity: 1;
+                    padding: $innerBoxPadding;
+                    max-height: calc(100vh - 25rem);
+                    overflow-y: auto;
+                    pointer-events: all;
+                }
+            }
+
+            .ausstellungen-filter-option {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                justify-content: flex-start;
+                text-transform: none;
+                background: transparent;
+                text-align: left;
+                padding: 0;
+                border: none;
+                cursor: pointer;
+                @include sansserif;
+                &::before {
+                    content: '';
+                    width: 1.2rem;
+                    height: 1.2rem;
+                    flex: 0 0 1.2rem;
+                    margin-right: 0.7rem;
+                    border-radius: 50%;
+                    background: #cfd2d6;
+                }
+
+                &.is-selected::before {
+                    background: #000;
+                }
+
+                &[aria-pressed='true']::before {
+                    background: #000;
+                }
+            }
+
+            .ausstellungen-home-link {
+                margin-top: auto;
+            }
+        }
+
+        .ausstellungen-content {
+            background: white;
+            padding: $generalPadding;
+            flex: 75rem 0 0;
+            overflow: hidden;
+            .ausstellungen-section-title {
+                margin: 0.4rem 0 0.3rem !important;
+                text-align: center;
+                text-transform: uppercase;
+                font-weight: 400;
+            }
+
+            .ausstellungen-row {
+                display: block;
+                margin-bottom: $generalPadding;
+                background: #cfd2d6;
+                transition:
+                    background-color 0.3s ease,
+                    border-radius 0.3s ease;
+                &:hover,
+                &.is-open {
+                    background-color: var(--hoverColor, #cfd2d6);
+                    border-radius: 1.3rem;
+                }
+
+                &.is-filter-hidden {
+                    display: none !important;
+                }
+            }
+
+            .ausstellungen-row-header {
+                display: flex;
+                justify-content: space-between;
+                gap: $generalPadding;
+                width: 100%;
+                padding: 0.7rem $innerBoxPadding 0.5rem $innerBoxPadding;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                font: inherit;
+                text-transform: uppercase;
+                text-align: left;
+                color: inherit;
+
+                span {
+                    line-height: 1;
+                }
+                span:last-child {
+                    text-align: right;
+                }
+            }
+
+            .ausstellungen-row-body {
+                display: none;
+                overflow: hidden;
+                line-height: 1;
+            }
+
+            .ausstellungen-row.is-open .ausstellungen-row-body {
+                display: block;
+            }
+
+            .ausstellungen-row-dates,
+            .ausstellungen-row-opening {
+                margin: 0;
+                padding: 0;
+                line-height: 1.1;
+            }
+
+            .ausstellungen-row-dates {
+                padding-top: 0.4rem;
+            }
+
+            .ausstellungen-row-images {
+                display: flex;
+                gap: $generalPadding;
+                margin: $generalPadding 0;
+                width: 100%;
+                overflow: scroll;
+
+                img {
+                    height: 18rem;
+                }
+            }
+
+            .ausstellungen-row-link {
+                display: inline-block;
+                text-decoration: underline;
+                text-transform: uppercase;
+                color: inherit;
+                padding-bottom: 0.7rem;
+            }
+
+            .ausstellungen-row-body .ausstellungen-row-dates,
+            .ausstellungen-row-body .ausstellungen-row-opening {
+                padding-left: $innerBoxPadding;
+                padding-right: $innerBoxPadding;
+            }
+
+            .ausstellungen-row-body .ausstellungen-row-images {
+                padding-left: $innerBoxPadding;
+                padding-right: $innerBoxPadding;
+            }
+
+            .ausstellungen-row-body .ausstellungen-row-link {
+                padding-left: $innerBoxPadding;
+                padding-right: $innerBoxPadding;
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+title: Datei
+
+fields:
+    alt:
+        label: Alt-Text
+        type: text
+        width: 1/3
+    title:
+        label: Titel
+        type: text
+        width: 1/3
+    caption:
+        label: Bildunterschrift
+        type: textarea
+        buttons: false
+        width: 1/3
+    credit:
+        label: Credits
+        type: textarea
+        buttons: false
+        width: 1/3
+    canBeCoupled:
+        label: Kann als Bild-Paar dargestellt werden
+        type: toggle
+        default: true
+        width: 1/3

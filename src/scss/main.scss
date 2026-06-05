@@ -1,0 +1,257 @@
+html {
+    font-size: 1vw;
+    padding: 0 !important;
+    /* Hide scrollbars but keep scroll functionality */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+}
+
+$generalPadding: 0.5rem;
+$innerBoxPadding: 0.5rem;
+
+$sideWidth: 23.4rem;
+$headerHeight: 26.6rem;
+
+$verticalMargin: 15rem;
+$horizontalMargin: 5rem;
+
+$lightgrey: #dce0e3;
+
+@import 'breakpoints';
+@import 'mixins';
+@import 'typography';
+@import 'home';
+@import 'overlay';
+@import 'ausstellungen';
+@import 'menu';
+@import 'ausstellung';
+@import 'shop';
+@import 'sidebar';
+@import 'reisen';
+@import 'reise';
+@import 'termine';
+@import 'kunstverein';
+@import 'besuch';
+
+.bubble {
+    @include bubble;
+}
+
+:root {
+    color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: white;
+    padding: $generalPadding;
+    width: 100vw;
+    /* Hide scrollbars but keep scroll functionality */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+}
+
+body.pre-init {
+    .site-menu {
+        transition: none !important;
+    }
+}
+
+// ── Site header ──────────────────────────────────────────────────────────────
+
+.site-header {
+    position: fixed;
+    top: $generalPadding;
+    width: 98rem;
+    z-index: 10;
+    svg {
+        --svgColor: lightray;
+        transition:
+            border-color 0.5s ease,
+            box-shadow 0.5s ease;
+        .st0 {
+            transition: fill 0.5s ease;
+        }
+    }
+    &__title {
+        display: block;
+        font-size: clamp(3.5rem, 11vw, 9rem);
+        font-weight: 900;
+        line-height: 0.88;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: white;
+        text-decoration: none;
+        line-height: 0;
+    }
+}
+
+// ── Site nav ─────────────────────────────────────────────────────────────────
+
+.side-navigation {
+    width: $sideWidth;
+    margin-top: 1rem;
+    &.hidden {
+        display: none;
+    }
+    .top-info-row {
+        display: flex;
+        justify-content: space-between;
+        button:first-child {
+            @include invertedBubble;
+            cursor: pointer;
+        }
+        a {
+            text-decoration: none !important;
+        }
+    }
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 2rem;
+
+    &__menu {
+        padding: 0.3rem 0.9rem;
+        border: 0;
+        border-radius: 2rem;
+        color: white;
+        font: inherit;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+    &__category {
+        padding: 0.3rem 0.9rem;
+        border-radius: 2rem;
+        background: transparent;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+}
+
+// ── Home page ─────────────────────────────────────────────────────────────────
+
+// ── Other templates ───────────────────────────────────────────────────────────
+
+.page {
+    display: grid;
+    min-height: 100vh;
+    place-items: center;
+    padding: 2rem;
+
+    &__inner {
+        width: min(100%, 52rem);
+        padding: 3rem;
+    }
+}
+
+.eyebrow {
+    margin: 0 0 0.75rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    line-height: 0.94;
+}
+
+.copy {
+    max-width: 44rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+.demo-button {
+    margin-top: 2rem;
+    padding: 0.9rem 1.2rem;
+    border: 0;
+    font: inherit;
+    color: white;
+    cursor: pointer;
+    transition:
+        transform 180ms ease,
+        background-color 180ms ease;
+
+    &:hover,
+    &:focus-visible {
+        transform: translateY(-1px);
+    }
+}
+
+// ── Footer ────────────────────────────────────────────────────────────────
+
+footer {
+    --backgroundColorFooter: #dce0e3;
+    display: flex;
+    background-color: var(--backgroundColorFooter);
+    z-index: 11;
+    position: relative;
+    transition:
+        margin-left 0.5s ease,
+        background-color 0.5s ease;
+    div {
+        flex: 1;
+    }
+    padding: 1rem;
+    @include sansserif;
+    h2 {
+        text-transform: uppercase;
+    }
+    p,
+    h2 {
+        margin-bottom: 3rem !important;
+    }
+}
+
+body.menu-is-open {
+    footer {
+        margin-left: calc($sideWidth + 1rem);
+    }
+}
+
+side {
+    .sidebar-text-mode {
+        padding: $generalPadding;
+        display: flex;
+        flex-direction: column;
+        gap: $generalPadding;
+        height: 100%;
+        a {
+            text-decoration: none;
+        }
+        button:first-child {
+            @include invertedBubble;
+        }
+        a:last-child {
+            margin-top: auto;
+            text-align: center;
+        }
+    }
+}
+
+strong {
+    font-weight: normal !important;
+}

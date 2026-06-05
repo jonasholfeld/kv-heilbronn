@@ -1,0 +1,27 @@
+name: Menü-Eintrag
+icon: url
+label: '{{ label }}'
+
+fields:
+    label:
+        type: text
+        label: Bezeichnung
+        required: true
+    linkType:
+        type: toggle
+        label: Link-Typ
+        text:
+            - Seite
+            - URL / Anker / Extern
+    page:
+        type: pages
+        label: Seite
+        max: 1
+        when:
+            linkType: false
+    url:
+        type: text
+        label: URL
+        placeholder: 'z.B. /seite#anker oder https://extern.de'
+        when:
+            linkType: true

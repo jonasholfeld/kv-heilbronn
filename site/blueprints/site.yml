@@ -1,0 +1,144 @@
+title: Website
+
+tabs:
+    inhalt:
+        label: Inhalt
+        sections:
+            hauptnavigation:
+                type: pages
+                label: Inhaltsbereiche
+                templates:
+                    - home
+                    - ausstellungen
+                    - reisen
+                    - termine
+                    - shop
+                    - kunstverein
+                    - impressum
+                    - besuch
+
+    homepageElements:
+        label: Homepage Elements
+        sections:
+            mitgliedschaft:
+                type: fields
+                fields:
+                    mitgliedschaftHeadline:
+                        label: Mitgliedschaft
+                        type: headline
+                    mitgliedschaftTextTitle:
+                        label: Titel
+                        type: text
+                        width: 2/3
+                    mitgliedschaftText:
+                        label: Text
+                        type: writer
+                        width: 2/3
+                    mitgliedschaftColor:
+                        label: Farbe
+                        type: color
+                        width: 1/3
+                    mitgliedschaftLine:
+                        type: line
+
+            reisen:
+                type: fields
+                fields:
+                    reisenHeadline:
+                        label: Reisen
+                        type: headline
+                    reisenTitle:
+                        label: Titel
+                        type: text
+                        width: 2/3
+                    reisenText:
+                        label: Text
+                        type: writer
+                        width: 2/3
+                    reisenLine:
+                        type: line
+
+            edition:
+                type: fields
+                fields:
+                    editionHeadline:
+                        label: Edition
+                        type: headline
+                    editionItem:
+                        label: Eintrag
+                        type: select
+                        width: 2/3
+                        options:
+                            type: query
+                            query: site.find('shop').children
+                            value: '{{ page.id }}'
+                    editionLine:
+                        type: line
+
+            katalog:
+                type: fields
+                fields:
+                    katalogHeadline:
+                        label: Katalog
+                        type: headline
+                    katalogItem:
+                        label: Eintrag
+                        type: select
+                        width: 2/3
+                        options:
+                            type: query
+                            query: site.find('shop').children
+                            text: '{{ page.title }}'
+                            value: '{{ page.id }}'
+                    katalogLine:
+                        type: line
+
+    navigation:
+        label: Menü
+        sections:
+            menu:
+                type: fields
+                fields:
+                    navigation:
+                        type: blocks
+                        label: Menü
+                        fieldsets:
+                            - menugroup
+
+    openings:
+        label: Startseite Overlay
+        sections:
+            openingTimes:
+                type: fields
+                fields:
+                    adresse:
+                        label: Adresse
+                        type: textarea
+                        buttons: false
+                    regularOpen:
+                        label: Text für regulär geöffnete Tage
+                        type: text
+                    regularClosed:
+                        label: Text für regulär geschlossene Tage
+                        type: text
+                    monday:
+                        label: Montag
+                        type: text
+                    tuesday:
+                        label: Dienstag
+                        type: text
+                    wednesday:
+                        label: Mittwoch
+                        type: text
+                    thursday:
+                        label: Donnerstag
+                        type: text
+                    friday:
+                        label: Freitag
+                        type: text
+                    saturday:
+                        label: Samstag
+                        type: text
+                    sunday:
+                        label: Sonntag
+                        type: text

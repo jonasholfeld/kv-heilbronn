@@ -1,0 +1,40 @@
+title: Reisen
+icon: globe
+
+options:
+    changeTemplate: false
+    delete: false
+
+tabs:
+    reisen:
+        sections:
+            fields:
+                type: fields
+                fields:
+                    color:
+                        label: Farbe
+                        type: color
+                        width: 1/3
+                    kunstreisecolor:
+                        label: Farbe
+                        type: color
+                        width: 1/3
+                        label: Farbe Kunstreise
+                    atelierbesuchcolor:
+                        label: Farbe
+                        type: color
+                        width: 1/3
+                        label: Farbe Atelierbesuch
+            drafts:
+                type: pages
+                label: Entwürfe
+                status: draft
+                templates:
+                    - reise
+            published:
+                type: pages
+                label: Reisen
+                status: all
+                templates:
+                    - reise
+                sortBy: reiseStart desc

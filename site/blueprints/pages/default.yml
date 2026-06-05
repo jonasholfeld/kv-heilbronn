@@ -1,0 +1,6 @@
+title: Standardseite
+
+fields:
+  text:
+    label: Text
+    type: textarea

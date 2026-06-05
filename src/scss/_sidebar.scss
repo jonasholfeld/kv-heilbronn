@@ -1,0 +1,32 @@
+.sidebar-small {
+    padding: $generalPadding;
+    flex: 0 0 $sideWidth;
+    height: calc(100vh - (2 * $generalPadding));
+    position: sticky;
+    top: $generalPadding;
+    display: flex;
+    flex-direction: column;
+    gap: $generalPadding;
+    background-color: white;
+    transition: flex 0.3s ease;
+
+    .bubble-inverted {
+        @include invertedBubble;
+    }
+
+    .home-link {
+        margin-top: auto;
+    }
+
+    .page-info {
+        padding: 0.5rem;
+        padding-top: 0;
+        text-transform: uppercase;
+        text-align: center;
+        padding-bottom: 0;
+    }
+
+    .ausstellungen-home-link {
+        margin-top: auto;
+    }
+}

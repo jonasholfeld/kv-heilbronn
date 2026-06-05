@@ -1,0 +1,765 @@
+import '../scss/main.scss'
+
+// Old function
+requestAnimationFrame(() => {
+    document.body.classList.remove('pre-init')
+})
+
+const siteHeader = document.querySelector('.site-header')
+const siteHeaderTransitionDefault = siteHeader
+    ? getComputedStyle(siteHeader).transition
+    : ''
+const headerSvg = document.querySelector('#header-svg')
+const headerSvgSt0 = document.querySelector('.site-header svg .st0')
+const siteMenu = document.getElementById('site-menu')
+const sideNavigation = document.querySelector('.side-navigation')
+const footer = document.querySelector('footer')
+const topInfoRowCategoryButton = document.querySelector(
+    '.top-info-row .category-button-js'
+)
+const homeColorSections = [
+    ...document.querySelectorAll(
+        '.exhibition-wrapper, .termine-section, .shop-item-wrapper, .infobox-wrapper'
+    ),
+]
+const isHomePage =
+    document.body.classList.contains('home') ||
+    document.querySelector('main.home') !== null
+
+const categoryLabels = document.querySelectorAll('.category-label')
+const categoryPageByLabel = {
+    Ausstellungen: '/ausstellungen',
+    Kunstverein: '/kunstverein',
+    Termine: '/termine',
+    Reisen: '/reisen',
+    Shop: '/shop',
+    shop: '/shop',
+}
+
+const HEADER_MAX_WIDTH = 99 // rem
+const HEADER_MIN_WIDTH = 23.4 // rem
+let isMenuOpening = false
+
+const relativeRoute = window.location.pathname
+const isAusstellungPage = relativeRoute.includes('/ausstellungen/')
+
+function updateHeaderWidth() {
+    if (!siteHeader || isAusstellungPage) return
+    const threshold = window.innerWidth * 0.182
+    const progress = Math.min(1, Math.max(0, window.scrollY / threshold))
+    const width =
+        HEADER_MAX_WIDTH + (HEADER_MIN_WIDTH - HEADER_MAX_WIDTH) * progress
+    siteHeader.style.width = `${width}rem`
+
+    if (headerSvg) {
+        if (progress > 0) {
+            headerSvg.style.boxShadow = 'inset 0 0 0 1px var(--svgColor)'
+        }
+        headerSvg.style.borderWidth = `${0.7 * progress}rem`
+        headerSvg.style.borderStyle = 'solid'
+        // Log message if scrolled all the way down
+        const scrollBottom = window.innerHeight + window.scrollY
+        const pageHeight = document.documentElement.scrollHeight
+        if (scrollBottom >= pageHeight - 2) {
+            siteHeader.style.transition = 'width 0.5s ease'
+            siteHeader.style.width = `${HEADER_MAX_WIDTH}rem`
+            console.log('Scrolled all the way down')
+            headerSvg.style.borderWidth = `${0}rem`
+            sideNavigation.classList.add('hidden')
+        } else {
+            siteHeader.style.transition = siteHeaderTransitionDefault
+            // Only remove 'hidden' if the menu is not open
+            console.log('Not scrolled all the way down')
+            if (
+                (!siteMenu || !siteMenu.classList.contains('is-open')) &&
+                !isMenuOpening &&
+                sideNavigation
+            ) {
+                sideNavigation.classList.remove('hidden')
+            }
+        }
+    }
+}
+
+if (siteHeader) {
+    const DEFAULT_LOGO_FILL = '#DCE0E3'
+    let hasInitializedHeaderColor = false
+
+    function updateHeaderLogoColor() {
+        if (!headerSvgSt0) return
+
+        const topMargin = window.innerWidth * 0.01 // 1vw
+        let activeSection = null
+
+        for (const section of homeColorSections) {
+            const rect = section.getBoundingClientRect()
+            if (rect.top <= topMargin && rect.bottom > topMargin) {
+                activeSection = section
+                break
+            }
+        }
+
+        if (!activeSection && homeColorSections.length > 0) {
+            const firstBelow = homeColorSections.find(
+                (section) => section.getBoundingClientRect().top > topMargin
+            )
+            if (firstBelow) {
+                activeSection = firstBelow
+            }
+        }
+
+        const COLOR_VARS = ['--color']
+        const getInlineCssVar = (element, varName) => {
+            const inlineStyle = element.getAttribute('style') || ''
+            const match = inlineStyle.match(
+                new RegExp(`${varName}\\s*:\\s*([^;]+)`, 'g')
+            )
+            if (!match || match.length === 0) return ''
+            const lastMatch = match[match.length - 1]
+            return lastMatch.split(':').slice(1).join(':').trim()
+        }
+
+        const sectionColor = activeSection
+            ? (() => {
+                  for (const varName of COLOR_VARS) {
+                      const inlineVar = getInlineCssVar(activeSection, varName)
+                      if (inlineVar) return inlineVar
+                      const computedVar = getComputedStyle(activeSection)
+                          .getPropertyValue(varName)
+                          .trim()
+                      if (computedVar) return computedVar
+                  }
+                  return ''
+              })()
+            : ''
+
+        const color = sectionColor || DEFAULT_LOGO_FILL
+        if (!hasInitializedHeaderColor) {
+            if (headerSvgSt0) headerSvgSt0.style.transition = 'none'
+            if (headerSvg) headerSvg.style.transition = 'none'
+        }
+        headerSvgSt0.style.fill = color
+        if (siteMenu) {
+            siteMenu.style.backgroundColor = color
+        }
+        if (topInfoRowCategoryButton) {
+            const category = activeSection?.getAttribute('data-category') || ''
+            topInfoRowCategoryButton.textContent = category
+            if (topInfoRowCategoryButton instanceof HTMLAnchorElement) {
+                topInfoRowCategoryButton.setAttribute(
+                    'href',
+                    categoryPageByLabel[category] || '#'
+                )
+                console.log(category)
+            }
+        }
+        if (footer) {
+            footer.style.setProperty('--backgroundColorFooter', color)
+        }
+
+        if (headerSvg) {
+            headerSvg.style.setProperty('--svgColor', color)
+            headerSvg.style.borderColor = color
+        }
+
+        if (!hasInitializedHeaderColor) {
+            requestAnimationFrame(() => {
+                if (headerSvgSt0) headerSvgSt0.style.transition = ''
+                if (headerSvg) headerSvg.style.transition = ''
+            })
+            hasInitializedHeaderColor = true
+        }
+    }
+
+    window.addEventListener('scroll', updateHeaderWidth, { passive: true })
+    window.addEventListener('scroll', updateHeaderLogoColor, { passive: true })
+    window.addEventListener('resize', updateHeaderWidth, { passive: true })
+    window.addEventListener('resize', updateHeaderLogoColor, { passive: true })
+    updateHeaderWidth()
+    updateHeaderLogoColor()
+}
+
+const alignKunstvereinHashInBlocks = () => {
+    if (!document.querySelector('.kunstverein')) return
+    if (!window.location.hash) return
+    console.log('Aligning Kunstverein hash in blocks...')
+
+    const blocksContainer = document.querySelector('.kunstverein-blocks')
+    if (!blocksContainer) return
+    console.log('Found blocks container:', blocksContainer)
+
+    const target = document.querySelector(window.location.hash)
+    console.log('Found target for hash:', target)
+    if (!target || !blocksContainer.contains(target)) return
+
+    const containerRect = blocksContainer.getBoundingClientRect()
+    const targetRect = target.getBoundingClientRect()
+    const nextScrollTop =
+        blocksContainer.scrollTop + (targetRect.top - containerRect.top)
+
+    console.log('Scrolling blocks container to:', nextScrollTop)
+    blocksContainer.scrollTo({
+        top: nextScrollTop,
+        behavior: 'smooth',
+    })
+}
+
+window.addEventListener('load', alignKunstvereinHashInBlocks)
+
+// ── Menu toggle ───────────────────────────────────────────────────────────────
+
+const menuButtons = [...document.querySelectorAll('.menu-button-js')]
+const body = document.body
+const singleAusstellungPage = document.querySelector('.single-ausstellung-page')
+const singleReisePage = document.querySelector('.single-reise-page')
+const menuButtonJs = document.querySelector('.menu-button-js')
+
+if (menuButtons.length > 0) {
+    const setMenuButtonsActive = (active) => {
+        menuButtons.forEach((button) =>
+            button.classList.toggle('is-active', active)
+        )
+    }
+    const remToPx = () => window.innerWidth / 100 // 1rem = 1vw
+    const HEADER_HEIGHT_REM = 26.6
+    const PROGRAMMATIC_SCROLL_GUARD_MS = 700
+    const SCROLL_WAIT_FALLBACK_TIMEOUT_MS = 1200
+    const SCROLL_TARGET_EPSILON_PX = 2
+    const MENU_OPEN_SCROLL_PROGRESS = 0.5
+    let ignoreMenuCloseOnScrollUntil = 0
+
+    const ignoreMenuCloseOnProgrammaticScroll = () => {
+        ignoreMenuCloseOnScrollUntil =
+            performance.now() + PROGRAMMATIC_SCROLL_GUARD_MS
+    }
+
+    const shouldIgnoreMenuCloseOnScroll = () =>
+        performance.now() < ignoreMenuCloseOnScrollUntil
+
+    const waitForScrollToFinish = (targetY) =>
+        new Promise((resolve) => {
+            const startY = window.scrollY
+            const totalDistance = Math.max(0, targetY - startY)
+            const openAtY = startY + totalDistance * MENU_OPEN_SCROLL_PROGRESS
+            const cleanup = []
+            const done = () => {
+                cleanup.forEach((fn) => fn())
+                resolve()
+            }
+
+            const timeoutId = window.setTimeout(
+                done,
+                SCROLL_WAIT_FALLBACK_TIMEOUT_MS
+            )
+            cleanup.push(() => window.clearTimeout(timeoutId))
+
+            let stableFrames = 0
+            let lastY = window.scrollY
+
+            const tick = () => {
+                const currentY = window.scrollY
+                if (currentY >= openAtY - SCROLL_TARGET_EPSILON_PX) {
+                    done()
+                    return
+                }
+                const isNearTarget =
+                    Math.abs(currentY - targetY) <= SCROLL_TARGET_EPSILON_PX
+                const isStable = Math.abs(currentY - lastY) <= 0.5
+
+                if (isNearTarget && isStable) {
+                    stableFrames += 1
+                    if (stableFrames >= 2) {
+                        done()
+                        return
+                    }
+                } else {
+                    stableFrames = 0
+                }
+
+                lastY = currentY
+                requestAnimationFrame(tick)
+            }
+
+            requestAnimationFrame(tick)
+        })
+
+    const closeMenu = ({ quickFade = false } = {}) => {
+        categoryLabels.forEach((label) => label.classList.remove('show'))
+        if (sideNavigation) {
+            sideNavigation.classList.remove('hidden')
+        }
+        if (siteHeader) {
+            siteHeader.classList.remove('open')
+        }
+        if (menuButtonJs) {
+            menuButtonJs.classList.remove('close-button-js')
+        }
+        if (singleAusstellungPage) {
+            setTimeout(() => {
+                singleAusstellungPage.classList.remove('menu-is-open')
+            }, 0)
+        }
+        if (singleReisePage) {
+            setTimeout(() => {
+                singleReisePage.classList.remove('menu-is-open')
+            }, 0)
+        }
+        if (siteMenu) {
+            if (quickFade) {
+                siteMenu.classList.add('is-closing-fast')
+                siteMenu.classList.add('is-instant-hidden')
+            } else {
+                siteMenu.classList.remove('is-closing-fast')
+                siteMenu.classList.remove('is-instant-hidden')
+            }
+            siteMenu.classList.remove('is-open')
+            siteMenu.setAttribute('aria-hidden', 'true')
+            siteMenu.classList.remove('is-closing-fast')
+        }
+        setMenuButtonsActive(false)
+        body.classList.remove('menu-is-open')
+    }
+
+    const handleMenuButtonClick = async (button) => {
+        console.log('Menu button clicked!!')
+        const isOpen = siteMenu
+            ? siteMenu.classList.contains('is-open')
+            : button.classList.contains('is-active')
+
+        if (!isOpen) {
+            isMenuOpening = true
+            if (siteMenu) {
+                siteMenu.classList.remove('is-instant-hidden')
+            }
+            if (siteHeader) {
+                siteHeader.classList.add('open')
+            }
+            if (menuButtonJs) {
+                menuButtonJs.classList.add('close-button-js')
+            }
+            if (singleAusstellungPage) {
+                singleAusstellungPage.classList.add('menu-is-open')
+            }
+            if (singleReisePage) {
+                singleReisePage.classList.add('menu-is-open')
+            }
+            const targetY = HEADER_HEIGHT_REM * remToPx()
+            const distanceToTarget = targetY - window.scrollY
+            if (sideNavigation) {
+                sideNavigation.classList.add('hidden')
+            }
+            if (distanceToTarget > SCROLL_TARGET_EPSILON_PX && isHomePage) {
+                ignoreMenuCloseOnProgrammaticScroll()
+                window.scrollTo({ top: targetY, behavior: 'smooth' })
+                await waitForScrollToFinish(targetY)
+            }
+            // Force header to minimized state immediately so it doesn't
+            // overlap the menu while the smooth scroll is still animating
+            if (siteHeader) {
+                siteHeader.style.width = `${HEADER_MIN_WIDTH}rem`
+                if (headerSvg) {
+                    headerSvg.style.borderWidth = '0.7rem'
+                    headerSvg.style.borderStyle = 'solid'
+                }
+            }
+            if (siteMenu) {
+                siteMenu.classList.add('is-open')
+                siteMenu.setAttribute('aria-hidden', 'false')
+            }
+            setMenuButtonsActive(true)
+            isMenuOpening = false
+            // Add class to minimize all exhibition galleries so they don't overlap the menu area
+            body.classList.add('menu-is-open')
+            categoryLabels.forEach((label) => label.classList.add('show'))
+        } else {
+            isMenuOpening = false
+            closeMenu()
+            // Let scroll events restore header width naturally
+        }
+    }
+
+    menuButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            void handleMenuButtonClick(button)
+        })
+    })
+
+    document.addEventListener('click', (event) => {
+        if (
+            !siteMenu?.classList.contains('is-open') &&
+            !menuButtons.some((button) =>
+                button.classList.contains('is-active')
+            )
+        ) {
+            return
+        }
+
+        const target = event.target
+        if (!(target instanceof Element)) return
+        if (target.closest('.menu-button-js')) return
+
+        closeMenu()
+    })
+
+    window.addEventListener(
+        'scroll',
+        () => {
+            if (!isHomePage) return
+            if (
+                !siteMenu?.classList.contains('is-open') &&
+                !menuButtons.some((button) =>
+                    button.classList.contains('is-active')
+                )
+            ) {
+                return
+            }
+            if (shouldIgnoreMenuCloseOnScroll()) return
+
+            const topCloseThreshold = HEADER_HEIGHT_REM * remToPx()
+            if (window.scrollY < topCloseThreshold) {
+                closeMenu({ quickFade: true })
+                return
+            }
+
+            const scrollBottom = window.innerHeight + window.scrollY
+            const pageHeight = document.documentElement.scrollHeight
+            if (scrollBottom >= pageHeight - SCROLL_TARGET_EPSILON_PX) {
+                closeMenu({ quickFade: true })
+            }
+        },
+        { passive: true }
+    )
+}
+
+const button = document.querySelector('[data-demo-toggle]')
+
+if (button) {
+    button.addEventListener('click', () => {
+        button.classList.toggle('is-active')
+        button.textContent = button.classList.contains('is-active')
+            ? 'Vite funktioniert'
+            : 'Interaktion testen'
+    })
+}
+
+const homeSections = document.querySelectorAll('main.home > div')
+
+if (homeSections.length > 0) {
+    const updateHomeSectionVisibility = () => {
+        homeSections.forEach((section) => {
+            const rect = section.getBoundingClientRect()
+            const hiddenTranslateOffset = section.classList.contains(
+                'is-visible'
+            )
+                ? 0
+                : 20
+            const adjustedTop = rect.top - hiddenTranslateOffset
+            const adjustedBottom = rect.bottom - hiddenTranslateOffset
+            const visiblePx =
+                Math.min(adjustedBottom, window.innerHeight) -
+                Math.max(adjustedTop, 0)
+            const visibleRatio = rect.height > 0 ? visiblePx / rect.height : 0
+
+            if (visibleRatio >= 0.1) {
+                section.classList.add('is-visible')
+            } else if (adjustedTop >= window.innerHeight) {
+                section.classList.remove('is-visible')
+            }
+        })
+    }
+
+    window.addEventListener('scroll', updateHomeSectionVisibility, {
+        passive: true,
+    })
+    window.addEventListener('resize', updateHomeSectionVisibility, {
+        passive: true,
+    })
+    updateHomeSectionVisibility()
+}
+
+// ── Ausstellungen row expand/collapse ─────────────────────────────────────────
+
+const EASE_OUT = 'cubic-bezier(0.22, 1, 0.36, 1)'
+
+const expandRowBody = (body) => {
+    body.style.display = 'block'
+    body.style.height = '0'
+    body.style.overflow = 'hidden'
+    body.style.opacity = '0'
+    const targetHeight = body.scrollHeight
+    body.style.transition = `height 0.45s ${EASE_OUT}, opacity 0.25s ease`
+    requestAnimationFrame(() => {
+        body.style.height = targetHeight + 'px'
+        body.style.opacity = '1'
+    })
+    const onEnd = (e) => {
+        if (e.propertyName !== 'height') return
+        body.style.height = 'auto'
+        body.style.overflow = ''
+        body.style.transition = ''
+        body.removeEventListener('transitionend', onEnd)
+    }
+    body.addEventListener('transitionend', onEnd)
+}
+
+const collapseRowBody = (body) => {
+    body.style.height = body.scrollHeight + 'px'
+    body.style.overflow = 'hidden'
+    body.style.transition = `height 0.45s ${EASE_OUT}, opacity 0.25s ease`
+    requestAnimationFrame(() => {
+        body.style.height = '0'
+        body.style.opacity = '0'
+    })
+    const onEnd = (e) => {
+        if (e.propertyName !== 'height') return
+        body.style.display = 'none'
+        body.style.height = ''
+        body.style.overflow = ''
+        body.style.opacity = ''
+        body.style.transition = ''
+        body.removeEventListener('transitionend', onEnd)
+    }
+    body.addEventListener('transitionend', onEnd)
+}
+
+const rowHeaders = [...document.querySelectorAll('.ausstellungen-row-header')]
+rowHeaders.forEach((header) => {
+    header.addEventListener('click', () => {
+        const row = header.closest('.ausstellungen-row')
+        if (!row) return
+        const body = row.querySelector('.ausstellungen-row-body')
+        if (!body) return
+        const isOpen = row.classList.toggle('is-open')
+        header.setAttribute('aria-expanded', String(isOpen))
+        if (isOpen) {
+            expandRowBody(body)
+        } else {
+            collapseRowBody(body)
+        }
+    })
+})
+
+const ausstellungenFilterButton = document.querySelector(
+    '.ausstellungen-filter'
+)
+
+if (ausstellungenFilterButton) {
+    const filterPanels = document.querySelector('.ausstellungen-filter-panels')
+    const filterToggleButtons = [
+        ...document.querySelectorAll('[data-filter-toggle]'),
+    ]
+    const rows = [...document.querySelectorAll('[data-ausstellung-row]')]
+    const content = document.querySelector('.ausstellungen-content')
+    const selected = {
+        year: new Set(),
+        artist: new Set(),
+    }
+
+    if (filterPanels) {
+        filterPanels.classList.remove('is-open')
+    }
+
+    filterToggleButtons.forEach((button) => {
+        const kind = button.getAttribute('data-filter-toggle')
+        if (!kind) return
+        const panel = document.querySelector(`[data-filter-options="${kind}"]`)
+        if (!panel) return
+        panel.classList.remove('is-open')
+        button.setAttribute('aria-expanded', 'false')
+    })
+
+    const normalizeValue = (value) =>
+        (value || '').toString().trim().toLocaleLowerCase().replace(/\s+/g, ' ')
+
+    const applyFilter = () => {
+        rows.forEach((row) => {
+            const rowYear = normalizeValue(row.dataset.year)
+            const rowArtist = normalizeValue(row.dataset.artist)
+            const yearMatch =
+                selected.year.size === 0 || selected.year.has(rowYear)
+            const artistMatch =
+                selected.artist.size === 0 || selected.artist.has(rowArtist)
+
+            row.classList.toggle(
+                'is-filter-hidden',
+                !(yearMatch && artistMatch)
+            )
+        })
+
+        if (content) {
+            const headings = [
+                ...content.querySelectorAll('[data-ausstellungen-heading]'),
+            ]
+            headings.forEach((heading) => {
+                let hasVisibleRow = false
+                let next = heading.nextElementSibling
+                while (next && !next.matches('.ausstellungen-section-title')) {
+                    if (
+                        next.matches('[data-ausstellung-row]') &&
+                        !next.classList.contains('is-filter-hidden')
+                    ) {
+                        hasVisibleRow = true
+                        break
+                    }
+                    next = next.nextElementSibling
+                }
+                heading.hidden = !hasVisibleRow
+            })
+        }
+    }
+
+    const updateAllButtonsState = (kind) => {
+        const allButton = document.querySelector(`[data-filter-all="${kind}"]`)
+        if (!allButton) return
+        const isSelected = selected[kind].size === 0
+        allButton.classList.toggle('is-selected', isSelected)
+        allButton.setAttribute('aria-pressed', String(isSelected))
+    }
+
+    const handleOptionClick = (button) => {
+        const kind = button.getAttribute('data-filter-value')
+        const value = normalizeValue(button.getAttribute('data-value'))
+        if (!kind || !value) return
+
+        if (selected[kind].has(value)) {
+            selected[kind].delete(value)
+            button.classList.remove('is-selected')
+            button.setAttribute('aria-pressed', 'false')
+        } else {
+            selected[kind].add(value)
+            button.classList.add('is-selected')
+            button.setAttribute('aria-pressed', 'true')
+        }
+
+        updateAllButtonsState(kind)
+        applyFilter()
+    }
+
+    const handleAllClick = (button) => {
+        const kind = button.getAttribute('data-filter-all')
+        if (!kind) return
+        selected[kind].clear()
+
+        document
+            .querySelectorAll(`[data-filter-value="${kind}"]`)
+            .forEach((option) => {
+                option.classList.remove('is-selected')
+                option.setAttribute('aria-pressed', 'false')
+            })
+
+        button.classList.add('is-selected')
+        button.setAttribute('aria-pressed', 'true')
+        applyFilter()
+    }
+
+    const resetAllFilters = () => {
+        selected.year.clear()
+        selected.artist.clear()
+
+        document.querySelectorAll('[data-filter-value]').forEach((option) => {
+            option.classList.remove('is-selected')
+            option.setAttribute('aria-pressed', 'false')
+        })
+
+        document.querySelectorAll('[data-filter-all]').forEach((allButton) => {
+            allButton.classList.add('is-selected')
+            allButton.setAttribute('aria-pressed', 'true')
+        })
+
+        applyFilter()
+    }
+
+    ausstellungenFilterButton.addEventListener('click', () => {
+        if (!filterPanels) return
+        const open = !filterPanels.classList.contains('is-open')
+        filterPanels.classList.toggle('is-open', open)
+        ausstellungenFilterButton.setAttribute('aria-expanded', String(open))
+    })
+
+    filterToggleButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const kind = button.getAttribute('data-filter-toggle')
+            if (!kind) return
+            const panel = document.querySelector(
+                `[data-filter-options="${kind}"]`
+            )
+            if (!panel) return
+            const open = !panel.classList.contains('is-open')
+            if (!open) {
+                panel.classList.remove('is-open')
+                button.setAttribute('aria-expanded', 'false')
+                return
+            }
+
+            filterToggleButtons.forEach((otherButton) => {
+                const otherKind = otherButton.getAttribute('data-filter-toggle')
+                if (!otherKind) return
+                const otherPanel = document.querySelector(
+                    `[data-filter-options="${otherKind}"]`
+                )
+                if (!otherPanel) return
+                const isCurrent = otherButton === button
+                otherPanel.classList.toggle('is-open', isCurrent)
+                otherButton.setAttribute('aria-expanded', String(isCurrent))
+            })
+
+            resetAllFilters()
+        })
+    })
+
+    document.querySelectorAll('[data-filter-value]').forEach((button) => {
+        button.setAttribute(
+            'data-filter-key',
+            normalizeValue(button.getAttribute('data-value'))
+        )
+        button.setAttribute('aria-pressed', 'false')
+        button.addEventListener('click', () => handleOptionClick(button))
+    })
+
+    document.querySelectorAll('[data-filter-all]').forEach((button) => {
+        button.setAttribute('aria-pressed', 'true')
+        button.addEventListener('click', () => handleAllClick(button))
+    })
+
+    applyFilter()
+}
+
+// ── Homepage overlay ──────────────────────────────────────────────────────────
+
+const homeOverlay = document.getElementById('home-overlay')
+
+if (homeOverlay) {
+    const dismissOverlay = () => {
+        homeOverlay.classList.add('is-dismissed')
+        homeOverlay.addEventListener(
+            'transitionend',
+            () => {
+                homeOverlay.style.display = 'none'
+            },
+            { once: true }
+        )
+    }
+
+    const autoTimer = setTimeout(dismissOverlay, 3000)
+
+    homeOverlay.addEventListener('click', () => {
+        clearTimeout(autoTimer)
+        dismissOverlay()
+    })
+}
+
+const scrollTopElements = document.querySelectorAll('.scroll-top-element')
+scrollTopElements.forEach((el) => {
+    const contentHeight = el.querySelector('.content-wrapper').scrollHeight
+    const tenViewWidth = window.innerWidth * 0.15
+    el.style.setProperty('height', contentHeight + tenViewWidth + 'px')
+})
+
+// on resize, recalculate heights for all scroll top elements
+window.addEventListener('resize', () => {
+    scrollTopElements.forEach((el) => {
+        const contentHeight = el.querySelector('.content-wrapper').scrollHeight
+        const tenViewWidth = window.innerWidth * 0.15
+        el.style.setProperty('height', contentHeight + tenViewWidth + 'px')
+    })
+})

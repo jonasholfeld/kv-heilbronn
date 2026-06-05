@@ -1,0 +1,13 @@
+/.DS_Store
+/.vscode/
+/.claude/
+
+/node_modules/
+/vendor/
+
+/site/cache/
+/site/sessions/
+/site/accounts/
+
+/content/
+/media/

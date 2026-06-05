@@ -1,0 +1,17 @@
+title: Impressum
+
+tabs:
+    infos:
+        fields:
+            color:
+                label: Farbe
+                type: color
+                width: 1
+            impressum:
+                label: Impressum
+                type: writer
+                width: 1/2
+            datenschutz:
+                label: Datenschutz
+                type: writer
+                width: 1/2

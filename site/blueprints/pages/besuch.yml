@@ -1,0 +1,26 @@
+title: Besuch
+
+tabs:
+    infos:
+        label: Informationen
+        fields:
+            color:
+                label: Farbe
+                type: color
+                width: 1
+            kontakt:
+                label: Kontakt
+                type: writer
+                width: 1/2
+            offnungszeiten:
+                label: Öffnungszeiten
+                type: writer
+                width: 1/2
+            anfahrt:
+                label: Anfahrt
+                type: writer
+                width: 1/2
+            ansprechpartner:
+                label: Ansprechpartner
+                type: writer
+                width: 1/2

@@ -1,0 +1,177 @@
+body.reisen {
+    background-color: $lightgrey;
+    @include sansserif;
+
+    .site-header {
+        display: none;
+    }
+
+    .site-menu {
+        margin-top: 0;
+        transform: scaleX(0);
+        opacity: 1 !important;
+        transform-origin: top left;
+        transition:
+            opacity 0.3s ease,
+            background-color 0.5s ease,
+            transform 0.3s ease;
+        &.is-open {
+            transform: scaleX(1);
+        }
+        .inner-page-logo {
+            display: block;
+            svg {
+                border-width: 0.4rem;
+                border-style: solid;
+                border-color: white !important;
+                box-shadow: inset 0 0 0 1px white !important;
+                background-color: #dce0e3 !important;
+                .st0 {
+                    fill: white !important;
+                }
+            }
+        }
+        .site-menu__group {
+            background-color: $lightgrey;
+        }
+        @include short-window-ratio {
+            #header-svg {
+                display: none;
+            }
+            .site-menu__inner {
+                min-height: calc(100vh - 3.4rem);
+            }
+        }
+    }
+
+    &.menu-is-open {
+        .reisen-sidebar {
+            flex: 0 0 $sideWidth !important;
+        }
+    }
+
+    main.reisen-template {
+        width: 98vw;
+        min-height: calc(100vh - 2rem);
+        display: flex;
+        gap: $generalPadding;
+
+        .reisen-sidebar {
+            flex: 0;
+            transition: flex 0.3s ease;
+            .reisen-page-info {
+                padding: 0.5rem;
+                text-transform: uppercase;
+                text-align: center;
+                padding-bottom: 0;
+            }
+
+            .reisen-pill {
+                @include bubble;
+                border-radius: 2rem;
+                background: $lightgrey;
+                transition: border-radius 0.3s ease;
+                text-decoration: none;
+                &:hover {
+                    border-radius: 0;
+                }
+            }
+
+            .reisen-pill--dark {
+                background: $lightgrey;
+                color: black;
+            }
+
+            .menu-button-js {
+                transition: border-radius 0.3s ease;
+                &:hover {
+                    border-radius: 0 !important;
+                }
+            }
+
+            .reisen-home-link {
+                margin-top: auto;
+            }
+        }
+
+        .reisen-content {
+            background: white;
+            padding: 0.7rem;
+            flex: 1;
+            overflow: hidden;
+
+            .reisen-section-title {
+                margin: 0.4rem 0 0.3rem !important;
+                text-align: center;
+                text-transform: uppercase;
+                font-weight: 400;
+            }
+
+            .reise-card {
+                display: block;
+                margin-bottom: 0.55rem;
+                background: var(--reise-card-color, #cad9cc);
+                text-decoration: none;
+                color: inherit;
+                transition:
+                    border-radius 0.3s ease,
+                    background-color 0.3s ease;
+                ul li > p::before {
+                    transition: background-color 0.3s ease;
+                }
+                &:hover {
+                    border-radius: 1.3rem;
+                    ul li > p::before {
+                        background-color: black;
+                    }
+                }
+
+                &__header {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: $generalPadding;
+                    padding: 0.7rem $innerBoxPadding 0.3rem $innerBoxPadding;
+                    text-transform: uppercase;
+                    margin-bottom: 1rem;
+
+                    span {
+                        line-height: 1;
+                    }
+
+                    .reise-card__category {
+                        flex-shrink: 0;
+                        text-align: right;
+                    }
+                }
+
+                &__dates {
+                    margin: 0;
+                    padding-left: $generalPadding;
+                    list-style: none;
+                    margin-bottom: 1rem;
+
+                    li {
+                        position: relative;
+                        line-height: 1.2;
+                        p::before {
+                            background-color: white;
+                        }
+                    }
+                }
+
+                &__footer {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0.2rem $innerBoxPadding 0.7rem $innerBoxPadding;
+                    gap: $generalPadding;
+                }
+
+                &__mehr,
+                &__anmeldung {
+                    text-decoration: underline;
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+}
