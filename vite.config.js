@@ -3,6 +3,7 @@ import path from "node:path";
 import fullReload from "vite-plugin-full-reload";
 
 export default defineConfig({
+  base: "/assets/dist/",
   plugins: [
     fullReload(["site/snippets/**/*.php", "site/templates/**/*.php"])
   ],
