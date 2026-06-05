@@ -57,7 +57,7 @@ $previewHeading = $exhiClass === 'archive' ? t('ui.from_archives') : t('ui.exhib
             <?php foreach ($images as $image): ?>
                 <div class="exhibition-gallery__item">
                     <img
-                        src="<?= $image->url() ?>"
+                        src="<?= $image->resize(1500)->url() ?>"
                         alt="<?= $image->alt()->or($exhibition->kuenstler())->esc() ?>">
                 </div>
             <?php endforeach ?>

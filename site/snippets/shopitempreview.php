@@ -18,7 +18,7 @@
         <div class="shop-item-image">
           <?php $img = $item->titelbild()->toFiles()->first() ?? $item->galerie()->toFiles()->first() ?>
           <?php if ($img): ?>
-            <img src="<?= $img->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>">
+            <img src="<?= $img->resize(500)->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>">
           <?php endif ?>
         </div>
       </div>
