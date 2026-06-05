@@ -11,3 +11,5 @@
 
 /content/
 /media/
+.DS_Store
+*.zip
