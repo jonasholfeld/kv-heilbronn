@@ -9,7 +9,7 @@
     </aside>
     <div class="shop-item-page__left">
         <div class="shop-item-page__image-container">
-            <?php $img = $page->titelbild()->toFiles()->first() ?>
+            <?php $img = $page->titelbild()->toFiles()->first() ?? $page->galerie()->toFiles()->first() ?>
             <?php if($img): ?>
                 <img src="<?= $img->resize(800)->url() ?>" alt="<?= $img->alt()->or($page->kuenstler())->esc() ?>">
             <?php endif ?>
