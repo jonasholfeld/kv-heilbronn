@@ -130,7 +130,8 @@ body.reise {
             min-height: calc(100vh - 2 * #{$generalPadding});
         }
 
-        &__text {
+        &__text,
+        &__images {
             flex: 0 0 50%;
             height: calc(100vh - 2 * #{$generalPadding});
             overflow-y: scroll;
@@ -140,6 +141,9 @@ body.reise {
             @include sansserif;
 
             .single-reise-page__text-container {
+                &.no-images {
+                    flex: 1;
+                }
                 p {
                     margin-bottom: 1.1rem;
                 }

@@ -25,6 +25,9 @@
     @include short-window-ratio {
         margin-top: 0;
         z-index: 11;
+        .site-menu__inner {
+            min-height: calc(100vh - 3.4rem);
+        }
     }
 
     .inner-page-logo {
@@ -120,7 +123,9 @@
     &__entry {
         @include sansserif;
         display: block;
-
+        line-height: 1.15;
+        padding-left: 1rem;
+        font-size: 1rem;
         &:hover {
             opacity: 0.6;
         }

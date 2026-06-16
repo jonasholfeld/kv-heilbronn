@@ -1,3 +1,5 @@
+$sideWithAusstellungen: 18.4rem;
+
 body.ausstellungen {
     background-color: $lightgrey;
     @include sansserif;
@@ -40,7 +42,7 @@ body.ausstellungen {
 
         .ausstellungen-sidebar {
             padding: $generalPadding;
-            flex: 0 0 $sideWidth;
+            flex: 0 0 $sideWithAusstellungen;
             height: calc(100vh - (2 * $generalPadding));
             position: sticky;
             top: $generalPadding;
@@ -137,7 +139,7 @@ body.ausstellungen {
                 &.is-open {
                     transform: scaleY(1);
                     opacity: 1;
-                    max-height: calc(100vh - 14rem);
+                    max-height: 100vh;
                     pointer-events: all;
                 }
             }
@@ -152,7 +154,7 @@ body.ausstellungen {
                 display: flex;
                 flex-direction: column;
                 gap: 0.2rem;
-                max-height: calc(100vh - 25rem);
+                max-height: calc(100vh - 17rem);
                 overflow-y: auto;
                 border: none;
                 transform-origin: top center;
@@ -170,7 +172,7 @@ body.ausstellungen {
                     transform: scaleY(1);
                     opacity: 1;
                     padding: $innerBoxPadding;
-                    max-height: calc(100vh - 25rem);
+                    max-height: calc(100vh - 17rem);
                     overflow-y: auto;
                     pointer-events: all;
                 }
@@ -215,7 +217,7 @@ body.ausstellungen {
         .ausstellungen-content {
             background: white;
             padding: $generalPadding;
-            flex: 75rem 0 0;
+            flex: 80rem 0 0;
             overflow: hidden;
             .ausstellungen-section-title {
                 margin: 0.4rem 0 0.3rem !important;
@@ -227,10 +229,12 @@ body.ausstellungen {
             .ausstellungen-row {
                 display: block;
                 margin-bottom: $generalPadding;
-                background: #cfd2d6;
+                background: $lightgrey;
                 transition:
                     background-color 0.3s ease,
                     border-radius 0.3s ease;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
                 &:hover,
                 &.is-open {
                     background-color: var(--hoverColor, #cfd2d6);
@@ -320,6 +324,14 @@ body.ausstellungen {
                 padding-left: $innerBoxPadding;
                 padding-right: $innerBoxPadding;
             }
+        }
+    }
+    &.menu-is-open {
+        .ausstellungen-sidebar {
+            flex: 0 0 23.4rem !important;
+        }
+        .ausstellungen-content {
+            flex: 75rem 0 0 !important;
         }
     }
 }

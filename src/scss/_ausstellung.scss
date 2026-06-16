@@ -79,18 +79,22 @@ body.ausstellung {
         &__top-info-box {
             background-color: var(--ausstellung-color);
             @include sansserif;
-            padding: $generalPadding;
+            padding: 1rem;
             font-size: 3rem;
             &__artist-title {
                 text-transform: uppercase;
                 margin-bottom: 8rem;
+                line-height: 0.9;
                 span {
                     display: block;
-                    line-height: 1;
+                    line-height: 0.9;
                 }
             }
             &__date {
-                margin-bottom: 5rem;
+                margin-bottom: 8rem;
+                p {
+                    line-height: 0.9;
+                }
             }
         }
         side {
@@ -98,6 +102,7 @@ body.ausstellung {
             top: $generalPadding;
             width: $sideWidth;
             display: block;
+            z-index: 9000;
             .single-ausstellung-page__small-top-info-box-wrapper {
                 height: 0;
                 overflow: hidden;
@@ -148,7 +153,7 @@ body.ausstellung {
             }
         }
         &__images-wrapper {
-            margin-left: 10rem;
+            // margin-left: 10rem;
             transition: margin-left 0.3s ease;
             img.portrait {
                 height: 50rem;
@@ -167,13 +172,29 @@ body.ausstellung {
                 justify-content: space-between;
                 padding-right: 10rem;
                 transition: padding-right 0.3s ease;
+                margin-left: 10rem;
             }
             &__image {
                 display: flex;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 .inner-image-wrapper {
                     display: flex;
                     flex-direction: column;
                     align-items: end;
+                }
+            }
+            > .image-coupler,
+            > .single-ausstellung-page__images-wrapper__image {
+                opacity: 0;
+                transform: translateY(90px);
+                transition:
+                    opacity 1s ease,
+                    transform 1s ease;
+                &.is-visible {
+                    opacity: 1;
+                    transform: translateY(0);
                 }
             }
             .credits-wrapper {
@@ -302,6 +323,12 @@ body.ausstellung {
                         margin-bottom: 1.1rem;
                     }
                 }
+                .single-ausstellung-page__text-container__text {
+                    min-height: calc(100vh - 15rem);
+                }
+                .close-text-mode-js {
+                    background-color: var(--colorPage);
+                }
             }
             .single-ausstellung-page__images-wrapper {
                 .single-ausstellung-page__text-container__text {
@@ -321,11 +348,18 @@ body.ausstellung {
                 overflow: scroll;
                 .single-ausstellung-page__images-wrapper__image {
                     margin-bottom: $generalPadding;
+                    opacity: 1;
+                    transform: none;
+                    transition: none;
                 }
                 .image-coupler {
                     flex-direction: column;
-                    padding-right: 0;
+                    padding-right: 0 !important;
                     margin-bottom: 0;
+                    margin-left: 0 !important;
+                    opacity: 1;
+                    transform: none;
+                    transition: none;
                 }
                 img {
                     width: 41rem;

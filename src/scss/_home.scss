@@ -18,6 +18,7 @@ body.home-body-class {
     width: calc(100vw - 2 * $generalPadding);
     isolation: isolate; // confine child stacking contexts so menu z-index works correctly
     // overflow: hidden;
+    padding-bottom: 100vh;
 
     > div {
         opacity: 0;
@@ -36,9 +37,9 @@ body.home-body-class {
     }
 
     .scroll-top-element {
-        margin-bottom: 0 !important;
+        margin-bottom: 15rem !important;
         header {
-            position: sticky;
+            // position: sticky;
             top: $generalPadding;
         }
     }
@@ -206,7 +207,7 @@ body.home-body-class {
                         text-decoration: none;
                         position: absolute;
                         left: 50%;
-                        transform: translateX(0%);
+                        transform: translateX(-50%);
                     }
                 }
                 .termin__bodytext {

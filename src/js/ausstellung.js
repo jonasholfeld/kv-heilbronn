@@ -160,3 +160,38 @@ if (closeTextModeJs) {
         document.body.classList.remove('text-mode')
     })
 }
+
+const ausstellungImageElements = document.querySelectorAll(
+    '.single-ausstellung-page__images-wrapper > .image-coupler, .single-ausstellung-page__images-wrapper > .single-ausstellung-page__images-wrapper__image'
+)
+
+if (ausstellungImageElements.length > 0) {
+    const updateAusstellungImageVisibility = () => {
+        ausstellungImageElements.forEach((el) => {
+            const rect = el.getBoundingClientRect()
+            const hiddenTranslateOffset = el.classList.contains('is-visible')
+                ? 0
+                : 20
+            const adjustedTop = rect.top - hiddenTranslateOffset
+            const adjustedBottom = rect.bottom - hiddenTranslateOffset
+            const visiblePx =
+                Math.min(adjustedBottom, window.innerHeight) -
+                Math.max(adjustedTop, 0)
+            const visibleRatio = rect.height > 0 ? visiblePx / rect.height : 0
+
+            if (visibleRatio >= 0.1) {
+                el.classList.add('is-visible')
+            } else if (adjustedTop >= window.innerHeight) {
+                el.classList.remove('is-visible')
+            }
+        })
+    }
+
+    window.addEventListener('scroll', updateAusstellungImageVisibility, {
+        passive: true,
+    })
+    window.addEventListener('resize', updateAusstellungImageVisibility, {
+        passive: true,
+    })
+    updateAusstellungImageVisibility()
+}

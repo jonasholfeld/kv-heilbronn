@@ -6,6 +6,7 @@ $reiseColor = $cat === 'atelierbesuch'
     : ($reisenPage && !$reisenPage->kunstreisecolor()->isEmpty() ? (string)$reisenPage->kunstreisecolor() : '#cad9cc');
 $catLabel = $cat === 'atelierbesuch' ? t('ui.studio_visit') : t('ui.art_trip');
 $dateStr = $page->reiseStart()->toDate('d.m.Y');
+$columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images';
 ?>
 <?php snippet('head') ?>
 <?php snippet('vite', ['entry' => 'src/js/reise.js']) ?>
@@ -21,26 +22,46 @@ $dateStr = $page->reiseStart()->toDate('d.m.Y');
 
     <div class="single-reise-page__content">
         <div class="single-reise-page__text">
-            <div class="single-reise-page__text-container">
+            <div class="single-reise-page__text-container <?= $columnMode ?>">
                 <h1 class="single-reise-page__title"><?= $page->title()->html() ?></h1>
-                <?php if ($dateStr): ?>
-                <ul class="reise-info-list">
-                    <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
-                </ul>
-                <?php endif ?>
-                <div class="single-reise-page__description">
-                    <?= $page->beschreibung()->kt() ?>
-                </div>
+                <?php if($columnMode != 'no-images'): ?>
+                    <?php if ($dateStr): ?>
+                    <ul class="reise-info-list">
+                        <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
+                    </ul>
+                    <?php endif ?>
+                    <div class="single-reise-page__description">
+                        <?= $page->beschreibung()->kt() ?>
+                    </div>
+                <?php endif; ?>
             </div>
-            <?php if ($page->reiseplan()->isNotEmpty()): ?>
-            <div class="single-reise-page__text-container"><?= $page->reiseplan()->kt() ?></div>
-            <?php endif ?>
-            <?php if ($page->anmeldung()->isNotEmpty()): ?>
-            <div class="single-reise-page__text-container"><?= $page->anmeldung()->kt() ?></div>
+            <?php if($columnMode != 'no-images'): ?>
+                <?php if ($page->reiseplan()->isNotEmpty()): ?>
+                <div class="single-reise-page__text-container"><?= $page->reiseplan()->kt() ?></div>
+                <?php endif ?>
+                <?php if ($page->anmeldung()->isNotEmpty()): ?>
+                <div class="single-reise-page__text-container"><?= $page->anmeldung()->kt() ?></div>
+                <?php endif ?>
             <?php endif ?>
         </div>
 
         <div class="single-reise-page__images">
+            <?php if($columnMode == 'no-images'): ?>
+                    <?php if ($dateStr): ?>
+                    <ul class="reise-info-list">
+                        <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
+                    </ul>
+                    <?php endif ?>
+                    <div class="single-reise-page__description">
+                        <?= $page->beschreibung()->kt() ?>
+                    </div>
+                    <?php if ($page->reiseplan()->isNotEmpty()): ?>
+                    <div class="single-reise-page__text-container"><?= $page->reiseplan()->kt() ?></div>
+                    <?php endif ?>
+                    <?php if ($page->anmeldung()->isNotEmpty()): ?>
+                    <div class="single-reise-page__text-container"><?= $page->anmeldung()->kt() ?></div>
+                    <?php endif ?>
+            <?php else: ?>
             <?php
             $titelbild = $page->titelbild()->toFiles()->first();
             $galerie = $page->galerie()->toFiles();
@@ -79,6 +100,7 @@ $dateStr = $page->reiseStart()->toDate('d.m.Y');
                     </div>
                 </div>
             <?php endforeach ?>
+        <?php endif ?>
         </div>
     </div>
 </main>

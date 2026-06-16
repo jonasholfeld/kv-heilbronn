@@ -6,9 +6,6 @@ requestAnimationFrame(() => {
 })
 
 const siteHeader = document.querySelector('.site-header')
-const siteHeaderTransitionDefault = siteHeader
-    ? getComputedStyle(siteHeader).transition
-    : ''
 const headerSvg = document.querySelector('#header-svg')
 const headerSvgSt0 = document.querySelector('.site-header svg .st0')
 const siteMenu = document.getElementById('site-menu')
@@ -22,6 +19,10 @@ const homeColorSections = [
         '.exhibition-wrapper, .termine-section, .shop-item-wrapper, .infobox-wrapper'
     ),
 ]
+const homeSections = document.querySelectorAll('main.home > div')
+const lastHomeSection = homeSections.length
+    ? homeSections[homeSections.length - 1]
+    : null
 const isHomePage =
     document.body.classList.contains('home') ||
     document.querySelector('main.home') !== null
@@ -38,15 +39,41 @@ const categoryPageByLabel = {
 
 const HEADER_MAX_WIDTH = 99 // rem
 const HEADER_MIN_WIDTH = 23.4 // rem
+// The last home section gets a 15vw scroll-top-element buffer (see main.js
+// scroll-top-element height calc) plus 1vw of inner bottom padding, so its
+// real bounding box reaches 16vw further down than its visible content.
+const BOTTOM_SECTION_WHITESPACE_RATIO = 0.02
 let isMenuOpening = false
 
 const relativeRoute = window.location.pathname
 const isAusstellungPage = relativeRoute.includes('/ausstellungen/')
 
+function getBottomExpandProgress() {
+    if (!lastHomeSection) return 0
+    const rect = lastHomeSection.getBoundingClientRect()
+    const whitespace = window.innerWidth * BOTTOM_SECTION_WHITESPACE_RATIO
+    const contentBottom = rect.bottom - whitespace
+    // Section's visible content is still (at least partly) on screen, no expansion yet.
+    if (contentBottom > 0) return 0
+
+    const maxScrollY =
+        document.documentElement.scrollHeight - window.innerHeight
+    const sectionAbsoluteBottom = contentBottom + window.scrollY
+    const expandDistance = Math.max(1, maxScrollY - sectionAbsoluteBottom)
+
+    return Math.min(1, Math.max(0, -contentBottom / expandDistance))
+}
+
 function updateHeaderWidth() {
     if (!siteHeader || isAusstellungPage) return
     const threshold = window.innerWidth * 0.182
-    const progress = Math.min(1, Math.max(0, window.scrollY / threshold))
+    const topProgress = Math.min(1, Math.max(0, window.scrollY / threshold))
+    const bottomExpandProgress = getBottomExpandProgress()
+    // Once the last section has scrolled out of view, the header smoothly
+    // expands back towards full width as the user keeps scrolling, instead
+    // of the top-of-page shrink progress.
+    const progress =
+        bottomExpandProgress > 0 ? 1 - bottomExpandProgress : topProgress
     const width =
         HEADER_MAX_WIDTH + (HEADER_MIN_WIDTH - HEADER_MAX_WIDTH) * progress
     siteHeader.style.width = `${width}rem`
@@ -57,26 +84,16 @@ function updateHeaderWidth() {
         }
         headerSvg.style.borderWidth = `${0.7 * progress}rem`
         headerSvg.style.borderStyle = 'solid'
-        // Log message if scrolled all the way down
-        const scrollBottom = window.innerHeight + window.scrollY
-        const pageHeight = document.documentElement.scrollHeight
-        if (scrollBottom >= pageHeight - 2) {
-            siteHeader.style.transition = 'width 0.5s ease'
-            siteHeader.style.width = `${HEADER_MAX_WIDTH}rem`
-            console.log('Scrolled all the way down')
-            headerSvg.style.borderWidth = `${0}rem`
+    }
+
+    if (sideNavigation) {
+        if (bottomExpandProgress > 0) {
             sideNavigation.classList.add('hidden')
-        } else {
-            siteHeader.style.transition = siteHeaderTransitionDefault
-            // Only remove 'hidden' if the menu is not open
-            console.log('Not scrolled all the way down')
-            if (
-                (!siteMenu || !siteMenu.classList.contains('is-open')) &&
-                !isMenuOpening &&
-                sideNavigation
-            ) {
-                sideNavigation.classList.remove('hidden')
-            }
+        } else if (
+            (!siteMenu || !siteMenu.classList.contains('is-open')) &&
+            !isMenuOpening
+        ) {
+            sideNavigation.classList.remove('hidden')
         }
     }
 }
@@ -442,8 +459,6 @@ if (button) {
     })
 }
 
-const homeSections = document.querySelectorAll('main.home > div')
-
 if (homeSections.length > 0) {
     const updateHomeSectionVisibility = () => {
         homeSections.forEach((section) => {
@@ -529,7 +544,30 @@ rowHeaders.forEach((header) => {
         if (!row) return
         const body = row.querySelector('.ausstellungen-row-body')
         if (!body) return
-        const isOpen = row.classList.toggle('is-open')
+
+        const wasOpen = row.classList.contains('is-open')
+
+        rowHeaders.forEach((otherHeader) => {
+            const otherRow = otherHeader.closest('.ausstellungen-row')
+            if (!otherRow || otherRow === row) return
+
+            const otherWasOpen = otherRow.classList.contains('is-open')
+            const otherBody = otherRow.querySelector('.ausstellungen-row-body')
+            if (!otherWasOpen) {
+                otherHeader.setAttribute('aria-expanded', 'false')
+                return
+            }
+
+            otherRow.classList.remove('is-open')
+            otherHeader.setAttribute('aria-expanded', 'false')
+
+            if (otherBody) {
+                collapseRowBody(otherBody)
+            }
+        })
+
+        const isOpen = !wasOpen
+        row.classList.toggle('is-open', isOpen)
         header.setAttribute('aria-expanded', String(isOpen))
         if (isOpen) {
             expandRowBody(body)
@@ -748,12 +786,12 @@ if (homeOverlay) {
     })
 }
 
-const scrollTopElements = document.querySelectorAll('.scroll-top-element')
-scrollTopElements.forEach((el) => {
-    const contentHeight = el.querySelector('.content-wrapper').scrollHeight
-    const tenViewWidth = window.innerWidth * 0.15
-    el.style.setProperty('height', contentHeight + tenViewWidth + 'px')
-})
+// const scrollTopElements = document.querySelectorAll('.scroll-top-element')
+// scrollTopElements.forEach((el) => {
+//     const contentHeight = el.querySelector('.content-wrapper').scrollHeight
+//     const tenViewWidth = window.innerWidth * 0.15
+//     el.style.setProperty('height', contentHeight + tenViewWidth + 'px')
+// })
 
 // on resize, recalculate heights for all scroll top elements
 window.addEventListener('resize', () => {

@@ -5,7 +5,7 @@ if ($filterYear === '') {
   $filterYear = $endTs ? date('Y', $endTs) : '';
 }
 
-$rowImages = $item->galerie()->toFiles()->limit(6);
+$rowImages = $item->galerie()->toFiles()->limit(3);
 $eroTs = $item->eroffnungsdatum()->toDate();
 ?>
 <div style="--hoverColor: <?= $item->color()->isEmpty() ? '#cfd2d6' : $item->color() ?>" class="ausstellungen-row" data-ausstellung-row data-year="<?= esc($filterYear, 'attr') ?>" data-artist="<?= esc(trim((string)$item->kuenstler()->value()), 'attr') ?>">

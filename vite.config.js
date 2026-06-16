@@ -2,15 +2,19 @@ import { defineConfig } from "vite";
 import path from "node:path";
 import fullReload from "vite-plugin-full-reload";
 
-export default defineConfig({
-  base: "/assets/dist/",
+export default defineConfig(({ command }) => ({
+  base: command === "serve" ? "/" : "/assets/dist/",
   plugins: [
     fullReload(["site/snippets/**/*.php", "site/templates/**/*.php"])
   ],
   server: {
     host: "127.0.0.1",
     port: 5173,
-    strictPort: true
+    strictPort: true,
+    watch: {
+      usePolling: true,
+      interval: 100
+    }
   },
   build: {
     manifest: true,
@@ -24,4 +28,4 @@ export default defineConfig({
       }
     }
   }
-});
+}));
