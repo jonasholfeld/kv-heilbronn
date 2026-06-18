@@ -192,7 +192,7 @@ body.edition {
         }
 
         .site-menu__lang-btn {
-            background-color: white;
+            // background-color: white;
         }
     }
 
@@ -247,20 +247,14 @@ body.edition {
             }
 
             .shop-item-page__image-container {
-                background-color: $lightgrey;
-                padding: 4rem 2rem 2rem;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 width: 100%;
 
                 img {
-                    max-width: 65%;
-                    max-height: 70vh;
+                    width: 100%;
                     object-fit: contain;
-                    box-shadow:
-                        0 4px 24px 0 rgba(0, 0, 0, 0.18),
-                        0 1.5px 6px 0 rgba(80, 80, 80, 0.12);
                 }
             }
         }

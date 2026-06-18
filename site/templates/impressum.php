@@ -24,5 +24,3 @@
         </div>
     </div>
 </main>
-
-<?php snippet('foot') ?>

@@ -72,11 +72,21 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
     <?php endforeach ?>
 
     <div class="site-menu__languages">
-      <?php foreach($kirby->languages() as $language): ?>
-          <a class="bubble site-menu__lang-btn <?php e($kirby->language() == $language, ' active') ?>" href="<?= $page->url($language->code()) ?>" hreflang="<?php echo $language->code() ?>">
-            <?= html($language->name()) ?>
+      <div class="languages-wrapper">
+        <?php foreach($kirby->languages() as $language): ?>
+            <a class="site-menu__lang-btn <?php e($kirby->language() == $language, ' active') ?>" href="<?= $page->url($language->code()) ?>" hreflang="<?php echo $language->code() ?>">
+              <?= html($language->name()) ?>
+            </a>
+        <?php endforeach ?>
+        </div>
+        <div class="imprint-wrapper">
+          <a class="site-menu__imprint-btn" href="<?= page('impressum')->url() ?>">
+            <?= t('ui.imprint') ?>
           </a>
-      <?php endforeach ?>
+          <a class="site-menu__data-btn" href="<?= page('impressum')->url() ?>">
+            <?= t('ui.datapolicy') ?>
+          </a>
+        </div>
     </div>
   </div>
 </nav>

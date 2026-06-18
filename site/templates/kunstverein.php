@@ -33,5 +33,3 @@ $blocks = $page->blockseditor()->toBlocks();
         <?php endif ?>
     </div>
 </main>
-
-<?php snippet('foot') ?>

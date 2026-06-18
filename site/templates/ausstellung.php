@@ -110,7 +110,7 @@
                 <div class="image-coupler">
                     <div class="single-ausstellung-page__images-wrapper__image">
                         <div class="inner-image-wrapper">
-                            <img class="<?= $ratioClass ?>" src="<?= $image->resize(1200)->url() ?>" alt="<?= esc($image->alt()) ?>">
+                            <img class="<?= $ratioClass ?>" src="<?= $image->resize(2000)->url() ?>" alt="<?= esc($image->alt()) ?>">
                             <?php
                                 $imageCredits = array_filter([
                                     $image->title()->isNotEmpty() ? $image->title()->esc() : null,
@@ -132,7 +132,7 @@
                     </div>
                     <div class="single-ausstellung-page__images-wrapper__image">
                         <div class="inner-image-wrapper">
-                            <img class="<?= $ratioClass ?>" src="<?= $nextImage->resize(1200)->url() ?>" alt="<?= esc($nextImage->alt()) ?>">
+                            <img class="<?= $ratioClass ?>" src="<?= $nextImage->resize(2000)->url() ?>" alt="<?= esc($nextImage->alt()) ?>">
                             <?php
                                 $nextImageCredits = array_filter([
                                     $nextImage->title()->isNotEmpty() ? $nextImage->title()->esc() : null,
@@ -157,7 +157,7 @@
             <?php else: ?>
                 <div class="single-ausstellung-page__images-wrapper__image">
                     <div class="inner-image-wrapper">
-                        <img class="<?= $ratioClass ?>" src="<?= $image->resize(1200)->url() ?>" alt="<?= esc($image->alt()) ?>">
+                        <img class="<?= $ratioClass ?>" src="<?= $image->resize(2000)->url() ?>" alt="<?= esc($image->alt()) ?>">
                         <?php
                             $imageCredits = array_filter([
                                 $image->title()->isNotEmpty() ? $image->title()->esc() : null,
@@ -185,5 +185,3 @@
         <a class="ausstellungen-home-link bubble" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a>
     </div>
 </main>
-
-<?php snippet('foot') ?>

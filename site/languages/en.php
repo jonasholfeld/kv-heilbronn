@@ -52,6 +52,8 @@ return [
     ,'ui.all_years' => 'All years'
     ,'ui.artists' => 'Artists'
     ,'ui.all_artists' => 'All artists'
-    ,'ui.without_year' => 'Without year'
+    ,'ui.without_year' => 'Without year',
+    'ui.datapolicy' => 'Privacy policy',
+    'ui.imprint' => 'Legal notice',
   ]
 ];

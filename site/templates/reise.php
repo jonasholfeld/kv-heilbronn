@@ -105,4 +105,3 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
     </div>
 </main>
 
-<?php snippet('foot') ?>

@@ -15,5 +15,3 @@
     </button>
   </div>
 </main>
-
-<?php snippet('foot') ?>

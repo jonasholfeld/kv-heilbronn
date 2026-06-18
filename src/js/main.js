@@ -5,6 +5,130 @@ requestAnimationFrame(() => {
     document.body.classList.remove('pre-init')
 })
 
+const AUSSTELLUNGEN_ROW_IMAGE_HEIGHT_REM = 18
+const REM_IN_PX = () =>
+    parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
+
+function waitForImageDimensions(image) {
+    if (image.complete && image.naturalWidth > 0 && image.naturalHeight > 0) {
+        return Promise.resolve()
+    }
+
+    if (image.complete) {
+        return Promise.resolve()
+    }
+
+    return new Promise((resolve) => {
+        const finalize = () => {
+            image.removeEventListener('load', finalize)
+            image.removeEventListener('error', finalize)
+            resolve()
+        }
+
+        image.addEventListener('load', finalize, { once: true })
+        image.addEventListener('error', finalize, { once: true })
+    })
+}
+
+function isElementVisibleForMeasurement(element) {
+    return element.getClientRects().length > 0 && element.clientWidth > 0
+}
+
+function getValidAusstellungenImages(images) {
+    return images.filter(
+        (image) => image.naturalWidth > 0 && image.naturalHeight > 0
+    )
+}
+
+async function updateAusstellungenImageRow(row) {
+    const images = [...row.querySelectorAll('img')]
+    row.classList.remove('ausstellungen-row-images--limit-1')
+    row.classList.remove('ausstellungen-row-images--limit-2')
+
+    if (images.length === 0) {
+        row.classList.remove('is-pending')
+        return
+    }
+
+    if (!isElementVisibleForMeasurement(row)) {
+        row.classList.remove('is-pending')
+        return
+    }
+
+    row.classList.add('is-pending')
+
+    await Promise.all(images.map(waitForImageDimensions))
+
+    images.forEach((image) => {
+        const isValid = image.naturalWidth > 0 && image.naturalHeight > 0
+        image.classList.toggle('is-invalid', !isValid)
+    })
+
+    const validImages = getValidAusstellungenImages(images)
+
+    if (validImages.length === 0) {
+        row.classList.remove('is-pending')
+        return
+    }
+
+    const gap = parseFloat(
+        getComputedStyle(row).columnGap || getComputedStyle(row).gap || '0'
+    )
+    const imageHeight = AUSSTELLUNGEN_ROW_IMAGE_HEIGHT_REM * REM_IN_PX()
+    const availableWidth = row.clientWidth
+
+    const imageWidths = validImages.map((image) => {
+        if (!image.naturalWidth || !image.naturalHeight) return 0
+        return imageHeight * (image.naturalWidth / image.naturalHeight)
+    })
+
+    const getRequiredWidth = (count) =>
+        imageWidths.slice(0, count).reduce((total, width) => total + width, 0) +
+        gap * Math.max(0, count - 1)
+
+    if (validImages.length >= 2 && getRequiredWidth(2) > availableWidth) {
+        row.classList.add('ausstellungen-row-images--limit-1')
+    } else if (
+        validImages.length >= 3 &&
+        getRequiredWidth(3) > availableWidth
+    ) {
+        row.classList.add('ausstellungen-row-images--limit-2')
+    }
+
+    row.classList.remove('is-pending')
+}
+
+function setupAusstellungenImageRows() {
+    const rows = [...document.querySelectorAll('.ausstellungen-row-images')]
+
+    if (rows.length === 0) return
+
+    const updateAllRows = () => {
+        rows.forEach((row) => {
+            updateAusstellungenImageRow(row)
+        })
+    }
+
+    updateAllRows()
+    window.addEventListener('resize', updateAllRows, { passive: true })
+
+    if ('ResizeObserver' in window) {
+        const resizeObserver = new ResizeObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.contentRect.width > 0) {
+                    updateAusstellungenImageRow(entry.target)
+                }
+            })
+        })
+
+        rows.forEach((row) => {
+            resizeObserver.observe(row)
+        })
+    }
+}
+
+setupAusstellungenImageRows()
+
 const siteHeader = document.querySelector('.site-header')
 const headerSvg = document.querySelector('#header-svg')
 const headerSvgSt0 = document.querySelector('.site-header svg .st0')
@@ -43,7 +167,9 @@ const HEADER_MIN_WIDTH = 23.4 // rem
 // scroll-top-element height calc) plus 1vw of inner bottom padding, so its
 // real bounding box reaches 16vw further down than its visible content.
 const BOTTOM_SECTION_WHITESPACE_RATIO = 0.02
+const BOTTOM_MENU_CLOSE_EARLY_RATIO = 0.2
 let isMenuOpening = false
+let closeMenuOnHomeScroll = null
 
 const relativeRoute = window.location.pathname
 const isAusstellungPage = relativeRoute.includes('/ausstellungen/')
@@ -64,11 +190,32 @@ function getBottomExpandProgress() {
     return Math.min(1, Math.max(0, -contentBottom / expandDistance))
 }
 
+function shouldCloseMenuBeforeBottomExpand() {
+    if (!lastHomeSection) return false
+    const rect = lastHomeSection.getBoundingClientRect()
+    const whitespace = window.innerWidth * BOTTOM_SECTION_WHITESPACE_RATIO
+    const contentBottom = rect.bottom - whitespace
+    const maxScrollY =
+        document.documentElement.scrollHeight - window.innerHeight
+    const sectionAbsoluteBottom = contentBottom + window.scrollY
+    const expandDistance = Math.max(1, maxScrollY - sectionAbsoluteBottom)
+
+    return contentBottom <= expandDistance * BOTTOM_MENU_CLOSE_EARLY_RATIO
+}
+
 function updateHeaderWidth() {
     if (!siteHeader || isAusstellungPage) return
     const threshold = window.innerWidth * 0.182
     const topProgress = Math.min(1, Math.max(0, window.scrollY / threshold))
     const bottomExpandProgress = getBottomExpandProgress()
+
+    if (
+        shouldCloseMenuBeforeBottomExpand() &&
+        siteMenu?.classList.contains('is-open')
+    ) {
+        closeMenuOnHomeScroll?.({ quickFade: true })
+    }
+
     // Once the last section has scrolled out of view, the header smoothly
     // expands back towards full width as the user keeps scrolling, instead
     // of the top-of-page shrink progress.
@@ -336,6 +483,8 @@ if (menuButtons.length > 0) {
         setMenuButtonsActive(false)
         body.classList.remove('menu-is-open')
     }
+
+    closeMenuOnHomeScroll = closeMenu
 
     const handleMenuButtonClick = async (button) => {
         console.log('Menu button clicked!!')

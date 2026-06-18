@@ -99,5 +99,3 @@ function reiseCategoryLabel(string $category): string {
         <?php endforeach ?>
     </section>
 </main>
-
-<?php snippet('foot') ?>

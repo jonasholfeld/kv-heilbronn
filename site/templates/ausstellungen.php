@@ -103,4 +103,3 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
   </section>
 </main>
 
-<?php snippet('foot') ?>

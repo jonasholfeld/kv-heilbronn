@@ -31,5 +31,3 @@
         <a class="schließen-btn" href="<?= page('shop')->url() ?>"><?= t('ui.close') ?></a>
     </div>
 </main>
-
-<?php snippet('foot') ?>

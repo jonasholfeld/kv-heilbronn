@@ -26,4 +26,3 @@
     </section>
 </main>
 </div>
-<?php snippet('foot') ?>

@@ -102,6 +102,7 @@
         text-transform: uppercase;
         text-align: center;
         letter-spacing: 0.04em;
+        font-size: 1rem;
 
         &--single {
             &:hover {
@@ -136,15 +137,81 @@
         padding: $generalPadding $generalPadding 0;
         display: flex;
         gap: $generalPadding;
-        .site-menu__lang-btn {
-            flex: 0 0 calc(50% - #{$generalPadding} / 2);
-            text-align: center;
-            cursor: pointer;
-            transition: border-radius 0.3s ease;
-            &:hover {
-                border-radius: 0;
+        flex-direction: row;
+        .languages-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            align-items: flex-start;
+            padding-left: 1.6rem;
+            .site-menu__lang-btn {
+                text-align: center;
+                cursor: pointer;
+                transition: border-radius 0.3s ease;
+                &:hover {
+                    border-radius: 0;
+                }
+                &.active {
+                    position: relative;
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: -0.1rem;
+                        left: -1.6rem;
+                        width: 1.3rem;
+                        height: 1.3rem;
+                        border-radius: 2rem;
+                        background-color: white;
+                    }
+                }
             }
         }
+        .imprint-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            align-items: flex-end;
+        }
+    }
+}
+
+body.ausstellungen,
+body.reisen,
+body.shop,
+body.edition,
+body.katalog {
+    .site-menu {
+        .site-menu__lang-btn {
+            &.active {
+                &::before {
+                    background-color: $lightgrey;
+                }
+            }
+        }
+    }
+}
+
+body.ausstellung {
+    .site-menu__group {
+        background-color: white !important;
+    }
+}
+
+body.termine,
+body.besuch,
+body.kunstverein,
+body.reise {
+    .site-menu {
+        .site-menu__lang-btn {
+            &.active {
+                &::before {
+                    background-color: var(--colorPage);
+                }
+            }
+        }
+    }
+    .site-menu__group {
+        background-color: var(--colorPage) !important;
     }
 }
 
@@ -196,7 +263,7 @@ body.reise {
             }
         }
         .site-menu__lang-btn {
-            background-color: white;
+            // background-color: white;
         }
     }
     .site-menu {
@@ -220,7 +287,7 @@ body.reise {
             background-color: var(--colorPage) !important;
         }
         .site-menu__lang-btn {
-            background-color: var(--colorPage) !important;
+            // background-color: var(--colorPage) !important;
         }
     }
 }

@@ -11,5 +11,3 @@
     <?php endif ?>
   </div>
 </main>
-
-<?php snippet('foot') ?>

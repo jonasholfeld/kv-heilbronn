@@ -219,6 +219,7 @@ body.ausstellungen {
             padding: $generalPadding;
             flex: 80rem 0 0;
             overflow: hidden;
+            margin-bottom: 0.5rem;
             .ausstellungen-section-title {
                 margin: 0.4rem 0 0.3rem !important;
                 text-align: center;
@@ -287,17 +288,39 @@ body.ausstellungen {
 
             .ausstellungen-row-dates {
                 padding-top: 0.4rem;
+                &:first-child {
+                    padding-top: 0;
+                }
             }
 
             .ausstellungen-row-images {
                 display: flex;
                 gap: $generalPadding;
                 margin: $generalPadding 0;
+                margin-bottom: 1rem;
                 width: 100%;
-                overflow: scroll;
+                overflow: hidden;
+
+                &.is-pending {
+                    visibility: hidden;
+                }
+
+                &.ausstellungen-row-images--limit-2 img:nth-child(3) {
+                    display: none;
+                }
+
+                &.ausstellungen-row-images--limit-1 img:nth-child(n + 2) {
+                    display: none;
+                }
+
+                img.is-invalid {
+                    display: none;
+                }
 
                 img {
                     height: 18rem;
+                    width: auto;
+                    flex: 0 0 auto;
                 }
             }
 
@@ -306,7 +329,7 @@ body.ausstellungen {
                 text-decoration: underline;
                 text-transform: uppercase;
                 color: inherit;
-                padding-bottom: 0.7rem;
+                padding-bottom: 0.5rem;
             }
 
             .ausstellungen-row-body .ausstellungen-row-dates,

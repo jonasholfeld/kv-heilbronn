@@ -1,7 +1,7 @@
 body.home-body-class {
     .site-menu {
         .site-menu__lang-btn {
-            background-color: white;
+            // background-color: white;
         }
     }
     &.pre-init {
@@ -47,7 +47,7 @@ body.home-body-class {
     // .home-item {
     //     padding-bottom: 10rem;
     //     position: relative;
-    //     height: 100vh;
+    //     ;
     //     .inner-home-item {
     //         position: sticky;
     //         top: 1rem;
@@ -87,7 +87,7 @@ body.home-body-class {
 
         &__label-wrapper {
             margin-left: calc($sideWidth + $generalPadding);
-            padding: 1rem 0;
+            padding: $generalPadding 0;
             .section-label {
                 overflow: hidden;
                 @include bubble;
@@ -115,7 +115,7 @@ body.home-body-class {
                     }
                 }
                 &.exhibition-gallery--single-portrait {
-                    margin-left: calc($sideWidth + 1rem);
+                    margin-left: calc($sideWidth + $generalPadding);
                     .exhibition-gallery__item {
                         img {
                             width: calc(98rem / 2);
@@ -124,7 +124,7 @@ body.home-body-class {
                 }
             }
             &.exhibition-gallery--count-2 {
-                margin-left: calc($sideWidth + 1rem);
+                margin-left: calc($sideWidth + $generalPadding);
                 .exhibition-gallery__item {
                     img {
                         width: calc(72.5rem / 2);
@@ -225,7 +225,7 @@ body.home-body-class {
 
         &__label-wrapper {
             margin-left: calc($sideWidth + $generalPadding);
-            padding: 1rem 0;
+            padding: $generalPadding 0;
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
@@ -291,7 +291,7 @@ body.home-body-class {
 
         &__label-wrapper {
             margin-left: calc($sideWidth + $generalPadding);
-            padding: 1rem 0;
+            padding: $generalPadding 0;
             .section-label {
                 @include bubble;
             }
@@ -335,7 +335,7 @@ body.home-body-class {
 
         &__label-wrapper {
             margin-left: calc($sideWidth + $generalPadding);
-            padding: 1rem 0;
+            padding: $generalPadding 0;
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;

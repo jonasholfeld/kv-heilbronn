@@ -72,5 +72,3 @@ $reisenPage = page('reisen');
         <?php endforeach ?>
     </section>
 </main>
-
-<?php snippet('foot') ?>
