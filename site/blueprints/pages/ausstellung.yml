@@ -80,6 +80,25 @@ tabs:
                 type: files
                 width: 1/2
                 translate: false
+            logoskooperation:
+                label: Logos (Text frei wählbar, z.B. "In Kooperation mit")
+                type: files
+                layout: cards
+                size: medium
+                width: 1/2
+                translate: false
+            logos:
+                label: Logos ("Gefördert von")
+                type: files
+                layout: cards
+                size: medium
+                width: 1/2
+                translate: false
+            kooperationtext:
+                label: Text für Kooperation (z.B. "In Kooperation mit")
+                type: text
+                width: 1/2
+                translate: false
     import:
         label: Import
         fields:

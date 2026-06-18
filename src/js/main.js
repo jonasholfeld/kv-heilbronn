@@ -916,6 +916,47 @@ if (ausstellungenFilterButton) {
 const homeOverlay = document.getElementById('home-overlay')
 
 if (homeOverlay) {
+    const HOME_OVERLAY_COOKIE_NAME = 'home-overlay-last-seen'
+
+    const getTodayKey = () => {
+        const now = new Date()
+        const year = now.getFullYear()
+        const month = String(now.getMonth() + 1).padStart(2, '0')
+        const day = String(now.getDate()).padStart(2, '0')
+
+        return `${year}-${month}-${day}`
+    }
+
+    const getCookieValue = (name) => {
+        const cookies = document.cookie ? document.cookie.split('; ') : []
+        const cookie = cookies.find((entry) => entry.startsWith(`${name}=`))
+
+        if (!cookie) return null
+
+        return decodeURIComponent(cookie.split('=').slice(1).join('='))
+    }
+
+    const setCookieValue = (name, value, expiresAt) => {
+        document.cookie = [
+            `${name}=${encodeURIComponent(value)}`,
+            `expires=${expiresAt.toUTCString()}`,
+            'path=/',
+            'SameSite=Lax',
+        ].join('; ')
+    }
+
+    const markHomeOverlaySeenForToday = () => {
+        const now = new Date()
+        const nextMidnight = new Date(now)
+        nextMidnight.setHours(24, 0, 0, 0)
+
+        setCookieValue(
+            HOME_OVERLAY_COOKIE_NAME,
+            getTodayKey(),
+            nextMidnight
+        )
+    }
+
     const dismissOverlay = () => {
         homeOverlay.classList.add('is-dismissed')
         homeOverlay.addEventListener(
@@ -927,12 +968,27 @@ if (homeOverlay) {
         )
     }
 
-    const autoTimer = setTimeout(dismissOverlay, 3000)
+    const closeButtonJs = homeOverlay.querySelector('.close-button-js')
 
-    homeOverlay.addEventListener('click', () => {
-        clearTimeout(autoTimer)
-        dismissOverlay()
-    })
+    if (getCookieValue(HOME_OVERLAY_COOKIE_NAME) === getTodayKey()) {
+        homeOverlay.style.display = 'none'
+    } else {
+        markHomeOverlaySeenForToday()
+
+        const autoTimer = setTimeout(dismissOverlay, 3000)
+
+        if (closeButtonJs) {
+            closeButtonJs.addEventListener('click', () => {
+                clearTimeout(autoTimer)
+                dismissOverlay()
+            })
+        }
+
+        homeOverlay.addEventListener('click', () => {
+            clearTimeout(autoTimer)
+            dismissOverlay()
+        })
+    }
 }
 
 // const scrollTopElements = document.querySelectorAll('.scroll-top-element')

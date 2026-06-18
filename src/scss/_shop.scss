@@ -208,8 +208,9 @@ body.edition {
             flex: 0 0 44%;
             position: relative;
             display: flex;
+            flex-direction: column;
             align-items: flex-start;
-            justify-content: center;
+            justify-content: flex-start;
             background-color: white;
             padding: $generalPadding;
             height: calc(100vh - 2 * #{$generalPadding});
@@ -251,10 +252,23 @@ body.edition {
                 align-items: center;
                 justify-content: center;
                 width: 100%;
+                flex-direction: column;
 
                 img {
                     width: 100%;
                     object-fit: contain;
+                }
+
+                .shop-item-page__image-caption-wrapper {
+                    margin-top: $generalPadding;
+                    margin-bottom: $generalPadding;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    width: 100%;
+                    * {
+                        text-transform: uppercase;
+                    }
                 }
             }
         }

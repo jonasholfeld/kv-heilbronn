@@ -88,6 +88,13 @@ if ($upcomingEvent) {
 $besuchPage = page('besuch');
 ?>
 <div class="home-overlay" id="home-overlay" role="dialog" aria-modal="true" aria-label="<?= t('ui.current_information') ?>">
+    <div class="close-button-js">
+        <svg id="Ebene_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 55 55">
+            <g id="Gruppe_240">
+                <polygon points="31.07 27.51 55 51.44 51.44 55 27.51 31.07 3.56 55 0 51.44 23.94 27.51 0 3.56 3.56 0 27.51 23.94 51.44 0 55 3.56 31.07 27.51"/>
+            </g>
+        </svg>
+    </div>
     <div class="home-overlay__main">
         <p class="home-overlay__header"><?= esc($headerText) ?></p>
         <?php if (!empty($bullets)): ?>

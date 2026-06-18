@@ -7,7 +7,7 @@
     padding: 1.2rem;
     backdrop-filter: blur(22px);
     -webkit-backdrop-filter: blur(22px);
-    background: #e4d6df;
+    background: #e4d6dfea;
     cursor: pointer;
     transition: opacity 0.5s ease;
     width: calc(100% - (#{$generalPadding} * 2));
@@ -17,6 +17,27 @@
 
     // Set color variable so the bullet circles (from global ul li > p::before) render visibly
     --color: #{$lightgrey};
+
+    .close-button-js {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.2rem;
+        width: 2.4rem;
+        height: 2.4rem;
+        cursor: pointer;
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            fill: black;
+        }
+    }
 
     &.is-dismissed {
         opacity: 0;

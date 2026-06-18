@@ -55,5 +55,7 @@ return [
     ,'ui.without_year' => 'Ohne Jahr',
     'ui.datapolicy' => 'Datenschutz',
     'ui.imprint' => 'Impressum',
+    'ui.sponsored' => 'Gefördert von',
+    'ui.cooperation' => 'In Kooperation mit',
   ]
 ];

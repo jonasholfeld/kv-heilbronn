@@ -280,54 +280,76 @@ body.ausstellung {
             .single-ausstellung-page__text-container {
                 display: block;
                 flex: 0 0 42rem;
-                background-color: white;
-                padding: $generalPadding;
                 height: calc(100vh - 2 * #{$generalPadding});
                 overflow: scroll;
                 transition:
                     margin-left 0.3s ease,
                     flex 0.3s ease;
-                h2 {
-                    @include sansserif;
-                    font-size: 3rem;
-                    span {
-                        display: block;
-                        line-height: 1;
-                        text-transform: uppercase;
-                    }
-                }
-                .ausstellungen-row-dates {
-                    margin-bottom: 0 !important;
-                }
-                &__links {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: $generalPadding;
-                    margin-top: 3.3rem;
-                    margin-bottom: 1.3rem;
-                    a {
-                        text-decoration: none;
-                        transition: border-radius 0.3s ease;
-                        &:hover {
-                            border-radius: 0;
+                .inner-text-wrapper {
+                    background-color: white;
+                    padding: $generalPadding;
+                    h2 {
+                        @include sansserif;
+                        font-size: 3rem;
+                        span {
+                            display: block;
+                            line-height: 1;
+                            text-transform: uppercase;
                         }
                     }
-                }
-                .single-ausstellung-page__text-container__dateime,
-                .single-ausstellung-page__text-container__text {
-                    margin-top: 1.1rem;
-                    @include sansserif;
-                    letter-spacing: normal;
-                    font-size: 1.1rem;
-                    p {
-                        margin-bottom: 1.1rem;
+                    .ausstellungen-row-dates {
+                        margin-bottom: 0 !important;
+                    }
+                    &__links {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: $generalPadding;
+                        margin-top: 3.3rem;
+                        margin-bottom: 1.3rem;
+                        a {
+                            text-decoration: none;
+                            transition: border-radius 0.3s ease;
+                            &:hover {
+                                border-radius: 0;
+                            }
+                        }
+                    }
+                    .single-ausstellung-page__text-container__dateime,
+                    .single-ausstellung-page__text-container__text {
+                        margin-top: 1.1rem;
+                        @include sansserif;
+                        letter-spacing: normal;
+                        font-size: 1.1rem;
+                        p {
+                            margin-bottom: 1.1rem;
+                        }
+                    }
+                    .single-ausstellung-page__text-container__text {
+                        min-height: calc(100vh - 15rem);
+                    }
+                    .close-text-mode-js {
+                        background-color: var(--colorPage);
                     }
                 }
-                .single-ausstellung-page__text-container__text {
-                    min-height: calc(100vh - 15rem);
-                }
-                .close-text-mode-js {
-                    background-color: var(--colorPage);
+                .logo-wrapper {
+                    margin-top: $generalPadding;
+                    padding: $generalPadding;
+                    background-color: white;
+                    span {
+                        display: block;
+                        margin-bottom: 0.4rem;
+                        @include sansserif;
+                        text-transform: uppercase;
+                    }
+                    .logo-images-wrapper {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: $generalPadding;
+                        img {
+                            height: 5rem;
+                            width: auto;
+                        }
+                    }
                 }
             }
             .single-ausstellung-page__images-wrapper {

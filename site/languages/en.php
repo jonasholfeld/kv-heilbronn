@@ -55,5 +55,7 @@ return [
     ,'ui.without_year' => 'Without year',
     'ui.datapolicy' => 'Privacy policy',
     'ui.imprint' => 'Legal notice',
+    'ui.sponsored' => 'Sponsored by',
+    'ui.cooperation' => 'In cooperation with',
   ]
 ];

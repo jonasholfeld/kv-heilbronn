@@ -42,49 +42,71 @@
         <?= snippet('side-bar-text-mode', ['goback' => '/ausstellungen']) ?>
     </side>
     <div class="single-ausstellung-page__text-container">
-        <h2>
-            <span><?= $page->kuenstler() ?></span>
-            <span><?= $page->title()->html() ?></span>
-        </h2>
-        <div class="single-ausstellung-page__text-container__dateime">
-            <ul>
-            <?php $eroTs = $page->eroffnungsdatum()->toDate(); ?>
-            <?php $startStr = $page->startdatum()->toDate('d.m.Y'); $endStr = $page->enddatum()->toDate('d.m.Y'); ?>
-            <?php if ($startStr || $endStr): ?>
-            <li><p class="ausstellungen-row-dates"><?= esc(($startStr ?: '') . ($startStr && $endStr ? ' – ' : '') . ($endStr ?: '')) ?></p></li>
-            <?php endif ?>
-            <?php if ($eroTs): ?>
-            <?php
-                $eroDay    = $isDE ? $days[date('w', $eroTs)]       : $daysEn[date('w', $eroTs)];
-                $eroMonth  = $isDE ? $months[date('n', $eroTs) - 1] : $monthsEn[date('n', $eroTs) - 1];
-                $eroDayNum = date('j', $eroTs);
-                $eroHour   = date('H', $eroTs);
-                $eroStr    = $isDE
-                ? "{$openingLabel}: {$eroDay}, {$eroDayNum}. {$eroMonth}, {$eroHour} Uhr"
-                : "{$openingLabel}: {$eroDay}, {$eroMonth} {$eroDayNum}, {$eroHour}:00";
-            ?>
-            <li><p class="ausstellungen-row-opening"><?= esc($eroStr) ?></p></li>
-            <?php endif ?>
-            </ul>
-        </div>
-        <?php if ( $page->galerie()->toFiles()->count() > 0): ?>
-            <div class="single-ausstellung-page__text-container__text">
-                <?= $page->beschreibung()->kt() ?>
+        <div class="inner-text-wrapper">
+            <h2>
+                <span><?= $page->kuenstler() ?></span>
+                <span><?= $page->title()->html() ?></span>
+            </h2>
+            <div class="single-ausstellung-page__text-container__dateime">
+                <ul>
+                <?php $eroTs = $page->eroffnungsdatum()->toDate(); ?>
+                <?php $startStr = $page->startdatum()->toDate('d.m.Y'); $endStr = $page->enddatum()->toDate('d.m.Y'); ?>
+                <?php if ($startStr || $endStr): ?>
+                <li><p class="ausstellungen-row-dates"><?= esc(($startStr ?: '') . ($startStr && $endStr ? ' – ' : '') . ($endStr ?: '')) ?></p></li>
+                <?php endif ?>
+                <?php if ($eroTs): ?>
+                <?php
+                    $eroDay    = $isDE ? $days[date('w', $eroTs)]       : $daysEn[date('w', $eroTs)];
+                    $eroMonth  = $isDE ? $months[date('n', $eroTs) - 1] : $monthsEn[date('n', $eroTs) - 1];
+                    $eroDayNum = date('j', $eroTs);
+                    $eroHour   = date('H', $eroTs);
+                    $eroStr    = $isDE
+                    ? "{$openingLabel}: {$eroDay}, {$eroDayNum}. {$eroMonth}, {$eroHour} Uhr"
+                    : "{$openingLabel}: {$eroDay}, {$eroMonth} {$eroDayNum}, {$eroHour}:00";
+                ?>
+                <li><p class="ausstellungen-row-opening"><?= esc($eroStr) ?></p></li>
+                <?php endif ?>
+                </ul>
             </div>
-        <?php endif; ?>
-        <?php $katalogPage = $page->katalog()->toPage(); $editionPage = $page->edition()->toPage(); ?>
-        <?php if ($katalogPage || $editionPage): ?>
-            <div class="single-ausstellung-page__text-container__links">
-                <?php if ($katalogPage): ?>
-                    <a href="<?= $katalogPage->url() ?>" class="bubble">Katalog</a>
-                <?php endif ?>
-                <?php if ($editionPage): ?>
-                    <a href="<?= $editionPage->url() ?>" class="bubble">Edition</a>
-                <?php endif ?>
+            <?php if ( $page->galerie()->toFiles()->count() > 0): ?>
+                <div class="single-ausstellung-page__text-container__text">
+                    <?= $page->beschreibung()->kt() ?>
+                </div>
+            <?php endif; ?>
+            <?php $katalogPage = $page->katalog()->toPage(); $editionPage = $page->edition()->toPage(); ?>
+            <?php if ($katalogPage || $editionPage): ?>
+                <div class="single-ausstellung-page__text-container__links">
+                    <?php if ($katalogPage): ?>
+                        <a href="<?= $katalogPage->url() ?>" class="bubble">Katalog</a>
+                    <?php endif ?>
+                    <?php if ($editionPage): ?>
+                        <a href="<?= $editionPage->url() ?>" class="bubble">Edition</a>
+                    <?php endif ?>
+                </div>
+            <?php endif ?>
+            <?php if ( $page->galerie()->toFiles()->count() > 4): ?>
+                <button class="close-text-mode-js bubble"><?= t('ui.close') ?></button>
+            <?php endif ?>
+        </div>
+        <?php if($page->logos()->isNotEmpty()): ?>
+            <div class="logo-wrapper">
+                <span><?= t('ui.sponsored') ?></span>
+                <div class="logo-images-wrapper">
+                    <?php foreach ($page->logos()->toFiles() as $logo): ?>
+                        <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                    <?php endforeach ?>
+                </div>
             </div>
         <?php endif ?>
-        <?php if ( $page->galerie()->toFiles()->count() > 4): ?>
-            <button class="close-text-mode-js bubble"><?= t('ui.close') ?></button>
+        <?php if($page->logoskooperation()->isNotEmpty()): ?>
+            <div class="logo-wrapper">
+                <span><?= $page->kooperationtext()->esc() ?></span>
+                <div class="logo-images-wrapper">
+                    <?php foreach ($page->logoskooperation()->toFiles() as $logo): ?>
+                        <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                    <?php endforeach ?>
+                </div>
+            </div>
         <?php endif ?>
     </div>
     <div class="single-ausstellung-page__images-wrapper">
