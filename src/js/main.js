@@ -950,11 +950,7 @@ if (homeOverlay) {
         const nextMidnight = new Date(now)
         nextMidnight.setHours(24, 0, 0, 0)
 
-        setCookieValue(
-            HOME_OVERLAY_COOKIE_NAME,
-            getTodayKey(),
-            nextMidnight
-        )
+        setCookieValue(HOME_OVERLAY_COOKIE_NAME, getTodayKey(), nextMidnight)
     }
 
     const dismissOverlay = () => {
@@ -975,19 +971,13 @@ if (homeOverlay) {
     } else {
         markHomeOverlaySeenForToday()
 
-        const autoTimer = setTimeout(dismissOverlay, 3000)
+        // const autoTimer = setTimeout(dismissOverlay, 3000)
 
         if (closeButtonJs) {
             closeButtonJs.addEventListener('click', () => {
-                clearTimeout(autoTimer)
                 dismissOverlay()
             })
         }
-
-        homeOverlay.addEventListener('click', () => {
-            clearTimeout(autoTimer)
-            dismissOverlay()
-        })
     }
 }
 

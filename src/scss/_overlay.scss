@@ -8,7 +8,6 @@
     backdrop-filter: blur(22px);
     -webkit-backdrop-filter: blur(22px);
     background: #e4d6dfea;
-    cursor: pointer;
     transition: opacity 0.5s ease;
     width: calc(100% - (#{$generalPadding} * 2));
     left: $generalPadding;
