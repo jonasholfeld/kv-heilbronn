@@ -18,9 +18,33 @@ if ($terminePage) {
     }
 }
 
-$weekdayNames  = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
-$monthNames    = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+$languageCode  = kirby()->languageCode() ?? 'de';
+$isEnglish     = $languageCode === 'en';
+$weekdayNames  = $isEnglish
+    ? ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    : ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+$monthNames    = $isEnglish
+    ? ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    : ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 $weekdayFields = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+if (!function_exists('formatEnglishOrdinalDay')) {
+    function formatEnglishOrdinalDay(int $day): string
+    {
+        $mod100 = $day % 100;
+
+        if ($mod100 >= 11 && $mod100 <= 13) {
+            return $day . 'th';
+        }
+
+        return match ($day % 10) {
+            1 => $day . 'st',
+            2 => $day . 'nd',
+            3 => $day . 'rd',
+            default => $day . 'th',
+        };
+    }
+}
 
 if ($upcomingEvent) {
     $startStr  = $upcomingEvent->startdatum()->value();
@@ -37,13 +61,27 @@ $year        = date('Y', $timestamp);
 
 $weekdayField = $weekdayFields[$dayIndex];
 $openingHours = site()->{$weekdayField}()->value();
+$openingHoursDisplay = $openingHours;
+
+if ($isEnglish && $openingHoursDisplay) {
+    $openingHoursDisplay = preg_replace('/\s*UHR\s*/iu', ' ', $openingHoursDisplay) ?? $openingHoursDisplay;
+    $openingHoursDisplay = trim(preg_replace('/\s+/u', ' ', $openingHoursDisplay) ?? $openingHoursDisplay);
+}
+
+$dateLabel = $isEnglish
+    ? strtoupper($monthName . ' ' . formatEnglishOrdinalDay($day) . ' ' . $year)
+    : $day . '. ' . strtoupper($monthName) . ' ' . $year;
+
+$openingHoursLabel = $openingHours
+    ? ($isEnglish ? strtoupper($openingHoursDisplay . " O'CLOCK") : strtoupper($openingHours))
+    : null;
 
 $headerParts = [
     strtoupper($weekdayName),
-    $day . '. ' . strtoupper($monthName) . ' ' . $year,
+    $dateLabel,
 ];
-if ($openingHours) {
-    $headerParts[] = strtoupper($openingHours);
+if ($openingHoursLabel) {
+    $headerParts[] = $openingHoursLabel;
 }
 $headerText = implode(', ', $headerParts);
 
