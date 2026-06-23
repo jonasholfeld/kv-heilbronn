@@ -303,7 +303,7 @@ body.ausstellungen {
             .ausstellungen-row-images {
                 display: flex;
                 gap: $generalPadding;
-                margin: $generalPadding 0;
+                margin: $generalPadding 0 0 0;
                 margin-bottom: 1rem;
                 width: 100%;
                 overflow: hidden;
@@ -336,6 +336,7 @@ body.ausstellungen {
                 text-decoration: underline;
                 color: inherit;
                 padding-bottom: 0.5rem;
+                margin-top: $generalPadding;
             }
 
             .ausstellungen-row-body .ausstellungen-row-dates,
