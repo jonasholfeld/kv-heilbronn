@@ -3,7 +3,7 @@
     <div class="shop-item-card__image-wrapper">
         <?php $img = $item->titelbild()->toFiles()->first() ?? $item->galerie()->toFiles()->first() ?>
         <?php if($img): ?>
-            <img src="<?= $img->resize(600)->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>">
+            <img src="<?= $img->resize(1000)->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>">
         <?php endif ?>
     </div>
     <div class="shop-item-card__info">
