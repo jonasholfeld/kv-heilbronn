@@ -84,22 +84,6 @@
                 <?php endif; ?>
             </div>
         </div>
-        <div class="single-ausstellung-page__buttons-wrapper-outer">
-                    <button class="close-text-mode-js bubble"><?= t('ui.close') ?></button>
-        
-                <?php $katalogPage = $page->katalog()->toPage(); $editionPage = $page->edition()->toPage(); ?>
-                <?php if ($katalogPage || $editionPage): ?>
-                    <div class="single-ausstellung-page__text-container__links">
-                        <?php if ($katalogPage): ?>
-                            <a href="<?= $katalogPage->url() ?>" class="bubble">Katalog</a>
-                        <?php endif ?>
-                        <?php if ($editionPage): ?>
-                            <a href="<?= $editionPage->url() ?>" class="bubble">Edition</a>
-                        <?php endif ?>
-                    </div>
-                <?php endif ?>
-                
-        </div>
         <?php if($page->logos()->isNotEmpty()): ?>
             <div class="logo-wrapper">
                 <span><?= t('ui.sponsored') ?></span>
@@ -132,6 +116,22 @@
                 </div>
             </div>
         <?php endif ?>
+        <div class="single-ausstellung-page__buttons-wrapper-outer">
+                    <button class="close-text-mode-js bubble"><?= t('ui.close') ?></button>
+        
+                <?php $katalogPage = $page->katalog()->toPage(); $editionPage = $page->edition()->toPage(); ?>
+                <?php if ($katalogPage || $editionPage): ?>
+                    <div class="single-ausstellung-page__text-container__links">
+                        <?php if ($katalogPage): ?>
+                            <a href="<?= $katalogPage->url() ?>" class="bubble">Katalog</a>
+                        <?php endif ?>
+                        <?php if ($editionPage): ?>
+                            <a href="<?= $editionPage->url() ?>" class="bubble">Edition</a>
+                        <?php endif ?>
+                    </div>
+                <?php endif ?>
+                
+        </div>
     </div>
     <div class="single-ausstellung-page__images-wrapper">
         <div class="scroll-container">
