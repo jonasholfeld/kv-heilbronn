@@ -293,9 +293,9 @@ body.ausstellung {
                     height: calc(100vh - 4.3rem);
                     overflow: hidden;
                     &.has-logos-kooperation.has-logos {
-                        height: calc(100vh - 21.3rem);
+                        height: calc(100vh - 20.9rem);
                         .scroll-container {
-                            height: calc(100vh - 21.3rem);
+                            height: calc(100vh - 20.9rem);
                             overflow: scroll;
                         }
                     }
@@ -386,9 +386,13 @@ body.ausstellung {
                         display: flex;
                         flex-wrap: wrap;
                         gap: $generalPadding;
+                        a {
+                            display: block;
+                        }
                         img {
                             height: 5rem;
                             width: auto;
+                            display: block;
                         }
                     }
                 }
