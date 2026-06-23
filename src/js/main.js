@@ -130,6 +130,9 @@ function setupAusstellungenImageRows() {
 setupAusstellungenImageRows()
 
 const siteHeader = document.querySelector('.site-header')
+const siteHeaderTitle = document.querySelector(
+    '.site-header .site-header__title'
+)
 const headerSvg = document.querySelector('#header-svg')
 const headerSvgSt0 = document.querySelector('.site-header svg .st0')
 const siteMenu = document.getElementById('site-menu')
@@ -163,6 +166,7 @@ const categoryPageByLabel = {
 
 const HEADER_MAX_WIDTH = 99 // rem
 const HEADER_MIN_WIDTH = 23.4 // rem
+const SVG_ASPECT_RATIO = 429.05 / 112 // viewBox width / height
 // The last home section gets a 15vw scroll-top-element buffer (see main.js
 // scroll-top-element height calc) plus 1vw of inner bottom padding, so its
 // real bounding box reaches 16vw further down than its visible content.
@@ -231,6 +235,74 @@ function updateHeaderWidth() {
         }
         headerSvg.style.borderWidth = `${0.7 * progress}rem`
         headerSvg.style.borderStyle = 'solid'
+    }
+
+    // ── Logo height constraint to prevent footer overlap ──────────────────────
+    if (headerSvg && footer && bottomExpandProgress > 0) {
+        const remPx = REM_IN_PX()
+        const headerWidthPx = width * remPx
+        const svgNaturalHeight = headerWidthPx / SVG_ASPECT_RATIO
+
+        const footerTop = footer.getBoundingClientRect().top
+        const headerTop = siteHeader.getBoundingClientRect().top
+        const availableHeight = footerTop - headerTop
+
+        if (availableHeight > 0 && svgNaturalHeight > availableHeight) {
+            const constrainedWidth = availableHeight * SVG_ASPECT_RATIO
+
+            // bottomExpandProgress at which the SVG height first equals availableHeight
+            const widthAtThresholdRem =
+                (availableHeight * SVG_ASPECT_RATIO) / remPx
+            const thresholdBEP = Math.min(
+                1,
+                Math.max(
+                    0,
+                    1 -
+                        (widthAtThresholdRem - HEADER_MAX_WIDTH) /
+                            (HEADER_MIN_WIDTH - HEADER_MAX_WIDTH)
+                )
+            )
+            const translateProgress = Math.min(
+                1,
+                Math.max(
+                    0,
+                    (bottomExpandProgress - thresholdBEP) /
+                        Math.max(0.001, 1 - thresholdBEP)
+                )
+            )
+
+            const translateX =
+                ((headerWidthPx - constrainedWidth) / 2) * translateProgress
+
+            headerSvg.style.width = constrainedWidth + 'px'
+            headerSvg.style.height = availableHeight + 'px'
+            headerSvg.style.transform = `translateX(${translateX}px)`
+            headerSvg.style.background = 'white'
+            headerSvg.style.boxShadow = 'inset 0 0 0 8px rgb(220, 224, 227)'
+            if (siteHeaderTitle) {
+                siteHeaderTitle.style.background = 'rgb(220, 224, 227)'
+            }
+        } else {
+            headerSvg.style.width = ''
+            headerSvg.style.height = ''
+            headerSvg.style.transform = ''
+            headerSvg.style.background = ''
+            headerSvg.style.boxShadow =
+                progress > 0 ? 'inset 0 0 0 1px var(--svgColor)' : ''
+            if (siteHeaderTitle) {
+                siteHeaderTitle.style.background = ''
+            }
+        }
+    } else if (headerSvg) {
+        headerSvg.style.width = ''
+        headerSvg.style.height = ''
+        headerSvg.style.transform = ''
+        headerSvg.style.background = ''
+        headerSvg.style.boxShadow =
+            progress > 0 ? 'inset 0 0 0 1px var(--svgColor)' : ''
+        if (siteHeaderTitle) {
+            siteHeaderTitle.style.background = ''
+        }
     }
 
     if (sideNavigation) {
