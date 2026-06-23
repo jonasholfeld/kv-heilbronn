@@ -20,7 +20,7 @@
           <?php $img = $item->titelbild()->toFiles()->first() ?? $item->galerie()->toFiles()->first() ?>
           <?php if ($img): ?>
             <a href="<?= $item->url() ?>" >
-            <img src="<?= $img->resize(500)->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>">
+            <img src="<?= $img->resize(1000)->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>">
             </a>
           <?php endif ?>
         </div>
