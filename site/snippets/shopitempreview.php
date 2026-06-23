@@ -12,13 +12,16 @@
           </div>
           <?php $shopPage = page('shop') ?>
           <?php if ($shopPage): ?>
-            <a href="<?= $shopPage->url() ?>" class="shop-item__link">Zum Shop</a>
+            <a href="<?= $item->url() ?>" class="shop-item__link"><?= t('ui.more_information') ?></a>
           <?php endif ?>
         </div>
         <div class="shop-item-image">
+
           <?php $img = $item->titelbild()->toFiles()->first() ?? $item->galerie()->toFiles()->first() ?>
           <?php if ($img): ?>
+            <a href="<?= $item->url() ?>" >
             <img src="<?= $img->resize(500)->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>">
+            </a>
           <?php endif ?>
         </div>
       </div>

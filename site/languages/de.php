@@ -44,7 +44,7 @@ return [
     'ui.kunstverein' => 'Kunstverein',
     'ui.shop' => 'Shop',
     'ui.order' => 'Bestellen',
-    'ui.editions' => 'Editionen',
+    'ui.editions' => 'Editionen / Jahresgaben',
     'ui.catalogues' => 'Kataloge',
     'ui.supercategory' => 'Überkategorie'
     ,'ui.filter' => 'Filter'

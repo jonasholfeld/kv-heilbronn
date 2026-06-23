@@ -46,35 +46,9 @@ function reiseCategoryLabel(string $category): string {
     </aside>
 
     <section class="reisen-content">
-        <h2 class="reisen-section-title"><?= t('ui.preview') ?></h2>
-        <?php foreach ($vorschau as $item): ?>
-            <?php
-                $cat = $item->category()->value();
-                $cardColor = reiseCardColor($cat, $kunstreiseColor, $atelierbesuchColor);
-                $catLabel = reiseCategoryLabel($cat);
-                $dateStr = $item->reiseStart()->toDate('d.m.Y');
-            ?>
-            <a href="<?= $item->url() ?>" class="reise-card" style="--reise-card-color: <?= esc($cardColor, 'attr') ?>">
-                <div class="reise-card__header">
-                    <span class="reise-card__title"><?= $item->title()->html() ?></span>
-                    <span class="reise-card__category"><?= esc(strtoupper($catLabel)) ?></span>
-                </div>
-                <?php if ($dateStr): ?>
-                <ul class="reise-card__dates">
-                    <li><p><?= esc($dateStr) ?></p></li>
-                </ul>
-                <?php endif ?>
-                <div class="reise-card__footer">
-                    <span class="reise-card__mehr"><?= t('ui.more_information') ?></span>
-                    <span class="reise-card__anmeldung"><?= t('ui.registration') ?></span>
-                </div>
-            </a>
-        <?php endforeach ?>
-
-        <?php foreach ($yearKeys as $year): ?>
-            <?php $items = $years->get($year); ?>
-            <h2 class="reisen-section-title"><?= esc($year) ?></h2>
-            <?php foreach ($items->sortBy('reiseStart', 'desc') as $item): ?>
+        <div class="scroll-container">
+            <h2 class="reisen-section-title"><?= t('ui.preview') ?></h2>
+            <?php foreach ($vorschau as $item): ?>
                 <?php
                     $cat = $item->category()->value();
                     $cardColor = reiseCardColor($cat, $kunstreiseColor, $atelierbesuchColor);
@@ -93,9 +67,37 @@ function reiseCategoryLabel(string $category): string {
                     <?php endif ?>
                     <div class="reise-card__footer">
                         <span class="reise-card__mehr"><?= t('ui.more_information') ?></span>
+                        <span class="reise-card__anmeldung"><?= t('ui.registration') ?></span>
                     </div>
                 </a>
             <?php endforeach ?>
-        <?php endforeach ?>
+
+            <?php foreach ($yearKeys as $year): ?>
+                <?php $items = $years->get($year); ?>
+                <h2 class="reisen-section-title"><?= esc($year) ?></h2>
+                <?php foreach ($items->sortBy('reiseStart', 'desc') as $item): ?>
+                    <?php
+                        $cat = $item->category()->value();
+                        $cardColor = reiseCardColor($cat, $kunstreiseColor, $atelierbesuchColor);
+                        $catLabel = reiseCategoryLabel($cat);
+                        $dateStr = $item->reiseStart()->toDate('d.m.Y');
+                    ?>
+                    <a href="<?= $item->url() ?>" class="reise-card" style="--reise-card-color: <?= esc($cardColor, 'attr') ?>">
+                        <div class="reise-card__header">
+                            <span class="reise-card__title"><?= $item->title()->html() ?></span>
+                            <span class="reise-card__category"><?= esc(strtoupper($catLabel)) ?></span>
+                        </div>
+                        <?php if ($dateStr): ?>
+                        <ul class="reise-card__dates">
+                            <li><p><?= esc($dateStr) ?></p></li>
+                        </ul>
+                        <?php endif ?>
+                        <div class="reise-card__footer">
+                            <span class="reise-card__mehr"><?= t('ui.more_information') ?></span>
+                        </div>
+                    </a>
+                <?php endforeach ?>
+            <?php endforeach ?>
+        </div>
     </section>
 </main>

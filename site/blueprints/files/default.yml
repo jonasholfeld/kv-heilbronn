@@ -24,3 +24,7 @@ fields:
         type: toggle
         default: true
         width: 1/3
+    linkurl:
+        label: Link-URL
+        type: text
+        width: 1/3

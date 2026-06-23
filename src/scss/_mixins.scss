@@ -30,3 +30,16 @@
     background-color: black;
     color: white;
 }
+
+@mixin topWhiteRoom {
+    &::before {
+        content: '';
+        display: block;
+        height: 2rem;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: white;
+    }
+}

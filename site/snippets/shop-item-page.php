@@ -8,24 +8,26 @@
         <a class="shop-pill shop-pill--dark shop-home-link home-link bubble" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a>
     </aside>
     <div class="shop-item-page__left">
-        <?php foreach($page->galerie()->toFiles() as $img): ?>
-            <div class="shop-item-page__image-container">
-                <?php if($img): ?>
-                    <img src="<?= $img->resize(800)->url() ?>" alt="<?= $img->alt()->or($page->kuenstler())->esc() ?>">
-                    <div class="shop-item-page__image-caption-wrapper">
-                        <?php if($img->title()->isNotEmpty()): ?>
-                            <div class="shop-item-page__image-title"><?= $img->title()->html() ?></div>
-                        <?php endif ?>
-                        <?php if($img->caption()->isNotEmpty()): ?>
-                            <div class="shop-item-page__image-caption"><?= $img->caption()->html() ?></div>
-                        <?php endif ?>
-                        <?php if($img->credit()->isNotEmpty()): ?>
-                            <div class="shop-item-page__image-credit"><?= $img->credit()->html() ?></div>
-                        <?php endif ?>
-                    </div>
-                <?php endif ?>
-            </div>
-        <?php endforeach ?>
+        <div class="scroll-container">
+            <?php foreach($page->galerie()->toFiles() as $img): ?>
+                <div class="shop-item-page__image-container">
+                    <?php if($img): ?>
+                        <img src="<?= $img->resize(1500)->url() ?>" alt="<?= $img->alt()->or($page->kuenstler())->esc() ?>">
+                        <div class="shop-item-page__image-caption-wrapper">
+                            <?php if($img->title()->isNotEmpty()): ?>
+                                <div class="shop-item-page__image-title"><?= $img->title()->html() ?></div>
+                            <?php endif ?>
+                            <?php if($img->caption()->isNotEmpty()): ?>
+                                <div class="shop-item-page__image-caption"><?= $img->caption()->html() ?></div>
+                            <?php endif ?>
+                            <?php if($img->credit()->isNotEmpty()): ?>
+                                <div class="shop-item-page__image-credit"><?= $img->credit()->html() ?></div>
+                            <?php endif ?>
+                        </div>
+                    <?php endif ?>
+                </div>
+            <?php endforeach ?>
+        </div>
     </div>
     <div class="shop-item-page__right">
         <h2>

@@ -42,7 +42,15 @@
         <?= snippet('side-bar-text-mode', ['goback' => '/ausstellungen']) ?>
     </side>
     <div class="single-ausstellung-page__text-container">
-        <div class="inner-text-wrapper">
+        <?php $minHeightClass = ''; 
+            if($page->logoskooperation()->isNotEmpty()):
+                $minHeightClass = 'has-logos-kooperation';
+            endif;
+            if($page->logos()->isNotEmpty()):
+                $minHeightClass .= ' has-logos';
+            endif;
+        ?>
+        <div class="inner-text-wrapper <?= $minHeightClass ?>">
             <h2>
                 <span><?= $page->kuenstler() ?></span>
                 <span><?= $page->title()->html() ?></span>
@@ -73,27 +81,35 @@
                     <?= $page->beschreibung()->kt() ?>
                 </div>
             <?php endif; ?>
-            <?php $katalogPage = $page->katalog()->toPage(); $editionPage = $page->edition()->toPage(); ?>
-            <?php if ($katalogPage || $editionPage): ?>
-                <div class="single-ausstellung-page__text-container__links">
-                    <?php if ($katalogPage): ?>
-                        <a href="<?= $katalogPage->url() ?>" class="bubble">Katalog</a>
-                    <?php endif ?>
-                    <?php if ($editionPage): ?>
-                        <a href="<?= $editionPage->url() ?>" class="bubble">Edition</a>
-                    <?php endif ?>
-                </div>
-            <?php endif ?>
-            <?php if ( $page->galerie()->toFiles()->count() > 4): ?>
-                <button class="close-text-mode-js bubble"><?= t('ui.close') ?></button>
-            <?php endif ?>
+        </div>
+        <div class="single-ausstellung-page__buttons-wrapper-outer">
+                    <button class="close-text-mode-js bubble"><?= t('ui.close') ?></button>
+        
+                <?php $katalogPage = $page->katalog()->toPage(); $editionPage = $page->edition()->toPage(); ?>
+                <?php if ($katalogPage || $editionPage): ?>
+                    <div class="single-ausstellung-page__text-container__links">
+                        <?php if ($katalogPage): ?>
+                            <a href="<?= $katalogPage->url() ?>" class="bubble">Katalog</a>
+                        <?php endif ?>
+                        <?php if ($editionPage): ?>
+                            <a href="<?= $editionPage->url() ?>" class="bubble">Edition</a>
+                        <?php endif ?>
+                    </div>
+                <?php endif ?>
+                
         </div>
         <?php if($page->logos()->isNotEmpty()): ?>
             <div class="logo-wrapper">
                 <span><?= t('ui.sponsored') ?></span>
                 <div class="logo-images-wrapper">
                     <?php foreach ($page->logos()->toFiles() as $logo): ?>
-                        <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                        <?php if(!$logo->linkurl()->isEmpty()): ?>
+                            <a href="<?= $logo->linkurl() ?>" target="_blank" rel="noopener noreferrer">
+                                <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                            </a>
+                        <?php else: ?>
+                            <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                        <?php endif ?>
                     <?php endforeach ?>
                 </div>
             </div>
@@ -103,33 +119,87 @@
                 <span><?= $page->kooperationtext()->esc() ?></span>
                 <div class="logo-images-wrapper">
                     <?php foreach ($page->logoskooperation()->toFiles() as $logo): ?>
-                        <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                        <?php if(!$logo->linkurl()->isEmpty()): ?>
+                            <a href="<?= $logo->linkurl() ?>" target="_blank" rel="noopener noreferrer">
+                                <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                            </a>
+                        <?php else: ?>
+                            <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                        <?php endif ?>
                     <?php endforeach ?>
                 </div>
             </div>
         <?php endif ?>
     </div>
     <div class="single-ausstellung-page__images-wrapper">
-        <?php if ( $page->galerie()->toFiles()->count() == 0): ?>
-            <div class="single-ausstellung-page__text-container__text">
-                <?= $page->beschreibung()->kt() ?>
-            </div>
-        <?php endif; ?>
-        <?php $images = $page->galerie()->toFiles(); ?>
-        <?php for ($i = 0, $count = $images->count(); $i < $count; $i++): ?>
-            <?php
-                $image = $images->nth($i);
-                $nextImage = $images->nth($i + 1);
-                $isPortrait = $image->height() > $image->width();
-                $canCouple = $image->canBeCoupled()->toBoolean();
-                $nextIsPortrait = $nextImage && $nextImage->height() > $nextImage->width();
-                $nextCanCouple = $nextImage && $nextImage->canBeCoupled()->toBoolean();
-                $shouldCouple = $canCouple && $nextCanCouple && $isPortrait && $nextIsPortrait;
-                $ratioClass = $isPortrait ? 'portrait' : 'landscape';
-            ?>
+        <div class="scroll-container">
+            <?php if ( $page->galerie()->toFiles()->count() == 0): ?>
+                <div class="single-ausstellung-page__text-container__text">
+                    <?= $page->beschreibung()->kt() ?>
+                </div>
+            <?php endif; ?>
+            <?php $images = $page->galerie()->toFiles(); ?>
+            <?php for ($i = 0, $count = $images->count(); $i < $count; $i++): ?>
+                <?php
+                    $image = $images->nth($i);
+                    $nextImage = $images->nth($i + 1);
+                    $isPortrait = $image->height() > $image->width();
+                    $canCouple = $image->canBeCoupled()->toBoolean();
+                    $nextIsPortrait = $nextImage && $nextImage->height() > $nextImage->width();
+                    $nextCanCouple = $nextImage && $nextImage->canBeCoupled()->toBoolean();
+                    $shouldCouple = $canCouple && $nextCanCouple && $isPortrait && $nextIsPortrait;
+                    $ratioClass = $isPortrait ? 'portrait' : 'landscape';
+                ?>
 
-            <?php if ($shouldCouple): ?>
-                <div class="image-coupler">
+                <?php if ($shouldCouple): ?>
+                    <div class="image-coupler">
+                        <div class="single-ausstellung-page__images-wrapper__image">
+                            <div class="inner-image-wrapper">
+                                <img class="<?= $ratioClass ?>" src="<?= $image->resize(2000)->url() ?>" alt="<?= esc($image->alt()) ?>">
+                                <?php
+                                    $imageCredits = array_filter([
+                                        $image->title()->isNotEmpty() ? $image->title()->esc() : null,
+                                        $image->caption()->isNotEmpty() ? $image->caption()->esc() : null,
+                                        $image->credit()->isNotEmpty() ? $image->credit()->esc() : null,
+                                    ]);
+                                ?>
+                                <?php if (!empty($imageCredits)): ?>
+                                    <div class="credits-wrapper bubble">
+                                        <p>Credits</p>
+                                        <div class="credits-collapse-wrapper">
+                                            <div class="credits-content-wrapper">
+                                                <?= implode('<br>', $imageCredits) ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        <div class="single-ausstellung-page__images-wrapper__image">
+                            <div class="inner-image-wrapper">
+                                <img class="<?= $ratioClass ?>" src="<?= $nextImage->resize(2000)->url() ?>" alt="<?= esc($nextImage->alt()) ?>">
+                                <?php
+                                    $nextImageCredits = array_filter([
+                                        $nextImage->title()->isNotEmpty() ? $nextImage->title()->esc() : null,
+                                        $nextImage->caption()->isNotEmpty() ? $nextImage->caption()->esc() : null,
+                                        $nextImage->credit()->isNotEmpty() ? $nextImage->credit()->esc() : null,
+                                    ]);
+                                ?>
+                                <?php if (!empty($nextImageCredits)): ?>
+                                    <div class="credits-wrapper bubble">
+                                        <p>Credits</p>
+                                        <div class="credits-collapse-wrapper">
+                                            <div class="credits-content-wrapper">
+                                                <?= implode('<br>', $nextImageCredits) ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php $i++; ?>
+                <?php else: ?>
                     <div class="single-ausstellung-page__images-wrapper__image">
                         <div class="inner-image-wrapper">
                             <img class="<?= $ratioClass ?>" src="<?= $image->resize(2000)->url() ?>" alt="<?= esc($image->alt()) ?>">
@@ -152,55 +222,9 @@
                             <?php endif ?>
                         </div>
                     </div>
-                    <div class="single-ausstellung-page__images-wrapper__image">
-                        <div class="inner-image-wrapper">
-                            <img class="<?= $ratioClass ?>" src="<?= $nextImage->resize(2000)->url() ?>" alt="<?= esc($nextImage->alt()) ?>">
-                            <?php
-                                $nextImageCredits = array_filter([
-                                    $nextImage->title()->isNotEmpty() ? $nextImage->title()->esc() : null,
-                                    $nextImage->caption()->isNotEmpty() ? $nextImage->caption()->esc() : null,
-                                    $nextImage->credit()->isNotEmpty() ? $nextImage->credit()->esc() : null,
-                                ]);
-                            ?>
-                            <?php if (!empty($nextImageCredits)): ?>
-                                <div class="credits-wrapper bubble">
-                                    <p>Credits</p>
-                                    <div class="credits-collapse-wrapper">
-                                        <div class="credits-content-wrapper">
-                                            <?= implode('<br>', $nextImageCredits) ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif ?>
-                        </div>
-                    </div>
-                </div>
-                <?php $i++; ?>
-            <?php else: ?>
-                <div class="single-ausstellung-page__images-wrapper__image">
-                    <div class="inner-image-wrapper">
-                        <img class="<?= $ratioClass ?>" src="<?= $image->resize(2000)->url() ?>" alt="<?= esc($image->alt()) ?>">
-                        <?php
-                            $imageCredits = array_filter([
-                                $image->title()->isNotEmpty() ? $image->title()->esc() : null,
-                                $image->caption()->isNotEmpty() ? $image->caption()->esc() : null,
-                                $image->credit()->isNotEmpty() ? $image->credit()->esc() : null,
-                            ]);
-                        ?>
-                        <?php if (!empty($imageCredits)): ?>
-                            <div class="credits-wrapper bubble">
-                                <p>Credits</p>
-                                <div class="credits-collapse-wrapper">
-                                    <div class="credits-content-wrapper">
-                                        <?= implode('<br>', $imageCredits) ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif ?>
-                    </div>
-                </div>
-            <?php endif ?>
-        <?php endfor ?>
+                <?php endif ?>
+            <?php endfor ?>
+        </div>
     </div>
     <div class="bottom-button-wrapper">
         <a class="ausstellungen-back-link bubble" href="<?= page('ausstellungen')->url() ?>"><?= t('ui.exhibitions') ?></a>

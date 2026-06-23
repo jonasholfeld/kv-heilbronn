@@ -288,6 +288,15 @@ body.ausstellung {
                 .inner-text-wrapper {
                     background-color: white;
                     padding: $generalPadding;
+                    height: calc(100vh - 4.3rem);
+                    &.has-logos-kooperation.has-logos {
+                        height: calc(100vh - 21.3rem);
+                    }
+                    &.has-logos-kooperation:not(.has-logos),
+                    .has-logos:not(.has-logos-kooperation) {
+                        height: calc(100vh - 13.02rem);
+                    }
+                    overflow: scroll;
                     h2 {
                         @include sansserif;
                         font-size: 3rem;
@@ -325,16 +334,38 @@ body.ausstellung {
                         }
                     }
                     .single-ausstellung-page__text-container__text {
-                        min-height: calc(100vh - 15rem);
+                        // min-height: calc(100vh - 15rem);
                     }
                     .close-text-mode-js {
                         background-color: var(--colorPage);
                     }
                 }
-                .logo-wrapper {
+                .single-ausstellung-page__buttons-wrapper-outer {
+                    background-color: white;
                     margin-top: $generalPadding;
                     padding: $generalPadding;
+                    display: flex;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    .bubble {
+                        background-color: var(--colorPage);
+                    }
+                    .single-ausstellung-page__text-container__links {
+                        display: flex;
+                        gap: $generalPadding;
+                        a {
+                            text-decoration: none;
+                            transition: border-radius 0.3s ease;
+                            &:hover {
+                                border-radius: 0;
+                            }
+                        }
+                    }
+                }
+                .logo-wrapper {
+                    margin-top: $generalPadding;
                     background-color: white;
+                    padding: $generalPadding;
                     span {
                         display: block;
                         margin-bottom: 0.4rem;
@@ -367,7 +398,11 @@ body.ausstellung {
                 margin-left: 0;
                 padding: $generalPadding;
                 height: calc(100vh - 2 * #{$generalPadding});
-                overflow: scroll;
+                overflow: hidden;
+                .scroll-container {
+                    height: calc(100vh - 2 * #{$generalPadding});
+                    overflow: scroll;
+                }
                 .single-ausstellung-page__images-wrapper__image {
                     margin-bottom: $generalPadding;
                     opacity: 1;

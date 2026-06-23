@@ -83,23 +83,25 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
   </aside>
 
   <section class="ausstellungen-content" data-ausstellungen-list>
-    <h2 class="ausstellungen-section-title"><?= t('ui.preview') ?></h2>
-    <?php foreach ($vorschau as $item): ?>
-      <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
-    <?php endforeach ?>
-
-    <h2 class="ausstellungen-section-title"><?= t('ui.current') ?></h2>
-    <?php foreach ($aktuell as $item): ?>
-      <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
-    <?php endforeach ?>
-
-    <?php foreach ($yearKeys as $year): ?>
-      <?php $items = $years->get($year); ?>
-      <h2 class="ausstellungen-section-title" data-ausstellungen-heading><?= esc($year) ?></h2>
-      <?php foreach ($items->sortBy('enddatum', 'desc') as $item): ?>
+    <div class="scroll-container">
+      <h2 class="ausstellungen-section-title"><?= t('ui.preview') ?></h2>
+      <?php foreach ($vorschau as $item): ?>
         <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
       <?php endforeach ?>
-    <?php endforeach ?>
+
+      <h2 class="ausstellungen-section-title"><?= t('ui.current') ?></h2>
+      <?php foreach ($aktuell as $item): ?>
+        <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
+      <?php endforeach ?>
+
+      <?php foreach ($yearKeys as $year): ?>
+        <?php $items = $years->get($year); ?>
+        <h2 class="ausstellungen-section-title" data-ausstellungen-heading><?= esc($year) ?></h2>
+        <?php foreach ($items->sortBy('enddatum', 'desc') as $item): ?>
+          <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
+        <?php endforeach ?>
+      <?php endforeach ?>
+    </div>
   </section>
 </main>
 

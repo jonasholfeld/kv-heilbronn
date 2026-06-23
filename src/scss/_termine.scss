@@ -94,7 +94,14 @@ body.termine {
             padding: 0.7rem;
             flex: 1;
             overflow: hidden;
-            margin-bottom: $generalPadding;
+            height: calc(100vh - 2 * $generalPadding);
+            overflow: hidden;
+
+            .scroll-container {
+                height: calc(100vh - 2 * $generalPadding);
+                overflow-y: scroll;
+                padding-bottom: 0.8rem;
+            }
 
             .termin-card {
                 display: block;
@@ -145,7 +152,6 @@ body.termine {
 
                 &__cta {
                     text-decoration: underline;
-                    text-transform: uppercase;
                     text-underline-offset: 0.1em;
                 }
             }

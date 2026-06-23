@@ -219,7 +219,14 @@ body.ausstellungen {
             padding: $generalPadding;
             flex: 80rem 0 0;
             overflow: hidden;
-            margin-bottom: 0.5rem;
+            max-height: calc(100vh - 1rem);
+
+            .scroll-container {
+                height: calc(100vh - 1rem);
+                overflow: auto;
+                padding-bottom: $generalPadding;
+            }
+
             .ausstellungen-section-title {
                 margin: 0.4rem 0 0.3rem !important;
                 text-align: center;

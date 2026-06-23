@@ -99,7 +99,13 @@ body.reisen {
             padding: 0.7rem;
             flex: 1;
             overflow: hidden;
-            margin-bottom: $generalPadding;
+            max-height: calc(100vh - 1rem);
+
+            .scroll-container {
+                max-height: calc(100vh - 1rem);
+                overflow: scroll;
+                padding-bottom: $generalPadding;
+            }
 
             .reisen-section-title {
                 margin: 0.4rem 0 0.3rem !important;
@@ -120,6 +126,7 @@ body.reisen {
                 ul li > p::before {
                     transition: background-color 0.3s ease;
                 }
+                padding: 0 0.7rem;
                 &:hover {
                     border-radius: 1.3rem;
                     ul li > p::before {
