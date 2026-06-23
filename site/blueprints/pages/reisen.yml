@@ -14,15 +14,18 @@ tabs:
                     color:
                         label: Farbe
                         type: color
+                        translate: false
                         width: 1/3
                     kunstreisecolor:
                         label: Farbe
                         type: color
+                        translate: false
                         width: 1/3
                         label: Farbe Kunstreise
                     atelierbesuchcolor:
                         label: Farbe
                         type: color
+                        translate: false
                         width: 1/3
                         label: Farbe Atelierbesuch
             drafts:

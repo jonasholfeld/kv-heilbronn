@@ -7,6 +7,7 @@ tabs:
             color:
                 label: Farbe
                 type: color
+                translate: false
                 width: 1
             kontakt:
                 label: Kontakt

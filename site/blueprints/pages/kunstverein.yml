@@ -4,6 +4,7 @@ fields:
     color:
         label: Farbe
         type: color
+        translate: false
         width: 1/2
     gallery:
         label: Galerie
