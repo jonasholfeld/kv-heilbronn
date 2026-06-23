@@ -319,7 +319,8 @@ body.home-body-class {
                 }
             }
 
-            .infobox__link {
+            .infobox__link,
+            a {
                 margin-top: auto;
                 padding-top: 5rem;
                 text-decoration: underline;
