@@ -433,7 +433,7 @@ body.ausstellung {
                 height: calc(100vh - 2 * #{$generalPadding});
                 overflow: hidden;
                 .scroll-container {
-                    height: calc(100vh - 2 * #{$generalPadding});
+                    height: calc(100vh - 4 * #{$generalPadding});
                     overflow: scroll;
                 }
                 .single-ausstellung-page__images-wrapper__image {
