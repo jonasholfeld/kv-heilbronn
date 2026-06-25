@@ -134,11 +134,18 @@ body.reise {
         &__images {
             flex: 0 0 50%;
             height: calc(100vh - 2 * #{$generalPadding});
-            overflow-y: scroll;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             gap: $generalPadding;
+            padding-top: $generalPadding;
+            background-color: white;
             @include sansserif;
+
+            .scroll-container {
+                height: calc(100vh - 2 * #{$generalPadding});
+                overflow: scroll;
+            }
 
             .single-reise-page__text-container {
                 &.no-images {

@@ -15,6 +15,7 @@ tabs:
                     - katalog
                 status: all
                 limit: 10
+                width: 1/2
             editionen:
                 type: pages
                 label: Editionen
@@ -22,3 +23,4 @@ tabs:
                     - edition
                 status: all
                 limit: 10
+                width: 1/2

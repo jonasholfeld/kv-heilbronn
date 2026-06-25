@@ -71,9 +71,14 @@ body.ausstellung {
             }
             .image-coupler {
                 padding-right: 0rem;
+                margin-left: 0;
+                justify-content: space-around;
             }
             img.landscape {
                 width: 75rem;
+            }
+            .bottom-button-wrapper {
+                display: none;
             }
         }
         &__top-info-box {
@@ -226,6 +231,8 @@ body.ausstellung {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        position: fixed;
+        bottom: 0;
         a {
             margin-bottom: $generalPadding;
             text-decoration: none;
@@ -318,6 +325,16 @@ body.ausstellung {
                     }
                     .ausstellungen-row-dates {
                         margin-bottom: 0 !important;
+                    }
+                    .ausstellungen-row-dates,
+                    .ausstellungen-row-opening {
+                        &::before {
+                            transform: translate(0.1rem, 0rem);
+                            width: 1rem;
+                            height: 1rem;
+                            border-radius: 1rem;
+                            flex: 0 0 1rem;
+                        }
                     }
                     &__links {
                         display: flex;

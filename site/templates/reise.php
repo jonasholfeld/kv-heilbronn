@@ -21,86 +21,91 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
     </aside>
 
     <div class="single-reise-page__content">
-        <div class="single-reise-page__text">
-            <div class="single-reise-page__text-container <?= $columnMode ?>">
-                <h1 class="single-reise-page__title"><?= $page->title()->html() ?></h1>
+        
+            <div class="single-reise-page__text">
+                <div class="scroll-container">
+                <div class="single-reise-page__text-container <?= $columnMode ?>">
+                    <h1 class="single-reise-page__title"><?= $page->title()->html() ?></h1>
+                    <?php if($columnMode != 'no-images'): ?>
+                        <?php if ($dateStr): ?>
+                        <ul class="reise-info-list">
+                            <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
+                        </ul>
+                        <?php endif ?>
+                        <div class="single-reise-page__description">
+                            <?= $page->beschreibung()->kt() ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
                 <?php if($columnMode != 'no-images'): ?>
-                    <?php if ($dateStr): ?>
-                    <ul class="reise-info-list">
-                        <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
-                    </ul>
-                    <?php endif ?>
-                    <div class="single-reise-page__description">
-                        <?= $page->beschreibung()->kt() ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-            <?php if($columnMode != 'no-images'): ?>
-                <?php if ($page->reiseplan()->isNotEmpty()): ?>
-                <div class="single-reise-page__text-container"><?= $page->reiseplan()->kt() ?></div>
-                <?php endif ?>
-                <?php if ($page->anmeldung()->isNotEmpty()): ?>
-                <div class="single-reise-page__text-container"><?= $page->anmeldung()->kt() ?></div>
-                <?php endif ?>
-            <?php endif ?>
-        </div>
-
-        <div class="single-reise-page__images">
-            <?php if($columnMode == 'no-images'): ?>
-                    <?php if ($dateStr): ?>
-                    <ul class="reise-info-list">
-                        <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
-                    </ul>
-                    <?php endif ?>
-                    <div class="single-reise-page__description">
-                        <?= $page->beschreibung()->kt() ?>
-                    </div>
                     <?php if ($page->reiseplan()->isNotEmpty()): ?>
                     <div class="single-reise-page__text-container"><?= $page->reiseplan()->kt() ?></div>
                     <?php endif ?>
                     <?php if ($page->anmeldung()->isNotEmpty()): ?>
                     <div class="single-reise-page__text-container"><?= $page->anmeldung()->kt() ?></div>
                     <?php endif ?>
-            <?php else: ?>
-            <?php
-            $titelbild = $page->titelbild()->toFiles()->first();
-            $galerie = $page->galerie()->toFiles();
-            ?>
-            <?php if ($titelbild): ?>
-                <div class="single-reise-page__image">
-                    <div class="inner-image-wrapper">
-                        <img src="<?= $titelbild->resize(1200)->url() ?>" alt="<?= esc($titelbild->alt()) ?>">
-                        <?php if ($titelbild->credits()->isNotEmpty()): ?>
-                            <div class="credits-wrapper bubble">
-                                <p>Credits</p>
-                                <div class="credits-collapse-wrapper">
-                                    <div class="credits-content-wrapper">
-                                        <?= $titelbild->credits()->kt() ?>
+                <?php endif ?>
+            </div>
+        </div>
+
+        <div class="single-reise-page__images">
+            <div class="scroll-container">
+                <?php if($columnMode == 'no-images'): ?>
+                        <?php if ($dateStr): ?>
+                        <ul class="reise-info-list">
+                            <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
+                        </ul>
+                        <?php endif ?>
+                        <div class="single-reise-page__description">
+                            <?= $page->beschreibung()->kt() ?>
+                        </div>
+                        <?php if ($page->reiseplan()->isNotEmpty()): ?>
+                        <div class="single-reise-page__text-container"><?= $page->reiseplan()->kt() ?></div>
+                        <?php endif ?>
+                        <?php if ($page->anmeldung()->isNotEmpty()): ?>
+                        <div class="single-reise-page__text-container"><?= $page->anmeldung()->kt() ?></div>
+                        <?php endif ?>
+                <?php else: ?>
+                <?php
+                $titelbild = $page->titelbild()->toFiles()->first();
+                $galerie = $page->galerie()->toFiles();
+                ?>
+                <?php if ($titelbild): ?>
+                    <div class="single-reise-page__image">
+                        <div class="inner-image-wrapper">
+                            <img src="<?= $titelbild->resize(1200)->url() ?>" alt="<?= esc($titelbild->alt()) ?>">
+                            <?php if ($titelbild->credits()->isNotEmpty()): ?>
+                                <div class="credits-wrapper bubble">
+                                    <p>Credits</p>
+                                    <div class="credits-collapse-wrapper">
+                                        <div class="credits-content-wrapper">
+                                            <?= $titelbild->credits()->kt() ?>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        <?php endif ?>
+                            <?php endif ?>
+                        </div>
                     </div>
-                </div>
+                <?php endif ?>
+                <?php foreach ($galerie as $img): ?>
+                    <div class="single-reise-page__image">
+                        <div class="inner-image-wrapper">
+                            <img src="<?= $img->resize(1200)->url() ?>" alt="<?= esc($img->alt()) ?>">
+                            <?php if ($img->credits()->isNotEmpty()): ?>
+                                <div class="credits-wrapper bubble">
+                                    <p>Credits</p>
+                                    <div class="credits-collapse-wrapper">
+                                        <div class="credits-content-wrapper">
+                                            <?= $img->credits()->kt() ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif ?>
+                        </div>
+                    </div>
+                <?php endforeach ?>
             <?php endif ?>
-            <?php foreach ($galerie as $img): ?>
-                <div class="single-reise-page__image">
-                    <div class="inner-image-wrapper">
-                        <img src="<?= $img->resize(1200)->url() ?>" alt="<?= esc($img->alt()) ?>">
-                        <?php if ($img->credits()->isNotEmpty()): ?>
-                            <div class="credits-wrapper bubble">
-                                <p>Credits</p>
-                                <div class="credits-collapse-wrapper">
-                                    <div class="credits-content-wrapper">
-                                        <?= $img->credits()->kt() ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif ?>
-                    </div>
-                </div>
-            <?php endforeach ?>
-        <?php endif ?>
+            </div>
         </div>
     </div>
 </main>
