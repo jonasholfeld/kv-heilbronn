@@ -190,16 +190,18 @@ body.ausstellung {
                     align-items: end;
                 }
             }
-            > .image-coupler,
-            > .single-ausstellung-page__images-wrapper__image {
-                opacity: 0;
-                transform: translateY(90px);
-                transition:
-                    opacity 1s ease,
-                    transform 1s ease;
-                &.is-visible {
-                    opacity: 1;
-                    transform: translateY(0);
+            .scroll-container {
+                > .image-coupler,
+                > .single-ausstellung-page__images-wrapper__image {
+                    opacity: 0;
+                    transform: translateY(90px);
+                    transition:
+                        opacity 1s ease,
+                        transform 1s ease;
+                    &.is-visible {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
                 }
             }
             .credits-wrapper {

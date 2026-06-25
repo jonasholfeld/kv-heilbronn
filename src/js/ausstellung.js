@@ -162,7 +162,7 @@ if (closeTextModeJs) {
 }
 
 const ausstellungImageElements = document.querySelectorAll(
-    '.single-ausstellung-page__images-wrapper > .image-coupler, .single-ausstellung-page__images-wrapper > .single-ausstellung-page__images-wrapper__image'
+    '.single-ausstellung-page__images-wrapper .scroll-container > .image-coupler, .single-ausstellung-page__images-wrapper .scroll-container > .single-ausstellung-page__images-wrapper__image'
 )
 
 if (ausstellungImageElements.length > 0) {
