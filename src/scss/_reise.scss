@@ -246,6 +246,9 @@ body.reise {
             flex-direction: column;
             gap: $generalPadding;
             padding: $generalPadding;
+            .scroll-container {
+                gap: $generalPadding;
+            }
         }
 
         &__image {
