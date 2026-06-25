@@ -166,8 +166,18 @@ const ausstellungImageElements = document.querySelectorAll(
 )
 
 if (ausstellungImageElements.length > 0) {
+    const firstAusstellungImageElement = ausstellungImageElements[0]
+
     const updateAusstellungImageVisibility = () => {
         ausstellungImageElements.forEach((el) => {
+            if (
+                el === firstAusstellungImageElement &&
+                window.scrollY <= window.innerHeight * 0.25
+            ) {
+                el.classList.add('is-visible')
+                return
+            }
+
             const rect = el.getBoundingClientRect()
             const hiddenTranslateOffset = el.classList.contains('is-visible')
                 ? 0
@@ -193,5 +203,6 @@ if (ausstellungImageElements.length > 0) {
     window.addEventListener('resize', updateAusstellungImageVisibility, {
         passive: true,
     })
+    firstAusstellungImageElement.classList.add('is-visible')
     updateAusstellungImageVisibility()
 }

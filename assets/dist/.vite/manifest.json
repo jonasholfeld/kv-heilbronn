@@ -4,18 +4,18 @@
     "src": "src/fonts/AkzidenzGrotesk.woff2"
   },
   "src/js/ausstellung.js": {
-    "file": "assets/ausstellung-R910Sa9d.js",
+    "file": "assets/ausstellung-BYRtnR3D.js",
     "name": "ausstellung",
     "src": "src/js/ausstellung.js",
     "isEntry": true
   },
   "src/js/main.js": {
-    "file": "assets/main-D5kmlXmd.js",
+    "file": "assets/main-Cucw7k6E.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true,
     "css": [
-      "assets/main-CWgqVbr9.css"
+      "assets/main-DgRnFBHn.css"
     ],
     "assets": [
       "assets/AkzidenzGrotesk-DdqcRqkk.woff2"
