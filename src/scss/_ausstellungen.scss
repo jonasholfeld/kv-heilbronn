@@ -240,6 +240,7 @@ body.ausstellungen {
                 background: $lightgrey;
                 transition:
                     background-color 0.3s ease,
+                    color 0.3s ease,
                     border-radius 0.3s ease;
                 padding-left: 0.5rem;
                 padding-right: 0.5rem;
@@ -251,6 +252,12 @@ body.ausstellungen {
 
                 &.is-filter-hidden {
                     display: none !important;
+                }
+                &.white-font {
+                    &:hover,
+                    &.is-open {
+                        color: white;
+                    }
                 }
             }
 

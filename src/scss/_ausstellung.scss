@@ -466,4 +466,12 @@ body.ausstellung {
             }
         }
     }
+    &.white-font {
+        .single-ausstellung-page__top-info-box,
+        .bubble,
+        .site-menu__toggle-container > button,
+        .site-menu__languages a {
+            color: white;
+        }
+    }
 }

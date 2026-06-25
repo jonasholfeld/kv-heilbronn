@@ -25,6 +25,11 @@ tabs:
                 type: color
                 width: 1/4
                 translate: false
+            whiteFont:
+                label: Weiße Schrift
+                type: toggle
+                width: 1/4
+                translate: false
             jahr:
                 label: Jahr
                 type: number

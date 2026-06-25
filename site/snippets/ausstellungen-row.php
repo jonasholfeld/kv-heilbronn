@@ -7,8 +7,9 @@ if ($filterYear === '') {
 
 $rowImages = $item->galerie()->toFiles()->limit(3);
 $eroTs = $item->eroffnungsdatum()->toDate();
+$whiteFontClass = $item->whiteFont()->toBool() ? 'white-font' : '';
 ?>
-<div style="--hoverColor: <?= $item->color()->isEmpty() ? '#cfd2d6' : $item->color() ?>" class="ausstellungen-row" data-ausstellung-row data-year="<?= esc($filterYear, 'attr') ?>" data-artist="<?= esc(trim((string)$item->kuenstler()->value()), 'attr') ?>">
+<div style="--hoverColor: <?= $item->color()->isEmpty() ? '#cfd2d6' : $item->color() ?>" class="ausstellungen-row <?= $whiteFontClass ?>" data-ausstellung-row data-year="<?= esc($filterYear, 'attr') ?>" data-artist="<?= esc(trim((string)$item->kuenstler()->value()), 'attr') ?>">
   <button class="ausstellungen-row-header" type="button" aria-expanded="false">
     <span><?= $item->kuenstler()->or('Künstler*in')->html() ?></span>
     <span><?= $item->title()->html() ?></span>

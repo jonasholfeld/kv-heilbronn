@@ -28,6 +28,8 @@ $reisenPage = page('reisen');
                     $hoverColor = '';
                     $linkUrl = '';
                     $ctaLabel = '';
+                    $whiteColorClass = $linkedAusstellung && $linkedAusstellung->whiteFont()->toBool() ? 'white-font' : '';
+
 
                     if ($linkedAusstellung) {
                         $linkUrl = $linkedAusstellung->url();
@@ -53,9 +55,9 @@ $reisenPage = page('reisen');
                     }
                 ?>
                 <?php if ($hasLink): ?>
-                <a href="<?= esc($linkUrl) ?>" class="termin-card" style="<?= $inlineStyle ?>">
+                <a href="<?= esc($linkUrl) ?>" class="termin-card <?= $whiteColorClass ?>" style="<?= $inlineStyle ?>">
                 <?php else: ?>
-                <div class="termin-card" style="<?= $inlineStyle ?>">
+                <div class="termin-card <?= $whiteColorClass ?>" style="<?= $inlineStyle ?>">
                 <?php endif ?>
                     <div class="termin-card__header">
                         <span class="termin-card__category"><?= $termin->eventCategory()->html() ?></span>
