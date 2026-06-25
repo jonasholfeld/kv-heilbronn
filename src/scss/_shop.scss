@@ -35,7 +35,7 @@ body.shop {
 
                 .shop-section-title {
                     z-index: 20000;
-
+                    transition: all 0.3s ease;
                     margin: 0.4rem 0 0.3rem;
                     text-align: center;
                     text-transform: uppercase;
@@ -360,5 +360,11 @@ body.edition {
         .shop-sidebar {
             flex: 0 0 $sideWidth !important;
         }
+    }
+}
+
+body.shop.menu-is-open {
+    .shop-section-title {
+        width: 36.8rem !important;
     }
 }
