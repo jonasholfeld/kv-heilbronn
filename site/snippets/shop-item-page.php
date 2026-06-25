@@ -7,6 +7,25 @@
         <button class="menu-button-js bubble bubble-inverted" type="button"><?= t('ui.menu') ?></button>
         <a class="shop-pill shop-pill--dark shop-home-link home-link bubble" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a>
     </aside>
+    <div class="shop-item-page__right">
+        <div class="shop-item-page__text">
+            <h2>
+                <?php if($page->kuenstler()->isNotEmpty()): ?>
+                    <span><?= $page->kuenstler()->html() ?></span>
+                <?php endif ?>
+                <span><?= $page->title()->html() ?></span>
+            </h2>
+            <div class="shop-item-page__description">
+                <?= $page->beschreibung()->kt() ?>
+            </div>
+            <div class="shop-item-page__order">
+                <button class="bestellen-btn"><?= t('ui.order') ?></button>
+            </div>
+        </div>
+        <div class="shop-item-buttons-wrapper">
+            <a class="schließen-btn" href="<?= page('shop')->url() ?>"><?= t('ui.shop') ?></a>
+        </div>
+    </div>
     <div class="shop-item-page__left">
         <div class="scroll-container">
             <?php foreach($page->galerie()->toFiles() as $img): ?>
@@ -28,20 +47,5 @@
                 </div>
             <?php endforeach ?>
         </div>
-    </div>
-    <div class="shop-item-page__right">
-        <h2>
-            <?php if($page->kuenstler()->isNotEmpty()): ?>
-                <span><?= $page->kuenstler()->html() ?></span>
-            <?php endif ?>
-            <span><?= $page->title()->html() ?></span>
-        </h2>
-        <div class="shop-item-page__description">
-            <?= $page->beschreibung()->kt() ?>
-        </div>
-        <div class="shop-item-page__order">
-            <button class="bestellen-btn"><?= t('ui.order') ?></button>
-        </div>
-        <a class="schließen-btn" href="<?= page('shop')->url() ?>"><?= t('ui.close') ?></a>
     </div>
 </main>

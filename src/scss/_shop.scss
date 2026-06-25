@@ -2,6 +2,8 @@
 
 body.shop {
     background-color: $lightgrey;
+    height: 100vh;
+    overflow: hidden;
     @include sansserif;
 
     .bubble-inverted {
@@ -128,6 +130,7 @@ body.shop {
 
 body.katalog,
 body.edition {
+    height: 100vh;
     .bubble-inverted,
     .home-link {
         background-color: var(--colorPage) !important;
@@ -295,14 +298,27 @@ body.edition {
 
         .shop-item-page__right {
             flex: 1;
-            background-color: white;
-            padding: $generalPadding;
             overflow-y: auto;
-            max-height: calc(100vh - 2 * #{$generalPadding});
 
             display: flex;
             flex-direction: column;
             align-items: baseline;
+            height: calc(100vh - 2 * #{$generalPadding});
+            overflow: hidden;
+
+            .shop-item-page__text {
+                padding: $generalPadding;
+                background-color: white;
+                width: 100%;
+                height: calc(100vh - 4.4rem);
+                margin-bottom: $generalPadding;
+            }
+
+            .shop-item-buttons-wrapper {
+                padding: $generalPadding;
+                background-color: white;
+                width: 100%;
+            }
 
             h2 {
                 @include sansserif;
