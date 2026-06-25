@@ -276,7 +276,7 @@ function updateHeaderWidth() {
 
             headerSvg.style.width = constrainedWidth + 'px'
             headerSvg.style.height = availableHeight + 'px'
-            headerSvg.style.transform = `translateX(${translateX}px)`
+            // headerSvg.style.transform = `translateX(${translateX}px)`
             headerSvg.style.background = 'white'
             headerSvg.style.boxShadow = 'inset 0 0 0 8px rgb(220, 224, 227)'
             if (siteHeaderTitle) {

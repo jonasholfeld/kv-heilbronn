@@ -204,6 +204,9 @@ h1 {
 // ── Footer ────────────────────────────────────────────────────────────────
 
 footer {
+    a {
+        text-decoration: none !important;
+    }
     --backgroundColorFooter: #dce0e3;
     display: flex;
     background-color: var(--backgroundColorFooter);
@@ -212,6 +215,7 @@ footer {
     transition:
         margin-left 0.5s ease,
         background-color 0.5s ease;
+    font-size: 1rem !important;
     div {
         flex: 1;
     }
@@ -223,6 +227,28 @@ footer {
     p,
     h2 {
         margin-bottom: 3rem !important;
+    }
+    ul {
+        li {
+            line-height: 1;
+            font-size: 1rem !important;
+        }
+        li::before {
+            content: '';
+            display: inline-block;
+            width: 1.1rem;
+            height: 1.1rem;
+            border-radius: 1.1rem;
+            flex: 0 0 1.1rem;
+            background-color: white;
+            transform: translate(-0rem, 0.1rem);
+            margin-right: 0.3rem;
+        }
+    }
+    .footer-membership {
+        a {
+            display: block;
+        }
     }
 }
 
