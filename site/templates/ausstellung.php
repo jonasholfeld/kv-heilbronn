@@ -117,7 +117,11 @@
             </div>
         <?php endif ?>
         <div class="single-ausstellung-page__buttons-wrapper-outer">
-                    <button class="close-text-mode-js bubble"><?= t('ui.close') ?></button>
+            <?php if($page->galerie()->toFiles()->count() < 4): ?>
+                <a class="ausstellungen-back-link bubble" href="<?= page('ausstellungen')->url() ?>"><?= t('ui.exhibitions') ?></a>
+            <?php else: ?>
+                <button class="close-text-mode-js bubble"><?= t('ui.close') ?></button>
+            <?php endif ?>
         
                 <?php $katalogPage = $page->katalog()->toPage(); $editionPage = $page->edition()->toPage(); ?>
                 <?php if ($katalogPage || $editionPage): ?>
@@ -146,9 +150,9 @@
                     $image = $images->nth($i);
                     $nextImage = $images->nth($i + 1);
                     $isPortrait = $image->height() > $image->width();
-                    $canCouple = $image->canBeCoupled()->toBoolean();
+                    $canCouple = $image->canBeCoupled()->toBool();
                     $nextIsPortrait = $nextImage && $nextImage->height() > $nextImage->width();
-                    $nextCanCouple = $nextImage && $nextImage->canBeCoupled()->toBoolean();
+                    $nextCanCouple = $nextImage && $nextImage->canBeCoupled()->toBool();
                     $shouldCouple = $canCouple && $nextCanCouple && $isPortrait && $nextIsPortrait;
                     $ratioClass = $isPortrait ? 'portrait' : 'landscape';
                 ?>
