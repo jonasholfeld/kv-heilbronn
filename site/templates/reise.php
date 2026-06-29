@@ -24,28 +24,31 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
         
             <div class="single-reise-page__text">
                 <div class="scroll-container">
-                <div class="single-reise-page__text-container <?= $columnMode ?>">
-                    <h1 class="single-reise-page__title"><?= $page->title()->html() ?></h1>
+                    <div class="single-reise-page__text-container <?= $columnMode ?>">
+                        <h1 class="single-reise-page__title"><?= $page->title()->html() ?></h1>
+                        <?php if($columnMode != 'no-images'): ?>
+                            <?php if ($dateStr): ?>
+                            <ul class="reise-info-list">
+                                <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
+                            </ul>
+                            <?php endif ?>
+                            <div class="single-reise-page__description">
+                                <?= $page->beschreibung()->kt() ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                     <?php if($columnMode != 'no-images'): ?>
-                        <?php if ($dateStr): ?>
-                        <ul class="reise-info-list">
-                            <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
-                        </ul>
+                        <?php if ($page->reiseplan()->isNotEmpty()): ?>
+                        <div class="single-reise-page__text-container"><?= $page->reiseplan()->kt() ?></div>
                         <?php endif ?>
-                        <div class="single-reise-page__description">
-                            <?= $page->beschreibung()->kt() ?>
-                        </div>
-                    <?php endif; ?>
+                        <?php if ($page->anmeldung()->isNotEmpty()): ?>
+                        <div class="single-reise-page__text-container"><?= $page->anmeldung()->kt() ?></div>
+                        <?php endif ?>
+                    <?php endif ?>
                 </div>
-                <?php if($columnMode != 'no-images'): ?>
-                    <?php if ($page->reiseplan()->isNotEmpty()): ?>
-                    <div class="single-reise-page__text-container"><?= $page->reiseplan()->kt() ?></div>
-                    <?php endif ?>
-                    <?php if ($page->anmeldung()->isNotEmpty()): ?>
-                    <div class="single-reise-page__text-container"><?= $page->anmeldung()->kt() ?></div>
-                    <?php endif ?>
-                <?php endif ?>
-            </div>
+                <div class="single-reise-page__buttons-wrapper-outer">
+                    <a class="reise-back-link bubble" href="<?= page('reisen')->url() ?>"><?= t('ui.travels') ?></a>
+                </div>
         </div>
 
         <div class="single-reise-page__images">

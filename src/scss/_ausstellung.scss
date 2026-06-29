@@ -297,23 +297,48 @@ body.ausstellung {
                     margin-left 0.3s ease,
                     flex 0.3s ease;
                 .inner-text-wrapper {
-                    background-color: white;
-                    padding: $generalPadding;
                     height: calc(100vh - 4.3rem);
                     overflow: hidden;
-                    &.has-logos-kooperation.has-logos {
-                        height: calc(100vh - 20.9rem);
-                        .scroll-container {
-                            height: calc(100vh - 20.9rem);
-                            overflow: scroll;
+                    .scroll-container {
+                        height: calc(100vh - 4.3rem);
+                        overflow: scroll;
+                        div:last-child {
+                            margin-bottom: 0;
                         }
-                    }
-                    &.has-logos-kooperation:not(.has-logos),
-                    .has-logos:not(.has-logos-kooperation) {
-                        height: calc(100vh - 13.02rem);
-                        .scroll-container {
-                            height: calc(100vh - 13.02rem);
-                            overflow: scroll;
+                        .text-wrapper-white-bg {
+                            margin-bottom: $generalPadding;
+                            padding: $generalPadding;
+                            background-color: white;
+                            padding-top: 1rem;
+                        }
+                        .logo-wrapper-white-bg {
+                            .logo-wrapper {
+                                margin-bottom: $generalPadding;
+                                padding: $generalPadding;
+                                background-color: white;
+                                &:last-child {
+                                    margin-bottom: 0;
+                                }
+                                span {
+                                    display: block;
+                                    margin-bottom: 0.4rem;
+                                    @include sansserif;
+                                    text-transform: uppercase;
+                                }
+                                .logo-images-wrapper {
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    gap: $generalPadding;
+                                    a {
+                                        display: block;
+                                    }
+                                    img {
+                                        height: 5rem;
+                                        width: auto;
+                                        display: block;
+                                    }
+                                }
+                            }
                         }
                     }
                     h2 {
@@ -388,30 +413,6 @@ body.ausstellung {
                             &:hover {
                                 border-radius: 0;
                             }
-                        }
-                    }
-                }
-                .logo-wrapper {
-                    margin-top: $generalPadding;
-                    background-color: white;
-                    padding: $generalPadding;
-                    span {
-                        display: block;
-                        margin-bottom: 0.4rem;
-                        @include sansserif;
-                        text-transform: uppercase;
-                    }
-                    .logo-images-wrapper {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: $generalPadding;
-                        a {
-                            display: block;
-                        }
-                        img {
-                            height: 5rem;
-                            width: auto;
-                            display: block;
                         }
                     }
                 }

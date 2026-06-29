@@ -42,80 +42,78 @@
         <?= snippet('side-bar-text-mode', ['goback' => '/ausstellungen']) ?>
     </side>
     <div class="single-ausstellung-page__text-container">
-        <?php $minHeightClass = ''; 
-            if($page->logoskooperation()->isNotEmpty()):
-                $minHeightClass = 'has-logos-kooperation';
-            endif;
-            if($page->logos()->isNotEmpty()):
-                $minHeightClass .= ' has-logos';
-            endif;
-        ?>
-        <div class="inner-text-wrapper <?= $minHeightClass ?>">
+        <div class="inner-text-wrapper">
             <div class="scroll-container">
-                <h2>
-                    <span><?= $page->kuenstler() ?></span>
-                    <span><?= $page->title()->html() ?></span>
-                </h2>
-                <div class="single-ausstellung-page__text-container__dateime">
-                    <ul>
-                    <?php $eroTs = $page->eroffnungsdatum()->toDate(); ?>
-                    <?php $startStr = $page->startdatum()->toDate('d.m.Y'); $endStr = $page->enddatum()->toDate('d.m.Y'); ?>
-                    <?php if ($startStr || $endStr): ?>
-                    <li><p class="ausstellungen-row-dates"><?= esc(($startStr ?: '') . ($startStr && $endStr ? ' – ' : '') . ($endStr ?: '')) ?></p></li>
-                    <?php endif ?>
-                    <?php if ($eroTs): ?>
-                    <?php
-                        $eroDay    = $isDE ? $days[date('w', $eroTs)]       : $daysEn[date('w', $eroTs)];
-                        $eroMonth  = $isDE ? $months[date('n', $eroTs) - 1] : $monthsEn[date('n', $eroTs) - 1];
-                        $eroDayNum = date('j', $eroTs);
-                        $eroHour   = date('H', $eroTs);
-                        $eroStr    = $isDE
-                        ? "{$openingLabel}: {$eroDay}, {$eroDayNum}. {$eroMonth}, {$eroHour} Uhr"
-                        : "{$openingLabel}: {$eroDay}, {$eroMonth} {$eroDayNum}, {$eroHour}:00";
-                    ?>
-                    <li><p class="ausstellungen-row-opening"><?= esc($eroStr) ?></p></li>
-                    <?php endif ?>
-                    </ul>
-                </div>
-                <?php if ( $page->galerie()->toFiles()->count() > 0): ?>
-                    <div class="single-ausstellung-page__text-container__text">
-                        <?= $page->beschreibung()->kt() ?>
+                <div class="text-wrapper-white-bg">
+                    <h2>
+                        <span><?= $page->kuenstler() ?></span>
+                        <span><?= $page->title()->html() ?></span>
+                    </h2>
+                    <div class="single-ausstellung-page__text-container__dateime">
+                        <ul>
+                        <?php $eroTs = $page->eroffnungsdatum()->toDate(); ?>
+                        <?php $startStr = $page->startdatum()->toDate('d.m.Y'); $endStr = $page->enddatum()->toDate('d.m.Y'); ?>
+                        <?php if ($startStr || $endStr): ?>
+                        <li><p class="ausstellungen-row-dates"><?= esc(($startStr ?: '') . ($startStr && $endStr ? ' – ' : '') . ($endStr ?: '')) ?></p></li>
+                        <?php endif ?>
+                        <?php if ($eroTs): ?>
+                        <?php
+                            $eroDay    = $isDE ? $days[date('w', $eroTs)]       : $daysEn[date('w', $eroTs)];
+                            $eroMonth  = $isDE ? $months[date('n', $eroTs) - 1] : $monthsEn[date('n', $eroTs) - 1];
+                            $eroDayNum = date('j', $eroTs);
+                            $eroHour   = date('H', $eroTs);
+                            $eroStr    = $isDE
+                            ? "{$openingLabel}: {$eroDay}, {$eroDayNum}. {$eroMonth}, {$eroHour} Uhr"
+                            : "{$openingLabel}: {$eroDay}, {$eroMonth} {$eroDayNum}, {$eroHour}:00";
+                        ?>
+                        <li><p class="ausstellungen-row-opening"><?= esc($eroStr) ?></p></li>
+                        <?php endif ?>
+                        </ul>
                     </div>
-                <?php endif; ?>
+                    <?php if ( $page->galerie()->toFiles()->count() > 0): ?>
+                        <div class="single-ausstellung-page__text-container__text">
+                            <?= $page->beschreibung()->kt() ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <?php if($page->logos()->isNotEmpty() || $page->logoskooperation()->isNotEmpty()): ?>
+                <div class="logo-wrapper-white-bg">
+                        <?php if($page->logos()->isNotEmpty()): ?>
+                            <div class="logo-wrapper">
+                                <span><?= t('ui.sponsored') ?></span>
+                                <div class="logo-images-wrapper">
+                                    <?php foreach ($page->logos()->toFiles() as $logo): ?>
+                                        <?php if(!$logo->linkurl()->isEmpty()): ?>
+                                            <a href="<?= $logo->linkurl() ?>" target="_blank" rel="noopener noreferrer">
+                                                <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                                            </a>
+                                        <?php else: ?>
+                                            <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                                        <?php endif ?>
+                                    <?php endforeach ?>
+                                </div>
+                            </div>
+                        <?php endif ?>
+                        <?php if($page->logoskooperation()->isNotEmpty()): ?>
+                            <div class="logo-wrapper">
+                                <span><?= $page->kooperationtext()->esc() ?></span>
+                                <div class="logo-images-wrapper">
+                                    <?php foreach ($page->logoskooperation()->toFiles() as $logo): ?>
+                                        <?php if(!$logo->linkurl()->isEmpty()): ?>
+                                            <a href="<?= $logo->linkurl() ?>" target="_blank" rel="noopener noreferrer">
+                                                <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                                            </a>
+                                        <?php else: ?>
+                                            <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                                        <?php endif ?>
+                                    <?php endforeach ?>
+                                </div>
+                            </div>
+                        <?php endif ?>
+                </div>
+                <?php endif ?>
             </div>
         </div>
-        <?php if($page->logos()->isNotEmpty()): ?>
-            <div class="logo-wrapper">
-                <span><?= t('ui.sponsored') ?></span>
-                <div class="logo-images-wrapper">
-                    <?php foreach ($page->logos()->toFiles() as $logo): ?>
-                        <?php if(!$logo->linkurl()->isEmpty()): ?>
-                            <a href="<?= $logo->linkurl() ?>" target="_blank" rel="noopener noreferrer">
-                                <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
-                            </a>
-                        <?php else: ?>
-                            <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
-                        <?php endif ?>
-                    <?php endforeach ?>
-                </div>
-            </div>
-        <?php endif ?>
-        <?php if($page->logoskooperation()->isNotEmpty()): ?>
-            <div class="logo-wrapper">
-                <span><?= $page->kooperationtext()->esc() ?></span>
-                <div class="logo-images-wrapper">
-                    <?php foreach ($page->logoskooperation()->toFiles() as $logo): ?>
-                        <?php if(!$logo->linkurl()->isEmpty()): ?>
-                            <a href="<?= $logo->linkurl() ?>" target="_blank" rel="noopener noreferrer">
-                                <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
-                            </a>
-                        <?php else: ?>
-                            <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
-                        <?php endif ?>
-                    <?php endforeach ?>
-                </div>
-            </div>
-        <?php endif ?>
         <div class="single-ausstellung-page__buttons-wrapper-outer">
             <?php if($page->galerie()->toFiles()->count() < 4): ?>
                 <a class="ausstellungen-back-link bubble" href="<?= page('ausstellungen')->url() ?>"><?= t('ui.exhibitions') ?></a>

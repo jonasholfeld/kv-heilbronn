@@ -69,9 +69,10 @@ tabs:
                         label: Eintrag
                         type: select
                         width: 2/3
+                        translate: false
                         options:
                             type: query
-                            query: site.find('shop').children
+                            query: site.find('shop').children.filterBy('template', 'edition')
                             value: '{{ page.id }}'
                     editionLine:
                         type: line
@@ -86,9 +87,10 @@ tabs:
                         label: Eintrag
                         type: select
                         width: 2/3
+                        translate: false
                         options:
                             type: query
-                            query: site.find('shop').children
+                            query: site.find('shop').children.filterBy('template', 'katalog')
                             text: '{{ page.title }}'
                             value: '{{ page.id }}'
                     katalogLine:

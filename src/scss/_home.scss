@@ -18,7 +18,7 @@ body.home-body-class {
     width: calc(100vw - 2 * $generalPadding);
     isolation: isolate; // confine child stacking contexts so menu z-index works correctly
     // overflow: hidden;
-    padding-bottom: 100vh;
+    padding-bottom: 50vh;
 
     > div {
         opacity: 0;

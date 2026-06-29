@@ -130,6 +130,21 @@ body.reise {
             min-height: calc(100vh - 2 * #{$generalPadding});
         }
 
+        &__images {
+            background-color: white;
+            padding-top: $generalPadding;
+        }
+
+        &__text {
+            .single-reise-page__buttons-wrapper-outer {
+                background-color: white;
+                padding: $generalPadding;
+                .bubble {
+                    background-color: var(--colorPage);
+                }
+            }
+        }
+
         &__text,
         &__images {
             flex: 0 0 50%;
@@ -138,8 +153,6 @@ body.reise {
             display: flex;
             flex-direction: column;
             gap: $generalPadding;
-            padding-top: $generalPadding;
-            background-color: white;
             @include sansserif;
 
             .scroll-container {
@@ -152,7 +165,7 @@ body.reise {
                     flex: 1;
                 }
                 p {
-                    margin-bottom: 1.1rem;
+                    // margin-bottom: 1.1rem;
                 }
                 ul li > p::before {
                     background-color: var(--colorPage);
