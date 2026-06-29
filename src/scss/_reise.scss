@@ -165,7 +165,10 @@ body.reise {
                     flex: 1;
                 }
                 p {
-                    // margin-bottom: 1.1rem;
+                    margin-bottom: 1.1rem;
+                }
+                ul li > p {
+                    margin-bottom: 0rem;
                 }
                 ul li > p::before {
                     background-color: var(--colorPage);
