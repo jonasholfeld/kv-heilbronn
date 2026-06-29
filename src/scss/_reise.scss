@@ -167,11 +167,16 @@ body.reise {
                 p {
                     margin-bottom: 1.1rem;
                 }
-                ul li > p {
-                    margin-bottom: 0rem;
-                }
-                ul li > p::before {
-                    background-color: var(--colorPage);
+                ul {
+                    margin-bottom: 1.1rem;
+                    li {
+                        p {
+                            margin-bottom: 0rem;
+                            &::before {
+                                background-color: var(--colorPage);
+                            }
+                        }
+                    }
                 }
             }
 
