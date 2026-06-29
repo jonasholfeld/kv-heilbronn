@@ -162,6 +162,9 @@ body.reise {
 
             .single-reise-page__text-container {
                 margin-bottom: $generalPadding;
+                &:last-child {
+                    margin-bottom: 0;
+                }
                 &.no-images {
                     flex: 1;
                 }
