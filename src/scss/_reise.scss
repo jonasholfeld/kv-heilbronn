@@ -1,5 +1,6 @@
 body.reise {
     background-color: var(--colorPage);
+    height: 100vh;
     &.menu-is-open {
         .reisen-sidebar {
             flex: 0 0 $sideWidth !important;
