@@ -3,7 +3,19 @@
 
 <?php
 $terminePage = page('termine');
-$all = $terminePage ? $terminePage->children()->published()->sortBy('startdatum', 'desc') : [];
+$today = date('Y-m-d');
+$all = $terminePage
+    ? $terminePage->children()->published()->filter(function ($termin) use ($today) {
+        $start = $termin->startdatum()->toDate('Y-m-d');
+        $end = $termin->enddatum()->toDate('Y-m-d');
+
+        if ($end) {
+            return $end >= $today;
+        }
+
+        return $start && $start >= $today;
+    })->sortBy('startdatum', 'desc')
+    : [];
 
 $termineColor = $terminePage && !$terminePage->color()->isEmpty()
     ? (string)$terminePage->color()
