@@ -11,15 +11,6 @@ body.home-body-class {
             }
         }
     }
-}
-
-.home {
-    padding-top: $headerHeight;
-    width: calc(100vw - 2 * $generalPadding);
-    isolation: isolate; // confine child stacking contexts so menu z-index works correctly
-    // overflow: hidden;
-    padding-bottom: 50vh;
-
     .space-top {
         position: fixed;
         top: 0;
@@ -29,6 +20,14 @@ body.home-body-class {
         z-index: 200000;
         background-color: white;
     }
+}
+
+.home {
+    padding-top: $headerHeight;
+    width: calc(100vw - 2 * $generalPadding);
+    isolation: isolate; // confine child stacking contexts so menu z-index works correctly
+    // overflow: hidden;
+    padding-bottom: 50vh;
 
     > div {
         opacity: 0;
