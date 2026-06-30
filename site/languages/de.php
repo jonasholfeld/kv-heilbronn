@@ -57,6 +57,7 @@ return [
     'ui.imprint' => 'Impressum',
     'ui.sponsored' => 'Gefördert von',
     'ui.cooperation' => 'In Kooperation mit',
-    'ui.privacy_policy' => 'Datenschutz'
+    'ui.privacy_policy' => 'Datenschutz',
+    'ui.statute' => 'Satzung',
   ]
 ];

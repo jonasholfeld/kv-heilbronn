@@ -209,6 +209,9 @@ body.ausstellung {
                 background-color: var(--colorPage);
                 cursor: pointer;
                 transition: border-radius 0.3s ease;
+                p {
+                    text-align: left;
+                }
                 .credits-collapse-wrapper {
                     height: 0;
                     width: 0;

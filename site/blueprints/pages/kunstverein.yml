@@ -16,3 +16,8 @@ fields:
         fieldsets:
             - text
             - file
+    satzungpdf:
+        label: Satzung PDF
+        type: files
+        multiple: false
+        width: 1/2

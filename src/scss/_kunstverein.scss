@@ -109,6 +109,10 @@ body.kunstverein {
                 padding: $generalPadding;
                 padding-bottom: 1.5rem;
 
+                &.satzung {
+                    padding-bottom: $generalPadding;
+                }
+
                 h1,
                 h2,
                 h3 {

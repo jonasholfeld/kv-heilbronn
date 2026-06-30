@@ -57,6 +57,7 @@ return [
     'ui.imprint' => 'Legal notice',
     'ui.sponsored' => 'Sponsored by',
     'ui.cooperation' => 'In cooperation with',
-    'ui.privacy_policy' => 'Privacy policy'
+    'ui.privacy_policy' => 'Privacy policy',
+    'ui.statute' => 'Statute',
   ]
 ];

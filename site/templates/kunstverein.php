@@ -20,6 +20,11 @@ $blocks = $page->blockseditor()->toBlocks();
                     <?= $block ?>
                 </div>
             <?php endforeach ?>
+            <?php if($page->satzungpdf()->isNotEmpty()): ?>
+                <div class="kunstverein-block satzung">
+                    <a class="bubble" href="<?= $page->satzungpdf()->toFile()->url() ?>" target="_blank"><?= t('ui.statute') ?> <?= t('ui.satzung') ?></a>
+                </div>
+            <?php endif ?>
         </div>
 
         <?php if ($gallery->count() > 0): ?>
