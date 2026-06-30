@@ -635,6 +635,12 @@ if (menuButtons.length > 0) {
         const target = event.target
         if (!(target instanceof Element)) return
         if (target.closest('.menu-button-js')) return
+        if (
+            target.closest('.site-menu__inner') ||
+            target.closest('.site-menu__toggle-container')
+        ) {
+            return
+        }
 
         closeMenu()
     })

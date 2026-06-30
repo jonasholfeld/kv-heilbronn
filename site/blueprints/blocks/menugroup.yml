@@ -8,6 +8,10 @@ fields:
         type: text
         label: Gruppenbezeichnung
         required: true
+    linktitle:
+        type: text
+        label: Link
+        help: Link-Ziel, auf den die Überschrift der Gruppe verlinkt. Wenn leer, wird die Überschrift nicht verlinkt.
     entries:
         type: blocks
         label: Einträge

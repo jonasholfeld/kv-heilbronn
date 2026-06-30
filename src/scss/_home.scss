@@ -38,6 +38,9 @@ body.home-body-class {
 
     .scroll-top-element {
         margin-bottom: 15rem !important;
+        &:last-child {
+            padding-bottom: 3rem;
+        }
         header {
             // position: sticky;
             top: $generalPadding;

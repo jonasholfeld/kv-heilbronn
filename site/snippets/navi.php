@@ -51,7 +51,15 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
             <?= $group->title()->html() ?>
           </a>
         <?php else: ?>
+          <?php if( $group->linktitle()->isNotEmpty() ):
+            $groupLink = esc($group->linktitle()->value());
+          ?>
+            <a class="site-menu__group-title" href="<?= $groupLink ?>">
+              <?= $group->title()->html() ?>
+            </a>
+          <?php else: ?>
           <span class="site-menu__group-title"><?= $group->title()->html() ?></span>
+          <?php endif ?>
           <ul class="site-menu__entries">
             <?php foreach ($entries as $entry):
               $isUrl = $entry->linktype()->value() === 'true';
