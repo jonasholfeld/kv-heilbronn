@@ -17,6 +17,7 @@ fields:
             - text
             - file
     satzungpdf:
+        translate: false
         label: Satzung PDF
         type: files
         multiple: false
