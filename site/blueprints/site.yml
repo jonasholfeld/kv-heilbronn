@@ -103,7 +103,6 @@ tabs:
                 type: fields
                 fields:
                     navigation:
-                        translate: false
                         type: blocks
                         label: Menü
                         fieldsets:
