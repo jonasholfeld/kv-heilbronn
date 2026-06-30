@@ -26,12 +26,12 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
                 <div class="scroll-container">
                     <div class="single-reise-page__text-container <?= $columnMode ?>">
                         <h1 class="single-reise-page__title"><?= $page->title()->html() ?></h1>
+                        <?php if ($dateStr): ?>
+                        <ul class="reise-info-list">
+                            <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
+                        </ul>
+                        <?php endif ?>
                         <?php if($columnMode != 'no-images'): ?>
-                            <?php if ($dateStr): ?>
-                            <ul class="reise-info-list">
-                                <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
-                            </ul>
-                            <?php endif ?>
                             <div class="single-reise-page__description">
                                 <?= $page->beschreibung()->kt() ?>
                             </div>
@@ -55,9 +55,6 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
             <div class="scroll-container">
                 <?php if($columnMode == 'no-images'): ?>
                         <?php if ($dateStr): ?>
-                        <ul class="reise-info-list">
-                            <li><?= esc($catLabel) ?> am <?= esc($dateStr) ?></li>
-                        </ul>
                         <?php endif ?>
                         <div class="single-reise-page__description">
                             <?= $page->beschreibung()->kt() ?>
