@@ -20,6 +20,16 @@ body.home-body-class {
     // overflow: hidden;
     padding-bottom: 50vh;
 
+    .space-top {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 0.5rem;
+        z-index: 200000;
+        background-color: white;
+    }
+
     > div {
         opacity: 0;
         transform: translateY(90px);

@@ -1,4 +1,5 @@
 <?php snippet('head') ?>
+<div class="space-top"></div>
 <?php
 $ausstellungen = page('ausstellungen');
 $now = date('Y-m-d');
