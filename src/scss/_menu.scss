@@ -310,5 +310,8 @@ body.ausstellung.white-font {
                 color: var(--colorPage) !important;
             }
         }
+        .site-menu__lang-btn.active:before {
+            background-color: var(--colorPage) !important;
+        }
     }
 }
