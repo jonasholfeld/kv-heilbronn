@@ -120,35 +120,35 @@ $galleryItems = array_values(array_filter(array_map(
         <div class="inner-text-wrapper">
             <div class="scroll-container">
                 <div class="text-wrapper-white-bg">
-                    <h2>
-                        <span><?= $page->kuenstler() ?></span>
-                        <span><?= $page->title()->html() ?></span>
-                    </h2>
-                    <div class="single-ausstellung-page__text-container__dateime">
-                        <ul>
-                        <?php $eroTs = $page->eroffnungsdatum()->toDate(); ?>
-                        <?php $startStr = $page->startdatum()->toDate('d.m.Y'); $endStr = $page->enddatum()->toDate('d.m.Y'); ?>
-                        <?php if ($startStr || $endStr): ?>
-                        <li><p class="ausstellungen-row-dates"><?= esc(($startStr ?: '') . ($startStr && $endStr ? ' – ' : '') . ($endStr ?: '')) ?></p></li>
-                        <?php endif ?>
-                        <?php if ($eroTs): ?>
-                        <?php
-                            $eroDay    = $isDE ? $days[date('w', $eroTs)]       : $daysEn[date('w', $eroTs)];
-                            $eroMonth  = $isDE ? $months[date('n', $eroTs) - 1] : $monthsEn[date('n', $eroTs) - 1];
-                            $eroDayNum = date('j', $eroTs);
-                            $eroHour   = date('H', $eroTs);
-                            $eroStr    = $isDE
-                            ? "{$openingLabel}: {$eroDay}, {$eroDayNum}. {$eroMonth}, {$eroHour} Uhr"
-                            : "{$openingLabel}: {$eroDay}, {$eroMonth} {$eroDayNum}, {$eroHour}:00";
-                        ?>
-                        <li><p class="ausstellungen-row-opening"><?= esc($eroStr) ?></p></li>
-                        <?php endif ?>
-                        </ul>
+                    <div class="first-block-wrapper">
+                        <h2>
+                            <span><?= $page->kuenstler() ?></span>
+                            <span><?= $page->title()->html() ?></span>
+                        </h2>
+                        <div class="single-ausstellung-page__text-container__dateime">
+                            <ul>
+                            <?php $eroTs = $page->eroffnungsdatum()->toDate(); ?>
+                            <?php $startStr = $page->startdatum()->toDate('d.m.Y'); $endStr = $page->enddatum()->toDate('d.m.Y'); ?>
+                            <?php if ($startStr || $endStr): ?>
+                            <li><p class="ausstellungen-row-dates"><?= esc(($startStr ?: '') . ($startStr && $endStr ? ' – ' : '') . ($endStr ?: '')) ?></p></li>
+                            <?php endif ?>
+                            <?php if ($eroTs): ?>
+                            <?php
+                                $eroDay    = $isDE ? $days[date('w', $eroTs)]       : $daysEn[date('w', $eroTs)];
+                                $eroMonth  = $isDE ? $months[date('n', $eroTs) - 1] : $monthsEn[date('n', $eroTs) - 1];
+                                $eroDayNum = date('j', $eroTs);
+                                $eroHour   = date('H', $eroTs);
+                                $eroStr    = $isDE
+                                ? "{$openingLabel}: {$eroDay}, {$eroDayNum}. {$eroMonth}, {$eroHour} Uhr"
+                                : "{$openingLabel}: {$eroDay}, {$eroMonth} {$eroDayNum}, {$eroHour}:00";
+                            ?>
+                            <li><p class="ausstellungen-row-opening"><?= esc($eroStr) ?></p></li>
+                            <?php endif ?>
+                            </ul>
+                        </div>
                     </div>
                     <?php if ( $page->galerie()->toFiles()->count() > 0): ?>
-                        <div class="single-ausstellung-page__text-container__text">
-                            <?= $page->beschreibung()->kt() ?>
-                        </div>
+                        <?= $page->beschreibung()->toBlocks() ?>
                     <?php endif; ?>
                 </div>
                 <?php if($page->logos()->isNotEmpty() || $page->logoskooperation()->isNotEmpty()): ?>

@@ -54,8 +54,10 @@ tabs:
                 translate: false
             beschreibung:
                 label: Beschreibung
-                type: writer
+                type: blocks
                 size: large
+                fieldsets:
+                    - text
             katalog:
                 label: Katalog
                 type: pages
