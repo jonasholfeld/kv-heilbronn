@@ -313,5 +313,8 @@ body.ausstellung.white-font {
         .site-menu__lang-btn.active:before {
             background-color: var(--colorPage) !important;
         }
+        .site-menu__toggle-container button {
+            color: var(--colorPage) !important;
+        }
     }
 }
