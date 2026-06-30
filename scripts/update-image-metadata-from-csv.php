@@ -76,6 +76,28 @@ function isJunkMetadataValue(string $value): bool
     return false;
 }
 
+function normalizeMetadataValue(?string $value): string
+{
+    $value = html_entity_decode((string)$value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $value = strip_tags($value);
+    $value = preg_replace('/\s+/u', ' ', $value);
+    return trim((string)$value);
+}
+
+function preferredMetadataValue(array $row, array $candidates): string
+{
+    foreach ($candidates as $column) {
+        $value = normalizeMetadataValue($row[$column] ?? '');
+        if ($value === '' || isJunkMetadataValue($value) === true) {
+            continue;
+        }
+
+        return $value;
+    }
+
+    return '';
+}
+
 function csvRows(string $file, string $delimiter = ';'): Generator
 {
     $handle = fopen($file, 'rb');
@@ -165,9 +187,22 @@ function collectSitePages(App $kirby): array
 function fileContentForUpdate(array $row): array
 {
     $content = [
-        'title' => trim((string)($row['title'] ?? '')),
-        'caption' => trim((string)($row['caption'] ?? '')),
-        'credit' => trim((string)($row['credit'] ?? '')),
+        'title' => preferredMetadataValue($row, [
+            'wp_post_content',
+            'caption',
+            'wp_post_excerpt',
+            'title',
+            'wp_post_title',
+        ]),
+        'caption' => preferredMetadataValue($row, [
+            'caption',
+            'wp_post_excerpt',
+            'wp_post_content',
+        ]),
+        'credit' => preferredMetadataValue($row, [
+            'credit',
+            'wp_post_excerpt',
+        ]),
     ];
 
     return array_filter(
