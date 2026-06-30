@@ -20,18 +20,22 @@ $renderPdfPreview = static function ($file, int $maxWidth = 2000): ?array {
 
     try {
         if (is_file($targetRoot) !== true) {
+            if (PHP_SAPI !== 'cli') {
+                return null;
+            }
+
             if (is_dir($mediaRoot) !== true) {
                 mkdir($mediaRoot, 0775, true);
             }
 
             $imagick = new Imagick();
-            $imagick->setResolution(200, 200);
+            $imagick->setResolution(96, 96);
             $imagick->readImage($file->root() . '[0]');
             $imagick->setImageBackgroundColor('white');
             $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
             $imagick->setImageFormat('jpeg');
-            $imagick->setImageCompressionQuality(85);
-            $imagick->thumbnailImage($maxWidth, 0);
+            $imagick->setImageCompressionQuality(82);
+            $imagick->thumbnailImage(min($maxWidth, 1400), 0);
             $imagick->writeImage($targetRoot);
             $imagick->clear();
             $imagick->destroy();
