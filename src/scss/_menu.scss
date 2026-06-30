@@ -305,5 +305,10 @@ body.ausstellung.white-font {
                 color: white !important;
             }
         }
+        .site-menu__languages {
+            a {
+                color: var(--colorPage) !important;
+            }
+        }
     }
 }
