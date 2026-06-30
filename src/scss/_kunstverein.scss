@@ -6,6 +6,11 @@ body.kunstverein {
         display: none;
     }
 
+    .satzung {
+        .bubble {
+            background-color: var(--colorPage);
+        }
+    }
     .site-menu {
         margin-top: 0;
         transform: scaleX(0);
