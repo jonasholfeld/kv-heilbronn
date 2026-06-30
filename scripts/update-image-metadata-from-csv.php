@@ -83,7 +83,7 @@ function csvRows(string $file, string $delimiter = ';'): Generator
         throw new RuntimeException("Cannot open CSV file: {$file}");
     }
 
-    $header = fgetcsv($handle, 0, $delimiter);
+    $header = fgetcsv($handle, 0, $delimiter, '"', '\\');
     if ($header === false) {
         fclose($handle);
         return;
@@ -93,12 +93,32 @@ function csvRows(string $file, string $delimiter = ';'): Generator
         $header[0] = preg_replace('/^\xEF\xBB\xBF/', '', (string)$header[0]);
     }
 
-    while (($row = fgetcsv($handle, 0, $delimiter)) !== false) {
+    while (($row = fgetcsv($handle, 0, $delimiter, '"', '\\')) !== false) {
         if ($row === [null]) {
             continue;
         }
 
         yield array_combine($header, $row) ?: [];
+    }
+
+    fclose($handle);
+}
+
+function writeCsv(string $path, array $rows, array $header): void
+{
+    $handle = fopen($path, 'wb');
+    if ($handle === false) {
+        throw new RuntimeException("Cannot write CSV file: {$path}");
+    }
+
+    fputcsv($handle, $header, ';', '"', '\\');
+
+    foreach ($rows as $row) {
+        $ordered = [];
+        foreach ($header as $column) {
+            $ordered[] = $row[$column] ?? '';
+        }
+        fputcsv($handle, $ordered, ';', '"', '\\');
     }
 
     fclose($handle);
@@ -167,6 +187,34 @@ function needsUpdate(File $file, array $content, string $languageCode): bool
     return false;
 }
 
+function fileIdList(array $files): string
+{
+    return implode('|', array_map(
+        static fn (File $file): string => $file->id(),
+        $files
+    ));
+}
+
+function uniqueFilesByRoot(array $files): array
+{
+    $unique = [];
+
+    foreach ($files as $file) {
+        $id = $file->id();
+        $segments = explode('/', $id);
+
+        if (isset($segments[0])) {
+            $segments[0] = preg_replace('/^\d+_/', '', $segments[0]);
+        }
+
+        $normalizedId = implode('/', $segments);
+        $key = $file->root() . '|' . $normalizedId;
+        $unique[$key] = $file;
+    }
+
+    return array_values($unique);
+}
+
 $csvPath = $argv[1] ?? discoverCsvPath($projectRoot);
 $mode = $argv[2] ?? '--write';
 $dryRun = $mode === '--dry-run';
@@ -194,6 +242,10 @@ $stats = [
     'missing_files' => 0,
     'ambiguous_matches' => 0,
 ];
+$debugDir = $websiteRoot . '/assets/image-metadata-debug';
+$missingRows = [];
+$ambiguousRows = [];
+$matchedRows = [];
 
 foreach (csvRows($csvPath) as $row) {
     $stats['rows']++;
@@ -207,21 +259,51 @@ foreach (csvRows($csvPath) as $row) {
     }
 
     $stats['with_metadata']++;
-    $matches = $pagesByFilename[$filename] ?? [];
+    $matches = uniqueFilesByRoot($pagesByFilename[$filename] ?? []);
 
     if ($matches === []) {
         $stats['missing_files']++;
+        $missingRows[] = [
+            'attachment_id' => trim((string)($row['attachment_id'] ?? '')),
+            'image_url' => $imageUrl,
+            'expected_filename' => $filename,
+            'title' => $content['title'] ?? '',
+            'caption' => $content['caption'] ?? '',
+            'credit' => $content['credit'] ?? '',
+        ];
         continue;
     }
 
     if (count($matches) > 1) {
         $stats['ambiguous_matches']++;
+        $ambiguousRows[] = [
+            'attachment_id' => trim((string)($row['attachment_id'] ?? '')),
+            'image_url' => $imageUrl,
+            'expected_filename' => $filename,
+            'match_count' => (string)count($matches),
+            'matched_file_ids' => fileIdList($matches),
+            'title' => $content['title'] ?? '',
+            'caption' => $content['caption'] ?? '',
+            'credit' => $content['credit'] ?? '',
+        ];
     }
 
     foreach ($matches as $file) {
         $stats['matched_files']++;
+        $needsUpdate = needsUpdate($file, $content, $languageCode);
+        $matchedRows[] = [
+            'attachment_id' => trim((string)($row['attachment_id'] ?? '')),
+            'image_url' => $imageUrl,
+            'expected_filename' => $filename,
+            'matched_file_id' => $file->id(),
+            'matched_filename' => $file->filename(),
+            'title' => $content['title'] ?? '',
+            'caption' => $content['caption'] ?? '',
+            'credit' => $content['credit'] ?? '',
+            'needs_update' => $needsUpdate ? 'yes' : 'no',
+        ];
 
-        if (needsUpdate($file, $content, $languageCode) === false) {
+        if ($needsUpdate === false) {
             $stats['unchanged_files']++;
             continue;
         }
@@ -234,8 +316,23 @@ foreach (csvRows($csvPath) as $row) {
     }
 }
 
+if (is_dir($debugDir) === false) {
+    mkdir($debugDir, 0777, true);
+}
+
+$missingPath = $debugDir . '/missing-image-metadata-matches.csv';
+$ambiguousPath = $debugDir . '/ambiguous-image-metadata-matches.csv';
+$matchedPath = $debugDir . '/matched-image-metadata-matches.csv';
+
+writeCsv($missingPath, $missingRows, ['attachment_id', 'image_url', 'expected_filename', 'title', 'caption', 'credit']);
+writeCsv($ambiguousPath, $ambiguousRows, ['attachment_id', 'image_url', 'expected_filename', 'match_count', 'matched_file_ids', 'title', 'caption', 'credit']);
+writeCsv($matchedPath, $matchedRows, ['attachment_id', 'image_url', 'expected_filename', 'matched_file_id', 'matched_filename', 'title', 'caption', 'credit', 'needs_update']);
+
 echo ($dryRun ? "Dry run" : "Update") . " completed.\n";
 echo "CSV: {$csvPath}\n";
 foreach ($stats as $label => $count) {
     echo $label . ': ' . $count . "\n";
 }
+echo "debug_missing: {$missingPath}\n";
+echo "debug_ambiguous: {$ambiguousPath}\n";
+echo "debug_matched: {$matchedPath}\n";
