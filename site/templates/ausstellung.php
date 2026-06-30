@@ -1,6 +1,77 @@
 <?php snippet('head') ?>
 <?php snippet('vite', ['entry' => 'src/js/ausstellung.js']) ?>
 <?php snippet('navi', ['includeSiteMenu' => false]) ?>
+<?php
+$renderPdfPreview = static function ($file, int $maxWidth = 2000): ?array {
+    if (
+        $file->extension() !== 'pdf' ||
+        extension_loaded('imagick') !== true ||
+        class_exists('Imagick') !== true
+    ) {
+        return null;
+    }
+
+    $mediaRoot = kirby()->root('media') . '/pdf-previews/' . $file->parent()->id();
+    $mediaUrl  = kirby()->url('media') . '/pdf-previews/' . $file->parent()->id();
+    $hash      = md5($file->root() . '|' . $file->modified() . '|' . $maxWidth);
+    $filename  = pathinfo($file->filename(), PATHINFO_FILENAME) . '-' . $hash . '.jpg';
+    $targetRoot = $mediaRoot . '/' . $filename;
+    $targetUrl  = $mediaUrl . '/' . $filename;
+
+    try {
+        if (is_file($targetRoot) !== true) {
+            if (is_dir($mediaRoot) !== true) {
+                mkdir($mediaRoot, 0775, true);
+            }
+
+            $imagick = new Imagick();
+            $imagick->setResolution(200, 200);
+            $imagick->readImage($file->root() . '[0]');
+            $imagick->setImageBackgroundColor('white');
+            $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            $imagick->setImageFormat('jpeg');
+            $imagick->setImageCompressionQuality(85);
+            $imagick->thumbnailImage($maxWidth, 0);
+            $imagick->writeImage($targetRoot);
+            $imagick->clear();
+            $imagick->destroy();
+        }
+
+        [$width, $height] = getimagesize($targetRoot) ?: [0, 0];
+
+        if ($width < 1 || $height < 1) {
+            return null;
+        }
+
+        return [
+            'file' => $file,
+            'url' => $targetUrl,
+            'width' => $width,
+            'height' => $height,
+        ];
+    } catch (Throwable $e) {
+        return null;
+    }
+};
+
+$prepareGalleryItem = static function ($file) use ($renderPdfPreview): ?array {
+    if ($file->isResizable()) {
+        return [
+            'file' => $file,
+            'url' => $file->resize(2000)->url(),
+            'width' => $file->width(),
+            'height' => $file->height(),
+        ];
+    }
+
+    return $renderPdfPreview($file);
+};
+
+$galleryItems = array_values(array_filter(array_map(
+    $prepareGalleryItem,
+    $page->galerie()->toFiles()->values()
+)));
+?>
 
 <main class="single-ausstellung-page" style="--ausstellung-color: <?= $page->color()->isEmpty() ? '#dce0e3' : $page->color() ?>">
     <div class="single-ausstellung-page__top-info-box">
@@ -142,14 +213,15 @@
                     <?= $page->beschreibung()->kt() ?>
                 </div>
             <?php endif; ?>
-            <?php $images = $page->galerie()->toFiles(); ?>
-            <?php for ($i = 0, $count = $images->count(); $i < $count; $i++): ?>
+            <?php for ($i = 0, $count = count($galleryItems); $i < $count; $i++): ?>
                 <?php
-                    $image = $images->nth($i);
-                    $nextImage = $images->nth($i + 1);
-                    $isPortrait = $image->height() > $image->width();
+                    $imageItem = $galleryItems[$i];
+                    $nextImageItem = $galleryItems[$i + 1] ?? null;
+                    $image = $imageItem['file'];
+                    $nextImage = $nextImageItem['file'] ?? null;
+                    $isPortrait = $imageItem['height'] > $imageItem['width'];
                     $canCouple = $image->canBeCoupled()->toBool();
-                    $nextIsPortrait = $nextImage && $nextImage->height() > $nextImage->width();
+                    $nextIsPortrait = $nextImageItem && $nextImageItem['height'] > $nextImageItem['width'];
                     $nextCanCouple = $nextImage && $nextImage->canBeCoupled()->toBool();
                     $shouldCouple = $canCouple && $nextCanCouple && $isPortrait && $nextIsPortrait;
                     $ratioClass = $isPortrait ? 'portrait' : 'landscape';
@@ -159,7 +231,7 @@
                     <div class="image-coupler">
                         <div class="single-ausstellung-page__images-wrapper__image">
                             <div class="inner-image-wrapper">
-                                <img class="<?= $ratioClass ?>" src="<?= $image->resize(2000)->url() ?>" alt="<?= esc($image->alt()) ?>">
+                                <img class="<?= $ratioClass ?>" src="<?= $imageItem['url'] ?>" alt="<?= esc($image->alt()) ?>">
                                 <?php
                                     $imageCredits = array_filter([
                                         $image->title()->isNotEmpty() ? $image->title()->esc() : null,
@@ -181,7 +253,7 @@
                         </div>
                         <div class="single-ausstellung-page__images-wrapper__image">
                             <div class="inner-image-wrapper">
-                                <img class="<?= $ratioClass ?>" src="<?= $nextImage->resize(2000)->url() ?>" alt="<?= esc($nextImage->alt()) ?>">
+                                <img class="<?= $ratioClass ?>" src="<?= $nextImageItem['url'] ?>" alt="<?= esc($nextImage->alt()) ?>">
                                 <?php
                                     $nextImageCredits = array_filter([
                                         $nextImage->title()->isNotEmpty() ? $nextImage->title()->esc() : null,
@@ -206,7 +278,7 @@
                 <?php else: ?>
                     <div class="single-ausstellung-page__images-wrapper__image">
                         <div class="inner-image-wrapper">
-                            <img class="<?= $ratioClass ?>" src="<?= $image->resize(2000)->url() ?>" alt="<?= esc($image->alt()) ?>">
+                            <img class="<?= $ratioClass ?>" src="<?= $imageItem['url'] ?>" alt="<?= esc($image->alt()) ?>">
                             <?php
                                 $imageCredits = array_filter([
                                     $image->title()->isNotEmpty() ? $image->title()->esc() : null,
