@@ -103,6 +103,7 @@ body.home-body-class {
             .section-label {
                 overflow: hidden;
                 @include bubble;
+                transform: none !important;
             }
         }
 
@@ -350,6 +351,7 @@ body.home-body-class {
             flex-wrap: wrap;
             .section-label {
                 @include bubble;
+                transform: none !important;
             }
         }
     }

@@ -48,6 +48,7 @@ $lightgrey: #dce0e3;
 *::before,
 *::after {
     box-sizing: border-box;
+    text-decoration-thickness: 0.05rem !important;
 }
 
 body {

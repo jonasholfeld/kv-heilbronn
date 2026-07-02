@@ -324,7 +324,9 @@ body.ausstellung {
                                     margin-bottom: 0 !important;
                                 }
                             }
-                            div {
+                            div:not(
+                                .single-ausstellung-page__text-container__dateime
+                            ) {
                                 padding: $generalPadding;
                                 background-color: white;
                                 margin-bottom: $generalPadding;
