@@ -25,13 +25,6 @@ tabs:
     media:
         label: Medien
         fields:
-            titelbild:
-                label: Titelbild
-                type: files
-                max: 1
-                store: id
-                layout: cards
-                size: medium
             galerie:
                 label: Galerie
                 type: files

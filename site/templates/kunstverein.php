@@ -29,11 +29,13 @@ $blocks = $page->blockseditor()->toBlocks();
 
         <?php if ($gallery->count() > 0): ?>
         <div class="kunstverein-images">
+            <div class="scroll-container">
             <?php foreach ($gallery as $img): ?>
                 <div class="kunstverein-image">
                     <img src="<?= $img->resize(1200)->url() ?>" alt="<?= esc($img->alt()) ?>">
                 </div>
             <?php endforeach ?>
+            </div>
         </div>
         <?php endif ?>
     </div>

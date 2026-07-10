@@ -17,7 +17,7 @@
         </div>
         <div class="shop-item-image">
 
-          <?php $img = $item->titelbild()->toFiles()->first() ?? $item->galerie()->toFiles()->first() ?>
+          <?php $img = $item->galerie()->toFiles()->first() ?>
           <?php if ($img): ?>
             <a href="<?= $item->url() ?>" >
             <img src="<?= $img->resize(1000)->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>">

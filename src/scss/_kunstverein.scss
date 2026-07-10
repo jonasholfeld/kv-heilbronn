@@ -176,10 +176,13 @@ body.kunstverein {
         }
 
         .kunstverein-images {
+            .scroll-container {
+                max-height: calc(100vh - 4 * #{$generalPadding});
+                overflow: scroll;
+            }
             background-color: white;
             padding: $generalPadding;
             flex: 0 0 calc(50% - #{$generalPadding});
-            max-height: calc(100vh - 2 * #{$generalPadding});
             overflow-y: scroll;
             display: flex;
             flex-direction: column;

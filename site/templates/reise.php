@@ -66,27 +66,7 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
                         <div class="single-reise-page__text-container"><?= $page->anmeldung()->kt() ?></div>
                         <?php endif ?>
                 <?php else: ?>
-                <?php
-                $titelbild = $page->titelbild()->toFiles()->first();
-                $galerie = $page->galerie()->toFiles();
-                ?>
-                <?php if ($titelbild): ?>
-                    <div class="single-reise-page__image">
-                        <div class="inner-image-wrapper">
-                            <img src="<?= $titelbild->resize(1200)->url() ?>" alt="<?= esc($titelbild->alt()) ?>">
-                            <?php if ($titelbild->credits()->isNotEmpty()): ?>
-                                <div class="credits-wrapper bubble">
-                                    <p>Credits</p>
-                                    <div class="credits-collapse-wrapper">
-                                        <div class="credits-content-wrapper">
-                                            <?= $titelbild->credits()->kt() ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif ?>
-                        </div>
-                    </div>
-                <?php endif ?>
+                <?php $galerie = $page->galerie()->toFiles(); ?>
                 <?php foreach ($galerie as $img): ?>
                     <div class="single-reise-page__image">
                         <div class="inner-image-wrapper">
@@ -109,4 +89,3 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
         </div>
     </div>
 </main>
-

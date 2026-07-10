@@ -61,6 +61,10 @@ body.termine {
             flex: 0;
             transition: flex 0.3s ease;
 
+            .termine-page-info {
+                padding-top: 0rem !important;
+            }
+
             .termine-pill {
                 @include bubble;
                 border-radius: 2rem;
@@ -91,7 +95,8 @@ body.termine {
 
         .termine-content {
             background: white;
-            padding: 0.7rem;
+            padding: 0.5rem;
+            padding-top: 0.5rem;
             flex: 1;
             overflow: hidden;
             height: calc(100vh - 2 * $generalPadding);
