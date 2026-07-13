@@ -15,7 +15,10 @@ $vorschau = $all->filter(fn ($item) => ($item->startdatum()->toDate('Y-m-d') ?? 
 $aktuell = $all->filter(function ($item) use ($now, $getEffectiveEndDate) {
   $end = $getEffectiveEndDate($item);
   return $end && $end >= $now;
-})->sort(function ($a, $b) use ($getEffectiveEndDate) {
+});
+
+$aktuellItems = $aktuell->values();
+usort($aktuellItems, function ($a, $b) use ($getEffectiveEndDate) {
   return strcmp($getEffectiveEndDate($a), $getEffectiveEndDate($b));
 });
 
@@ -95,16 +98,18 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
       <?php endforeach ?>
 
       <h2 class="ausstellungen-section-title"><?= t('ui.current') ?></h2>
-      <?php foreach ($aktuell as $item): ?>
+      <?php foreach ($aktuellItems as $item): ?>
         <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
       <?php endforeach ?>
 
       <?php foreach ($yearKeys as $year): ?>
         <?php $items = $years->get($year); ?>
-        <h2 class="ausstellungen-section-title" data-ausstellungen-heading><?= esc($year) ?></h2>
-        <?php foreach ($items->sort(function ($a, $b) use ($getEffectiveEndDate) {
+        <?php $yearItems = $items->values(); ?>
+        <?php usort($yearItems, function ($a, $b) use ($getEffectiveEndDate) {
           return strcmp($getEffectiveEndDate($b), $getEffectiveEndDate($a));
-        }) as $item): ?>
+        }); ?>
+        <h2 class="ausstellungen-section-title" data-ausstellungen-heading><?= esc($year) ?></h2>
+        <?php foreach ($yearItems as $item): ?>
           <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
         <?php endforeach ?>
       <?php endforeach ?>
