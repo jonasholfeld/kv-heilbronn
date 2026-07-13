@@ -214,7 +214,7 @@ $galleryItems = array_values(array_filter(array_map(
         <div class="scroll-container">
             <?php if ( $page->galerie()->toFiles()->count() == 0): ?>
                 <div class="single-ausstellung-page__text-container__text">
-                    <?= $page->beschreibung()->kt() ?>
+                    <?= $page->beschreibung()->toBlocks() ?>
                 </div>
             <?php endif; ?>
             <?php for ($i = 0, $count = count($galleryItems); $i < $count; $i++): ?>
