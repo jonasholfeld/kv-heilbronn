@@ -5,22 +5,27 @@
 $now = date('Y-m-d');
 $ausstellungenPage = page('ausstellungen');
 $all = $ausstellungenPage ? $ausstellungenPage->children(): pages();
+$getEffectiveEndDate = function ($item, $format = 'Y-m-d') {
+  return $item->enddatum()->toDate($format) ?: $item->startdatum()->toDate($format);
+};
 
 $vorschau = $all->filter(fn ($item) => ($item->startdatum()->toDate('Y-m-d') ?? '') > $now)
   ->sortBy('startdatum', 'asc');
 
-$aktuell = $all->filter(function ($item) use ($now) {
-  $end = $item->enddatum()->toDate('Y-m-d');
+$aktuell = $all->filter(function ($item) use ($now, $getEffectiveEndDate) {
+  $end = $getEffectiveEndDate($item);
   return $end && $end >= $now;
-})->sortBy('enddatum', 'asc');
-
-$archiv = $all->filter(function ($item) use ($now) {
-  $end = $item->enddatum()->toDate('Y-m-d');
-  return !$end || $end < $now;
+})->sort(function ($a, $b) use ($getEffectiveEndDate) {
+  return strcmp($getEffectiveEndDate($a), $getEffectiveEndDate($b));
 });
 
-$years = $archiv->group(function ($item) {
-  $endTs = $item->enddatum()->toDate();
+$archiv = $all->filter(function ($item) use ($now, $getEffectiveEndDate) {
+  $end = $getEffectiveEndDate($item);
+  return $end && $end < $now;
+});
+
+$years = $archiv->group(function ($item) use ($getEffectiveEndDate) {
+  $endTs = $getEffectiveEndDate($item, null);
   return $endTs ? date('Y', $endTs) : t('ui.without_year');
 });
 
@@ -97,7 +102,9 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
       <?php foreach ($yearKeys as $year): ?>
         <?php $items = $years->get($year); ?>
         <h2 class="ausstellungen-section-title" data-ausstellungen-heading><?= esc($year) ?></h2>
-        <?php foreach ($items->sortBy('enddatum', 'desc') as $item): ?>
+        <?php foreach ($items->sort(function ($a, $b) use ($getEffectiveEndDate) {
+          return strcmp($getEffectiveEndDate($b), $getEffectiveEndDate($a));
+        }) as $item): ?>
           <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
         <?php endforeach ?>
       <?php endforeach ?>
