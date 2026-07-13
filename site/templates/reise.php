@@ -51,7 +51,7 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
                 </div>
         </div>
 
-        <div class="single-reise-page__images">
+        <div class="single-reise-page__images <?= $columnMode ?>">
             <div class="scroll-container">
                 <?php if($columnMode == 'no-images'): ?>
                         <?php if ($dateStr): ?>

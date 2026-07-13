@@ -132,8 +132,8 @@ body.reise {
         }
 
         &__images {
-            background-color: white;
-            padding-top: $generalPadding;
+            // background-color: white;
+            // padding-top: $generalPadding;
         }
 
         &__text {
@@ -161,6 +161,13 @@ body.reise {
                 overflow: scroll;
             }
 
+            .single-reise-page__description,
+            .single-reise-page__text-container {
+                strong {
+                    text-transform: uppercase;
+                }
+            }
+
             .single-reise-page__text-container {
                 margin-bottom: $generalPadding;
                 min-height: 100%;
@@ -173,9 +180,6 @@ body.reise {
                 }
                 p {
                     margin-bottom: 1.1rem;
-                }
-                strong {
-                    text-transform: uppercase;
                 }
                 ul {
                     margin-bottom: 1.1rem;
@@ -281,6 +285,18 @@ body.reise {
                 display: flex;
                 flex-direction: column;
                 gap: $generalPadding;
+            }
+            &.no-images {
+                background-color: transparent;
+                padding: 0;
+                .single-reise-page__description {
+                    background-color: white;
+                    padding: $generalPadding;
+                }
+                .single-reise-page__text-container {
+                    min-height: 0;
+                    flex: 1;
+                }
             }
         }
 
