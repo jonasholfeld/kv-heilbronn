@@ -159,6 +159,8 @@ body.reise {
             .scroll-container {
                 height: calc(100vh - 2 * #{$generalPadding});
                 overflow: scroll;
+                display: flex;
+                flex-direction: column;
             }
 
             .single-reise-page__description,
@@ -170,7 +172,7 @@ body.reise {
 
             .single-reise-page__text-container {
                 margin-bottom: $generalPadding;
-                min-height: 100%;
+                // min-height: 100%;
 
                 &:last-child {
                     margin-bottom: 0;
