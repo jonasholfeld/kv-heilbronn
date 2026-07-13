@@ -16,7 +16,7 @@ $aktuell = $all->filter(function ($item) use ($now) {
 
 $archiv = $all->filter(function ($item) use ($now) {
   $end = $item->enddatum()->toDate('Y-m-d');
-  return $end && $end < $now;
+  return !$end || $end < $now;
 });
 
 $years = $archiv->group(function ($item) {
@@ -104,4 +104,3 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
     </div>
   </section>
 </main>
-
