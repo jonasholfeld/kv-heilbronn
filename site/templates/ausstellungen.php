@@ -92,10 +92,12 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
 
   <section class="ausstellungen-content" data-ausstellungen-list>
     <div class="scroll-container">
-      <h2 class="ausstellungen-section-title"><?= t('ui.preview') ?></h2>
-      <?php foreach ($vorschau as $item): ?>
-        <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
-      <?php endforeach ?>
+      <?php if ($vorschau->isNotEmpty()): ?>
+        <h2 class="ausstellungen-section-title"><?= t('ui.preview') ?></h2>
+        <?php foreach ($vorschau as $item): ?>
+          <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
+        <?php endforeach ?>
+      <?php endif ?>
 
       <h2 class="ausstellungen-section-title"><?= t('ui.current') ?></h2>
       <?php foreach ($aktuellItems as $item): ?>
