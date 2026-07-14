@@ -138,6 +138,7 @@ body.kunstverein {
                 }
 
                 p:has(> a[href^='mailto:']:only-child) {
+                    padding-left: 0 !important;
                     &::before {
                         display: none;
                     }
