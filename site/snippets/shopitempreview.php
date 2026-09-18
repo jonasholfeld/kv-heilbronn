@@ -25,7 +25,7 @@
           <?php endif ?>
         </div>
       </div>
-      <div class="shop-item-wrapper__label-wrapper">
+      <div class="label-wrapper shop-item-wrapper__label-wrapper">
         <span class="section-label category-label"><a href="<?= $shopPage->url() ?>"><?= $category ?></a></span>
         <span class="section-label"><a href="<?= $shopPage->url() ?>"><?= esc(strtoupper($itemLabel)) ?></a></span>
       </div>

@@ -41,10 +41,11 @@ if (!empty($futureEvents)) {
 <?php
 $terminePage = page('termine');
 $termineColor = $terminePage ? $terminePage->color()->esc() : '';
+$oneMonthLater = date('Y-m-d', strtotime('+1 month'));
 $termineItems = $terminePage
-  ? $terminePage->children()->filter(function ($child) use ($now) {
+  ? $terminePage->children()->filter(function ($child) use ($now, $oneMonthLater) {
       $start = $child->startdatum()->toDate('Y-m-d');
-      return $child->showOnHomepage()->toBool() === true && $start && $start >= $now;
+      return $child->showOnHomepage()->toBool() === true && $start && $start >= $now && $start <= $oneMonthLater;
     })->sortBy('startdatum', 'asc')
   : [];
 ?>
@@ -58,36 +59,36 @@ $termineItems = $terminePage
     <?= snippet('exhibitionpreview', ['exhibition' => $futureEvent, 'exhiClass' => 'future', 'exhiLabel' => t('ui.preview')]) ?>
   <?php endforeach ?>
 
-  <?php if ($archiveFallbackExhibition): ?>
-    <?= snippet('exhibitionpreview', ['exhibition' => $archiveFallbackExhibition, 'exhiClass' => 'archive', 'exhiLabel' => t('ui.archive')]) ?>
+  <?php if (!(count($termineItems) === 0)): ?>
+    <?= snippet('terminepreview', ['termineItems' => $termineItems, 'termineColor' => $termineColor]) ?>
+  <?php endif ?>
+
+  <?php
+    $reisenPage = page('reisen');
+    if ($reisenPage): ?>
+    <?= snippet('reisenpreview', ['reisenPage' => $reisenPage]) ?>
   <?php endif ?>
 
   <?php if (site()->mitgliedschaftTextTitle()->isNotEmpty() || site()->mitgliedschaftText()->isNotEmpty()): ?>
     <?= snippet('mitgliedschaftpreview') ?>
   <?php endif ?>
 
-  <?php if (!(count($termineItems) === 0)): ?>
-    <?= snippet('terminepreview', ['termineItems' => $termineItems, 'termineColor' => $termineColor]) ?>
-  <?php endif ?>
-
-  <?php
-  $reisenPage = page('reisen');
-  if ($reisenPage): ?>
-    <?= snippet('reisenpreview', ['reisenPage' => $reisenPage]) ?>
-  <?php endif ?>
-
-  <?php
+    <?php
   $editionId = site()->editionItem()->value();
   $edition = $editionId ? page($editionId) : null;
   if ($edition): ?>
     <?= snippet('shopitempreview', ['item' => $edition, 'itemLabel' => 'Edition']) ?>
   <?php endif ?>
 
-  <?php
+    <?php
   $katalogId = site()->katalogItem()->value();
   $katalog = $katalogId ? page($katalogId) : null;
   if ($katalog): ?>
     <?= snippet('shopitempreview', ['item' => $katalog, 'itemLabel' => 'Katalog']) ?>
+  <?php endif ?>
+
+  <?php if ($archiveFallbackExhibition): ?>
+    <?= snippet('exhibitionpreview', ['exhibition' => $archiveFallbackExhibition, 'exhiClass' => 'archive', 'exhiLabel' => t('ui.archive')]) ?>
   <?php endif ?>
 </main>
 

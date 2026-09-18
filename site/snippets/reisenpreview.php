@@ -8,7 +8,7 @@
         <?php endif ?>
         <a href="<?= $reisenPage->url() ?>" class="infobox__link"><?= t('ui.all_travels_overview') ?></a>
       </div>
-      <div class="infobox-wrapper__label-wrapper">
+      <div class="label-wrapper infobox-wrapper__label-wrapper">
           <span class="section-label"><a href="<?= $reisenPage->url() ?>"><?= t('ui.art_trips') ?></a></span>
           <span class="section-label"><a href="<?= $reisenPage->url() ?>"><?= t('ui.studio_visits') ?></a></span>
       </div>

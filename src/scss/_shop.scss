@@ -5,9 +5,10 @@ body.shop {
     height: 100vh;
     overflow: hidden;
 
-    .bubble-inverted {
-        background-color: $lightgrey !important;
-        color: black !important;
+    .bubble-inverted,
+    .home-link {
+        background-color: black !important;
+        color: white !important;
     }
 
     .site-header {
@@ -133,8 +134,8 @@ body.edition {
     height: 100vh;
     .bubble-inverted,
     .home-link {
-        background-color: var(--colorPage) !important;
-        color: black !important;
+        background-color: black !important;
+        color: white !important;
     }
     .schließen-btn {
         @include bubble;
@@ -276,6 +277,7 @@ body.edition {
                 justify-content: center;
                 width: 100%;
                 flex-direction: column;
+                cursor: zoom-in;
 
                 img {
                     width: 100%;
@@ -293,6 +295,20 @@ body.edition {
                         text-transform: uppercase;
                     }
                 }
+            }
+
+            .shop-item-page__zoom-close {
+                display: none;
+                position: absolute;
+                top: $generalPadding;
+                right: $generalPadding;
+                z-index: 2;
+                @include sansserif;
+                text-transform: uppercase;
+                background: none;
+                border: none;
+                cursor: zoom-out;
+                padding: 0.5rem;
             }
         }
 
@@ -349,6 +365,29 @@ body.edition {
                     @include bubble;
                     background-color: var(--colorPage);
                     cursor: pointer;
+                }
+            }
+        }
+
+        &.is-zoomed {
+            .shop-item-page__right {
+                display: none;
+            }
+
+            .shop-item-page__left {
+                flex: 1 1 100% !important;
+
+                .shop-item-page__zoom-close {
+                    display: block;
+                }
+
+                .shop-item-page__image-container {
+                    display: none;
+
+                    &.is-zoomed-image {
+                        display: flex;
+                        cursor: zoom-out;
+                    }
                 }
             }
         }

@@ -27,9 +27,10 @@
         </div>
     </div>
     <div class="shop-item-page__left">
+        <button class="shop-item-page__zoom-close" type="button" data-zoom-close><?= t('ui.close') ?></button>
         <div class="scroll-container">
             <?php foreach($page->galerie()->toFiles() as $img): ?>
-                <div class="shop-item-page__image-container">
+                <div class="shop-item-page__image-container" data-zoom-toggle>
                     <?php if($img): ?>
                         <img src="<?= $img->resize(1500)->url() ?>" alt="<?= $img->alt()->or($page->kuenstler())->esc() ?>">
                         <div class="shop-item-page__image-caption-wrapper">

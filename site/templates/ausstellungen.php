@@ -99,10 +99,12 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
         <?php endforeach ?>
       <?php endif ?>
 
-      <h2 class="ausstellungen-section-title"><?= t('ui.current') ?></h2>
-      <?php foreach ($aktuellItems as $item): ?>
-        <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
-      <?php endforeach ?>
+      <?php if (!empty($aktuellItems)): ?>
+        <h2 class="ausstellungen-section-title"><?= t('ui.current') ?></h2>
+        <?php foreach ($aktuellItems as $item): ?>
+          <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
+        <?php endforeach ?>
+      <?php endif ?>
 
       <?php foreach ($yearKeys as $year): ?>
         <?php $items = $years->get($year); ?>
@@ -110,7 +112,7 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
         <?php usort($yearItems, function ($a, $b) use ($getEffectiveEndDate) {
           return strcmp($getEffectiveEndDate($b), $getEffectiveEndDate($a));
         }); ?>
-        <h2 class="ausstellungen-section-title" data-ausstellungen-heading><?= esc($year) ?></h2>
+        <h2 class="ausstellungen-section-title"><?= esc($year) ?></h2>
         <?php foreach ($yearItems as $item): ?>
           <?php snippet('ausstellungen-row', compact('item', 'isDE', 'days', 'daysEn', 'months', 'monthsEn', 'openingLabel', 'moreInfoLabel')) ?>
         <?php endforeach ?>

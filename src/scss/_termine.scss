@@ -77,7 +77,8 @@ body.termine {
             }
 
             .termine-pill--dark {
-                background: var(--colorPage);
+                background: black;
+                color: white;
             }
 
             .menu-button-js {
@@ -89,7 +90,6 @@ body.termine {
 
             .termine-home-link {
                 margin-top: auto;
-                background: var(--colorPage);
             }
         }
 

@@ -102,7 +102,6 @@
         @include sansserif;
         text-transform: uppercase;
         text-align: center;
-        letter-spacing: 0.04em;
         font-size: 1rem;
 
         &--single {
@@ -269,6 +268,9 @@ body.reise {
         }
         .site-menu__lang-btn {
             // background-color: white;
+            &.active::before {
+                background-color: var(--colorPage);
+            }
         }
     }
     .site-menu {

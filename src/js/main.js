@@ -857,7 +857,7 @@ if (ausstellungenFilterButton) {
 
         if (content) {
             const headings = [
-                ...content.querySelectorAll('[data-ausstellungen-heading]'),
+                ...content.querySelectorAll('.ausstellungen-section-title'),
             ]
             headings.forEach((heading) => {
                 let hasVisibleRow = false
@@ -1060,6 +1060,48 @@ if (homeOverlay) {
                 dismissOverlay()
             })
         }
+    }
+}
+
+// ── Shop item image zoom ────────────────────────────────────────────────────
+
+const shopItemPage = document.querySelector('.shop-item-page')
+
+if (shopItemPage) {
+    const zoomToggles = [
+        ...shopItemPage.querySelectorAll('[data-zoom-toggle]'),
+    ]
+    const zoomCloseButton = shopItemPage.querySelector('[data-zoom-close]')
+
+    const closeZoom = () => {
+        shopItemPage.classList.remove('is-zoomed')
+        zoomToggles.forEach((toggle) =>
+            toggle.classList.remove('is-zoomed-image')
+        )
+    }
+
+    const openZoom = (toggle) => {
+        zoomToggles.forEach((el) =>
+            el.classList.toggle('is-zoomed-image', el === toggle)
+        )
+        shopItemPage.classList.add('is-zoomed')
+    }
+
+    zoomToggles.forEach((toggle) => {
+        toggle.addEventListener('click', () => {
+            if (toggle.classList.contains('is-zoomed-image')) {
+                closeZoom()
+            } else {
+                openZoom(toggle)
+            }
+        })
+    })
+
+    if (zoomCloseButton) {
+        zoomCloseButton.addEventListener('click', (event) => {
+            event.stopPropagation()
+            closeZoom()
+        })
     }
 }
 

@@ -73,6 +73,7 @@ body.home-body-class {
     .exhibition-wrapper {
         .exhibition-info {
             display: flex;
+            cursor: pointer;
             align-items: baseline;
             gap: 1.2rem;
             padding: $innerBoxPadding;
@@ -81,6 +82,14 @@ body.home-body-class {
             background-color: var(--color);
             flex-wrap: wrap;
             @include sansserif;
+            &,
+            &:link,
+            &:visited,
+            &:hover,
+            &:active {
+                color: inherit;
+                text-decoration: none;
+            }
             .exhibition__label {
                 margin: 0;
                 text-transform: uppercase;
@@ -100,6 +109,8 @@ body.home-body-class {
         &__label-wrapper {
             margin-left: calc($sideWidth + $generalPadding);
             padding: $generalPadding 0;
+            display: flex;
+
             .section-label {
                 overflow: hidden;
                 @include bubble;
@@ -109,6 +120,8 @@ body.home-body-class {
 
         .exhibition-gallery {
             display: flex;
+            cursor: pointer;
+            text-decoration: none;
             gap: 1rem;
             transition: margin-left 0.3s ease;
             &__item {
@@ -122,8 +135,9 @@ body.home-body-class {
             &.exhibition-gallery--count-1 {
                 &.exhibition-gallery--single-landscape {
                     .exhibition-gallery__item {
+                        width: 100%;
                         img {
-                            width: 98rem;
+                            width: 100%;
                         }
                     }
                 }
@@ -192,6 +206,13 @@ body.home-body-class {
                 }
             }
 
+            &.termin-item__wrapper-link--empty {
+                cursor: default;
+                &:hover {
+                    background-color: var(--color, #e0d5da) !important;
+                }
+            }
+
             .termin__label {
                 margin: 0;
                 text-transform: uppercase;
@@ -240,7 +261,6 @@ body.home-body-class {
             margin-left: calc($sideWidth + $generalPadding);
             padding: $generalPadding 0;
             display: flex;
-            gap: 0.5rem;
             flex-wrap: wrap;
             .section-label {
                 @include bubble;
@@ -301,6 +321,7 @@ body.home-body-class {
         &__label-wrapper {
             margin-left: calc($sideWidth + $generalPadding);
             padding: $generalPadding 0;
+            display: flex;
             .section-label {
                 @include bubble;
             }
@@ -323,7 +344,7 @@ body.home-body-class {
             }
 
             .infobox__text {
-                max-width: 90%;
+                // max-width: 90%;
                 p {
                     margin-bottom: 1.2rem;
                     &:last-child {
@@ -347,7 +368,6 @@ body.home-body-class {
             margin-left: calc($sideWidth + $generalPadding);
             padding: $generalPadding 0;
             display: flex;
-            gap: 0.5rem;
             flex-wrap: wrap;
             .section-label {
                 @include bubble;
@@ -355,6 +375,10 @@ body.home-body-class {
             }
         }
     }
+}
+
+.section-label {
+    margin-right: $generalPadding;
 }
 
 body.menu-is-open {
@@ -374,16 +398,10 @@ body.menu-is-open {
     }
 }
 
-.section-label {
-    transform: translateX(-0.3rem);
-}
-
 .category-label {
-    display: inline-block !important;
     max-width: 0;
-    margin: 0 !important;
-    margin-right: 0 !important;
     padding: 0 !important;
+    margin-right: 0;
     white-space: nowrap;
     opacity: 0;
     transform: scaleX(0);
@@ -396,10 +414,10 @@ body.menu-is-open {
 
     &.show {
         max-width: 20rem;
-        margin: initial !important;
         padding: $generalPadding 0.8rem 0.2rem 0.8rem !important;
-        margin-right: 1rem !important;
         opacity: 1;
         transform: none;
+        margin-right: $generalPadding;
+        display: inline-block !important;
     }
 }

@@ -103,8 +103,6 @@ body.reise {
             .menu-button-js {
                 @include invertedBubble;
                 cursor: pointer;
-                background-color: var(--colorPage);
-                color: black;
                 transition:
                     border-radius 0.3s ease,
                     transform 0.3s ease;
@@ -119,8 +117,6 @@ body.reise {
 
             .reisen-home-link {
                 margin-top: auto;
-                background-color: var(--colorPage);
-                color: black;
             }
         }
 

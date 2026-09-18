@@ -5,7 +5,7 @@ $previewHeading = $exhiClass === 'archive' ? t('ui.from_archives') : t('ui.exhib
 
 <div data-category="<?= $category ?>" class="exhibition-wrapper exhibition-wrapper--<?= $exhiClass ?> home-item" style="--color: <?= $exhibition->color()->esc() ?>;">
     <div class="inner-home-item">
-    <section class="exhibition-info exhibition-info--<?= $exhiClass ?>">
+    <a href="<?= $exhibition->url() ?>" class="exhibition-info exhibition-info--<?= $exhiClass ?>">
         <p class="exhibition__label exhibition__label--<?= $exhiClass ?>"><?= $previewHeading ?></p>
         <div class="exhibition__details exhibition__details--<?= $exhiClass ?>">
             <div class="exhibition__names exhibition__names--<?= $exhiClass ?>">
@@ -27,13 +27,13 @@ $previewHeading = $exhiClass === 'archive' ? t('ui.from_archives') : t('ui.exhib
                     <p>Eröffnung: <?= $days[date('w', $ts)] ?>, <?= date('j', $ts) ?>. <?= $months[date('n', $ts) - 1] ?>, <?= date('H', $ts) ?> Uhr</p>
                 <?php endif ?>
             </div>
-            <a href="<?= $exhibition->url() ?>" class="exhibition__link exhibition__link--<?= $exhiClass ?>"><?= t('ui.more_information') ?></a>
+            <span class="exhibition__link exhibition__link--<?= $exhiClass ?>"><?= t('ui.more_information') ?></span>
         </div>
-    </section>
+    </a>
 
-    <div class="exhibition-wrapper__label-wrapper exhibition-wrapper__label-wrapper--<?= $exhiClass ?>">
-        <p class="section-label category-label"><a href="<?= page('ausstellungen')->url() ?>"><?= $category ?></a></p>
-        <p class="section-label"><a href="<?= page('ausstellungen')->url() ?>"><?= $exhiLabel ?></a></p>
+    <div class="label-wrapper exhibition-wrapper__label-wrapper exhibition-wrapper__label-wrapper--<?= $exhiClass ?>">
+        <span class="section-label category-label"><a href="<?= page('ausstellungen')->url() ?>"><?= $category ?></a></span>
+        <span class="section-label"><a href="<?= page('ausstellungen')->url() ?>"><?= $exhiLabel ?></a></span>
     </div>
     
     <?php
@@ -53,7 +53,7 @@ $previewHeading = $exhiClass === 'archive' ? t('ui.from_archives') : t('ui.exhib
     }
     ?>
     <?php if ($images->count() > 0): ?>
-        <section class="exhibition-gallery exhibition-gallery--count-<?= $imageCount ?><?= $singleOrientationClass ?>">
+        <a href="<?= $exhibition->url() ?>" class="exhibition-gallery exhibition-gallery--count-<?= $imageCount ?><?= $singleOrientationClass ?>">
             <?php foreach ($images as $image): ?>
                 <div class="exhibition-gallery__item">
                     <img
@@ -61,7 +61,7 @@ $previewHeading = $exhiClass === 'archive' ? t('ui.from_archives') : t('ui.exhib
                         alt="<?= $image->alt()->or($exhibition->kuenstler())->esc() ?>">
                 </div>
             <?php endforeach ?>
-        </section>
+        </a>
     <?php endif ?>
     </div>
 </div>

@@ -51,7 +51,7 @@ body.reisen {
     }
 
     main.reisen-template {
-        width: 98vw;
+        width: 99vw;
         min-height: calc(100vh - 2rem);
         display: flex;
         gap: $generalPadding;
@@ -78,8 +78,8 @@ body.reisen {
             }
 
             .reisen-pill--dark {
-                background: $lightgrey;
-                color: black;
+                background: black;
+                color: white;
             }
 
             .menu-button-js {
