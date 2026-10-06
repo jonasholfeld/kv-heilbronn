@@ -320,22 +320,27 @@ body.ausstellungen {
                     visibility: hidden;
                 }
 
-                &.ausstellungen-row-images--limit-2 img:nth-child(3) {
+                &.ausstellungen-row-images--limit-2 .ausstellungen-row-image-link:nth-child(3) {
                     display: none;
                 }
 
-                &.ausstellungen-row-images--limit-1 img:nth-child(n + 2) {
+                &.ausstellungen-row-images--limit-1 .ausstellungen-row-image-link:nth-child(n + 2) {
                     display: none;
                 }
 
-                img.is-invalid {
-                    display: none;
+                .ausstellungen-row-image-link {
+                    display: block;
+                    flex: 0 0 auto;
+
+                    &:has(img.is-invalid) {
+                        display: none;
+                    }
                 }
 
                 img {
+                    display: block;
                     height: 18rem;
                     width: auto;
-                    flex: 0 0 auto;
                 }
             }
 

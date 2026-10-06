@@ -31,7 +31,7 @@ $whiteFontClass = $item->whiteFont()->toBool() ? 'white-font' : '';
     <?php if ($rowImages->count() > 0): ?>
       <div class="ausstellungen-row-images">
         <?php foreach ($rowImages as $img): ?>
-          <img src="<?= $img->resize(500)->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>">
+          <a class="ausstellungen-row-image-link" href="<?= $item->url() ?>"><img src="<?= $img->resize(500)->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>"></a>
         <?php endforeach ?>
       </div>
     <?php endif ?>
