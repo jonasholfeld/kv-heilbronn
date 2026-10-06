@@ -13,10 +13,10 @@
         <a href="<?= $linkedReise->url() ?>" class="termin-item__wrapper-link" style="--hovercolor: <?= $reiseColor ?>;">
       <?php endif ?>
       <?php $tags = $termin->kalender()->split() ?>
-      <?php if(!$linkedExhibition && !$linkedReise){
-        $emptylinkclass = 'termin-item__wrapper-link--empty'; 
-        } else { $emptylinkclass = '';} ?>
-      <div class="termin-item <?= $emptylinkclass ?>">
+      <?php if (!$linkedExhibition && !$linkedReise): ?>
+        <a href="<?= page('termine')->url() ?>" class="termin-item__wrapper-link">
+      <?php endif ?>
+      <div class="termin-item">
         <?php if (!empty($tags)): ?>
           <p class="termin__label"><?= esc(strtoupper(implode(', ', array_map('trim', $tags)))) ?></p>
         <?php endif ?>
@@ -36,9 +36,7 @@
           </div>
         </div>
       </div>
-      <?php if ($linkedExhibition || $linkedReise): ?>
-        </a>
-      <?php endif ?>
+      </a>
     <?php endforeach ?>
     <div class="label-wrapper termine-section__label-wrapper">
       <span class="section-label category-label"><?= $category ?></span>
