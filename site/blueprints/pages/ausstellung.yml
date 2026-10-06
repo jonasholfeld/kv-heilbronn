@@ -30,12 +30,6 @@ tabs:
                 type: toggle
                 width: 1/4
                 translate: false
-            jahr:
-                label: Jahr
-                type: number
-                width: 1/4
-                min: 0
-                translate: false
             eroffnungsdatum:
                 label: Eröffnung
                 type: date

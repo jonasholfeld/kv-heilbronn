@@ -1,9 +1,6 @@
 <?php
-$filterYear = trim((string)$item->jahr()->value());
-if ($filterYear === '') {
-  $endTs = $item->enddatum()->toDate();
-  $filterYear = $endTs ? date('Y', $endTs) : '';
-}
+$startTs = $item->startdatum()->toDate() ?: $item->enddatum()->toDate();
+$filterYear = $startTs ? date('Y', $startTs) : '';
 
 $rowImages = $item->galerie()->toFiles()->limit(3);
 $eroTs = $item->eroffnungsdatum()->toDate();

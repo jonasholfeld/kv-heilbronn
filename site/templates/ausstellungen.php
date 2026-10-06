@@ -8,6 +8,9 @@ $all = $ausstellungenPage ? $ausstellungenPage->children(): pages();
 $getEffectiveEndDate = function ($item, $format = 'Y-m-d') {
   return $item->enddatum()->toDate($format) ?: $item->startdatum()->toDate($format);
 };
+$getEffectiveStartDate = function ($item, $format = 'Y-m-d') {
+  return $item->startdatum()->toDate($format) ?: $item->enddatum()->toDate($format);
+};
 
 $vorschau = $all->filter(fn ($item) => ($item->startdatum()->toDate('Y-m-d') ?? '') > $now)
   ->sortBy('startdatum', 'asc');
@@ -27,9 +30,9 @@ $archiv = $all->filter(function ($item) use ($now, $getEffectiveEndDate) {
   return $end && $end < $now;
 });
 
-$years = $archiv->group(function ($item) use ($getEffectiveEndDate) {
-  $endTs = $getEffectiveEndDate($item, null);
-  return $endTs ? date('Y', $endTs) : t('ui.without_year');
+$years = $archiv->group(function ($item) use ($getEffectiveStartDate) {
+  $startTs = $getEffectiveStartDate($item, null);
+  return $startTs ? date('Y', $startTs) : t('ui.without_year');
 });
 
 $yearKeys = array_keys($years->toArray());
@@ -39,7 +42,8 @@ $allYears = [];
 $allArtists = [];
 
 foreach ($all as $item) {
-  $year = trim((string)$item->jahr()->value());
+  $startTs = $getEffectiveStartDate($item, null);
+  $year = $startTs ? date('Y', $startTs) : '';
   $artist = trim((string)$item->kuenstler()->value());
 
   if ($year !== '') {
@@ -109,8 +113,8 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
       <?php foreach ($yearKeys as $year): ?>
         <?php $items = $years->get($year); ?>
         <?php $yearItems = $items->values(); ?>
-        <?php usort($yearItems, function ($a, $b) use ($getEffectiveEndDate) {
-          return strcmp($getEffectiveEndDate($b), $getEffectiveEndDate($a));
+        <?php usort($yearItems, function ($a, $b) use ($getEffectiveStartDate) {
+          return strcmp($getEffectiveStartDate($b), $getEffectiveStartDate($a));
         }); ?>
         <h2 class="ausstellungen-section-title"><?= esc($year) ?></h2>
         <?php foreach ($yearItems as $item): ?>

@@ -479,7 +479,6 @@ function exhibitionContent(array $row, array $files): array
         'title'             => trim((string)($row['Title'] ?? '')),
         'wordpressId'       => trim((string)($row['id'] ?? '')),
         'kuenstler'         => trim((string)($row['kunstler'] ?? '')),
-        'jahr'              => trim((string)($row['jahr'] ?? '')),
         'eroffnungsdatum'   => parseDate($row['eroffnungsdatum'] ?? ''),
         'startdatum'        => parseDate($row['startdatum'] ?? ''),
         'enddatum'          => parseDate($row['enddatum'] ?? ''),
