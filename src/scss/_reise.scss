@@ -167,7 +167,7 @@ body.reise {
             }
 
             .single-reise-page__text-container {
-                overflow: scroll;
+                // overflow: scroll;
                 // margin-bottom: $generalPadding;
                 // min-height: 100%;
 
@@ -288,6 +288,16 @@ body.reise {
             &.no-images {
                 background-color: transparent;
                 padding: 0;
+                .scroll-container {
+                    display: block !important;
+                    .single-reise-page__description,
+                    .single-reise-page__text-container {
+                        margin-bottom: $generalPadding !important;
+                        &:last-child {
+                            margin-bottom: 0 !important;
+                        }
+                    }
+                }
                 .single-reise-page__description {
                     background-color: white;
                     padding: $generalPadding;
