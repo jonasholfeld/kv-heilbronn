@@ -167,7 +167,8 @@ body.reise {
             }
 
             .single-reise-page__text-container {
-                margin-bottom: $generalPadding;
+                overflow: scroll;
+                // margin-bottom: $generalPadding;
                 // min-height: 100%;
 
                 &:last-child {
