@@ -46,7 +46,7 @@
     // ── Main content (header + bullets) ─────────────────────────────────────
     &__main {
         flex: 1;
-        display: flex;
+        // display: flex;
         flex-direction: column;
         justify-content: space-between;
         padding-bottom: 40vh;
@@ -66,6 +66,11 @@
         padding: 0;
         margin: 0;
         font-size: 3rem;
+
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
 
         li {
             display: flex;
