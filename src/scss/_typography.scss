@@ -95,7 +95,9 @@ ul {
         height: 1.2rem;
         border-radius: 1.2rem;
         flex: 0 0 1.2rem;
-        background-color: color-mix(in srgb, var(--color) 75%, black);
+        background-color: var(--color);
+        background-image: linear-gradient(var(--color), var(--color));
+        background-blend-mode: multiply;
         transform: translate(-0.1rem, 0rem);
         margin-right: 0.3rem;
         position: absolute;
