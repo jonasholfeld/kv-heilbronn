@@ -410,12 +410,6 @@ body.edition {
     .site-menu {
         background-color: white !important;
     }
-
-    &.menu-is-open {
-        .shop-sidebar {
-            flex: 0 0 $sideWidth !important;
-        }
-    }
 }
 
 body.shop.menu-is-open {

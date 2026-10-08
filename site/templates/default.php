@@ -1,4 +1,5 @@
 <?php snippet('head') ?>
+<div id="swup" class="transition-page">
 
 <main class="page">
   <div class="page__inner">
@@ -15,3 +16,4 @@
     </button>
   </div>
 </main>
+<?php snippet('page-end') ?>

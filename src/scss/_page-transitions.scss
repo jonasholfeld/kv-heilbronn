@@ -1,0 +1,125 @@
+// ── Page transitions (swup) ──────────────────────────────────────────────────
+// Only #swup.transition-page is swapped. Where View Transitions are supported
+// (html.swup-native) the browser cross-fades a snapshot of the old page into
+// the new one, so both overlap. Otherwise the content fades out, is swapped
+// and fades back in.
+
+// Registered so colour changes between pages tween instead of jumping
+@property --colorPage {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #dce0e3;
+}
+
+// Logo colour of the header and menu SVGs. Transparent like the invalid
+// `lightray` default in main.scss, which never applied.
+@property --svgColor {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: transparent;
+}
+
+// ── Native: cross-fade ───────────────────────────────────────────────────────
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+// ── Fallback: fade out, swap, fade in ────────────────────────────────────────
+
+// The cross-fade already blends the colours
+html:not(.swup-native) body {
+    transition: --colorPage 0.5s ease;
+}
+
+html:not(.swup-native):not(.is-handoff-visit) {
+    &.is-changing.is-leaving .transition-page {
+        transition: opacity 0.25s ease-in;
+    }
+
+    &.is-changing.is-rendering .transition-page {
+        transition: opacity 0.45s ease-out;
+    }
+
+    &.is-animating .transition-page {
+        opacity: 0;
+    }
+}
+
+// ── Open menu collapsing during a page change ────────────────────────────────
+// No cross-fade: the old content fades out, then the new content fades in. A
+// frozen copy of the leaving page's menu collapses: into the next page's
+// small sidebar, which stays opaque and is pushed out, or to the top (see
+// page-transitions.js).
+
+html.is-handoff-visit {
+    // Without the cross-fade the page background tweens instead
+    body {
+        transition: background-color 0.5s ease;
+    }
+
+    &.is-leaving .transition-page {
+        transition: opacity 0.25s ease-in;
+    }
+
+    &.is-animating.is-leaving .transition-page {
+        opacity: 0;
+    }
+
+    .transition-page :has(> .sidebar-small) > :not(.sidebar-small) {
+        transition: opacity 0.45s ease-out;
+    }
+
+    &.is-animating.is-rendering
+        .transition-page
+        :has(> .sidebar-small)
+        > :not(.sidebar-small) {
+        opacity: 0;
+    }
+}
+
+// Towards a page without a small sidebar the copy collapses to the top and
+// the whole new content fades in
+html.is-collapse-visit {
+    &.is-rendering .transition-page {
+        transition: opacity 0.45s ease-out;
+    }
+
+    &.is-animating.is-rendering .transition-page {
+        opacity: 0;
+    }
+}
+
+// ── Menu during a page change ────────────────────────────────────────────────
+
+// Fallback: the menu fades out with the old content and back in afterwards.
+// It always switches to the next page's state without animating.
+html.is-changing {
+    .site-menu.is-page-hidden {
+        opacity: 0 !important;
+        transition: opacity 0.25s ease-in !important;
+    }
+
+    .site-menu.is-swapping {
+        transition: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
+
+    body {
+        transition: none !important;
+    }
+
+    html.is-changing .transition-page,
+    html.is-changing .site-menu {
+        transition: none !important;
+    }
+}

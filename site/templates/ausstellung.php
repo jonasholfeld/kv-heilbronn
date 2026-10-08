@@ -1,5 +1,4 @@
 <?php snippet('head') ?>
-<?php snippet('vite', ['entry' => 'src/js/ausstellung.js']) ?>
 <?php snippet('navi', ['includeSiteMenu' => false]) ?>
 <?php
 $renderPdfPreview = static function ($file, int $maxWidth = 2000): ?array {
@@ -62,13 +61,39 @@ $prepareGalleryItem = static function ($file) use ($renderPdfPreview): ?array {
     if ($file->isResizable()) {
         return [
             'file' => $file,
-            'url' => $file->resize(2000)->url(),
             'width' => $file->width(),
             'height' => $file->height(),
         ];
     }
 
     return $renderPdfPreview($file);
+};
+
+// Landscape images are 80rem wide, portrait ones 50rem high (1rem = 1vw)
+$renderGalleryImage = static function (array $item, string $ratioClass, bool $priority = false): void {
+    $file = $item['file'];
+
+    if ($file->isResizable()) {
+        snippet('image', [
+            'file'     => $file,
+            'alt'      => $file->alt()->value(),
+            'class'    => $ratioClass,
+            'sizes'    => $ratioClass === 'landscape' ? '80vw' : null,
+            'heightVw' => 50,
+            'priority' => $priority,
+        ]);
+        return;
+    }
+
+    echo '<img ' . attr([
+        'class'    => $ratioClass,
+        'src'      => $item['url'],
+        'width'    => $item['width'],
+        'height'   => $item['height'],
+        'alt'      => $file->alt()->value(),
+        'loading'  => $priority ? null : 'lazy',
+        'decoding' => 'async',
+    ]) . '>';
 };
 
 $galleryItems = array_values(array_filter(array_map(
@@ -160,10 +185,10 @@ $galleryItems = array_values(array_filter(array_map(
                                     <?php foreach ($page->logos()->toFiles() as $logo): ?>
                                         <?php if(!$logo->linkurl()->isEmpty()): ?>
                                             <a href="<?= $logo->linkurl() ?>" target="_blank" rel="noopener noreferrer">
-                                                <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                                                <?php snippet('image', ['file' => $logo, 'alt' => $logo->alt()->value(), 'heightVw' => 5, 'max' => 800]) ?>
                                             </a>
                                         <?php else: ?>
-                                            <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                                            <?php snippet('image', ['file' => $logo, 'alt' => $logo->alt()->value(), 'heightVw' => 5, 'max' => 800]) ?>
                                         <?php endif ?>
                                     <?php endforeach ?>
                                 </div>
@@ -176,10 +201,10 @@ $galleryItems = array_values(array_filter(array_map(
                                     <?php foreach ($page->logoskooperation()->toFiles() as $logo): ?>
                                         <?php if(!$logo->linkurl()->isEmpty()): ?>
                                             <a href="<?= $logo->linkurl() ?>" target="_blank" rel="noopener noreferrer">
-                                                <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                                                <?php snippet('image', ['file' => $logo, 'alt' => $logo->alt()->value(), 'heightVw' => 5, 'max' => 800]) ?>
                                             </a>
                                         <?php else: ?>
-                                            <img src="<?= $logo->resize(1000)->url() ?>" alt="<?= esc($logo->alt()) ?>">
+                                            <?php snippet('image', ['file' => $logo, 'alt' => $logo->alt()->value(), 'heightVw' => 5, 'max' => 800]) ?>
                                         <?php endif ?>
                                     <?php endforeach ?>
                                 </div>
@@ -235,7 +260,7 @@ $galleryItems = array_values(array_filter(array_map(
                     <div class="image-coupler">
                         <div class="single-ausstellung-page__images-wrapper__image">
                             <div class="inner-image-wrapper">
-                                <img class="<?= $ratioClass ?>" src="<?= $imageItem['url'] ?>" alt="<?= esc($image->alt()) ?>">
+                                <?php $renderGalleryImage($imageItem, $ratioClass, $i === 0) ?>
                                 <?php
                                     $imageCredits = array_filter([
                                         $image->title()->isNotEmpty() ? $image->title()->esc() : null,
@@ -257,7 +282,7 @@ $galleryItems = array_values(array_filter(array_map(
                         </div>
                         <div class="single-ausstellung-page__images-wrapper__image">
                             <div class="inner-image-wrapper">
-                                <img class="<?= $ratioClass ?>" src="<?= $nextImageItem['url'] ?>" alt="<?= esc($nextImage->alt()) ?>">
+                                <?php $renderGalleryImage($nextImageItem, $ratioClass) ?>
                                 <?php
                                     $nextImageCredits = array_filter([
                                         $nextImage->title()->isNotEmpty() ? $nextImage->title()->esc() : null,
@@ -282,7 +307,7 @@ $galleryItems = array_values(array_filter(array_map(
                 <?php else: ?>
                     <div class="single-ausstellung-page__images-wrapper__image">
                         <div class="inner-image-wrapper">
-                            <img class="<?= $ratioClass ?>" src="<?= $imageItem['url'] ?>" alt="<?= esc($image->alt()) ?>">
+                            <?php $renderGalleryImage($imageItem, $ratioClass, $i === 0) ?>
                             <?php
                                 $imageCredits = array_filter([
                                     $image->title()->isNotEmpty() ? $image->title()->esc() : null,
@@ -311,3 +336,4 @@ $galleryItems = array_values(array_filter(array_map(
         <a class="ausstellungen-home-link bubble" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a>
     </div>
 </main>
+<?php snippet('page-end') ?>

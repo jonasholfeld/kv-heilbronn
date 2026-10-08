@@ -50,12 +50,6 @@ body.kunstverein {
         }
     }
 
-    &.menu-is-open {
-        .kunstverein-sidebar {
-            flex: 0 0 $sideWidth !important;
-        }
-    }
-
     main.kunstverein-template {
         width: calc(100vw - 2 * $generalPadding);
         min-height: calc(100vh - 2 * $generalPadding);
@@ -64,7 +58,6 @@ body.kunstverein {
 
         .kunstverein-sidebar {
             flex: 0;
-            transition: flex 0.3s ease;
 
             .kunstverein-pill {
                 @include bubble;

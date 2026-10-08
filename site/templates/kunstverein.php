@@ -32,7 +32,12 @@ $blocks = $page->blockseditor()->toBlocks();
             <div class="scroll-container">
             <?php foreach ($gallery as $img): ?>
                 <div class="kunstverein-image">
-                    <img src="<?= $img->resize(1200)->url() ?>" alt="<?= esc($img->alt()) ?>">
+                    <?php snippet('image', [
+                        'file'     => $img,
+                        'alt'      => $img->alt()->value(),
+                        'sizes'    => '50vw',
+                        'priority' => $img->isFirst($gallery),
+                    ]) ?>
                 </div>
             <?php endforeach ?>
             </div>
@@ -40,3 +45,4 @@ $blocks = $page->blockseditor()->toBlocks();
         <?php endif ?>
     </div>
 </main>
+<?php snippet('page-end') ?>

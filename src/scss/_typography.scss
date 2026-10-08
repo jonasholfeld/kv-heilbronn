@@ -17,6 +17,13 @@ html {
     box-sizing: border-box;
 }
 
+// The width/height attributes of images only reserve their aspect ratio while
+// loading; the actual size is up to the page styles
+:where(img[width][height]) {
+    width: auto;
+    height: auto;
+}
+
 body {
     font-family: 'AkzidenzGrotesk', sans-serif;
     font-weight: 400;

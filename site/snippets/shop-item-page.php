@@ -29,10 +29,16 @@
     <div class="shop-item-page__left">
         <button class="shop-item-page__zoom-close" type="button" data-zoom-close><?= t('ui.close') ?></button>
         <div class="scroll-container">
-            <?php foreach($page->galerie()->toFiles() as $img): ?>
+            <?php $galerie = $page->galerie()->toFiles() ?>
+            <?php foreach($galerie as $img): ?>
                 <div class="shop-item-page__image-container" data-zoom-toggle>
                     <?php if($img): ?>
-                        <img src="<?= $img->resize(1500)->url() ?>" alt="<?= $img->alt()->or($page->kuenstler())->esc() ?>">
+                        <?php snippet('image', [
+                            'file'     => $img,
+                            'alt'      => $img->alt()->or($page->kuenstler())->value(),
+                            'sizes'    => '44vw',
+                            'priority' => $img->isFirst($galerie),
+                        ]) ?>
                         <div class="shop-item-page__image-caption-wrapper">
                             <?php if($img->title()->isNotEmpty()): ?>
                                 <div class="shop-item-page__image-title"><?= $img->title()->html() ?></div>
@@ -50,3 +56,4 @@
         </div>
     </div>
 </main>
+<?php snippet('page-end') ?>

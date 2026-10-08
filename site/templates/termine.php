@@ -88,3 +88,4 @@ $reisenPage = page('reisen');
         </div>
     </section>
 </main>
+<?php snippet('page-end') ?>

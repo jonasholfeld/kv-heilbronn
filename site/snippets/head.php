@@ -11,9 +11,10 @@ $textModeClass = '';
 if($page->template() == 'ausstellung' && $page->galerie()->toFiles()->count() < 4) {
     $textModeClass = 'text-mode';
 }
+$colorPage = $colorPage ?? ($page->color()->isEmpty() ? '#dce0e3' : $page->color()->value());
 $whiteFontClass = '';
 if($page->template() == 'ausstellung' && $page->whiteFont()->toBool()) {
     $whiteFontClass = 'white-font';
 }
 ?>
-<body class="pre-init <?= $textModeClass ?> <?= $whiteFontClass ?> <?= $page->isHomePage() ? 'home-body-class' :  $page->template() ?>" style="--colorPage: <?= $page->color()->isEmpty() ? '#dce0e3' : $page->color() ?>">
+<body class="pre-init <?= $textModeClass ?> <?= $whiteFontClass ?> <?= $page->isHomePage() ? 'home-body-class' :  $page->template() ?>" style="--colorPage: <?= $colorPage ?>">

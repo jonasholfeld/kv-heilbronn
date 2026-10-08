@@ -10,4 +10,4 @@ serve:
 	git add .
 	git commit -m "local changes"
 	git push
-	ssh jholfeld@alnilam.uberspace.de 'cd /var/www/virtual/jholfeld/kvheilbronn.jholfeld.uber.space/ && git pull'
+	ssh jholfeld@alnilam.uberspace.de 'cd /var/www/virtual/jholfeld/kvheilbronn.jholfeld.uber.space/ && git pull && rm -rf site/cache/*/pages'

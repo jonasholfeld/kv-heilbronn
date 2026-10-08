@@ -8,7 +8,10 @@
     flex-direction: column;
     gap: $generalPadding;
     background-color: white;
-    transition: flex 0.3s ease;
+    transform-origin: left;
+    transition:
+        transform 0.3s ease,
+        margin-right 0.3s ease;
 
     .bubble-inverted {
         @include invertedBubble;
@@ -28,5 +31,42 @@
 
     .ausstellungen-home-link {
         margin-top: auto;
+    }
+}
+
+// ── Opening the menu over a small sidebar ────────────────────────────────────
+// A placeholder in front of the sidebar grows to the menu's width, so the
+// menu pushes the sidebar along while it squashes (like the menu, which uses
+// the same 0.3s ease on these pages) and slides out of the layout. The
+// sidebar's parent is a flex row with a $generalPadding gap.
+
+:has(> .sidebar-small)::before {
+    content: '';
+    flex: 0 0 0;
+    // Cancels the placeholder's flex gap, so the sidebar always sits flush
+    // against the menu's edge
+    margin-right: -$generalPadding;
+    transition: flex-basis 0.3s ease;
+}
+
+body.menu-is-open {
+    :has(> .sidebar-small)::before {
+        flex-basis: $sideWidth;
+    }
+
+    .sidebar-small {
+        transform: scaleX(0);
+        // --sidebar-width is measured in main.js. Only the width is removed;
+        // the gap after it stays as the gap after the menu.
+        margin-right: calc(-1 * var(--sidebar-width, 0px));
+    }
+}
+
+// A page entered with the menu still open starts in the open layout without
+// animating, then closes the menu (see page-transitions.js)
+html.is-menu-handoff {
+    .sidebar-small,
+    :has(> .sidebar-small)::before {
+        transition: none !important;
     }
 }

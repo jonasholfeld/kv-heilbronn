@@ -101,3 +101,4 @@ function reiseCategoryLabel(string $category): string {
         </div>
     </section>
 </main>
+<?php snippet('page-end') ?>

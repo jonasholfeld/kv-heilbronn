@@ -48,12 +48,6 @@ body.impressum {
         }
     }
 
-    &.menu-is-open {
-        .besuch-sidebar {
-            flex: 0 0 $sideWidth !important;
-        }
-    }
-
     main.besuch-template {
         width: calc(100vw - 2 * $generalPadding);
         min-height: calc(100vh - 2 * $generalPadding);
@@ -63,7 +57,6 @@ body.impressum {
 
         .besuch-sidebar {
             flex: 0;
-            transition: flex 0.3s ease;
 
             .besuch-pill {
                 @include bubble;

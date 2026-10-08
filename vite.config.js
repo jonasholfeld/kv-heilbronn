@@ -22,9 +22,7 @@ export default defineConfig(({ command }) => ({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: path.resolve("src/js/main.js"),
-        ausstellung: path.resolve("src/js/ausstellung.js"),
-        reise: path.resolve("src/js/reise.js")
+        main: path.resolve("src/js/main.js")
       }
     }
   }

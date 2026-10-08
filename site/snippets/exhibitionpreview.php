@@ -51,14 +51,23 @@ $previewHeading = $exhiClass === 'archive' ? t('ui.from_archives') : t('ui.exhib
             $singleOrientationClass = ' exhibition-gallery--single-landscape';
         }
     }
+    $gallerySizes = match (true) {
+        $imageCount === 3 => '33vw',
+        $imageCount === 2 => '37vw',
+        $singleOrientationClass === ' exhibition-gallery--single-portrait' => '50vw',
+        default => '100vw',
+    };
     ?>
     <?php if ($images->count() > 0): ?>
         <a href="<?= $exhibition->url() ?>" class="exhibition-gallery exhibition-gallery--count-<?= $imageCount ?><?= $singleOrientationClass ?>">
             <?php foreach ($images as $image): ?>
                 <div class="exhibition-gallery__item">
-                    <img
-                        src="<?= $image->resize(1500)->url() ?>"
-                        alt="<?= $image->alt()->or($exhibition->kuenstler())->esc() ?>">
+                    <?php snippet('image', [
+                        'file'     => $image,
+                        'alt'      => $image->alt()->or($exhibition->kuenstler())->value(),
+                        'sizes'    => $gallerySizes,
+                        'priority' => $exhiClass === 'current',
+                    ]) ?>
                 </div>
             <?php endforeach ?>
         </a>

@@ -28,3 +28,9 @@ fields:
         label: Link-URL
         type: text
         width: 1/3
+
+# Scale down large uploads, so the originals stay small and thumbs generate fast
+create:
+    width: 2500
+    height: 2500
+    quality: 85

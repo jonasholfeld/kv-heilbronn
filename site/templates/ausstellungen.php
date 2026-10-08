@@ -124,3 +124,4 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
     </div>
   </section>
 </main>
+<?php snippet('page-end') ?>

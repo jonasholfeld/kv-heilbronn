@@ -45,12 +45,6 @@ body.termine {
         }
     }
 
-    &.menu-is-open {
-        .termine-sidebar {
-            flex: 0 0 $sideWidth !important;
-        }
-    }
-
     main.termine-template {
         width: calc(100vw - 2 * $generalPadding);
         min-height: calc(100vh - 2 * $generalPadding);
@@ -59,7 +53,6 @@ body.termine {
 
         .termine-sidebar {
             flex: 0;
-            transition: flex 0.3s ease;
 
             .termine-page-info {
                 padding-top: 0rem !important;

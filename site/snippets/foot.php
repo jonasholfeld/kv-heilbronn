@@ -20,5 +20,4 @@
         <a>Satzung</a></p>
     </div>
 </footer>
-</body>
-</html>
+<?php snippet('page-end') ?>

@@ -1,6 +1,6 @@
 <?php snippet('head') ?>
-<div class="shop-layout">
 <?php snippet('navi', ['includeSiteMenu' => false]) ?>
+<div class="shop-layout">
 
 <main class="shop-overview">
     <aside class="shop-sidebar sidebar-small">
@@ -26,3 +26,4 @@
     </section>
 </main>
 </div>
+<?php snippet('page-end') ?>

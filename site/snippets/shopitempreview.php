@@ -19,7 +19,11 @@
 
           <?php $img = $item->galerie()->toFiles()->first() ?>
           <?php if ($img): ?>
-            <img src="<?= $img->resize(1000)->url() ?>" alt="<?= $img->alt()->or($item->kuenstler())->esc() ?>">
+            <?php snippet('image', [
+              'file'  => $img,
+              'alt'   => $img->alt()->or($item->kuenstler())->value(),
+              'sizes' => '50vw',
+            ]) ?>
           <?php endif ?>
         </div>
       </div>

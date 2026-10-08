@@ -4,27 +4,31 @@
     "src": "src/fonts/AkzidenzGrotesk.woff2"
   },
   "src/js/ausstellung.js": {
-    "file": "assets/ausstellung-BYRtnR3D.js",
+    "file": "assets/ausstellung-BrILni_S.js",
     "name": "ausstellung",
     "src": "src/js/ausstellung.js",
-    "isEntry": true
+    "isDynamicEntry": true
   },
   "src/js/main.js": {
-    "file": "assets/main-BSZrH1fu.js",
+    "file": "assets/main-CXlO0bMk.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true,
+    "dynamicImports": [
+      "src/js/ausstellung.js",
+      "src/js/reise.js"
+    ],
     "css": [
-      "assets/main-KSpAX3k-.css"
+      "assets/main-D3d4z3Wf.css"
     ],
     "assets": [
       "assets/AkzidenzGrotesk-DdqcRqkk.woff2"
     ]
   },
   "src/js/reise.js": {
-    "file": "assets/reise-C5qQIGvB.js",
+    "file": "assets/reise-cBVQLG9t.js",
     "name": "reise",
     "src": "src/js/reise.js",
-    "isEntry": true
+    "isDynamicEntry": true
   }
 }

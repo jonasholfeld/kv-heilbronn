@@ -44,12 +44,6 @@ body.reisen {
         }
     }
 
-    &.menu-is-open {
-        .reisen-sidebar {
-            flex: 0 0 $sideWidth !important;
-        }
-    }
-
     main.reisen-template {
         width: 99vw;
         min-height: calc(100vh - 2rem);
@@ -58,7 +52,6 @@ body.reisen {
 
         .reisen-sidebar {
             flex: 0;
-            transition: flex 0.3s ease;
             .reisen-page-info {
                 text-transform: uppercase;
                 text-align: center;

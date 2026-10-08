@@ -231,11 +231,13 @@ body.ausstellung {
                     min-width: 16rem;
                     text-transform: none;
                     padding-top: 0.4rem;
+                    // extra bottom spacing lives here (not on .is-open) so it
+                    // is part of the measured height used to offset the layout
+                    padding-bottom: 0.2rem;
                     text-align: left;
                 }
                 &.is-open {
                     border-radius: 0;
-                    padding-bottom: 0.4rem;
                 }
             }
         }
@@ -269,7 +271,7 @@ body.ausstellung {
             main {
                 margin-left: 0;
                 side {
-                    flex: 0 0 23.5rem;
+                    flex: 0 0 23.4rem;
                     // width: 0;
                 }
                 .single-ausstellung-page__text-container {
@@ -518,6 +520,24 @@ body.ausstellung {
                     display: none;
                 }
             }
+        }
+    }
+    // Set for one frame while the image/text layout is swapped
+    &.is-mode-swapping .single-ausstellung-page {
+        &,
+        * {
+            transition: none !important;
+        }
+    }
+    // While switching between image and text mode, the open menu's logo
+    // tweens its colours along with the menu and page background
+    &.is-mode-switching .site-menu #header-svg {
+        transition:
+            background-color 0.6s ease,
+            border-color 0.6s ease,
+            box-shadow 0.6s ease;
+        .st0 {
+            transition: fill 0.6s ease;
         }
     }
     &.white-font {

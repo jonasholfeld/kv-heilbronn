@@ -8,9 +8,7 @@ $catLabel = $cat === 'atelierbesuch' ? t('ui.studio_visit') : t('ui.art_trip');
 $dateStr = $page->reiseStart()->toDate('d.m.Y');
 $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images';
 ?>
-<?php snippet('head') ?>
-<?php snippet('vite', ['entry' => 'src/js/reise.js']) ?>
-<style>body { --colorPage: <?= $reiseColor ?> !important; }</style>
+<?php snippet('head', ['colorPage' => $reiseColor]) ?>
 <?php snippet('navi', ['includeSiteMenu' => false]) ?>
 
 <main class="single-reise-page" style="--reise-color: <?= $reiseColor ?>">
@@ -70,7 +68,12 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
                 <?php foreach ($galerie as $img): ?>
                     <div class="single-reise-page__image">
                         <div class="inner-image-wrapper">
-                            <img src="<?= $img->resize(1200)->url() ?>" alt="<?= esc($img->alt()) ?>">
+                            <?php snippet('image', [
+                                'file'     => $img,
+                                'alt'      => $img->alt()->value(),
+                                'sizes'    => '50vw',
+                                'priority' => $img->isFirst($galerie),
+                            ]) ?>
                             <?php if ($img->credits()->isNotEmpty()): ?>
                                 <div class="credits-wrapper bubble">
                                     <p>Credits</p>
@@ -89,3 +92,4 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
         </div>
     </div>
 </main>
+<?php snippet('page-end') ?>

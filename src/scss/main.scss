@@ -35,6 +35,7 @@ $lightgrey: #dce0e3;
 @import 'termine';
 @import 'kunstverein';
 @import 'besuch';
+@import 'page-transitions';
 
 .bubble {
     @include bubble;
@@ -66,7 +67,9 @@ body {
     }
 }
 
-body.pre-init {
+// Skip menu transitions on first paint, but not during a page change, where
+// the menu should animate into the next page's state
+html:not(.is-changing) body.pre-init {
     .site-menu {
         transition: none !important;
     }
@@ -81,9 +84,11 @@ body.pre-init {
     z-index: 10;
     svg {
         --svgColor: lightray;
+        // The inset shadow uses var(--svgColor), so it follows the tweening
+        // variable without a transition of its own
         transition:
-            border-color 0.5s ease,
-            box-shadow 0.5s ease;
+            --svgColor 0.5s ease,
+            border-color 0.5s ease;
         .st0 {
             transition: fill 0.5s ease;
         }
