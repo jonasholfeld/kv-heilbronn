@@ -1,0 +1,25 @@
+name: Auswahl
+icon: toggle-on
+label: '{{ label }}'
+preview: fields
+wysiwyg: true
+
+fields:
+    label:
+        type: text
+        label: Bezeichnung (für die E-Mail)
+        required: true
+        width: 1/3
+    required:
+        type: toggle
+        label: Pflichtfeld
+        width: 1/3
+    preselect:
+        type: toggle
+        label: Erste Option vorauswählen
+        width: 1/3
+    options:
+        type: tags
+        label: Optionen
+        help: Es kann genau eine Option gewählt werden.
+        required: true

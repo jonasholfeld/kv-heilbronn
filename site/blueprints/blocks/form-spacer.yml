@@ -1,0 +1,8 @@
+name: Abstand
+icon: separator
+label: Abstand
+
+fields:
+    info:
+        type: info
+        text: Fügt einen größeren Abstand zwischen zwei Feldern ein.

@@ -10,20 +10,28 @@
     "isDynamicEntry": true
   },
   "src/js/main.js": {
-    "file": "assets/main-CXlO0bMk.js",
+    "file": "assets/main-DcUJ6acC.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true,
     "dynamicImports": [
       "src/js/ausstellung.js",
-      "src/js/reise.js"
+      "src/js/reise.js",
+      "src/js/order-form.js",
+      "src/js/order-form.js"
     ],
     "css": [
-      "assets/main-D3d4z3Wf.css"
+      "assets/main-BI0hd4Ye.css"
     ],
     "assets": [
       "assets/AkzidenzGrotesk-DdqcRqkk.woff2"
     ]
+  },
+  "src/js/order-form.js": {
+    "file": "assets/order-form-4WWSD5uQ.js",
+    "name": "order-form",
+    "src": "src/js/order-form.js",
+    "isDynamicEntry": true
   },
   "src/js/reise.js": {
     "file": "assets/reise-cBVQLG9t.js",

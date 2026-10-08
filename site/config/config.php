@@ -1,5 +1,20 @@
 <?php
 
+// Credentials live in /.env (not in git, see .env.example); real environment
+// variables take precedence
+$envFile = dirname(__DIR__, 2) . '/.env';
+if (is_file($envFile)) {
+    foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+        if (str_starts_with(trim($line), '#') || !str_contains($line, '=')) {
+            continue;
+        }
+        [$key, $value] = array_map('trim', explode('=', $line, 2));
+        if (getenv($key) === false) {
+            putenv($key . '=' . trim($value, '"\''));
+        }
+    }
+}
+
 $debug = getenv('KIRBY_DEBUG');
 $host = $_SERVER['HTTP_HOST'] ?? '';
 $isLocalHost = in_array($host, ['127.0.0.1:8000', 'localhost:8000', '127.0.0.1', 'localhost'], true);
@@ -29,6 +44,21 @@ return [
             return $data;
         },
     ],
+
+    // Shop order mails (site/plugins/kv-shop-order)
+    'email' => [
+        'transport' => [
+            'type'     => 'smtp',
+            'host'     => getenv('MAIL_HOST') ?: 'localhost',
+            'port'     => (int)(getenv('MAIL_PORT') ?: 587),
+            'security' => getenv('MAIL_SECURITY') ?: 'tls',
+            'auth'     => true,
+            'username' => getenv('MAIL_USERNAME') ?: '',
+            'password' => getenv('MAIL_PASSWORD') ?: '',
+        ],
+    ],
+    'kv.shopOrder.from'     => getenv('MAIL_FROM') ?: '',
+    'kv.shopOrder.fromName' => getenv('MAIL_FROM_NAME') ?: 'Kunstverein Heilbronn',
 
     // These also apply to resizing uploads (file blueprint `create`), so the
     // WebP format is set per thumb in site/plugins/kv-images instead of here

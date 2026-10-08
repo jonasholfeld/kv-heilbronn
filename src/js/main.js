@@ -1231,6 +1231,8 @@ function initPage(signal) {
 const pageScripts = {
     ausstellung: () => import('./ausstellung.js'),
     reise: () => import('./reise.js'),
+    edition: () => import('./order-form.js'),
+    katalog: () => import('./order-form.js'),
 }
 
 let pageController = null

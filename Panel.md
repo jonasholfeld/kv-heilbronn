@@ -428,6 +428,30 @@ Dies ist die Sammelseite für Shop-Inhalte.
 - auf der Shop-Übersicht
 - teilweise auf der Startseite
 
+### Tab `Bestellformular`
+
+Hier wird das Formular gepflegt, das sich über `Bestellen` auf jeder Shop-Detailseite öffnet. Es gilt für alle Editionen und Kataloge; Beschreibung, Bilder, Preise und Hinweis kommen aus dem jeweiligen Shop-Eintrag.
+
+- `Formularfelder`
+    - Felder hinzufügen, entfernen und per Drag & Drop anordnen
+    - `Editionsauswahl`: zeigt die Bilder der Galerie als #1, #2, … zum Anklicken (Mehrfachauswahl); darüber steht die `Erklärung`, darunter der Hinweis des Shop-Eintrags
+    - `Preisauswahl`: zeigt die Preisoptionen des Shop-Eintrags
+    - `Auswahl`: eigene Optionen, z. B. die Anrede
+    - `Textfeld`: Art `Name` füllt den Platzhalter {name}, das erste Feld der Art `E-Mail` erhält die Bestätigungs-E-Mail; `Schmal` macht das Feld nur so breit wie seine Bezeichnung
+    - `Textbereich`: mehrzeiliges Feld, z. B. Bemerkung
+    - `Einwilligung`: Datenschutz-Hinweis mit Pflicht-Haken, Link über das Link-Werkzeug
+    - `Abstand`: größerer Abstand zwischen zwei Feldern
+    - die Bezeichnung eines Text- oder Textbereich-Felds steht als Platzhalter im Feld und verschwindet beim Tippen
+    - Pflichtfelder erhalten automatisch ein `*`
+    - Fehler (leere Pflichtfelder, ungültige E-Mail oder Telefonnummer) werden direkt beim Ausfüllen unter dem Feld angezeigt
+- `Empfänger der Bestellungen`
+    - an diese Adresse geht jede Bestellung; mit `Antworten` schreibt man direkt der Besteller:in
+- `Meldung nach erfolgreicher Bestellung` / `Meldung bei einem Fehler`
+    - erscheinen nach dem Absenden anstelle des Formulars; bei Fehlern wird darunter aufgelistet, was schiefgelaufen ist
+- `Betreff` und `Text der Bestätigungs-E-Mail`
+    - geht an die Besteller:in; Platzhalter: `{name}`, `{titel}` (Shop-Eintrag), `{bestellung}` (alle Angaben)
+- Für die englische Seite alle Texte und Felder in der englischen Sprachversion pflegen
+
 ## Edition
 
 Diese Seite wird für einen einzelnen Editions-Eintrag verwendet.
@@ -456,6 +480,10 @@ Diese Seite wird für einen einzelnen Editions-Eintrag verwendet.
 
 - `Galerie`
     - Bilder für Vorschau und Detailseite
+    - erscheinen im Bestellformular als auswählbare Editionsnummern (#1 = erstes Bild)
+- Tab `Bestellung`
+    - `Preisoptionen`: Auswahl im Bestellformular, z. B. „800 Euro (ohne Rahmen)“
+    - `Hinweis im Bestellformular`: z. B. welche Nummern bereits verkauft sind
 
 ## Katalog
 
@@ -485,6 +513,10 @@ Diese Seite wird für einen einzelnen Katalog-Eintrag verwendet.
 
 - `Galerie`
     - Bilder für Vorschau und Detailseite
+    - erscheinen im Bestellformular als auswählbare Editionsnummern (#1 = erstes Bild)
+- Tab `Bestellung`
+    - `Preisoptionen`: Auswahl im Bestellformular, z. B. „800 Euro (ohne Rahmen)“
+    - `Hinweis im Bestellformular`: z. B. welche Nummern bereits verkauft sind
 
 ## Besuch
 

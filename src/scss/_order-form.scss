@@ -1,0 +1,389 @@
+// ── Shop order form overlay ─────────────────────────────────────────────────
+// site/snippets/order-form.php, src/js/order-form.js
+// Replaces both panes of the shop item page next to the sidebar while
+// main.shop-item-page has .is-ordering
+
+$orderPillHeight: 2rem;
+$orderPillPadding: 1.3rem;
+$orderGap: 0.7rem;
+$orderErrorColor: #d4002a;
+
+@mixin orderPill {
+    @include sansserif;
+    font-size: 1rem;
+    line-height: 1.15;
+    display: inline-flex;
+    align-items: center;
+    min-height: $orderPillHeight;
+    padding: 0.55rem $orderPillPadding 0.3rem;
+    border-radius: 2rem;
+    background-color: var(--colorPage, #{$lightgrey});
+    text-transform: uppercase;
+}
+
+@mixin orderVisuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    pointer-events: none;
+}
+
+body.katalog,
+body.edition {
+    main.shop-item-page {
+        .order-overlay {
+            display: none;
+        }
+
+        &.is-ordering {
+            .shop-item-page__left,
+            .shop-item-page__right {
+                display: none;
+            }
+
+            .order-overlay {
+                display: block;
+            }
+        }
+
+        .order-overlay {
+            flex: 1;
+            height: calc(100vh - 2 * #{$generalPadding});
+            overflow-y: auto;
+            padding: $generalPadding 0.7rem 3rem;
+            background-color: white;
+            font-size: 1rem;
+            animation: order-overlay-in 0.3s ease;
+            scrollbar-width: none;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            &__header {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+
+                h2 {
+                    font-size: 1rem;
+                    text-transform: uppercase;
+                    outline: none;
+                }
+            }
+
+            &__close {
+                @include sansserif;
+                font-size: 1rem;
+                text-transform: uppercase;
+                text-decoration: none !important;
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: black;
+            }
+
+            &__info,
+            &__message {
+                margin-top: 2.5rem;
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            &__details {
+                margin-top: 1rem;
+            }
+        }
+
+        .order-form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: $orderGap;
+            margin-top: 1.2rem;
+
+            fieldset {
+                border: none;
+                margin: 0;
+                padding: 0;
+                min-width: 0;
+            }
+
+            &__visually-hidden {
+                @include orderVisuallyHidden;
+            }
+
+            &__honeypot {
+                position: absolute;
+                left: -9999px;
+            }
+
+            // Editions: gallery images, multiple choice
+            &__editions-text {
+                margin-bottom: 0.6rem;
+            }
+
+            &__editions.is-invalid .order-form__edition-image {
+                box-shadow: inset 0 0 0 2px $orderErrorColor;
+            }
+
+            &__edition-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.65rem;
+            }
+
+            &__edition {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                width: 8.7rem;
+                cursor: pointer;
+
+                input {
+                    @include orderVisuallyHidden;
+                }
+
+                &:has(input:checked) {
+                    background-color: black;
+                    color: white;
+
+                    .order-form__edition-image {
+                        background-color: black;
+                    }
+
+                    .order-form__edition-number {
+                        padding-left: 0.3rem;
+                    }
+                }
+
+                &:has(input:focus-visible) {
+                    outline: 2px solid black;
+                    outline-offset: 2px;
+                }
+            }
+
+            &__edition-image {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 5.75rem;
+                padding: 0.6rem;
+                background-color: $lightgrey;
+                transition: background-color 0.2s ease;
+
+                img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                }
+            }
+
+            &__edition-number {
+                padding: 0.2rem 0 0.1rem;
+                line-height: 1.15;
+            }
+
+            &__editions-selection {
+                margin-top: 0.6rem;
+            }
+
+            &__hint {
+                p {
+                    margin: 0;
+                }
+            }
+
+            // Single choice: prices, salutation
+            &__choice {
+                display: flex;
+                flex-wrap: wrap;
+                gap: $orderGap;
+            }
+
+            &__option {
+                @include orderPill;
+                position: relative;
+                cursor: pointer;
+                transition:
+                    background-color 0.2s ease,
+                    color 0.2s ease;
+
+                input {
+                    @include orderVisuallyHidden;
+                }
+
+                &:has(input:checked) {
+                    background-color: black;
+                    color: white;
+                }
+
+                &:has(input:focus-visible) {
+                    outline: 2px solid black;
+                    outline-offset: 2px;
+                }
+            }
+
+            &__choice.is-invalid .order-form__option {
+                box-shadow: inset 0 0 0 2px $orderErrorColor;
+            }
+
+            // Text fields: the label is the placeholder
+            &__field {
+                @include orderPill;
+                width: 100%;
+                cursor: text;
+
+                input,
+                textarea {
+                    flex: 1;
+                    min-width: 0;
+                    padding: 0;
+                    border: none;
+                    border-radius: 0;
+                    background: transparent;
+                    font: inherit;
+                    line-height: inherit;
+                    text-transform: none;
+                    color: black;
+                    outline: none;
+
+                    &::placeholder {
+                        color: black;
+                        opacity: 1;
+                        text-transform: uppercase;
+                    }
+
+                    // Keep the pill colour when the browser autofills
+                    &:-webkit-autofill {
+                        -webkit-box-shadow: 0 0 0 10rem var(--colorPage, #{$lightgrey}) inset;
+                    }
+                }
+
+                textarea {
+                    resize: none;
+                    overflow: hidden;
+                    height: 1.15em;
+                }
+
+                &:focus-within {
+                    outline: 2px solid black;
+                    outline-offset: 2px;
+                }
+
+                // Width from the input's `size` (length of the placeholder)
+                &--short {
+                    width: auto;
+
+                    input {
+                        flex: none;
+                        width: auto;
+                    }
+                }
+
+                &.is-invalid {
+                    box-shadow: inset 0 0 0 2px $orderErrorColor;
+                }
+
+                &--textarea {
+                    align-items: flex-start;
+                    border-radius: 1rem;
+                }
+            }
+
+            // Inline validation (src/js/order-form.js)
+            &__error {
+                margin-top: -0.3rem;
+                padding-left: $orderPillPadding;
+                color: $orderErrorColor;
+                line-height: 1.15;
+            }
+
+            &__editions + &__error {
+                margin-top: 0;
+                padding-left: 0;
+            }
+
+            &__spacer {
+                height: 1.8rem;
+            }
+
+            // Privacy consent: the circle is the checkbox; circle + gap put the
+            // text in line with the pill labels
+            &__consent {
+                position: relative;
+                display: flex;
+                gap: calc(#{$orderPillPadding} - 0.9rem);
+                margin-top: 0.65rem;
+                cursor: pointer;
+                line-height: 1.05;
+
+                input {
+                    appearance: none;
+                    flex: 0 0 0.9rem;
+                    width: 0.9rem;
+                    height: 0.9rem;
+                    margin: 0;
+                    border-radius: 50%;
+                    background-color: var(--colorPage, #{$lightgrey});
+                    cursor: pointer;
+                    transition: background-color 0.2s ease;
+
+                    &:checked {
+                        background-color: black;
+                    }
+
+                    &[aria-invalid='true'] {
+                        box-shadow: inset 0 0 0 2px $orderErrorColor;
+                    }
+
+                    &:focus-visible {
+                        outline: 2px solid black;
+                        outline-offset: 2px;
+                    }
+                }
+
+                a {
+                    color: inherit;
+                }
+            }
+
+            &__submit {
+                @include orderPill;
+                margin-top: 1.3rem;
+                border: none;
+                background-color: black;
+                color: white;
+                cursor: pointer;
+                transition: border-radius 0.3s ease;
+
+                &:hover {
+                    border-radius: 0;
+                }
+
+                &:disabled {
+                    opacity: 0.4;
+                    cursor: default;
+
+                    &:hover {
+                        border-radius: 2rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes order-overlay-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

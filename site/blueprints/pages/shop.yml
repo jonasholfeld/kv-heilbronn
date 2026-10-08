@@ -24,3 +24,62 @@ tabs:
                 status: all
                 limit: 10
                 width: 1/2
+    bestellformular:
+        label: Bestellformular
+        icon: email
+        columns:
+            formular:
+                width: 2/3
+                sections:
+                    formularFelder:
+                        type: fields
+                        fields:
+                            bestellformular:
+                                type: blocks
+                                label: Formularfelder
+                                help: Gilt für alle Shop-Einträge. Bilder, Beschreibung und Preise kommen aus dem jeweiligen Shop-Eintrag.
+                                fieldsets:
+                                    - form-editions
+                                    - form-prices
+                                    - form-choice
+                                    - form-text
+                                    - form-textarea
+                                    - form-consent
+                                    - form-spacer
+            einstellungen:
+                width: 1/3
+                sections:
+                    formularEinstellungen:
+                        type: fields
+                        fields:
+                            bestellEmpfaenger:
+                                type: email
+                                label: Empfänger der Bestellungen
+                                translate: false
+                                required: true
+                            bestellBetreff:
+                                type: text
+                                label: Betreff der Bestell-E-Mail
+                                help: Der Titel des Shop-Eintrags wird angehängt.
+                                default: Neue Bestellung
+                                translate: false
+                            bestellButton:
+                                type: text
+                                label: Beschriftung des Absende-Buttons
+                                default: Absenden
+                            bestellErfolg:
+                                type: writer
+                                label: Meldung nach erfolgreicher Bestellung
+                            bestellFehler:
+                                type: writer
+                                label: Meldung bei einem Fehler
+                                help: Darunter wird automatisch aufgelistet, was schiefgelaufen ist.
+                            bestaetigungLine:
+                                type: line
+                            bestaetigungBetreff:
+                                type: text
+                                label: Betreff der Bestätigungs-E-Mail
+                            bestaetigungText:
+                                type: writer
+                                label: Text der Bestätigungs-E-Mail
+                                help: 'Platzhalter: {name} (Feld vom Typ „Name“), {titel} (Shop-Eintrag), {bestellung} (alle Angaben aus dem Formular)'

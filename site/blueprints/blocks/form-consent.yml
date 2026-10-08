@@ -1,0 +1,12 @@
+name: Einwilligung
+icon: check
+preview: fields
+wysiwyg: true
+
+fields:
+    text:
+        type: writer
+        label: Text der Einwilligung
+        inline: true
+        help: Muss vor dem Absenden angehakt werden. Ein Link zur Datenschutzerklärung kann über das Link-Werkzeug gesetzt werden.
+        required: true

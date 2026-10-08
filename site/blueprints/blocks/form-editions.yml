@@ -1,0 +1,23 @@
+name: Editionsauswahl
+icon: images
+label: '{{ label }}'
+preview: fields
+wysiwyg: true
+
+fields:
+    info:
+        type: info
+        text: Zeigt die Bilder aus der Galerie des Shop-Eintrags als auswählbare Editionsnummern ( 1, 2, …). Mehrfachauswahl ist möglich. Shop-Einträge ohne Galeriebilder zeigen diesen Bereich nicht.
+    label:
+        type: text
+        label: Bezeichnung (für die E-Mail)
+        default: Editionsnummer
+        width: 2/3
+    required:
+        type: toggle
+        label: Pflichtfeld
+        width: 1/3
+    text:
+        type: text
+        label: Erklärung
+        help: Steht über den Bildern, z. B. dass die Bilder zur Auswahl angeklickt werden können.

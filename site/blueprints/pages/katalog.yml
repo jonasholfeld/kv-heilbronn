@@ -50,3 +50,20 @@ tabs:
                 label: Ursprüngliche Bildreferenzen
                 type: textarea
                 buttons: false
+    bestellung:
+        label: Bestellung
+        icon: cart
+        fields:
+            preise:
+                label: Preisoptionen
+                type: structure
+                help: Erscheinen im Bestellformular als Auswahl (z. B. „800 Euro (ohne Rahmen)“).
+                fields:
+                    label:
+                        label: Bezeichnung
+                        type: text
+                        required: true
+            bestellHinweis:
+                label: Hinweis im Bestellformular
+                type: writer
+                help: Wird unter den Editionsbildern angezeigt, z. B. welche Nummern bereits verkauft sind.

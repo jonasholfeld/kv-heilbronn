@@ -1,0 +1,16 @@
+name: Textbereich
+icon: text-left
+label: '{{ label }}'
+preview: fields
+wysiwyg: true
+
+fields:
+    label:
+        type: text
+        label: Bezeichnung
+        required: true
+        width: 1/2
+    required:
+        type: toggle
+        label: Pflichtfeld
+        width: 1/2

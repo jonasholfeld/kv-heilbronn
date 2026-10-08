@@ -1,0 +1,33 @@
+name: Textfeld
+icon: input-cursor-move
+label: '{{ label }}'
+preview: fields
+wysiwyg: true
+
+fields:
+    label:
+        type: text
+        label: Bezeichnung
+        required: true
+        width: 1/2
+    fieldtype:
+        type: select
+        label: Art
+        default: text
+        required: true
+        width: 1/2
+        help: Das erste Feld vom Typ „E-Mail“ erhält die Bestätigungs-E-Mail; das Feld vom Typ „Name“ füllt den Platzhalter {name}.
+        options:
+            text: Text
+            name: Name
+            email: E-Mail
+            tel: Telefon
+    required:
+        type: toggle
+        label: Pflichtfeld
+        width: 1/2
+    short:
+        type: toggle
+        label: Schmal
+        help: Nur so breit wie die Bezeichnung (z. B. „Nummer der Edition“)
+        width: 1/2

@@ -1,7 +1,8 @@
 <?php snippet('head') ?>
 <?php snippet('navi', ['includeSiteMenu' => false]) ?>
+<?php $orderResult = $page->orderResult() ?>
 
-<main class="shop-item-page" style="--color: <?= $page->color()->or('#000000') ?>">
+<main class="shop-item-page<?= $orderResult ? ' is-ordering' : '' ?>" style="--color: <?= $page->color()->or('#000000') ?>">
     <aside class="shop-sidebar sidebar-small">
         <div class="shop-page-info page-info"><?= t('ui.shop') ?></div>
         <button class="menu-button-js bubble bubble-inverted" type="button"><?= t('ui.menu') ?></button>
@@ -55,5 +56,6 @@
             <?php endforeach ?>
         </div>
     </div>
+    <?php snippet('order-form', ['result' => $orderResult]) ?>
 </main>
 <?php snippet('page-end') ?>
