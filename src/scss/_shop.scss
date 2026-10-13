@@ -237,6 +237,10 @@ body.edition {
             transition: flex-basis 0.3s ease;
 
             .scroll-container {
+                // Full width: with align-items: flex-start it would otherwise
+                // shrink to the image's intrinsic srcset width, which leaves
+                // a gap on the right when zoomed (varies by browser/DPR)
+                width: 100%;
                 height: calc(100vh - 2 * #{$generalPadding});
                 overflow: scroll;
             }
