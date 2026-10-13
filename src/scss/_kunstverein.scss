@@ -187,6 +187,8 @@ body.kunstverein {
             background-color: white;
             padding: $generalPadding;
             flex: 0 0 calc(50% - #{$generalPadding});
+            // White down to the bottom, also when the images are shorter
+            min-height: calc(100vh - 2 * #{$generalPadding});
             overflow: hidden;
 
             .kunstverein-image {

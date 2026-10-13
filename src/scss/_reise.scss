@@ -287,8 +287,16 @@ body.reise {
             &.no-images {
                 background-color: transparent;
                 padding: 0;
+                // The last box grows, so the column is white down to the bottom
                 .scroll-container {
-                    display: block !important;
+                    display: flex !important;
+                    gap: 0; // the boxes keep their margins
+                    > * {
+                        flex: 0 0 auto;
+                    }
+                    > :last-child {
+                        flex-grow: 1;
+                    }
                     .single-reise-page__description,
                     .single-reise-page__text-container {
                         margin-bottom: $generalPadding !important;
@@ -300,10 +308,6 @@ body.reise {
                 .single-reise-page__description {
                     background-color: white;
                     padding: $generalPadding;
-                }
-                .single-reise-page__text-container {
-                    min-height: 0;
-                    flex: 1;
                 }
             }
         }
