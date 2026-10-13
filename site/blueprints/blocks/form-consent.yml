@@ -1,12 +1,24 @@
 name: Einwilligung
 icon: check
+label: '{{ label }}'
 preview: fields
 wysiwyg: true
 
 fields:
     text:
         type: writer
-        label: Text der Einwilligung
+        label: Text
         inline: true
-        help: Muss vor dem Absenden angehakt werden. Ein Link zur Datenschutzerklärung kann über das Link-Werkzeug gesetzt werden.
+        help: Ein Link (z. B. zur Datenschutzerklärung oder Satzung) kann über das Link-Werkzeug gesetzt werden.
         required: true
+    label:
+        type: text
+        label: Bezeichnung (für die E-Mail)
+        placeholder: z. B. SEPA-Mandat
+        width: 1/2
+    required:
+        type: toggle
+        label: Pflichtfeld
+        help: Muss vor dem Absenden angehakt werden.
+        default: true
+        width: 1/2

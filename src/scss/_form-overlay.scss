@@ -1,0 +1,569 @@
+// ── Form overlays ───────────────────────────────────────────────────────────
+// Shop order, membership and trip registration: site/snippets/form-overlay.php,
+// site/snippets/form-fields.php, src/js/form-overlay.js
+// The overlay replaces everything next to the sidebar while its
+// [data-form-host] has .is-form-open
+
+$formPillHeight: 2rem;
+$formPillPadding: 1.3rem;
+$formGroupPillPadding: 0.9rem;
+$formGap: 0.7rem;
+$formGroupGap: 0.55rem;
+$formNarrowWidth: 23.6rem;
+$formErrorColor: #d4002a;
+
+@mixin formPill {
+    @include sansserif;
+    font-size: 1rem;
+    line-height: 1.15;
+    display: inline-flex;
+    align-items: center;
+    min-height: $formPillHeight;
+    padding: 0.55rem var(--form-pill-padding) 0.3rem;
+    border-radius: 2rem;
+    background-color: var(--form-pill);
+    text-transform: uppercase;
+}
+
+@mixin formVisuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    pointer-events: none;
+}
+
+@mixin formFocus {
+    outline: 2px solid black;
+    outline-offset: 2px;
+}
+
+[data-form-host] {
+    .form-overlay {
+        display: none;
+    }
+
+    &.is-form-open {
+        > :not(.sidebar-small):not(.form-overlay) {
+            display: none;
+        }
+
+        .form-overlay {
+            display: block;
+        }
+    }
+}
+
+// Buttons that open the forms
+body.kunstverein .kunstverein-block .kunstverein-form-open {
+    margin-top: 1.2rem;
+    background-color: var(--colorPage);
+}
+
+body.reise .single-reise-page__buttons-wrapper-outer .reise-form-open {
+    margin-left: 0.4rem;
+}
+
+.form-overlay {
+    --form-pill: var(--colorPage, #{$lightgrey});
+    --form-pill-padding: #{$formPillPadding};
+
+    flex: 1;
+    min-width: 0;
+    height: calc(100vh - 2 * #{$generalPadding});
+    overflow-y: auto;
+    padding: 0 0.7rem 3rem;
+    background-color: white;
+    font-size: 1rem;
+    animation: form-overlay-in 0.3s ease;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    // Stays while the form scrolls underneath
+    &__header {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: $generalPadding 0 0.6rem;
+        background-color: white;
+
+        h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            outline: none;
+        }
+    }
+
+    &__close {
+        @include sansserif;
+        font-size: 1rem;
+        text-transform: uppercase;
+        text-decoration: none !important;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: black;
+    }
+
+    &__info,
+    &__message {
+        margin-top: 1.9rem;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    &__intro-title {
+        text-transform: uppercase;
+    }
+
+    // Trips: title, date and registration text are separate paragraphs
+    &--reise &__info p + p {
+        margin-top: 1rem;
+    }
+
+    &__details {
+        margin-top: 1rem;
+    }
+}
+
+.kv-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: $formGap;
+    margin-top: 1.2rem;
+
+    .form-overlay__header + & {
+        margin-top: 1.3rem;
+    }
+
+    .form-overlay--reise & {
+        margin-top: 2.4rem;
+    }
+
+    fieldset {
+        border: none;
+        margin: 0;
+        padding: 0;
+        min-width: 0;
+    }
+
+    &__visually-hidden {
+        @include formVisuallyHidden;
+    }
+
+    &__honeypot {
+        position: absolute;
+        left: -9999px;
+    }
+
+    // One per block: pill (or group, text, …) plus its error line
+    &__item {
+        position: relative;
+        flex: 0 0 100%;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.3rem;
+
+        &--half {
+            flex-basis: calc(50% - #{$formGap} / 2);
+        }
+
+        &--narrow .kv-form__pill {
+            width: $formNarrowWidth;
+            max-width: 100%;
+        }
+
+        &--auto {
+            flex: 0 0 auto;
+            align-items: flex-start;
+        }
+
+        &--submit {
+            margin-top: 1.6rem;
+            align-items: flex-start;
+        }
+
+        // The privacy consent keeps some distance to the last field
+        &:has(> .kv-form__consent) {
+            margin-top: 0.65rem;
+        }
+    }
+
+    // ── Groups: coloured box, white pills ───────────────────────────────────
+    &__group {
+        --form-pill: white;
+        --form-pill-padding: #{$formGroupPillPadding};
+
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: $formGroupGap;
+        padding: 1.2rem 1.3rem 1.85rem;
+        border-radius: 1.5rem;
+        background-color: var(--colorPage, #{$lightgrey});
+
+        .kv-form__item:not(.kv-form__group) + & {
+            margin-top: 0.8rem;
+        }
+
+        & + & {
+            margin-top: 0.3rem;
+        }
+
+        > .kv-form__error {
+            flex: 0 0 100%;
+        }
+
+        .kv-form__item:has(> .kv-form__consent) {
+            margin-top: 0.4rem;
+        }
+
+        &.is-invalid {
+            box-shadow: inset 0 0 0 2px $formErrorColor;
+        }
+    }
+
+    &__group-title {
+        flex: 0 0 100%;
+        margin-bottom: 0.65rem;
+        text-transform: uppercase;
+    }
+
+    // ── Texts between the fields ────────────────────────────────────────────
+    &__info {
+        line-height: 1.15;
+
+        p {
+            margin: 0;
+        }
+
+        p + p {
+            margin-top: 0.75rem;
+        }
+
+        .kv-form__group-title + & {
+            margin-top: 0.4rem;
+        }
+
+        & + .kv-form__item:not(.kv-form__info) {
+            margin-top: 0.9rem;
+        }
+    }
+
+    &__spacer {
+        height: 1.8rem;
+    }
+
+    // ── Editions (shop): gallery images, multiple choice ────────────────────
+    &__editions-text {
+        margin-bottom: 0.6rem;
+    }
+
+    &__editions.is-invalid .kv-form__edition-image {
+        box-shadow: inset 0 0 0 2px $formErrorColor;
+    }
+
+    &__edition-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+    }
+
+    &__edition {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 8.7rem;
+        cursor: pointer;
+
+        input {
+            @include formVisuallyHidden;
+        }
+
+        &:has(input:checked) {
+            background-color: black;
+            color: white;
+
+            .kv-form__edition-image {
+                background-color: black;
+            }
+
+            .kv-form__edition-number {
+                padding-left: 0.3rem;
+            }
+        }
+
+        &:has(input:focus-visible) {
+            @include formFocus;
+        }
+    }
+
+    &__edition-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 5.75rem;
+        padding: 0.6rem;
+        background-color: $lightgrey;
+        transition: background-color 0.2s ease;
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    }
+
+    &__edition-number {
+        padding: 0.2rem 0 0.1rem;
+        line-height: 1.15;
+    }
+
+    &__editions-selection {
+        margin-top: 0.6rem;
+    }
+
+    &__hint {
+        margin-top: 0.3rem;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    // ── Single choice: prices, salutation, membership, … ────────────────────
+    &__choice {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $formGap;
+
+        &--stacked {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        &.is-invalid .kv-form__option {
+            box-shadow: inset 0 0 0 2px $formErrorColor;
+        }
+    }
+
+    &__option {
+        @include formPill;
+        position: relative;
+        cursor: pointer;
+        transition:
+            background-color 0.2s ease,
+            color 0.2s ease;
+
+        input {
+            @include formVisuallyHidden;
+        }
+
+        &:has(input:checked) {
+            background-color: black;
+            color: white;
+        }
+
+        &:has(input:focus-visible) {
+            @include formFocus;
+        }
+    }
+
+    // ── Text fields: the label is the placeholder ───────────────────────────
+    &__field {
+        @include formPill;
+        width: 100%;
+        cursor: text;
+
+        .kv-form__item--auto & {
+            width: auto;
+        }
+
+        input,
+        textarea {
+            flex: 1;
+            min-width: 0;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            font: inherit;
+            line-height: inherit;
+            text-transform: none;
+            color: black;
+            outline: none;
+
+            &::placeholder {
+                color: black;
+                opacity: 1;
+                text-transform: uppercase;
+            }
+
+            // Keep the pill colour when the browser autofills
+            &:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0 10rem var(--form-pill) inset;
+            }
+        }
+
+        // Date picker: no browser chrome beyond the value
+        input[type='date'] {
+            min-height: 1.15em;
+
+            &::-webkit-calendar-picker-indicator {
+                opacity: 0.4;
+                cursor: pointer;
+            }
+        }
+
+        // Width from the input's `size` (length of the placeholder)
+        .kv-form__item--auto & input {
+            flex: none;
+            width: auto;
+        }
+
+        textarea {
+            resize: none;
+            overflow: hidden;
+            height: 1.15em;
+        }
+
+        &--textarea {
+            align-items: flex-start;
+            border-radius: 1rem;
+        }
+
+        &--tall {
+            min-height: 9rem;
+            border-radius: 1.5rem;
+            padding-top: 1rem;
+
+            textarea {
+                height: 7rem;
+                overflow-y: auto;
+            }
+        }
+
+        &:focus-within {
+            @include formFocus;
+        }
+
+        &.is-invalid {
+            box-shadow: inset 0 0 0 2px $formErrorColor;
+        }
+    }
+
+    // ── File upload ─────────────────────────────────────────────────────────
+    &__upload {
+        @include formPill;
+        position: relative;
+        cursor: pointer;
+        margin-top: 0.75rem;
+
+        input {
+            @include formVisuallyHidden;
+        }
+
+        &:has(input:focus-visible) {
+            @include formFocus;
+        }
+
+        &.is-invalid {
+            box-shadow: inset 0 0 0 2px $formErrorColor;
+        }
+    }
+
+    // ── Consents: the circle is the checkbox; circle + gap put the text in
+    // line with the pill labels ───────────────────────────────────────────────
+    &__consent {
+        position: relative;
+        display: flex;
+        gap: calc(#{$formPillPadding} - 0.9rem);
+        cursor: pointer;
+        line-height: 1.05;
+
+        input {
+            appearance: none;
+            flex: 0 0 0.9rem;
+            width: 0.9rem;
+            height: 0.9rem;
+            margin: 0;
+            border-radius: 50%;
+            background-color: var(--form-pill);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+
+            &:checked {
+                background-color: black;
+            }
+
+            &:focus-visible {
+                @include formFocus;
+            }
+
+            &[aria-invalid='true'] {
+                box-shadow: inset 0 0 0 2px $formErrorColor;
+            }
+        }
+
+        a {
+            color: inherit;
+        }
+    }
+
+    // ── Inline validation (src/js/form-overlay.js) ──────────────────────────
+    &__error {
+        padding-left: var(--form-pill-padding);
+        color: $formErrorColor;
+        line-height: 1.15;
+    }
+
+    &__editions + &__error,
+    &__hint + &__error {
+        padding-left: 0;
+    }
+
+    &__submit {
+        @include formPill;
+        border: none;
+        background-color: black;
+        color: white;
+        cursor: pointer;
+        transition: border-radius 0.3s ease;
+
+        &:hover {
+            border-radius: 0;
+        }
+
+        &:disabled {
+            opacity: 0.4;
+            cursor: default;
+
+            &:hover {
+                border-radius: 2rem;
+            }
+        }
+    }
+}
+
+@keyframes form-overlay-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

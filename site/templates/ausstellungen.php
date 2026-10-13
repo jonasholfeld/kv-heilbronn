@@ -68,6 +68,9 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
     <div class="ausstellungen-page-info page-info"><?= t('ui.exhibitions') ?></div>
     <button class="menu-button-js ausstellungen-pill ausstellungen-pill--dark" type="button"><?= t('ui.menu') ?></button>
     <button class="ausstellungen-filter" type="button" aria-expanded="false"><?= t('ui.filter') ?></button>
+    <?php // Mobile only: the active filter (tap to remove) and closing the open filter ?>
+    <button class="ausstellungen-filter-active" type="button" hidden data-filter-active></button>
+    <button class="ausstellungen-filter-close" type="button" data-filter-close><?= t('ui.close') ?></button>
 
     <div class="ausstellungen-filter-panels" hidden>
       <section class="ausstellungen-filter-group">

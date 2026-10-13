@@ -1,0 +1,180 @@
+// ── Mobile: Kunstverein ──────────────────────────────────────────────────────
+// Uses the variables and mixins of _mobile.scss. A sticky top box, the text
+// blocks as an accordion (src/js/kunstverein.js), the images and a Startseite
+// box, all framed in the page colour.
+
+// Height of the sticky top box, so opened sections aren't hidden behind it
+$mKunstvereinTopBox: calc(#{$mPadding} + #{$mBubbleHeight} + 2 * #{$mGap} + #{$mGap});
+
+@include mobile {
+    body.kunstverein main.kunstverein-template {
+        flex-direction: column;
+        gap: $mGap;
+        width: 100%;
+        min-height: 0;
+        font-size: $mFontSize;
+        line-height: 1.3;
+
+        // Menü with the page title centred over it
+        .kunstverein-sidebar {
+            flex: none;
+            position: sticky;
+            top: $mPadding;
+            z-index: 20;
+            height: auto;
+            padding: $mGap;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            background-color: white;
+            // Covers the frame above and the gap below it
+            box-shadow:
+                0 (-$mPadding) 0 0 var(--colorPage),
+                0 $mGap 0 0 var(--colorPage);
+
+            .kunstverein-page-info {
+                grid-row: 1;
+                grid-column: 1 / -1;
+                padding: 0;
+                font-size: $mBubbleFontSize;
+                line-height: 1.3;
+            }
+
+            .kunstverein-pill {
+                @include mobileBubble;
+            }
+
+            .menu-button-js {
+                grid-row: 1;
+                grid-column: 1;
+                justify-self: start;
+                position: relative;
+                background-color: var(--colorPage);
+                color: black;
+            }
+
+            .kunstverein-home-link {
+                display: none;
+            }
+        }
+
+        .kunstverein-content {
+            flex-direction: column;
+            align-items: stretch;
+            gap: $mGap;
+            min-height: 0;
+        }
+
+        // ── Accordion ───────────────────────────────────────────────────────
+        .kunstverein-blocks {
+            flex: none;
+            height: auto;
+            overflow: visible;
+            gap: $mGap;
+
+            .kunstverein-block {
+                padding: 2.6rem 2.4rem 2.2rem;
+                scroll-margin-top: $mKunstvereinTopBox;
+
+                p {
+                    margin-top: 1.3em;
+                    margin-bottom: 1.3em;
+                }
+
+                ul {
+                    margin-top: -1.3em;
+                    margin-bottom: 1.3em;
+                    li p {
+                        margin: 0;
+                        padding-left: 4.6rem;
+                        &::before {
+                            width: 3.4rem;
+                            height: 3.4rem;
+                            border-radius: 3.4rem;
+                            flex-basis: 3.4rem;
+                        }
+                    }
+                }
+
+                a[href^='mailto:']::before {
+                    width: 3.4rem;
+                    height: 3.4rem;
+                    margin-right: 1.2rem;
+                    transform: translateY(0.5rem);
+                }
+
+                > div > :last-child {
+                    margin-bottom: 0;
+                }
+
+                // Closed: only the heading
+                &:not(.is-open) .kunstverein-block__heading {
+                    margin-bottom: 0;
+                }
+                &:not(.is-open) > div > :not(.kunstverein-block__heading),
+                &:not(.is-open) > .kunstverein-form-open {
+                    display: none;
+                }
+
+                // The form has a box of its own (below)
+                > .kunstverein-form-open {
+                    display: none;
+                }
+            }
+
+            .kunstverein-block__heading {
+                margin: 0;
+                text-transform: uppercase;
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            // Satzung (PDF) and the form: boxes that look like the headings
+            .satzung,
+            .kunstverein-block--form {
+                display: block;
+                padding: 0;
+
+                .bubble,
+                .kunstverein-block__link {
+                    display: block;
+                    width: 100%;
+                    padding: 2.6rem 2.4rem 2.2rem;
+                    border: none;
+                    border-radius: 0;
+                    background: none;
+                    font: inherit;
+                    font-size: $mFontSize;
+                    line-height: 1.3;
+                    text-align: left;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                    color: black;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .kunstverein-images {
+            flex: none;
+            padding: $mGap;
+            overflow: visible;
+
+            .scroll-container {
+                max-height: none;
+                overflow: visible;
+                gap: $mGap;
+            }
+        }
+
+        .kunstverein-mobile-links {
+            display: block;
+            padding: 2.4rem;
+            background-color: white;
+
+            .kunstverein-home-link {
+                background-color: var(--colorPage);
+            }
+        }
+    }
+}

@@ -1,0 +1,10 @@
+name: Text
+icon: text
+preview: fields
+wysiwyg: true
+
+fields:
+    text:
+        type: writer
+        label: Text
+        help: Erklärender Text zwischen den Feldern

@@ -8,6 +8,7 @@ fields:
     label:
         type: text
         label: Bezeichnung
+        help: Steht als Platzhalter im Feld.
         required: true
         width: 1/2
     fieldtype:
@@ -15,19 +16,29 @@ fields:
         label: Art
         default: text
         required: true
-        width: 1/2
-        help: Das erste Feld vom Typ „E-Mail“ erhält die Bestätigungs-E-Mail; das Feld vom Typ „Name“ füllt den Platzhalter {name}.
+        width: 1/4
+        help: Das erste Feld „E-Mail“ erhält die Bestätigungs-E-Mail; das Feld „Name“ füllt den Platzhalter {name}.
         options:
             text: Text
             name: Name
             email: E-Mail
             tel: Telefon
+            date: Datum
+            number: Anzahl
+            iban: IBAN
+            bic: BIC
+    width:
+        extends: fields/formular-breite
+        width: 1/4
     required:
         type: toggle
         label: Pflichtfeld
         width: 1/2
-    short:
-        type: toggle
-        label: Schmal
-        help: Nur so breit wie die Bezeichnung (z. B. „Nummer der Edition“)
+    minAge:
+        type: number
+        label: Mindestalter
+        help: Optional, z. B. 18 für eine Volljährigkeitsprüfung beim Geburtsdatum.
+        min: 0
         width: 1/2
+        when:
+            fieldtype: date

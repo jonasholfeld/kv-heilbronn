@@ -8,9 +8,15 @@ fields:
     label:
         type: text
         label: Bezeichnung
+        help: Steht als Platzhalter im Feld.
         required: true
         width: 1/2
     required:
         type: toggle
         label: Pflichtfeld
-        width: 1/2
+        width: 1/4
+    tall:
+        type: toggle
+        label: Groß
+        help: Mehrzeilig, z. B. für eine Nachricht
+        width: 1/4

@@ -1,0 +1,25 @@
+name: Gruppe
+icon: box
+label: '{{ title }}'
+
+fields:
+    title:
+        type: text
+        label: Überschrift
+        width: 2/3
+    required:
+        type: toggle
+        label: Mindestens ein Feld ausfüllen
+        help: z. B. bei „Personenanzahl“
+        width: 1/3
+    blocks:
+        type: blocks
+        label: Felder
+        fieldsets:
+            - form-text
+            - form-textarea
+            - form-choice
+            - form-consent
+            - form-upload
+            - form-info
+            - form-spacer

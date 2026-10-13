@@ -223,6 +223,12 @@ body.ausstellungen {
             .ausstellungen-home-link {
                 margin-top: auto;
             }
+
+            // Mobile only, see _mobile-ausstellungen.scss
+            .ausstellungen-filter-active,
+            .ausstellungen-filter-close {
+                display: none;
+            }
         }
 
         .ausstellungen-content {

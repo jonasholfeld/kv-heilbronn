@@ -29,7 +29,7 @@ $lightgrey: #dce0e3;
 @import 'menu';
 @import 'ausstellung';
 @import 'shop';
-@import 'order-form';
+@import 'form-overlay';
 @import 'sidebar';
 @import 'reisen';
 @import 'reise';
@@ -259,6 +259,11 @@ footer {
             display: block;
         }
     }
+    // Mobile only, see _mobile.scss
+    .footer-logo,
+    .footer-imprint {
+        display: none;
+    }
 }
 
 body.menu-is-open {
@@ -284,9 +289,22 @@ side {
             margin-top: auto;
             text-align: center;
         }
+        // Mobile only, see _mobile.scss
+        .sidebar-text-mode__close {
+            display: none;
+        }
     }
 }
 
 strong {
     font-weight: normal !important;
 }
+
+// Last, so it overrides the desktop rules above
+@import 'mobile';
+@import 'mobile-ausstellungen';
+@import 'mobile-reisen';
+@import 'mobile-kunstverein';
+@import 'mobile-termine';
+@import 'mobile-overlay';
+@import 'mobile-forms';

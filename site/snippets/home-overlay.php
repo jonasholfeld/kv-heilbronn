@@ -83,7 +83,6 @@ $headerParts = [
 if ($openingHoursLabel) {
     $headerParts[] = $openingHoursLabel;
 }
-$headerText = implode(', ', $headerParts);
 
 // Build bullet items
 $bullets = [];
@@ -134,7 +133,8 @@ $besuchPage = page('besuch');
         </svg>
     </div>
     <div class="home-overlay__main">
-        <p class="home-overlay__header"><?= esc($headerText) ?></p>
+        <?php // On mobile the weekday gets a line of its own (without the comma) ?>
+        <p class="home-overlay__header"><span class="home-overlay__weekday"><?= esc($headerParts[0]) ?></span><span class="home-overlay__separator">, </span><?= esc(implode(', ', array_slice($headerParts, 1))) ?></p>
         <?php if (!empty($bullets)): ?>
         <ul class="home-overlay__bullets">
             <?php foreach ($bullets as $bullet): ?>

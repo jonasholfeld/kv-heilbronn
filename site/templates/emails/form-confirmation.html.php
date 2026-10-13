@@ -1,7 +1,7 @@
 <?php
 /**
- * Confirmation mail to the customer, text from the shop page
- * (tab "Bestellformular") with the placeholders already replaced
+ * Confirmation mail to the sender, text from the config page of the form
+ * (tab "Formular") with the placeholders already replaced
  *
  * @var string $body HTML
  */

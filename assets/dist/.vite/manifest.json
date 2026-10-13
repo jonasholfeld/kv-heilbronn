@@ -4,34 +4,40 @@
     "src": "src/fonts/AkzidenzGrotesk.woff2"
   },
   "src/js/ausstellung.js": {
-    "file": "assets/ausstellung-BrILni_S.js",
+    "file": "assets/ausstellung-BXMzE0k1.js",
     "name": "ausstellung",
     "src": "src/js/ausstellung.js",
     "isDynamicEntry": true
   },
+  "src/js/form-overlay.js": {
+    "file": "assets/form-overlay-B9Mwdm4e.js",
+    "name": "form-overlay",
+    "src": "src/js/form-overlay.js",
+    "isDynamicEntry": true
+  },
+  "src/js/kunstverein.js": {
+    "file": "assets/kunstverein-DQW0JGD7.js",
+    "name": "kunstverein",
+    "src": "src/js/kunstverein.js",
+    "isDynamicEntry": true
+  },
   "src/js/main.js": {
-    "file": "assets/main-DcUJ6acC.js",
+    "file": "assets/main-CS71C80h.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true,
     "dynamicImports": [
       "src/js/ausstellung.js",
       "src/js/reise.js",
-      "src/js/order-form.js",
-      "src/js/order-form.js"
+      "src/js/kunstverein.js",
+      "src/js/form-overlay.js"
     ],
     "css": [
-      "assets/main-BI0hd4Ye.css"
+      "assets/main-7VaeNIgJ.css"
     ],
     "assets": [
       "assets/AkzidenzGrotesk-DdqcRqkk.woff2"
     ]
-  },
-  "src/js/order-form.js": {
-    "file": "assets/order-form-4WWSD5uQ.js",
-    "name": "order-form",
-    "src": "src/js/order-form.js",
-    "isDynamicEntry": true
   },
   "src/js/reise.js": {
     "file": "assets/reise-cBVQLG9t.js",

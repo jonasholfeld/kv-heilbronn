@@ -7,11 +7,14 @@ $reiseColor = $cat === 'atelierbesuch'
 $catLabel = $cat === 'atelierbesuch' ? t('ui.studio_visit') : t('ui.art_trip');
 $dateStr = $page->reiseStart()->toDate('d.m.Y');
 $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images';
+// Registration for upcoming trips, built on the reisen page
+$hasForm = $page->reiseIsUpcoming() && $reisenPage && $reisenPage->formular()->toBlocks()->isNotEmpty();
+$formResult = $page->formResult('reise');
 ?>
 <?php snippet('head', ['colorPage' => $reiseColor]) ?>
 <?php snippet('navi', ['includeSiteMenu' => false]) ?>
 
-<main class="single-reise-page" style="--reise-color: <?= $reiseColor ?>">
+<main class="single-reise-page<?= $formResult ? ' is-form-open' : '' ?>" data-form-host style="--reise-color: <?= $reiseColor ?>">
     <aside class="reisen-sidebar sidebar-small">
         <div class="reisen-page-info page-info"><?= t('ui.travels') ?></div>
         <button class="menu-button-js reisen-pill reisen-pill--dark" type="button"><?= t('ui.menu') ?></button>
@@ -46,6 +49,11 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
                 </div>
                 <div class="single-reise-page__buttons-wrapper-outer">
                     <a class="reise-back-link bubble" href="<?= page('reisen')->url() ?>"><?= t('ui.travels') ?></a>
+                    <?php if ($hasForm): ?>
+                        <button class="reise-form-open bubble" type="button" data-form-open>
+                            <?= esc($reisenPage->formularOeffnen()->or(t('ui.registration'))->value()) ?>
+                        </button>
+                    <?php endif ?>
                 </div>
         </div>
 
@@ -91,5 +99,13 @@ $columnMode = $page->galerie()->toFiles()->count() == 0 ? 'no-images' : 'images'
             </div>
         </div>
     </div>
+    <?php // Mobile only: the last boxes, below the images ?>
+    <div class="single-reise-page__mobile-links">
+        <div><a class="reise-back-link bubble" href="<?= page('reisen')->url() ?>"><?= t('ui.travels') ?></a></div>
+        <div><a class="reise-home-link bubble" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a></div>
+    </div>
+    <?php if ($hasForm || $formResult): ?>
+        <?php snippet('form-overlay', ['form' => 'reise', 'result' => $formResult]) ?>
+    <?php endif ?>
 </main>
 <?php snippet('page-end') ?>

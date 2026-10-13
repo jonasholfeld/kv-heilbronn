@@ -1,0 +1,9 @@
+type: select
+label: Breite
+default: full
+required: true
+options:
+    full: Ganze Breite
+    half: Halbe Breite
+    narrow: Schmal
+    auto: Wie die Bezeichnung

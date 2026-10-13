@@ -1,8 +1,8 @@
 <?php snippet('head') ?>
 <?php snippet('navi', ['includeSiteMenu' => false]) ?>
-<?php $orderResult = $page->orderResult() ?>
+<?php $formResult = $page->formResult('shop') ?>
 
-<main class="shop-item-page<?= $orderResult ? ' is-ordering' : '' ?>" style="--color: <?= $page->color()->or('#000000') ?>">
+<main class="shop-item-page<?= $formResult ? ' is-form-open' : '' ?>" data-form-host style="--color: <?= $page->color()->or('#000000') ?>">
     <aside class="shop-sidebar sidebar-small">
         <div class="shop-page-info page-info"><?= t('ui.shop') ?></div>
         <button class="menu-button-js bubble bubble-inverted" type="button"><?= t('ui.menu') ?></button>
@@ -20,7 +20,7 @@
                 <?= $page->beschreibung()->kt() ?>
             </div>
             <div class="shop-item-page__order">
-                <button class="bestellen-btn"><?= t('ui.order') ?></button>
+                <button class="bestellen-btn" type="button" data-form-open><?= esc(page('shop')?->formularOeffnen()->or(t('ui.order'))->value() ?? t('ui.order')) ?></button>
             </div>
         </div>
         <div class="shop-item-buttons-wrapper">
@@ -56,6 +56,6 @@
             <?php endforeach ?>
         </div>
     </div>
-    <?php snippet('order-form', ['result' => $orderResult]) ?>
+    <?php snippet('form-overlay', ['form' => 'shop', 'result' => $formResult]) ?>
 </main>
 <?php snippet('page-end') ?>

@@ -1,0 +1,12 @@
+# Form builder of the forms in site/plugins/kv-forms
+type: blocks
+label: Formularfelder
+fieldsets:
+    - form-group
+    - form-text
+    - form-textarea
+    - form-choice
+    - form-consent
+    - form-upload
+    - form-info
+    - form-spacer

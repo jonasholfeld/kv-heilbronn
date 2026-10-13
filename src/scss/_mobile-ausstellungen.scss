@@ -1,0 +1,559 @@
+// ── Mobile: Ausstellungen overview and single Ausstellung ────────────────────
+// Uses the variables and mixins of _mobile.scss. The selectors mirror the
+// desktop ones in _ausstellungen.scss / _ausstellung.scss so they win.
+
+@include mobile {
+    // The small sidebars don't slide out of the layout when the full-screen
+    // menu opens (see _sidebar.scss)
+    :has(> .sidebar-small)::before {
+        display: none;
+    }
+    body.menu-is-open .sidebar-small {
+        transform: none;
+        margin-right: 0;
+    }
+
+    // ── Overview ─────────────────────────────────────────────────────────────
+
+    body.ausstellungen main.ausstellungen-template {
+        flex-direction: column;
+        gap: $mGap;
+        width: 100%;
+        height: calc(100dvh - 2 * #{$mPadding});
+        min-height: 0;
+        font-size: $mBubbleFontSize;
+        line-height: 1.3;
+
+        // Menü with the page title centred over it; below Filter, the active
+        // filter and (while the filter is open) Schließen
+        .ausstellungen-sidebar {
+            flex: none;
+            position: static;
+            height: auto;
+            min-height: 0;
+            padding: $mGap;
+            display: grid;
+            grid-template-columns: auto auto 1fr auto;
+            grid-template-rows: auto auto 1fr;
+            align-items: center;
+            // Rows are spaced by margins, so the closed filter panel adds none
+            gap: 0 $mGap;
+
+            .ausstellungen-page-info {
+                grid-row: 1;
+                grid-column: 1 / -1;
+                padding: 0;
+            }
+
+            .ausstellungen-pill,
+            .ausstellungen-filter,
+            .ausstellungen-filter-active,
+            .ausstellungen-filter-close {
+                @include bubble;
+                @include mobileBubble;
+                width: auto;
+            }
+
+            .menu-button-js {
+                grid-row: 1;
+                grid-column: 1;
+                justify-self: start;
+                position: relative;
+                background: $lightgrey;
+                color: black;
+            }
+
+            .ausstellungen-filter,
+            .ausstellungen-filter-active,
+            .ausstellungen-filter-close {
+                grid-row: 2;
+                margin-top: $mGap;
+                border-radius: 5rem !important;
+                background: black;
+                color: white;
+                &:hover {
+                    border-radius: 0 !important;
+                }
+            }
+
+            .ausstellungen-filter {
+                grid-column: 1;
+                justify-self: start;
+                // Stays round while open (desktop squares it)
+                &[aria-expanded='true'] {
+                    border-radius: 5rem !important;
+                }
+            }
+
+            .ausstellungen-filter-active {
+                grid-column: 2;
+                justify-self: start;
+                &[hidden] {
+                    display: none;
+                }
+            }
+
+            .ausstellungen-filter-close {
+                grid-column: 4;
+                display: none;
+            }
+
+            // Jahr and Künstler*in: grey pills that open into rounded boxes
+            .ausstellungen-filter-panels {
+                grid-row: 3;
+                grid-column: 1 / -1;
+                align-self: stretch;
+                gap: $mGap;
+                &.is-open {
+                    margin-top: $mGap;
+                    max-height: none;
+                    overflow-y: auto;
+                }
+            }
+
+            .ausstellungen-filter-group {
+                flex: none;
+                border-radius: 5rem;
+                background: $lightgrey;
+                &:hover {
+                    border-radius: 5rem !important;
+                }
+                &:has(.ausstellungen-filter-options.is-open) {
+                    border-radius: 4rem;
+                }
+            }
+
+            .ausstellungen-filter-group-title {
+                @include mobileBubble;
+                width: 100%;
+                border-radius: 0;
+                background: transparent;
+            }
+
+            .ausstellungen-filter-options {
+                gap: 0.6rem;
+                background: transparent;
+                &.is-open {
+                    padding: 0 3rem 4rem;
+                    max-height: none;
+                    overflow: visible;
+                }
+            }
+
+            .ausstellungen-filter-option {
+                font-size: $mBubbleFontSize;
+                line-height: 1.3;
+                &::before {
+                    width: 3.4rem;
+                    height: 3.4rem;
+                    flex-basis: 3.4rem;
+                    margin-right: 1.2rem;
+                    background: white;
+                }
+                &.is-selected::before,
+                &[aria-pressed='true']::before {
+                    background: black;
+                }
+            }
+
+            .ausstellungen-home-link {
+                display: none;
+            }
+        }
+
+        // While the filter is open it takes the whole screen
+        &:has(.ausstellungen-filter-panels.is-open) {
+            .ausstellungen-sidebar {
+                flex: 1 1 auto;
+            }
+            .ausstellungen-filter-close {
+                display: inline-block;
+            }
+            .ausstellungen-content {
+                display: none;
+            }
+        }
+
+        .ausstellungen-content {
+            flex: 1 1 0;
+            min-height: 0;
+            max-height: none;
+            padding: $mGap;
+
+            .scroll-container {
+                height: 100%;
+                padding-bottom: 0;
+            }
+
+            .ausstellungen-section-title {
+                font-size: $mBubbleFontSize;
+                line-height: 1.3;
+                margin: 0 0 1rem !important;
+            }
+
+            .ausstellungen-row {
+                margin-bottom: 1.6rem;
+                padding: 0;
+                &:hover,
+                &.is-open {
+                    border-radius: 4rem;
+                }
+                // The last row before a section title
+                &:has(+ .ausstellungen-section-title) {
+                    margin-bottom: 2.6rem;
+                }
+            }
+
+            .ausstellungen-row-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                padding: 3rem 3.6rem 2.6rem;
+                span,
+                span:last-child {
+                    line-height: 1.3;
+                    text-align: left;
+                }
+            }
+
+            .ausstellungen-row-body {
+                padding: 0 3.6rem 3.6rem;
+                line-height: 1.3;
+            }
+
+            .ausstellungen-row-body .ausstellungen-row-dates,
+            .ausstellungen-row-body .ausstellungen-row-opening,
+            .ausstellungen-row-body .ausstellungen-row-images,
+            .ausstellungen-row-body .ausstellungen-row-link {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .ausstellungen-row-dates,
+            .ausstellungen-row-opening {
+                line-height: 1.3;
+                text-transform: uppercase;
+            }
+
+            .ausstellungen-row-dates {
+                padding-top: 0;
+            }
+
+            // One image across the full width; it links to the exhibition
+            .ausstellungen-row-images {
+                margin: 9rem 0 0;
+                .ausstellungen-row-image-link {
+                    flex: 1 1 auto;
+                    &:not(:first-child) {
+                        display: none;
+                    }
+                }
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+
+            .ausstellungen-row-link {
+                margin-top: 1.3em;
+                padding-bottom: 0;
+            }
+
+            .ausstellungen-row-images ~ .ausstellungen-row-link {
+                display: none;
+            }
+        }
+    }
+
+    // ── Single Ausstellung: image mode ───────────────────────────────────────
+
+    body.ausstellung {
+        .single-ausstellung-page {
+            &.menu-is-open {
+                margin-left: 0;
+                .bottom-button-wrapper {
+                    display: flex;
+                }
+            }
+
+            // A square box with the large title and dates
+            &__top-info-box {
+                min-height: calc(100vw - 2 * #{$mPadding});
+                padding: 2.4rem;
+                font-size: $mTitleFontSize;
+
+                &__artist-title {
+                    margin-bottom: 22rem;
+                    line-height: 1.05;
+                    span {
+                        line-height: 1.05;
+                    }
+                }
+
+                &__date {
+                    margin-bottom: 0;
+                    p {
+                        line-height: 1.05;
+                    }
+                }
+            }
+
+            // Menü and Text stick to the top while the images scroll by
+            side {
+                top: 0;
+                width: auto;
+                margin: 0 (-$mPadding);
+                padding: $mPadding $mPadding $mGap;
+                background-color: white;
+                z-index: 20;
+
+                .single-ausstellung-page__small-top-info-box-wrapper {
+                    display: none;
+                }
+
+                .single-ausstellung-page__buttons-wrapper {
+                    padding-top: 0;
+                    flex-direction: row-reverse;
+                    justify-content: space-between;
+                    align-items: center;
+                    button:nth-child(2) {
+                        @include mobileBubble;
+                    }
+                }
+            }
+
+            &__images-wrapper {
+                img.portrait,
+                img.landscape {
+                    width: 100%;
+                    height: auto;
+                }
+
+                .image-coupler,
+                &__image {
+                    margin-bottom: $mGap;
+                }
+
+                .image-coupler {
+                    flex-direction: column;
+                    gap: $mGap;
+                    padding-right: 0;
+                    margin-left: 0;
+                    .single-ausstellung-page__images-wrapper__image {
+                        margin-bottom: 0;
+                    }
+                }
+
+                &__image .inner-image-wrapper {
+                    width: 100%;
+                }
+
+                .credits-wrapper {
+                    margin-top: 1.6rem;
+                    .credits-content-wrapper {
+                        min-width: 60rem;
+                        padding-top: 1rem;
+                        padding-bottom: 0.6rem;
+                    }
+                }
+            }
+        }
+
+        .bottom-button-wrapper {
+            position: static;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            a {
+                margin-bottom: 0;
+                &:last-child {
+                    @include mobileBubble;
+                }
+            }
+        }
+
+        // ── Single Ausstellung: text mode ────────────────────────────────────
+
+        &.text-mode {
+            height: auto;
+            overflow: visible;
+
+            main {
+                flex-direction: column;
+                gap: $mGap;
+                margin-bottom: 0;
+
+                // White top bar: Menü and Ausstellungen (or Schließen)
+                side {
+                    flex: none !important;
+                    position: sticky;
+                    top: $mPadding;
+                    z-index: 20;
+                    margin: 0;
+                    padding: 0;
+                    // Covers the frame above and the gap below it, so the
+                    // text scrolls away underneath
+                    box-shadow:
+                        0 (-$mPadding) 0 0 var(--colorPage),
+                        0 $mGap 0 0 var(--colorPage);
+
+                    .sidebar-text-mode {
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+                        height: auto;
+                        padding: 2.4rem;
+                        button:first-child {
+                            @include mobileBubble;
+                        }
+                        .home-button-js {
+                            display: none;
+                        }
+                        .sidebar-text-mode__close {
+                            display: inline-block;
+                            background-color: var(--colorPage);
+                        }
+                        &:has(.sidebar-text-mode__close) .go-back-button-js {
+                            display: none;
+                        }
+                    }
+                }
+
+                .single-ausstellung-page__text-container {
+                    flex: none !important;
+                    height: auto;
+                    overflow: visible;
+
+                    .inner-text-wrapper {
+                        height: auto;
+                        overflow: visible;
+
+                        .scroll-container {
+                            height: auto;
+                            overflow: visible;
+
+                            .text-wrapper-white-bg {
+                                min-height: 0;
+                                .first-block-wrapper {
+                                    padding: 2.6rem $mBoxPadding 1.3em !important;
+                                }
+                                div:not(
+                                    .single-ausstellung-page__text-container__dateime
+                                ) {
+                                    padding: $mBoxPadding;
+                                    margin-bottom: $mGap;
+                                    font-size: $mFontSize;
+                                    line-height: 1.3;
+                                    p {
+                                        margin-bottom: 1.3em;
+                                    }
+                                    &:nth-child(2) {
+                                        padding-top: 0;
+                                    }
+                                    > :last-child {
+                                        margin-bottom: 0;
+                                    }
+                                }
+                            }
+
+                            .logo-wrapper-white-bg .logo-wrapper {
+                                padding: $mBoxPadding;
+                                span {
+                                    font-size: $mBubbleFontSize;
+                                    margin-bottom: $mGap;
+                                }
+                                .logo-images-wrapper {
+                                    gap: 4rem;
+                                    img {
+                                        height: 12rem;
+                                    }
+                                }
+                            }
+                        }
+
+                        h2 {
+                            font-size: $mTitleFontSize;
+                            span {
+                                line-height: 1.15;
+                            }
+                        }
+
+                        .single-ausstellung-page__text-container__dateime,
+                        .single-ausstellung-page__text-container__text {
+                            margin-top: 1.6rem;
+                            font-size: $mFontSize;
+                            line-height: 1.3;
+                        }
+
+                        ul li p {
+                            padding-left: 4.6rem;
+                        }
+
+                        .ausstellungen-row-dates,
+                        .ausstellungen-row-opening {
+                            &::before {
+                                width: 3.4rem;
+                                height: 3.4rem;
+                                border-radius: 3.4rem;
+                                flex-basis: 3.4rem;
+                                top: 0.6rem;
+                            }
+                        }
+                    }
+
+                    // Katalog / Edition; going back lives in the top bar
+                    .single-ausstellung-page__buttons-wrapper-outer {
+                        margin-top: $mGap;
+                        padding: 2.4rem;
+                        .ausstellungen-back-link,
+                        .close-text-mode-js {
+                            display: none;
+                        }
+                        &:not(
+                                :has(
+                                        .single-ausstellung-page__text-container__links
+                                    )
+                            ) {
+                            display: none;
+                        }
+                        .single-ausstellung-page__text-container__links {
+                            gap: $mGap;
+                        }
+                    }
+                }
+
+                .single-ausstellung-page__images-wrapper {
+                    flex: none;
+                    height: auto;
+                    overflow: visible;
+                    padding: $mGap;
+
+                    .scroll-container {
+                        height: auto;
+                        overflow: visible;
+                    }
+
+                    img {
+                        width: 100%;
+                    }
+
+                    .single-ausstellung-page__images-wrapper__image {
+                        margin-bottom: $mGap;
+                    }
+
+                    .scroll-container > :last-child {
+                        margin-bottom: 0;
+                    }
+
+                    .single-ausstellung-page__text-container__text {
+                        font-size: $mFontSize;
+                        line-height: 1.3;
+                        p {
+                            margin-bottom: 1.3em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -114,6 +114,11 @@ body.reise {
             }
         }
 
+        // Mobile only, see _mobile-reisen.scss
+        &__mobile-links {
+            display: none;
+        }
+
         &__content {
             display: flex;
             gap: $generalPadding;
@@ -162,7 +167,7 @@ body.reise {
 
             .single-reise-page__text-container {
                 // overflow: scroll;
-                // margin-bottom: $generalPadding;
+                margin-bottom: $generalPadding;
                 // min-height: 100%;
 
                 &:last-child {

@@ -87,6 +87,12 @@ body.kunstverein {
             }
         }
 
+        // Mobile only, see _mobile-kunstverein.scss
+        .kunstverein-block--form,
+        .kunstverein-mobile-links {
+            display: none;
+        }
+
         .kunstverein-content {
             flex: 1;
             display: flex;

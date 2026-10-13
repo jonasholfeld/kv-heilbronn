@@ -139,7 +139,7 @@ $galleryItems = array_values(array_filter(array_map(
             <button class="toggle-text-mode-js bubble">Text</button>
             <button class="menu-button-js bubble"><?= t('ui.menu') ?></button>
         </div>
-        <?= snippet('side-bar-text-mode', ['goback' => '/ausstellungen']) ?>
+        <?= snippet('side-bar-text-mode', ['goback' => '/ausstellungen', 'closeButton' => $page->galerie()->toFiles()->count() >= 4]) ?>
     </side>
     <div class="single-ausstellung-page__text-container">
         <div class="inner-text-wrapper">

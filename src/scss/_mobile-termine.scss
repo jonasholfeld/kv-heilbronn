@@ -1,0 +1,117 @@
+// ── Mobile: Termine ──────────────────────────────────────────────────────────
+// Uses the variables and mixins of _mobile.scss. Laid out like the Reisen
+// overview: a top box with Menü and the page title, below it a white box that
+// scrolls the event cards, framed in the page colour.
+
+@include mobile {
+    body.termine main.termine-template {
+        flex-direction: column;
+        gap: $mGap;
+        width: 100%;
+        height: calc(100dvh - 2 * #{$mPadding});
+        min-height: 0;
+        font-size: $mFontSize;
+        line-height: 1.3;
+
+        // Menü with the page title centred over it
+        .termine-sidebar {
+            flex: none;
+            position: static;
+            height: auto;
+            padding: $mGap;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            background-color: white;
+
+            .termine-page-info {
+                grid-row: 1;
+                grid-column: 1 / -1;
+                padding: 0 !important;
+                font-size: $mBubbleFontSize;
+                line-height: 1.3;
+                text-transform: uppercase;
+                text-align: center;
+            }
+
+            .termine-pill {
+                @include mobileBubble;
+            }
+
+            .menu-button-js {
+                grid-row: 1;
+                grid-column: 1;
+                justify-self: start;
+                position: relative;
+                background-color: var(--colorPage);
+                color: black;
+            }
+
+            .termine-home-link {
+                display: none;
+            }
+        }
+
+        .termine-content {
+            flex: 1 1 0;
+            min-height: 0;
+            height: auto;
+            padding: $mGap;
+
+            .scroll-container {
+                height: 100%;
+                padding-bottom: 0;
+            }
+
+            .termin-card {
+                margin-bottom: $mGap;
+                padding: 3rem 3rem 3.4rem;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                &:hover {
+                    border-radius: 4rem;
+                }
+
+                // Category above the date
+                &__header {
+                    flex-direction: column;
+                    gap: 0;
+                    margin-bottom: 14rem;
+                    .termin-card__date {
+                        text-align: left;
+                    }
+                }
+
+                &__bodytext {
+                    margin-bottom: 14rem;
+
+                    p {
+                        margin-bottom: 0;
+                    }
+
+                    ul li p {
+                        padding-left: 4.6rem;
+                        line-height: 1.3;
+                        &::before {
+                            width: 3.4rem;
+                            height: 3.4rem;
+                            border-radius: 3.4rem;
+                            flex-basis: 3.4rem;
+                            top: 0.4rem;
+                        }
+                    }
+
+                    > :last-child {
+                        margin-bottom: 0;
+                    }
+                }
+
+                // Without a link the text ends the card
+                &:not(:has(.termin-card__cta)) .termin-card__bodytext {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

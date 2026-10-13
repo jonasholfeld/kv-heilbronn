@@ -1,6 +1,6 @@
 <?php
 /**
- * Plain text version of shop-order-confirmation.html.php
+ * Plain text version of form-confirmation.html.php
  *
  * @var string $body HTML
  */

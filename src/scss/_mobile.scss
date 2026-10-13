@@ -1,0 +1,548 @@
+// ── Mobile ───────────────────────────────────────────────────────────────────
+// 1rem = 1vw, so all sizes scale with the screen width. Header, menu and
+// homepage are scoped to the homepage for now; the footer applies everywhere.
+
+$mPadding: 2.2rem;
+$mGap: 2rem;
+$mFontSize: 4rem;
+$mBubbleFontSize: 3.6rem;
+$mTitleFontSize: 6rem;
+$mBoxPadding: 2.5rem;
+$mBlockSpacing: 12rem;
+$mSectionSpacing: 25rem;
+$mLogoHeight: calc((100rem - 2 * #{$mPadding}) * 112 / 429.05);
+$mBubbleHeight: calc(#{$mBubbleFontSize} * 1.3 + 3.6rem);
+// From the top of the screen to the bottom of the header's white band
+$mHeaderHeight: calc(
+    #{$mPadding} + #{$mLogoHeight} + #{$mGap} + #{$mBubbleHeight} + #{$mGap}
+);
+$mEase: cubic-bezier(0.22, 1, 0.36, 1);
+
+@mixin mobileBubble {
+    font-size: $mBubbleFontSize;
+    line-height: 1.3;
+    padding: 2.1rem 3rem 1.5rem;
+    border-radius: 5rem;
+}
+
+@include mobile {
+    body {
+        padding: $mPadding;
+    }
+
+    .bubble,
+    .section-label {
+        @include mobileBubble;
+    }
+
+    // ── Menu ─────────────────────────────────────────────────────────────────
+    // The same full-screen menu on every page. #site-menu outranks the
+    // page-specific desktop menu styles (many of them !important). The colours
+    // are set per page below; by default the menu takes the page colour
+    // (--menuColor on the homepage, set by main.js) with white groups.
+
+    body.menu-is-open {
+        // The page behind the menu stays put
+        overflow: hidden;
+        footer {
+            margin-left: 0;
+        }
+    }
+
+    #site-menu {
+        --mMenuBg: var(--menuColor, var(--colorPage));
+        --mMenuGroup: white;
+        // The logo is a filled box with the letters cut out
+        --mMenuLogoBox: var(--mMenuBg);
+        --mMenuLogoLetters: white;
+        // Around the menu, over the page
+        --mMenuFrame: white;
+
+        top: $mPadding;
+        left: $mPadding !important;
+        right: $mPadding;
+        bottom: $mPadding;
+        width: auto;
+        margin-top: 0;
+        z-index: 10000 !important;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--mMenuBg) !important;
+        box-shadow: 0 0 0 #{$mPadding} var(--mMenuFrame);
+        opacity: 0 !important;
+        transform: scaleY(0) !important;
+        transform-origin: top center !important;
+        transition:
+            opacity 0.2s ease,
+            background-color 0.5s ease,
+            transform 0.45s $mEase;
+
+        &.is-instant-hidden {
+            transition: none;
+        }
+
+        &.is-open {
+            opacity: 1 !important;
+            transform: scaleY(1) !important;
+        }
+
+        .inner-page-logo {
+            display: block;
+            flex: none;
+            padding: $mGap $mGap 0;
+            line-height: 0;
+        }
+
+        #header-svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            border: 0 !important;
+            box-shadow: none !important;
+            background-color: var(--mMenuLogoLetters) !important;
+            .st0 {
+                fill: var(--mMenuLogoBox) !important;
+            }
+        }
+
+        .site-menu__toggle-container {
+            flex: none;
+            margin: 0;
+            padding: 4.5rem 2.2rem 6rem;
+            background-color: transparent !important;
+            button {
+                font-size: $mBubbleFontSize;
+                color: black !important;
+            }
+        }
+
+        .site-menu__inner {
+            flex: 1 0 auto;
+            min-height: 0;
+            padding-bottom: $mGap;
+            background-color: transparent !important;
+        }
+
+        .site-menu__group {
+            margin: $mGap $mGap 0;
+            padding: 4.6rem $mBoxPadding 3.8rem;
+            background-color: var(--mMenuGroup) !important;
+            border-radius: 0;
+            &,
+            a {
+                color: black !important;
+            }
+            &:first-child {
+                margin-top: 0;
+            }
+            &:hover {
+                border-radius: 0;
+            }
+            // The section of the current page
+            &--current,
+            &--current:hover {
+                border-radius: 9rem;
+            }
+        }
+
+        .site-menu__group-title {
+            font-size: $mBubbleFontSize;
+            line-height: 1.3;
+        }
+
+        .site-menu__entries {
+            display: none;
+        }
+
+        .site-menu__languages {
+            padding: $mGap $mGap 0;
+            .languages-wrapper {
+                flex-direction: row;
+                width: 100%;
+                padding-left: 0;
+                gap: $mGap;
+                .site-menu__lang-btn {
+                    flex: 1;
+                    padding: 2.1rem 1rem 1.5rem;
+                    background-color: var(--mMenuGroup);
+                    color: black !important;
+                    font-size: $mBubbleFontSize;
+                    line-height: 1.3;
+                    text-transform: uppercase;
+                    &.active {
+                        border-radius: 5rem;
+                        &::before {
+                            display: none;
+                        }
+                    }
+                }
+            }
+            .imprint-wrapper {
+                display: none;
+            }
+        }
+    }
+
+    // Below the homepage the groups are compact and list their entries
+    body:not(.home-body-class) #site-menu {
+        .site-menu__group {
+            padding: 2.2rem $mBoxPadding 1.8rem;
+        }
+        .site-menu__group:has(.site-menu__entries) {
+            padding-bottom: 3.4rem;
+        }
+        .site-menu__entries {
+            display: block;
+            margin: 0.4rem 0 0;
+            padding-left: 7rem;
+            li {
+                line-height: 1.1;
+            }
+        }
+        .site-menu__entry {
+            padding-left: 0;
+            font-size: $mBubbleFontSize;
+            line-height: 1.1;
+            text-transform: none;
+        }
+    }
+
+    // Overview pages: a white menu with grey groups, as on desktop
+    body.ausstellungen #site-menu,
+    body.reisen #site-menu {
+        --mMenuBg: white;
+        --mMenuGroup: #{$lightgrey};
+        --mMenuLogoBox: white;
+        --mMenuLogoLetters: #{$lightgrey};
+        --mMenuFrame: #{$lightgrey};
+    }
+
+    // Single trip: a white menu in the trip's colour
+    body.reise #site-menu {
+        --mMenuBg: white;
+        --mMenuGroup: var(--colorPage);
+        --mMenuLogoBox: white;
+        --mMenuLogoLetters: var(--colorPage);
+        --mMenuFrame: var(--colorPage);
+    }
+
+    body.home-body-class {
+        // ── Header ───────────────────────────────────────────────────────────
+
+        .space-top {
+            display: none;
+        }
+
+        .site-header {
+            top: 0;
+            left: 0;
+            // The desktop header width is set inline by main.js
+            width: 100% !important;
+            padding: $mPadding $mPadding $mGap;
+            background-color: white;
+            z-index: 20;
+
+            &__title {
+                height: $mLogoHeight;
+                margin-bottom: $mGap;
+                overflow: hidden;
+                transition:
+                    height 0.45s $mEase,
+                    margin-bottom 0.45s $mEase;
+            }
+
+            svg {
+                display: block;
+                width: 100%;
+                height: auto !important;
+                border-width: 0 !important;
+                box-shadow: none !important;
+                background: none !important;
+                transform-origin: top center;
+                transition:
+                    transform 0.45s $mEase,
+                    --svgColor 0.5s ease;
+            }
+
+            &.logo-collapsed {
+                .site-header__title {
+                    height: 0;
+                    margin-bottom: 0;
+                }
+                svg {
+                    transform: scaleY(0);
+                }
+            }
+        }
+
+        .side-navigation {
+            width: 100%;
+            margin-top: 0;
+            .top-info-row {
+                align-items: flex-start;
+                .bubble {
+                    @include mobileBubble;
+                }
+            }
+        }
+
+        // ── Homepage ─────────────────────────────────────────────────────────
+
+        .home {
+            width: 100%;
+            padding-top: calc(#{$mHeaderHeight} - #{$mPadding});
+            padding-bottom: 0;
+
+            > div:last-child {
+                margin-bottom: $mSectionSpacing;
+            }
+
+            .home-item,
+            .scroll-top-element {
+                margin-bottom: $mSectionSpacing !important;
+            }
+
+            // Edition and Katalog belong together
+            .shop-item-wrapper:has(+ .shop-item-wrapper) {
+                margin-bottom: $mGap !important;
+            }
+
+            // Bubbles sit above the boxes, right aligned and stacked
+            .label-wrapper {
+                order: -1;
+                margin-left: 0;
+                padding: 0 0 1.6rem;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: $mGap;
+                .section-label {
+                    @include mobileBubble;
+                    margin-right: 0;
+                }
+                .category-label,
+                .category-label.show {
+                    display: none !important;
+                }
+            }
+
+            ul li > p {
+                padding-left: 4.6rem;
+                &::before {
+                    width: 3.4rem;
+                    height: 3.4rem;
+                    border-radius: 3.4rem;
+                    top: 0.5rem;
+                }
+            }
+
+            // ── Exhibition ──────────────────────────────────────────────────
+            .exhibition-wrapper {
+                .inner-home-item {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .exhibition-info {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 1.25em;
+                    margin-left: 0;
+                    padding: $mBoxPadding;
+                    font-size: $mFontSize;
+                    .exhibition__label {
+                        white-space: normal;
+                    }
+                    .exhibition__details {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 1.25em;
+                    }
+                }
+
+                // One image across the full width
+                .exhibition-gallery {
+                    margin-top: $mGap;
+                    margin-left: 0 !important;
+                    .exhibition-gallery__item {
+                        width: 100%;
+                        &:not(:first-child) {
+                            display: none;
+                        }
+                        img {
+                            width: 100% !important;
+                            height: auto;
+                        }
+                    }
+                }
+            }
+
+            // ── Termine ─────────────────────────────────────────────────────
+            .termine-section {
+                .termine-section__label-wrapper {
+                    display: none;
+                }
+
+                .termin-item__wrapper-link {
+                    margin-left: 0;
+                    & + .termin-item__wrapper-link {
+                        margin-top: $mGap;
+                    }
+                }
+
+                // The calendar tags become the bubble above the box
+                .termin-item {
+                    margin-bottom: 0;
+                    padding: 0;
+                    gap: 1.6rem;
+                    background-color: transparent;
+                    font-size: $mFontSize;
+                    &:hover {
+                        background-color: transparent;
+                        .termin__body {
+                            background-color: var(--hovercolor, #d8c0c8);
+                        }
+                    }
+                }
+
+                .termin__label {
+                    @include bubble;
+                    @include mobileBubble;
+                    align-self: flex-end;
+                }
+
+                .termin__body {
+                    padding: $mBoxPadding;
+                    background-color: var(--color, #e0d5da);
+                    transition: background-color 0.3s ease;
+                }
+
+                .termin__content {
+                    .termin__top-info-row {
+                        flex-direction: column;
+                        margin-bottom: $mBlockSpacing;
+                        .termin__date {
+                            position: static;
+                            transform: none;
+                            text-transform: uppercase;
+                        }
+                    }
+                    .termin__bodytext {
+                        margin-bottom: $mBlockSpacing;
+                    }
+                }
+            }
+
+            // ── Shop item (Edition / Katalog) ───────────────────────────────
+            .shop-item-wrapper {
+                .content-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .shop-item-body {
+                    flex-direction: column;
+                    gap: $mGap;
+                    margin-left: 0;
+                }
+
+                .shop-item-info {
+                    flex: none;
+                    margin-right: 0;
+                    padding: $mBoxPadding;
+                    font-size: $mFontSize;
+                    .shop-item__label {
+                        margin-bottom: 1.25em;
+                    }
+                    .shop-item__link {
+                        margin-top: 1.25em;
+                    }
+                }
+
+                .shop-item-image {
+                    padding: 7rem 0;
+                    background-color: $lightgrey;
+                    img {
+                        width: 46%;
+                        margin: 0 auto;
+                    }
+                }
+            }
+
+            // ── Infobox (Reisen & Mitgliedschaft) ───────────────────────────
+            .infobox-wrapper {
+                .content-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .infobox-info {
+                    margin-left: 0;
+                    padding: $mBoxPadding;
+                    font-size: $mFontSize;
+                    .infobox__title {
+                        margin-bottom: $mBlockSpacing;
+                    }
+                    .infobox__text p {
+                        margin-bottom: 1.25em;
+                    }
+                    .infobox__link {
+                        padding-top: $mBlockSpacing;
+                    }
+                }
+            }
+        }
+    }
+
+    // ── Footer ───────────────────────────────────────────────────────────────
+
+    footer {
+        flex-direction: column;
+        gap: $mGap;
+        padding: 0;
+        background-color: transparent;
+        font-size: $mFontSize !important;
+
+        > div {
+            flex: none;
+            padding: $mBoxPadding $mBoxPadding 3rem;
+            background-color: var(--backgroundColorFooter);
+            transition: background-color 0.5s ease;
+        }
+
+        p,
+        h2 {
+            font-size: $mFontSize !important;
+            margin-bottom: 1.25em !important;
+        }
+
+        > div > :last-child,
+        > div > p:last-of-type {
+            margin-bottom: 0 !important;
+        }
+
+        .footer-logo {
+            display: block;
+            line-height: 0;
+            svg {
+                display: block;
+                width: 100%;
+                height: auto;
+                .st0 {
+                    fill: var(--backgroundColorFooter);
+                    transition: fill 0.5s ease;
+                }
+            }
+        }
+
+        .imprint-list {
+            display: none;
+        }
+
+        .footer-imprint {
+            display: block;
+            a {
+                display: block;
+            }
+        }
+    }
+}

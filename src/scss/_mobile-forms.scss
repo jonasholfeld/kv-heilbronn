@@ -1,0 +1,274 @@
+// ── Mobile: form overlays (shop order, membership, trip registration) ────────
+// Uses the variables and mixins of _mobile.scss. The overlay takes over the
+// whole page: a white top box with the heading and Schließen stays while the
+// form scrolls underneath in a white box, all framed in the page colour.
+
+$mFieldRadius: 3rem;
+$mFieldPadding: 3.6rem;
+
+@mixin mobileFormPill {
+    min-height: 0;
+    padding: 3.6rem var(--form-pill-padding) 3.2rem;
+    border-radius: $mFieldRadius;
+    font-size: $mBubbleFontSize;
+    line-height: 1.15;
+}
+
+@include mobile {
+    body:has([data-form-host].is-form-open) {
+        height: auto;
+        overflow: visible;
+        background-color: var(--colorPage);
+    }
+
+    [data-form-host].is-form-open {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+
+        // The form's own header replaces the top bar
+        > .sidebar-small {
+            display: none !important;
+        }
+    }
+
+    .form-overlay {
+        --form-pill-padding: #{$mFieldPadding};
+
+        height: auto;
+        overflow: visible;
+        padding: 0;
+        background-color: transparent;
+        font-size: $mBubbleFontSize;
+        line-height: 1.3;
+
+        &__header {
+            position: sticky;
+            top: $mPadding;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: $mGap;
+            padding: 3.4rem $mBoxPadding 3rem;
+            background-color: white;
+            text-align: center;
+            // Covers the frame above and the gap below it
+            box-shadow:
+                0 (-$mPadding) 0 0 var(--colorPage),
+                0 $mGap 0 0 var(--colorPage);
+
+            h2 {
+                font-size: $mBubbleFontSize;
+                line-height: 1.3;
+            }
+        }
+
+        &__close {
+            font-size: $mBubbleFontSize;
+            line-height: 1.3;
+            padding: 0;
+        }
+
+        // The intro and the form share one white box
+        &__info,
+        &__message {
+            margin-top: 0;
+            padding: 5.4rem calc(#{$mGap} + #{$mFieldPadding}) 2rem;
+            background-color: white;
+        }
+
+        &__message {
+            padding-bottom: 5.4rem;
+        }
+
+        &__info p + p,
+        &--reise &__info p + p {
+            margin-top: 1.3em;
+        }
+
+        &__details {
+            margin-top: 1.3em;
+        }
+    }
+
+    .kv-form {
+        gap: $mGap;
+        margin-top: 0 !important;
+        padding: $mGap $mGap 4rem;
+        background-color: white;
+
+        // Everything is full width on a phone
+        &__item,
+        &__item--half,
+        &__item--auto {
+            flex: 0 0 100%;
+            gap: 1rem;
+        }
+
+        &__item--narrow .kv-form__pill {
+            width: 100%;
+        }
+
+        &__item--submit {
+            margin-top: 6rem;
+            align-items: stretch;
+        }
+
+        &__item:has(> .kv-form__consent) {
+            margin-top: 6rem;
+        }
+
+        // ── Groups ──────────────────────────────────────────────────────────
+        &__group {
+            --form-pill-padding: #{$mFieldPadding};
+            gap: $mGap;
+            padding: 3.6rem $mFieldPadding $mFieldPadding;
+            border-radius: 4rem;
+
+            .kv-form__item:not(.kv-form__group) + &,
+            & + & {
+                margin-top: 0;
+            }
+        }
+
+        &__group-title {
+            margin-bottom: 0;
+        }
+
+        // ── Texts between the fields ────────────────────────────────────────
+        &__info {
+            padding: 0 $mFieldPadding;
+            line-height: 1.3;
+
+            p + p {
+                margin-top: 1.3em;
+            }
+
+            & + .kv-form__item:not(.kv-form__info) {
+                margin-top: 2rem;
+            }
+        }
+
+        &__group .kv-form__info {
+            padding: 0;
+        }
+
+        &__spacer {
+            height: 4rem;
+        }
+
+        // ── Editions (shop) ─────────────────────────────────────────────────
+        &__editions-text,
+        &__editions-selection,
+        &__hint {
+            padding: 0 $mFieldPadding;
+        }
+
+        &__editions-text {
+            margin-bottom: $mGap;
+        }
+
+        &__edition-list {
+            gap: $mGap;
+        }
+
+        &__edition {
+            width: calc((100% - 2 * #{$mGap}) / 3);
+        }
+
+        &__edition-image {
+            height: 22rem;
+            padding: 2rem;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        &__edition-number {
+            padding: 1rem 0 0.6rem;
+        }
+
+        &__editions-selection {
+            margin-top: $mGap;
+        }
+
+        // ── Pills ───────────────────────────────────────────────────────────
+        &__choice {
+            gap: $mGap;
+
+            &--stacked {
+                align-items: stretch;
+                gap: $mGap;
+            }
+        }
+
+        &__option,
+        &__field,
+        &__upload {
+            @include mobileFormPill;
+        }
+
+        &__upload {
+            margin-top: 0;
+        }
+
+        // Fields as wide as their label are full width here (the width is
+        // set inline by form-overlay.js)
+        &__field,
+        .kv-form__item--auto &__field {
+            width: 100%;
+
+            input {
+                width: 100% !important;
+                flex: 1 !important;
+            }
+        }
+
+        &__field--textarea {
+            border-radius: $mFieldRadius;
+        }
+
+        &__field--tall {
+            min-height: 27rem;
+            border-radius: 4rem;
+            padding-top: 3.6rem;
+
+            textarea {
+                height: 20rem;
+            }
+        }
+
+        // ── Consent: the circle is the checkbox ─────────────────────────────
+        &__consent {
+            gap: 2.4rem;
+            line-height: 1.3;
+
+            input {
+                flex: 0 0 3.4rem;
+                width: 3.4rem;
+                height: 3.4rem;
+                margin-top: 0.4rem;
+            }
+        }
+
+        &__error {
+            line-height: 1.3;
+        }
+
+        &__submit {
+            @include mobileFormPill;
+            width: 100%;
+            justify-content: center;
+            --form-pill-padding: 2rem;
+
+            &:disabled:hover {
+                border-radius: $mFieldRadius;
+            }
+        }
+    }
+}

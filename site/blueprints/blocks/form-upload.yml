@@ -1,0 +1,20 @@
+name: Datei-Upload
+icon: upload
+label: '{{ label }}'
+preview: fields
+wysiwyg: true
+
+fields:
+    info:
+        type: info
+        text: Erlaubt sind PDF, JPG und PNG bis 5 MB. Die Datei wird an die E-Mail an den Kunstverein angehängt.
+    label:
+        type: text
+        label: Bezeichnung
+        default: Upload Nachweis
+        required: true
+        width: 1/2
+    required:
+        type: toggle
+        label: Pflichtfeld
+        width: 1/2

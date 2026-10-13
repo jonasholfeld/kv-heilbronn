@@ -1,24 +1,52 @@
 title: Kunstverein
 
-fields:
-    color:
-        label: Farbe
-        type: color
-        translate: false
-        width: 1/2
-    gallery:
-        label: Galerie
-        type: files
-        width: 1/2
-    blockseditor:
-        label: Textblöcke
-        type: blocks
-        fieldsets:
-            - text
-            - file
-    satzungpdf:
-        translate: false
-        label: Satzung PDF
-        type: files
-        multiple: false
-        width: 1/2
+
+tabs:
+    content:
+        label: Inhalt
+        fields:
+            color:
+                label: Farbe
+                type: color
+                translate: false
+                width: 1/2
+            gallery:
+                label: Galerie
+                type: files
+                width: 1/2
+            blockseditor:
+                label: Textblöcke
+                type: blocks
+                fieldsets:
+                    - text
+                    - file
+            satzungpdf:
+                translate: false
+                label: Satzung PDF
+                type: files
+                multiple: false
+                width: 1/2
+            formularAnker:
+                label: Button „Mitgliedsantrag“ unter dem Textblock mit dem Anker
+                type: text
+                default: mitgliedschaft
+                translate: false
+                width: 1/2
+    formular:
+        label: Mitgliedsantrag
+        icon: email
+        columns:
+            felder:
+                width: 2/3
+                sections:
+                    formularFelder:
+                        type: fields
+                        fields:
+                            formular: fields/formular
+            einstellungen:
+                width: 1/3
+                sections:
+                    formularEinstellungen:
+                        type: fields
+                        fields:
+                            formularEinstellungen: fields/formular-einstellungen

@@ -16,11 +16,36 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
   <div class="site-menu__inner">
     <?php
     $menuGroups = site()->navigation()->toBlocks();
+
+    // A link target as a page; '/' and '' are the homepage
+    $pageFromPath = function (string $url) {
+      $path = trim((string)parse_url($url, PHP_URL_PATH), '/');
+      return $path === '' ? site()->homePage() : page($path);
+    };
+    // The group of the current page (or one of its parents) is highlighted
+    $isCurrentGroup = function ($group, $entries) use ($page, $pageFromPath) {
+      $targets = [];
+      if ($group->linktitle()->isNotEmpty()) {
+        $targets[] = $pageFromPath($group->linktitle()->value());
+      }
+      foreach ($entries as $entry) {
+        $targets[] = $entry->linktype()->value() === 'true'
+          ? $pageFromPath($entry->url()->value())
+          : $entry->page()->toPages()->first();
+      }
+      foreach (array_filter($targets) as $target) {
+        if ($page->is($target) || $page->isDescendantOf($target)) {
+          return true;
+        }
+      }
+      return false;
+    };
+
     foreach ($menuGroups as $group):
       $entries = $group->entries()->toBlocks();
       $entryCount = $entries->count();
     ?>
-      <div class="site-menu__group">
+      <div class="site-menu__group<?php e($isCurrentGroup($group, $entries), ' site-menu__group--current') ?>">
         <?php if ($entryCount === 1):
           $entry = $entries->first();
           $isUrl = $entry->linktype()->value() === 'true';

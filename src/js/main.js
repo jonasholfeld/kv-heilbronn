@@ -6,6 +6,14 @@ requestAnimationFrame(() => {
     document.body.classList.remove('pre-init')
 })
 
+// Same conditions as the `mobile` mixin in _breakpoints.scss
+const mobileQuery = window.matchMedia(
+    'only screen and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait), ' +
+        'only screen and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait), ' +
+        'only screen and (max-aspect-ratio: 4/5)'
+)
+const isMobile = () => mobileQuery.matches
+
 const AUSSTELLUNGEN_ROW_IMAGE_HEIGHT_REM = 18
 const REM_IN_PX = () =>
     parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
@@ -192,6 +200,57 @@ function setupSidebarWidths(signal) {
     window.addEventListener('resize', measure, { passive: true, signal })
 }
 
+// Mobile: the header logo collapses while scrolling down and comes back after
+// scrolling up a bit. It stays collapsed while the footer logo is in view, so
+// the logo is never shown twice.
+const LOGO_COLLAPSE_START_PX = 40
+const LOGO_REVEAL_DISTANCE_PX = 80
+
+function setupMobileHeaderLogo(siteHeader, footer, signal) {
+    const headerTitle = siteHeader?.querySelector('.site-header__title')
+    if (!headerTitle) return
+    const footerLogo = footer?.querySelector('.footer-logo')
+
+    let lastY = window.scrollY
+    let upDistance = 0
+    let collapsed = false
+
+    const isFooterLogoInView = () =>
+        !!footerLogo &&
+        footerLogo.getBoundingClientRect().top < window.innerHeight
+
+    const update = () => {
+        if (!isMobile()) {
+            siteHeader.classList.remove('logo-collapsed')
+            lastY = window.scrollY
+            return
+        }
+
+        const y = window.scrollY
+        const delta = y - lastY
+        lastY = y
+
+        if (isFooterLogoInView()) {
+            collapsed = true
+            upDistance = 0
+        } else if (y <= LOGO_COLLAPSE_START_PX) {
+            collapsed = false
+        } else if (delta > 0) {
+            collapsed = true
+            upDistance = 0
+        } else if (delta < 0) {
+            upDistance -= delta
+            if (upDistance >= LOGO_REVEAL_DISTANCE_PX) collapsed = false
+        }
+
+        siteHeader.classList.toggle('logo-collapsed', collapsed)
+    }
+
+    window.addEventListener('scroll', update, { passive: true, signal })
+    window.addEventListener('resize', update, { passive: true, signal })
+    update()
+}
+
 // Everything tied to the current page's content. Runs on the initial load and
 // again after every page transition; listeners are removed when `signal` aborts.
 function initPage(signal) {
@@ -278,6 +337,19 @@ function initPage(signal) {
 
     function updateHeaderWidth() {
         if (!siteHeader || isAusstellungPage) return
+        // On mobile the header keeps its width; the logo collapses instead
+        // (see setupMobileHeaderLogo)
+        if (isMobile()) {
+            siteHeader.style.width = ''
+            sideNavigation?.classList.remove('hidden')
+            if (headerSvg) {
+                headerSvg.style.borderWidth = ''
+                headerSvg.style.boxShadow = ''
+                headerSvg.style.height = ''
+                headerSvg.style.background = ''
+            }
+            return
+        }
         const threshold = window.innerWidth * 0.182
         const topProgress = Math.min(1, Math.max(0, window.scrollY / threshold))
         const bottomExpandProgress = getBottomExpandProgress()
@@ -393,7 +465,10 @@ function initPage(signal) {
         function updateHeaderLogoColor() {
             if (!headerSvgSt0) return
 
-            const topMargin = window.innerWidth * 0.01 // 1vw
+            // On mobile the sections scroll underneath the header
+            const topMargin = isMobile()
+                ? siteHeader.getBoundingClientRect().bottom
+                : window.innerWidth * 0.01 // 1vw
             let activeSection = null
 
             for (const section of homeColorSections) {
@@ -446,9 +521,17 @@ function initPage(signal) {
             headerSvgSt0.style.fill = color
             if (siteMenu) {
                 siteMenu.style.backgroundColor = color
+                // Logo inside the mobile menu
+                siteMenu.style.setProperty('--menuColor', color)
             }
             if (topInfoRowCategoryButton) {
-                const category = activeSection?.getAttribute('data-category') || ''
+                // On mobile the button stays visible above the footer, so it
+                // keeps the category of the last section
+                const categorySection =
+                    activeSection ||
+                    (isMobile() ? homeColorSections.at(-1) : null)
+                const category =
+                    categorySection?.getAttribute('data-category') || ''
                 topInfoRowCategoryButton.textContent = category
                 if (topInfoRowCategoryButton instanceof HTMLAnchorElement) {
                     topInfoRowCategoryButton.setAttribute(
@@ -489,6 +572,8 @@ function initPage(signal) {
         updateHeaderWidth()
         updateHeaderLogoColor()
     }
+
+    setupMobileHeaderLogo(siteHeader, footer, signal)
 
     const alignKunstvereinHashInBlocks = () => {
         if (!document.querySelector('.kunstverein')) return
@@ -665,7 +750,11 @@ function initPage(signal) {
                 if (sideNavigation) {
                     sideNavigation.classList.add('hidden')
                 }
-                if (distanceToTarget > SCROLL_TARGET_EPSILON_PX && isHomePage) {
+                if (
+                    distanceToTarget > SCROLL_TARGET_EPSILON_PX &&
+                    isHomePage &&
+                    !isMobile()
+                ) {
                     ignoreMenuCloseOnProgrammaticScroll()
                     window.scrollTo({ top: targetY, behavior: 'smooth' })
                     await waitForScrollToFinish(targetY)
@@ -739,7 +828,7 @@ function initPage(signal) {
         window.addEventListener(
             'scroll',
             () => {
-                if (!isHomePage) return
+                if (!isHomePage || isMobile()) return
                 if (
                     !siteMenu?.classList.contains('is-open') &&
                     !menuButtons.some((button) =>
@@ -922,6 +1011,10 @@ function initPage(signal) {
         ]
         const rows = [...document.querySelectorAll('[data-ausstellung-row]')]
         const content = document.querySelector('.ausstellungen-content')
+        // Mobile: the active filter as a bubble next to Filter, and a close
+        // button while the filter is open
+        const activeFilterButton = document.querySelector('[data-filter-active]')
+        const filterCloseButton = document.querySelector('[data-filter-close]')
         const selected = {
             year: new Set(),
             artist: new Set(),
@@ -943,7 +1036,17 @@ function initPage(signal) {
         const normalizeValue = (value) =>
             (value || '').toString().trim().toLocaleLowerCase().replace(/\s+/g, ' ')
 
+        const updateActiveFilterButton = () => {
+            if (!activeFilterButton) return
+            const labels = [
+                ...document.querySelectorAll('[data-filter-value].is-selected'),
+            ].map((option) => option.textContent.trim())
+            activeFilterButton.textContent = labels.join(', ')
+            activeFilterButton.hidden = labels.length === 0
+        }
+
         const applyFilter = () => {
+            updateActiveFilterButton()
             rows.forEach((row) => {
                 const rowYear = normalizeValue(row.dataset.year)
                 const rowArtist = normalizeValue(row.dataset.artist)
@@ -1041,12 +1144,19 @@ function initPage(signal) {
             applyFilter()
         }
 
-        ausstellungenFilterButton.addEventListener('click', () => {
+        const setFilterPanelsOpen = (open) => {
             if (!filterPanels) return
-            const open = !filterPanels.classList.contains('is-open')
             filterPanels.classList.toggle('is-open', open)
             ausstellungenFilterButton.setAttribute('aria-expanded', String(open))
+        }
+
+        ausstellungenFilterButton.addEventListener('click', () => {
+            if (!filterPanels) return
+            setFilterPanelsOpen(!filterPanels.classList.contains('is-open'))
         })
+
+        filterCloseButton?.addEventListener('click', () => setFilterPanelsOpen(false))
+        activeFilterButton?.addEventListener('click', resetAllFilters)
 
         filterToggleButtons.forEach((button) => {
             button.addEventListener('click', () => {
@@ -1163,6 +1273,12 @@ function initPage(signal) {
                     dismissOverlay()
                 })
             }
+
+            // Mobile has no close icon: a tap anywhere (but on a link) closes
+            homeOverlay.addEventListener('click', (event) => {
+                if (!isMobile() || event.target.closest('a')) return
+                dismissOverlay()
+            })
         }
     }
 
@@ -1231,8 +1347,7 @@ function initPage(signal) {
 const pageScripts = {
     ausstellung: () => import('./ausstellung.js'),
     reise: () => import('./reise.js'),
-    edition: () => import('./order-form.js'),
-    katalog: () => import('./order-form.js'),
+    kunstverein: () => import('./kunstverein.js'),
 }
 
 let pageController = null
@@ -1247,6 +1362,13 @@ function startPage() {
     )
     if (template) {
         pageScripts[template]().then((module) => {
+            if (!signal.aborted) module.init(signal)
+        })
+    }
+
+    // Shop order, membership and trip registration forms
+    if (document.querySelector('[data-form-overlay]')) {
+        import('./form-overlay.js').then((module) => {
             if (!signal.aborted) module.init(signal)
         })
     }

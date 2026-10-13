@@ -34,10 +34,11 @@ return [
     ],
 
     'hooks' => [
-        // These templates sort content by today's date (current/upcoming/archive),
-        // so their cached HTML must not outlive the day
+        // These templates sort content by today's date (current/upcoming/archive;
+        // trips only take registrations until they start), so their cached HTML
+        // must not outlive the day
         'page.render:before' => function (string $contentType, array $data, Kirby\Cms\Page $page) {
-            if (in_array($page->intendedTemplate()->name(), ['home', 'ausstellungen', 'termine', 'reisen'], true)) {
+            if (in_array($page->intendedTemplate()->name(), ['home', 'ausstellungen', 'termine', 'reisen', 'reise'], true)) {
                 kirby()->response()->expires(strtotime('tomorrow'));
             }
 
@@ -45,7 +46,7 @@ return [
         },
     ],
 
-    // Shop order mails (site/plugins/kv-shop-order)
+    // Form mails (site/plugins/kv-forms)
     'email' => [
         'transport' => [
             'type'     => 'smtp',
@@ -57,8 +58,8 @@ return [
             'password' => getenv('MAIL_PASSWORD') ?: '',
         ],
     ],
-    'kv.shopOrder.from'     => getenv('MAIL_FROM') ?: '',
-    'kv.shopOrder.fromName' => getenv('MAIL_FROM_NAME') ?: 'Kunstverein Heilbronn',
+    'kv.forms.from'     => getenv('MAIL_FROM') ?: '',
+    'kv.forms.fromName' => getenv('MAIL_FROM_NAME') ?: 'Kunstverein Heilbronn',
 
     // These also apply to resizing uploads (file blueprint `create`), so the
     // WebP format is set per thumb in site/plugins/kv-images instead of here

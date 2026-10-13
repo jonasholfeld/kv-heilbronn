@@ -240,11 +240,10 @@ export function init(signal) {
         toggleTextModeJs.addEventListener('click', () => setTextMode(true))
     }
 
-    const closeTextModeJs = document.querySelector('.close-text-mode-js')
-
-    if (closeTextModeJs) {
-        closeTextModeJs.addEventListener('click', () => setTextMode(false))
-    }
+    // One at the end of the text, one in the mobile top bar
+    document.querySelectorAll('.close-text-mode-js').forEach((button) => {
+        button.addEventListener('click', () => setTextMode(false))
+    })
 
     const ausstellungImageElements = document.querySelectorAll(
         '.single-ausstellung-page__images-wrapper .scroll-container > .image-coupler, .single-ausstellung-page__images-wrapper .scroll-container > .single-ausstellung-page__images-wrapper__image'

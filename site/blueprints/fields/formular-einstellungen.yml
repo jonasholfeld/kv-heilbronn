@@ -1,0 +1,42 @@
+# Settings of the forms in site/plugins/kv-forms
+type: group
+fields:
+    formularTitel:
+        type: text
+        label: Überschrift des Formulars
+        help: Oben im Formular, z. B. „Mitgliedsantrag Kunstverein Heilbronn“
+    formularOeffnen:
+        type: text
+        label: Beschriftung des Buttons, der das Formular öffnet
+    formularButton:
+        type: text
+        label: Beschriftung des Absende-Buttons
+    formularIntro:
+        type: writer
+        label: Text über den Feldern
+    formularEmpfaenger:
+        type: email
+        label: Empfänger
+        translate: false
+        required: true
+    formularBetreff:
+        type: text
+        label: Betreff der E-Mail an den Empfänger
+        help: Der Name der Seite (Shop-Eintrag, Reise, …) wird angehängt.
+        translate: false
+    formularErfolg:
+        type: writer
+        label: Meldung nach erfolgreichem Absenden
+    formularFehler:
+        type: writer
+        label: Meldung bei einem Fehler
+        help: Darunter wird automatisch aufgelistet, was schiefgelaufen ist.
+    bestaetigungLine:
+        type: line
+    bestaetigungBetreff:
+        type: text
+        label: Betreff der Bestätigungs-E-Mail
+    bestaetigungText:
+        type: writer
+        label: Text der Bestätigungs-E-Mail
+        help: 'Platzhalter: {name} (Feld der Art „Name“), {titel} (Shop-Eintrag, Reise, …), {angaben} (alle Angaben aus dem Formular; IBANs gekürzt)'

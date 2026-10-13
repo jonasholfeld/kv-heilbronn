@@ -430,27 +430,7 @@ Dies ist die Sammelseite für Shop-Inhalte.
 
 ### Tab `Bestellformular`
 
-Hier wird das Formular gepflegt, das sich über `Bestellen` auf jeder Shop-Detailseite öffnet. Es gilt für alle Editionen und Kataloge; Beschreibung, Bilder, Preise und Hinweis kommen aus dem jeweiligen Shop-Eintrag.
-
-- `Formularfelder`
-    - Felder hinzufügen, entfernen und per Drag & Drop anordnen
-    - `Editionsauswahl`: zeigt die Bilder der Galerie als #1, #2, … zum Anklicken (Mehrfachauswahl); darüber steht die `Erklärung`, darunter der Hinweis des Shop-Eintrags
-    - `Preisauswahl`: zeigt die Preisoptionen des Shop-Eintrags
-    - `Auswahl`: eigene Optionen, z. B. die Anrede
-    - `Textfeld`: Art `Name` füllt den Platzhalter {name}, das erste Feld der Art `E-Mail` erhält die Bestätigungs-E-Mail; `Schmal` macht das Feld nur so breit wie seine Bezeichnung
-    - `Textbereich`: mehrzeiliges Feld, z. B. Bemerkung
-    - `Einwilligung`: Datenschutz-Hinweis mit Pflicht-Haken, Link über das Link-Werkzeug
-    - `Abstand`: größerer Abstand zwischen zwei Feldern
-    - die Bezeichnung eines Text- oder Textbereich-Felds steht als Platzhalter im Feld und verschwindet beim Tippen
-    - Pflichtfelder erhalten automatisch ein `*`
-    - Fehler (leere Pflichtfelder, ungültige E-Mail oder Telefonnummer) werden direkt beim Ausfüllen unter dem Feld angezeigt
-- `Empfänger der Bestellungen`
-    - an diese Adresse geht jede Bestellung; mit `Antworten` schreibt man direkt der Besteller:in
-- `Meldung nach erfolgreicher Bestellung` / `Meldung bei einem Fehler`
-    - erscheinen nach dem Absenden anstelle des Formulars; bei Fehlern wird darunter aufgelistet, was schiefgelaufen ist
-- `Betreff` und `Text der Bestätigungs-E-Mail`
-    - geht an die Besteller:in; Platzhalter: `{name}`, `{titel}` (Shop-Eintrag), `{bestellung}` (alle Angaben)
-- Für die englische Seite alle Texte und Felder in der englischen Sprachversion pflegen
+Das Formular, das sich über `Bestellen` auf jeder Shop-Detailseite öffnet. Es gilt für alle Editionen und Kataloge; Beschreibung, Bilder, Preise und Hinweis kommen aus dem jeweiligen Shop-Eintrag. Aufbau und Einstellungen: siehe [Formulare](#formulare).
 
 ## Edition
 
@@ -595,6 +575,39 @@ Diese Seite wird für rechtliche Inhalte verwendet.
     - Inhalt des Impressums
 - `Datenschutz`
     - Inhalt der Datenschutzerklärung
+
+## Formulare
+
+Es gibt drei Formulare, die gleich aufgebaut sind und sich als Overlay über der Seite öffnen:
+
+- `Bestellformular`: Shop → Tab `Bestellformular`, Button `Bestellen` auf jeder Shop-Detailseite
+- `Mitgliedsantrag`: Kunstverein → Tab `Mitgliedsantrag`, Button unter dem Textblock mit dem Anker aus `Button „Mitgliedsantrag“ unter dem Textblock mit dem Anker` (Standard: `mitgliedschaft`)
+- `Anmeldeformular`: Reisen → Tab `Anmeldeformular`, Button `Anmeldung` auf jeder Reise, deren Reisebeginn in der Zukunft liegt; über den Feldern stehen Titel, Datum und der Text `Anmeldung` der Reise
+
+### Formularfelder
+
+- Felder hinzufügen, entfernen und per Drag & Drop anordnen
+- `Gruppe`: farbiger Kasten mit Überschrift und eigenen Feldern (z. B. `Zahlungsweise`); mit `Mindestens ein Feld ausfüllen` muss eines der Felder darin ausgefüllt sein (z. B. `Personenanzahl`)
+- `Textfeld`: die Bezeichnung steht als Platzhalter im Feld und verschwindet beim Tippen
+    - `Art`: `Name` füllt den Platzhalter {name}, das erste Feld `E-Mail` erhält die Bestätigungs-E-Mail; `Telefon`, `Datum` (mit optionalem `Mindestalter`), `Anzahl`, `IBAN` und `BIC` werden auf Gültigkeit geprüft
+    - `Breite`: ganze oder halbe Breite (zwei halbe Felder stehen nebeneinander), `Schmal` oder `Wie die Bezeichnung`
+- `Textbereich`: mehrzeiliges Feld; `Groß` für eine Nachricht
+- `Auswahl`: genau eine Option (z. B. Anrede); `Untereinander` stapelt die Optionen (z. B. Mitgliedsart); Optionen werden mit Enter oder `;` getrennt
+- `Einwilligung`: Text mit Haken, Links über das Link-Werkzeug; ohne `Pflichtfeld` freiwillig (z. B. Newsletter); die `Bezeichnung` erscheint in der E-Mail
+- `Datei-Upload`: PDF, JPG oder PNG bis 5 MB, wird an die E-Mail angehängt
+- `Text`: erklärender Text zwischen den Feldern
+- `Abstand`: größerer Abstand zwischen zwei Feldern
+- nur im Shop: `Editionsauswahl` (Bilder der Galerie als #1, #2, … zum Anklicken, darüber die `Erklärung`) und `Preisauswahl` (Preisoptionen des Shop-Eintrags)
+- Pflichtfelder und Gruppen mit `Mindestens ein Feld ausfüllen` erhalten automatisch ein `*`
+- Fehler werden direkt beim Ausfüllen unter dem Feld angezeigt und vor dem Versand noch einmal geprüft
+
+### Einstellungen
+
+- `Überschrift des Formulars`, Beschriftung des öffnenden und des Absende-Buttons, `Text über den Feldern`
+- `Empfänger`: an diese Adresse geht jedes ausgefüllte Formular; mit `Antworten` schreibt man direkt der Absender:in
+- `Meldung nach erfolgreichem Absenden` / `Meldung bei einem Fehler`: erscheinen anstelle des Formulars; bei Fehlern wird darunter aufgelistet, was schiefgelaufen ist
+- `Betreff` und `Text der Bestätigungs-E-Mail` an die Absender:in; Platzhalter: `{name}`, `{titel}` (Shop-Eintrag, Reise, …), `{angaben}` (alle Angaben, IBAN gekürzt)
+- Für die englische Seite alle Texte und Felder in der englischen Sprachversion pflegen; solange sie fehlen, erscheint dort das deutsche Formular
 
 ## Praktische Hinweise
 
