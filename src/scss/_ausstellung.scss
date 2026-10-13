@@ -170,8 +170,10 @@ body.ausstellung {
             img.portrait {
                 height: 50rem;
             }
+            // Centered, so 100 - 2 × 11.5rem: keeps clear of the bottom
+            // buttons (.bottom-button-wrapper, „Ausstellungen“ is 10.7rem wide)
             img.landscape {
-                width: 80rem;
+                width: 77rem;
                 transition: width 0.3s ease;
             }
             .image-coupler,
@@ -182,9 +184,9 @@ body.ausstellung {
                 display: flex;
                 gap: $generalPadding;
                 justify-content: space-between;
-                padding-right: 10rem;
+                padding-right: 11rem;
                 transition: padding-right 0.3s ease;
-                margin-left: 10rem;
+                margin-left: 11rem;
             }
             &__image {
                 display: flex;
