@@ -44,7 +44,7 @@ foreach ($blocks as $block):
                                     'file'  => $image,
                                     'alt'   => $image->alt()->or($page->kuenstler())->value(),
                                     // Three per row on mobile (see _mobile-forms.scss)
-                                    'sizes' => '(max-aspect-ratio: 4/5) 30vw, 9vw',
+                                    'sizes' => '(max-aspect-ratio: 4/5) 30vw, 15vw',
                                 ]) ?>
                             </span>
                             <span class="kv-form__edition-number">#<?= $index + 1 ?></span>

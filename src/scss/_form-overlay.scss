@@ -10,7 +10,7 @@ $formGroupPillPadding: 0.9rem;
 $formGap: 0.7rem;
 $formGroupGap: 0.55rem;
 $formNarrowWidth: 23.6rem;
-$formErrorColor: #d4002a;
+$formErrorColor: #ff2700;
 
 @mixin formPill {
     @include sansserif;
@@ -119,6 +119,27 @@ body.reise .single-reise-page__buttons-wrapper-outer .reise-form-open {
 
         p {
             margin: 0;
+        }
+    }
+
+    // List points: same circle as the consent checkboxes (.kv-form__consent)
+    &__info ul {
+        margin: 0;
+        padding: 0;
+
+        li p {
+            padding-left: $formPillPadding;
+
+            &::before {
+                left: 0;
+                top: 0.1rem;
+                width: 0.9rem;
+                height: 0.9rem;
+                margin: 0;
+                transform: none;
+                background-color: var(--form-pill);
+                background-image: none;
+            }
         }
     }
 
@@ -276,34 +297,30 @@ body.reise .single-reise-page__buttons-wrapper-outer .reise-form-open {
         box-shadow: inset 0 0 0 2px $formErrorColor;
     }
 
+    // Six per row across the whole form
     &__edition-list {
+        --edition-gap: 1rem;
+
         display: flex;
         flex-wrap: wrap;
-        gap: 0.65rem;
+        gap: 0.65rem var(--edition-gap);
     }
 
     &__edition {
         position: relative;
         display: flex;
         flex-direction: column;
-        width: 8.7rem;
+        width: calc((100% - 5 * var(--edition-gap)) / 6);
         cursor: pointer;
 
         input {
             @include formVisuallyHidden;
         }
 
-        &:has(input:checked) {
-            background-color: black;
-            color: white;
-
-            .kv-form__edition-image {
-                background-color: black;
-            }
-
-            .kv-form__edition-number {
-                padding-left: 0.3rem;
-            }
+        // Selected: black frame with rounded corners
+        &:has(input:checked) .kv-form__edition-image {
+            box-shadow: inset 0 0 0 2px black;
+            border-radius: 1rem;
         }
 
         &:has(input:focus-visible) {
@@ -315,10 +332,10 @@ body.reise .single-reise-page__buttons-wrapper-outer .reise-form-open {
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 5.75rem;
-        padding: 0.6rem;
+        aspect-ratio: 8.7 / 5.75;
+        padding: 1rem;
         background-color: $lightgrey;
-        transition: background-color 0.2s ease;
+        transition: border-radius 0.2s ease;
 
         img {
             max-width: 100%;
