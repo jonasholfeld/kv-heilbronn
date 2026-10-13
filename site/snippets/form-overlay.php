@@ -23,7 +23,7 @@ $languageUrl = kirby()->language()?->url() ?? kirby()->url();
 $heading     = $config->formularTitel()->or(t($definition['heading']))->value();
 $intro       = $definition['intro']($page) . $config->formularIntro()->permalinksToUrls()->value();
 // The shop item pages are reached from the shop; the others close onto themselves
-$closeUrl    = $form === 'shop' ? (page('shop') ?? $page)->url() : $page->url();
+$closeUrl    = in_array($form, ['edition', 'katalog'], true) ? (page('shop') ?? $page)->url() : $page->url();
 $messages    = [
     'required'     => t('ui.order_error_required'),
     'choose'       => t('ui.order_error_choose'),

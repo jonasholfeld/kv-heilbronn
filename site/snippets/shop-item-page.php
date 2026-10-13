@@ -1,6 +1,10 @@
 <?php snippet('head') ?>
 <?php snippet('navi', ['includeSiteMenu' => false]) ?>
-<?php $formResult = $page->formResult('shop') ?>
+<?php
+// Editions and catalogues have order forms of their own (kv-forms plugin)
+$form       = $page->intendedTemplate()->name() === 'katalog' ? 'katalog' : 'edition';
+$formResult = $page->formResult($form);
+?>
 
 <main class="shop-item-page<?= $formResult ? ' is-form-open' : '' ?>" data-form-host style="--color: <?= $page->color()->or('#000000') ?>">
     <aside class="shop-sidebar sidebar-small">
@@ -20,7 +24,7 @@
                 <?= $page->beschreibung()->kt() ?>
             </div>
             <div class="shop-item-page__order">
-                <button class="bestellen-btn" type="button" data-form-open><?= esc(page('shop')?->formularOeffnen()->or(t('ui.order'))->value() ?? t('ui.order')) ?></button>
+                <button class="bestellen-btn" type="button" data-form-open><?= esc(kvFormConfig($form)?->formularOeffnen()->or(t('ui.order'))->value() ?? t('ui.order')) ?></button>
             </div>
         </div>
         <div class="shop-item-buttons-wrapper">
@@ -56,6 +60,6 @@
             <?php endforeach ?>
         </div>
     </div>
-    <?php snippet('form-overlay', ['form' => 'shop', 'result' => $formResult]) ?>
+    <?php snippet('form-overlay', ['form' => $form, 'result' => $formResult]) ?>
 </main>
 <?php snippet('page-end') ?>

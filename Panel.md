@@ -428,9 +428,9 @@ Dies ist die Sammelseite für Shop-Inhalte.
 - auf der Shop-Übersicht
 - teilweise auf der Startseite
 
-### Tab `Bestellformular`
+### Tabs `Bestellformular Editionen` und `Bestellformular Kataloge`
 
-Das Formular, das sich über `Bestellen` auf jeder Shop-Detailseite öffnet. Es gilt für alle Editionen und Kataloge; Beschreibung, Bilder, Preise und Hinweis kommen aus dem jeweiligen Shop-Eintrag. Aufbau und Einstellungen: siehe [Formulare](#formulare).
+Die Formulare, die sich über `Bestellen` auf den Shop-Detailseiten öffnen: Editionen und Kataloge haben je ein eigenes Formular mit eigenen Einstellungen (Empfänger, Bestätigungs-E-Mail, …). Nur das Formular der Editionen kennt den Baustein `Editionsnummer`. Beschreibung, Bilder, Preise und Hinweis kommen aus dem jeweiligen Shop-Eintrag. Aufbau und Einstellungen: siehe [Formulare](#formulare).
 
 ## Edition
 
@@ -493,10 +493,8 @@ Diese Seite wird für einen einzelnen Katalog-Eintrag verwendet.
 
 - `Galerie`
     - Bilder für Vorschau und Detailseite
-    - erscheinen im Bestellformular als auswählbare Editionsnummern (#1 = erstes Bild)
 - Tab `Bestellung`
-    - `Preisoptionen`: Auswahl im Bestellformular, z. B. „800 Euro (ohne Rahmen)“
-    - `Hinweis im Bestellformular`: z. B. welche Nummern bereits verkauft sind
+    - `Preisoptionen`: Auswahl im Bestellformular der Kataloge, z. B. „25 Euro“
 
 ## Besuch
 
@@ -581,7 +579,7 @@ Diese Seite wird für rechtliche Inhalte verwendet.
 
 Es gibt drei Formulare, die gleich aufgebaut sind und sich als Overlay über der Seite öffnen:
 
-- `Bestellformular`: Shop → Tab `Bestellformular`, Button `Bestellen` auf jeder Shop-Detailseite
+- `Bestellformular Editionen` / `Bestellformular Kataloge`: Shop → gleichnamige Tabs, Button `Bestellen` auf den Detailseiten der Editionen bzw. Kataloge
 - `Mitgliedsantrag`: Kunstverein → Tab `Mitgliedsantrag`, Button unten in der Textspalte neben `Satzung`
 - `Anmeldeformular`: Reisen → Tab `Anmeldeformular`, Button `Anmeldung` auf jeder Reise, deren Reisebeginn in der Zukunft liegt; über den Feldern stehen Titel, Datum und der Text `Anmeldung` der Reise
 

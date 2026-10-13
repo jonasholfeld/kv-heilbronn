@@ -24,8 +24,10 @@ tabs:
                 status: all
                 limit: 10
                 width: 1/2
+    # Editions and catalogues have forms of their own, see site/plugins/kv-forms.
+    # The catalogue form's fields are prefixed with `katalog`.
     formular:
-        label: Bestellformular
+        label: Bestellformular Editionen
         icon: email
         columns:
             felder:
@@ -36,7 +38,7 @@ tabs:
                         fields:
                             formular:
                                 extends: fields/formular
-                                help: Gilt für alle Shop-Einträge. Bilder, Beschreibung und Preise kommen aus dem jeweiligen Shop-Eintrag.
+                                help: Gilt für alle Editionen. Bilder, Beschreibung und Preise kommen aus dem jeweiligen Shop-Eintrag.
                                 fieldsets:
                                     - form-editions
                                     - form-prices
@@ -55,3 +57,33 @@ tabs:
                         type: fields
                         fields:
                             formularEinstellungen: fields/formular-einstellungen
+    katalogFormular:
+        label: Bestellformular Kataloge
+        icon: book
+        columns:
+            katalogFelder:
+                width: 2/3
+                sections:
+                    katalogFormularFelder:
+                        type: fields
+                        fields:
+                            katalogFormular:
+                                extends: fields/formular
+                                help: Gilt für alle Kataloge. Beschreibung und Preise kommen aus dem jeweiligen Shop-Eintrag.
+                                fieldsets:
+                                    - form-prices
+                                    - form-group
+                                    - form-text
+                                    - form-textarea
+                                    - form-choice
+                                    - form-consent
+                                    - form-upload
+                                    - form-info
+                                    - form-spacer
+            katalogEinstellungen:
+                width: 1/3
+                sections:
+                    katalogFormularEinstellungen:
+                        type: fields
+                        fields:
+                            katalogFormularEinstellungen: fields/formular-einstellungen-katalog

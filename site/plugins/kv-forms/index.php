@@ -3,6 +3,8 @@
 use Kirby\Cms\App;
 use Kirby\Cms\Block;
 use Kirby\Cms\Page;
+use Kirby\Content\Field;
+use Kirby\Data\Yaml;
 use Kirby\Http\Response;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
@@ -10,8 +12,9 @@ use Kirby\Toolkit\V;
 // Forms of the site. Each one is built in the Panel (tab "Formular" on its
 // config page) and opens as an overlay on its pages (snippet `form-overlay`):
 //
-// - shop:           order form of the shop items (edition, katalog);
-//                   config on the shop page
+// - edition:        order form of the editions; config on the shop page
+// - katalog:        order form of the catalogues; config on the shop page as
+//                   well, in fields prefixed with `katalog`
 // - mitgliedschaft: membership application on the kunstverein page;
 //                   config on the same page
 // - reise:          registration for upcoming trips; config on the reisen page
@@ -37,6 +40,38 @@ const KV_FORMS_UPLOAD_TYPES = [
     'image/png'       => 'png',
 ];
 
+// Prefix of the catalogue form's fields on the shop page (`katalogFormular`,
+// `katalogFormularTitel`, …), see the blueprint
+// `fields/formular-einstellungen-katalog` below
+const KV_FORMS_KATALOG_PREFIX = 'katalog';
+
+/**
+ * The fields of a form (`formular`, `formularTitel`, … as in
+ * fields/formular.yml and fields/formular-einstellungen.yml) on its config
+ * page. With a prefix, two forms can be configured on the same page.
+ */
+final class KvFormConfig
+{
+    public function __construct(
+        public readonly Page $page,
+        private readonly string $prefix = ''
+    ) {
+    }
+
+    public function __call(string $name, array $arguments): Field
+    {
+        return $this->page->content()->get(
+            $this->prefix === '' ? $name : $this->prefix . ucfirst($name)
+        );
+    }
+}
+
+function kvFormsConfigPage(string $id, string $prefix = ''): KvFormConfig|null
+{
+    $page = page($id);
+    return $page ? new KvFormConfig($page, $prefix) : null;
+}
+
 /**
  * The forms: where they are configured, on which pages they may be sent
  * from, how those pages are named in the mails and what is shown above the
@@ -46,19 +81,29 @@ function kvForms(): array
 {
     static $forms = null;
 
+    $shopItem = fn (string $template) => fn (Page $page) =>
+        $page->parent()?->id() === 'shop' &&
+        $page->intendedTemplate()->name() === $template;
+
     return $forms ??= [
-        'shop' => [
-            'config'  => fn () => page('shop'),
-            'accepts' => fn (Page $page) =>
-                $page->parent()?->id() === 'shop' &&
-                in_array($page->intendedTemplate()->name(), ['edition', 'katalog'], true),
+        'edition' => [
+            'config'  => fn () => kvFormsConfigPage('shop'),
+            'accepts' => $shopItem('edition'),
+            'title'   => fn (Page $page) => $page->orderTitle(),
+            'intro'   => fn (Page $page) => $page->orderDescription(),
+            'heading' => 'ui.order_form',
+            'open'    => 'ui.order',
+        ],
+        'katalog' => [
+            'config'  => fn () => kvFormsConfigPage('shop', KV_FORMS_KATALOG_PREFIX),
+            'accepts' => $shopItem('katalog'),
             'title'   => fn (Page $page) => $page->orderTitle(),
             'intro'   => fn (Page $page) => $page->orderDescription(),
             'heading' => 'ui.order_form',
             'open'    => 'ui.order',
         ],
         'mitgliedschaft' => [
-            'config'  => fn () => page('kunstverein'),
+            'config'  => fn () => kvFormsConfigPage('kunstverein'),
             'accepts' => fn (Page $page) => $page->intendedTemplate()->name() === 'kunstverein',
             'title'   => fn (Page $page) => t('ui.membership'),
             'intro'   => fn (Page $page) => '',
@@ -66,7 +111,7 @@ function kvForms(): array
             'open'    => 'ui.form_open_membership',
         ],
         'reise' => [
-            'config'  => fn () => page('reisen'),
+            'config'  => fn () => kvFormsConfigPage('reisen'),
             'accepts' => fn (Page $page) =>
                 $page->intendedTemplate()->name() === 'reise' &&
                 $page->reiseIsUpcoming(),
@@ -87,7 +132,7 @@ function kvForms(): array
     ];
 }
 
-function kvFormConfig(string $form): Page|null
+function kvFormConfig(string $form): KvFormConfig|null
 {
     $definition = kvForms()[$form] ?? null;
     return $definition ? $definition['config']() : null;
@@ -390,7 +435,7 @@ function kvFormsFinish(string $form, Page|null $page, string $languageCode, stri
  * Sends the form: first to the configured recipient (without it nothing has
  * happened), then the confirmation to the sender
  */
-function kvFormsSend(string $form, Page $config, Page $page, Kirby\Cms\Language $language, array $order): array
+function kvFormsSend(string $form, KvFormConfig $config, Page $page, Kirby\Cms\Language $language, array $order): array
 {
     $kirby    = App::instance();
     $from     = option('kv.forms.from');
@@ -464,6 +509,19 @@ function kvFormsSend(string $form, Page $config, Page $page, Kirby\Cms\Language 
 }
 
 App::plugin('kv/forms', [
+    'blueprints' => [
+        // The settings of the catalogue form: fields/formular-einstellungen
+        // with prefixed field names
+        'fields/formular-einstellungen-katalog' => function (App $kirby) {
+            $blueprint = Yaml::read($kirby->root('blueprints') . '/fields/formular-einstellungen.yml');
+            $fields    = [];
+            foreach ($blueprint['fields'] as $name => $field) {
+                $fields[KV_FORMS_KATALOG_PREFIX . ucfirst($name)] = $field;
+            }
+            $blueprint['fields'] = $fields;
+            return $blueprint;
+        },
+    ],
     'pageMethods' => [
         // Shop: gallery images, shown as the selectable edition numbers #1, #2, …
         'orderImages' => function () {
