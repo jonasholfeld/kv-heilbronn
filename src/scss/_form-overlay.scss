@@ -57,12 +57,7 @@ $formErrorColor: #ff2700;
     }
 }
 
-// Buttons that open the forms
-body.kunstverein .kunstverein-block .kunstverein-form-open {
-    margin-top: 1.2rem;
-    background-color: var(--colorPage);
-}
-
+// Buttons that open the forms (Kunstverein: see _kunstverein.scss)
 body.reise .single-reise-page__buttons-wrapper-outer .reise-form-open {
     margin-left: 0.4rem;
 }

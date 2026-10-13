@@ -65,6 +65,16 @@ $mKunstvereinTopBox: calc(#{$mPadding} + #{$mBubbleHeight} + 2 * #{$mGap} + #{$m
             min-height: 0;
         }
 
+        // The buttons below the text are desktop only; Satzung and the form
+        // have boxes of their own in the accordion
+        .kunstverein-text {
+            display: contents;
+        }
+
+        .kunstverein-buttons {
+            display: none;
+        }
+
         // ── Accordion ───────────────────────────────────────────────────────
         .kunstverein-blocks {
             flex: none;
@@ -111,13 +121,7 @@ $mKunstvereinTopBox: calc(#{$mPadding} + #{$mBubbleHeight} + 2 * #{$mGap} + #{$m
                 &:not(.is-open) .kunstverein-block__heading {
                     margin-bottom: 0;
                 }
-                &:not(.is-open) > div > :not(.kunstverein-block__heading),
-                &:not(.is-open) > .kunstverein-form-open {
-                    display: none;
-                }
-
-                // The form has a box of its own (below)
-                > .kunstverein-form-open {
+                &:not(.is-open) > div > :not(.kunstverein-block__heading) {
                     display: none;
                 }
             }

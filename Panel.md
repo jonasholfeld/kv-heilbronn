@@ -553,6 +553,7 @@ Diese Seite wird für Informationen über den Kunstverein verwendet.
 
 - Die Inhalte werden hier blockweise aufgebaut.
 - Wenn eine Satzung hinterlegt ist, erscheint ein eigener Link zur PDF.
+- `Satzung` und der Button zum Mitgliedsantrag stehen am unteren Rand der Textspalte und bleiben beim Scrollen sichtbar (auf dem Handy: eigene Boxen am Ende der Textblöcke).
 
 ## Impressum
 
@@ -581,7 +582,7 @@ Diese Seite wird für rechtliche Inhalte verwendet.
 Es gibt drei Formulare, die gleich aufgebaut sind und sich als Overlay über der Seite öffnen:
 
 - `Bestellformular`: Shop → Tab `Bestellformular`, Button `Bestellen` auf jeder Shop-Detailseite
-- `Mitgliedsantrag`: Kunstverein → Tab `Mitgliedsantrag`, Button unter dem Textblock mit dem Anker aus `Button „Mitgliedsantrag“ unter dem Textblock mit dem Anker` (Standard: `mitgliedschaft`)
+- `Mitgliedsantrag`: Kunstverein → Tab `Mitgliedsantrag`, Button unten in der Textspalte neben `Satzung`
 - `Anmeldeformular`: Reisen → Tab `Anmeldeformular`, Button `Anmeldung` auf jeder Reise, deren Reisebeginn in der Zukunft liegt; über den Feldern stehen Titel, Datum und der Text `Anmeldung` der Reise
 
 ### Formularfelder

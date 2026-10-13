@@ -5,9 +5,8 @@
 $gallery = $page->gallery()->toFiles();
 $blocks = $page->blockseditor()->toBlocks();
 $formResult = $page->formResult('mitgliedschaft');
-// The membership form opens from below the text block with this anchor
-$formAnchor = $page->formularAnker()->or('mitgliedschaft')->value();
 $hasForm = $page->formular()->toBlocks()->isNotEmpty();
+$satzung = $page->satzungpdf()->toFile();
 ?>
 
 <main class="kunstverein-template<?= $formResult ? ' is-form-open' : '' ?>" data-form-host>
@@ -18,28 +17,38 @@ $hasForm = $page->formular()->toBlocks()->isNotEmpty();
     </aside>
 
     <div class="kunstverein-content">
-        <div class="kunstverein-blocks">
-            <?php foreach ($blocks as $block): ?>
-                <div class="kunstverein-block">
-                    <?= $block ?>
-                    <?php if ($hasForm && $block->anchor()->value() === $formAnchor): ?>
+        <div class="kunstverein-text">
+            <div class="kunstverein-blocks">
+                <?php foreach ($blocks as $block): ?>
+                    <div class="kunstverein-block">
+                        <?= $block ?>
+                    </div>
+                <?php endforeach ?>
+                <?php // Mobile only: Satzung and form in boxes of their own ?>
+                <?php if ($satzung): ?>
+                    <div class="kunstverein-block satzung">
+                        <a class="bubble" href="<?= $satzung->url() ?>" target="_blank"><?= t('ui.statute') ?></a>
+                    </div>
+                <?php endif ?>
+                <?php if ($hasForm): ?>
+                    <div class="kunstverein-block kunstverein-block--form">
+                        <button class="kunstverein-block__link" type="button" data-form-open>
+                            <?= esc($page->formularOeffnen()->or(t('ui.form_open_membership'))->value()) ?>
+                        </button>
+                    </div>
+                <?php endif ?>
+            </div>
+            <?php if ($satzung || $hasForm): ?>
+                <?php // Desktop only: fixed below the scrolling text blocks ?>
+                <div class="kunstverein-buttons">
+                    <?php if ($satzung): ?>
+                        <a class="bubble" href="<?= $satzung->url() ?>" target="_blank"><?= t('ui.statute') ?></a>
+                    <?php endif ?>
+                    <?php if ($hasForm): ?>
                         <button class="bubble kunstverein-form-open" type="button" data-form-open>
                             <?= esc($page->formularOeffnen()->or(t('ui.form_open_membership'))->value()) ?>
                         </button>
                     <?php endif ?>
-                </div>
-            <?php endforeach ?>
-            <?php if($page->satzungpdf()->isNotEmpty()): ?>
-                <div class="kunstverein-block satzung">
-                    <a class="bubble" href="<?= $page->satzungpdf()->toFile()->url() ?>" target="_blank"><?= t('ui.statute') ?> <?= t('ui.satzung') ?></a>
-                </div>
-            <?php endif ?>
-            <?php if ($hasForm): ?>
-                <?php // Mobile only: the form opens from a box of its own ?>
-                <div class="kunstverein-block kunstverein-block--form">
-                    <button class="kunstverein-block__link" type="button" data-form-open>
-                        <?= esc($page->formularOeffnen()->or(t('ui.form_open_membership'))->value()) ?>
-                    </button>
                 </div>
             <?php endif ?>
         </div>

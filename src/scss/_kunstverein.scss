@@ -88,6 +88,7 @@ body.kunstverein {
         }
 
         // Mobile only, see _mobile-kunstverein.scss
+        .satzung,
         .kunstverein-block--form,
         .kunstverein-mobile-links {
             display: none;
@@ -101,9 +102,35 @@ body.kunstverein {
             align-items: flex-start;
         }
 
-        .kunstverein-blocks {
+        // Text blocks scroll, the buttons below stay in place (like
+        // Schließen in the text mode of the exhibitions)
+        .kunstverein-text {
             flex: 0 0 50%;
             height: calc(100vh - 2 * #{$generalPadding});
+            display: flex;
+            flex-direction: column;
+            gap: $generalPadding;
+        }
+
+        .kunstverein-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $generalPadding;
+            padding: $generalPadding;
+            background-color: white;
+
+            .bubble {
+                background-color: var(--colorPage);
+
+                &:hover {
+                    border-radius: 0;
+                }
+            }
+        }
+
+        .kunstverein-blocks {
+            flex: 1;
+            min-height: 0;
             overflow-y: scroll;
             display: flex;
             flex-direction: column;

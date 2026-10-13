@@ -26,12 +26,6 @@ tabs:
                 type: files
                 multiple: false
                 width: 1/2
-            formularAnker:
-                label: Button „Mitgliedsantrag“ unter dem Textblock mit dem Anker
-                type: text
-                default: mitgliedschaft
-                translate: false
-                width: 1/2
     formular:
         label: Mitgliedsantrag
         icon: email
