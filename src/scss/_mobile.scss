@@ -228,30 +228,6 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
         }
     }
 
-    // Below the homepage the groups are compact and list their entries
-    body:not(.home-body-class) #site-menu {
-        .site-menu__group {
-            padding: 2.2rem $mBoxPadding 1.8rem;
-        }
-        .site-menu__group:has(.site-menu__entries) {
-            padding-bottom: 3.4rem;
-        }
-        .site-menu__entries {
-            display: block;
-            margin: 0.4rem 0 0;
-            padding-left: 7rem;
-            li {
-                line-height: 1.1;
-            }
-        }
-        .site-menu__entry {
-            padding-left: 0;
-            font-size: $mBubbleFontSize;
-            line-height: 1.1;
-            text-transform: none;
-        }
-    }
-
     // Overview pages: a white menu with grey groups, as on desktop
     body.ausstellungen #site-menu,
     body.reisen #site-menu {
