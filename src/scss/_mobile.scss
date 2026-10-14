@@ -42,8 +42,10 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
     // (--menuColor on the homepage, set by main.js) with white groups.
 
     // While the menu or the homepage overlay is open, a white strip at the
-    // bottom: Safari (iOS 26) takes its colour for the area under the
-    // toolbar, so the page doesn't show there. Closed, the page shows again.
+    // bottom that reaches far below the viewport: Safari (iOS 26) keeps
+    // drawing the page below the viewport, behind its translucent toolbar,
+    // and fixed elements end where that area starts (100lvh doesn't reach
+    // it either). Closed, the page shows there again.
     body.menu-is-open,
     body:has(.home-overlay:not(.is-dismissed):not([style*='none'])) {
         &::after {
@@ -51,8 +53,8 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
             position: fixed;
             left: 0;
             right: 0;
-            bottom: 0;
-            height: $mPadding;
+            bottom: -50vh;
+            height: calc(#{$mPadding} + 50vh);
             z-index: 10001;
             background-color: white;
             pointer-events: none;
