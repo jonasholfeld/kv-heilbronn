@@ -61,7 +61,14 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
         top: $mPadding;
         left: $mPadding !important;
         right: $mPadding;
-        bottom: $mPadding;
+        // Down to the bottom of the screen, also behind the browser's
+        // (translucent) toolbar: `bottom` only reaches the viewport above it.
+        // The extra padding (the toolbar's height while it shows) keeps the
+        // language buttons above the toolbar.
+        bottom: auto;
+        height: calc(100vh - 2 * #{$mPadding});
+        height: calc(100lvh - 2 * #{$mPadding});
+        padding-bottom: calc(100lvh - 100dvh);
         width: auto;
         margin-top: 0;
         z-index: 10000 !important;
