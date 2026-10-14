@@ -64,13 +64,21 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
     // translucent toolbar, and cuts fixed elements (menu, overlay) off where
     // that area starts. So the page itself is hidden behind the open menu
     // (once it has opened) and blurred behind the homepage overlay.
-    body.menu-is-open {
+    // Fades out while the menu opens (as long as its transform), then
+    // `visibility` takes it out. As specific as the --colorPage transition
+    // in _page-transitions.scss, which it keeps.
+    html body.menu-is-open {
         background-color: white;
-        transition: background-color 0s linear 0.45s;
+        transition:
+            --colorPage 0.5s ease,
+            background-color 0.45s $mEase;
 
         > :not(#site-menu) {
+            opacity: 0;
             visibility: hidden;
-            transition: visibility 0s linear 0.45s;
+            transition:
+                opacity 0.45s $mEase,
+                visibility 0s linear 0.45s;
         }
     }
 
