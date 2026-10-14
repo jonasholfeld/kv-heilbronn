@@ -41,23 +41,38 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
     // are set per page below; by default the menu takes the page colour
     // (--menuColor on the homepage, set by main.js) with white groups.
 
-    // While the menu or the homepage overlay is open, a white strip at the
-    // bottom that reaches far below the viewport: Safari (iOS 26) keeps
-    // drawing the page below the viewport, behind its translucent toolbar,
-    // and fixed elements end where that area starts (100lvh doesn't reach
-    // it either). Closed, the page shows there again.
-    body.menu-is-open,
+    // Safari (iOS 26) keeps drawing the page below the viewport, behind its
+    // translucent toolbar, and cuts fixed elements (menu, overlay) off where
+    // that area starts. So the page itself is hidden behind the open menu
+    // (once it has opened) and blurred behind the homepage overlay.
+    body.menu-is-open {
+        background-color: white;
+        transition: background-color 0s linear 0.45s;
+
+        > :not(#site-menu) {
+            visibility: hidden;
+            transition: visibility 0s linear 0.45s;
+        }
+    }
+
+    // The blur fades out with the overlay (the footer keeps its transitions)
+    body.home-body-class {
+        #swup > header,
+        #swup > main {
+            transition: filter 0.5s ease;
+        }
+
+        #swup > footer {
+            transition:
+                margin-left 0.5s ease,
+                background-color 0.5s ease,
+                filter 0.5s ease;
+        }
+    }
+
     body:has(.home-overlay:not(.is-dismissed):not([style*='none'])) {
-        &::after {
-            content: '';
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: -50vh;
-            height: calc(#{$mPadding} + 50vh);
-            z-index: 10001;
-            background-color: white;
-            pointer-events: none;
+        #swup > :not(.home-overlay) {
+            filter: blur(22px);
         }
     }
 
