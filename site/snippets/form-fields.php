@@ -47,7 +47,13 @@ foreach ($blocks as $block):
                                     'sizes' => '(max-aspect-ratio: 4/5) 30vw, 15vw',
                                 ]) ?>
                             </span>
-                            <span class="kv-form__edition-number">#<?= $index + 1 ?></span>
+                            <span class="kv-form__edition-number">
+                                #<?= $index + 1 ?>
+                                <?php // Mobile only: one edition at a time, the arrow shows the next (form-overlay.js) ?>
+                                <?php if ($images->count() > 1): ?>
+                                    <span class="kv-form__edition-next" aria-hidden="true" data-edition-next>→</span>
+                                <?php endif ?>
+                            </span>
                         </label>
                     <?php endforeach ?>
                 </div>
@@ -75,7 +81,7 @@ foreach ($blocks as $block):
     <?php if ($options !== []): ?>
         <div class="kv-form__item kv-form__item--<?= $width ?>">
             <fieldset
-                class="kv-form__choice<?= $block->stacked()->toBool() ? ' kv-form__choice--stacked' : '' ?>"
+                class="kv-form__choice<?= $block->stacked()->toBool() ? ' kv-form__choice--stacked' : '' ?><?= $type === 'form-prices' ? ' kv-form__choice--prices' : '' ?>"
                 data-label="<?= esc($label, 'attr') ?>"
                 <?= $required ? 'data-required' : '' ?>
             >

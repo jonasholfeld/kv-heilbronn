@@ -89,6 +89,37 @@ $mFieldPadding: 3.6rem;
             margin-top: 1.3em;
         }
 
+        // Shop: the description's list as running text, the first point (the
+        // artist) in capitals
+        &--edition &__info ul,
+        &--katalog &__info ul {
+            li {
+                display: inline;
+
+                p {
+                    display: inline;
+                    padding: 0;
+                    line-height: 1.3;
+
+                    &::before {
+                        display: none;
+                    }
+                }
+
+                &:first-child p {
+                    text-transform: uppercase;
+                }
+
+                &:first-child::after {
+                    content: ', ';
+                }
+
+                & + li::before {
+                    content: ' ';
+                }
+            }
+        }
+
         &__details {
             margin-top: 1.3em;
         }
@@ -160,10 +191,9 @@ $mFieldPadding: 3.6rem;
             height: 4rem;
         }
 
-        // ── Editions (shop) ─────────────────────────────────────────────────
-        &__editions-text,
-        &__editions-selection,
-        &__hint {
+        // ── Editions (shop): one at a time, swiped or with the arrow ────────
+        // As specific as `.kv-form fieldset`
+        fieldset#{&}__editions {
             padding: 0 $mFieldPadding;
         }
 
@@ -171,17 +201,38 @@ $mFieldPadding: 3.6rem;
             margin-bottom: $mGap;
         }
 
+        &__hint {
+            padding: 0 $mFieldPadding;
+        }
+
         &__edition-list {
+            // Offset parent for the arrow's scrolling (form-overlay.js)
+            position: relative;
+            flex-wrap: nowrap;
             gap: $mGap;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            overscroll-behavior-x: contain;
+            scrollbar-width: none;
+            &::-webkit-scrollbar {
+                display: none;
+            }
         }
 
         &__edition {
-            width: calc((100% - 2 * #{$mGap}) / 3);
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+
+            &:has(input:checked) .kv-form__edition-image {
+                border-radius: 3rem;
+            }
         }
 
         &__edition-image {
-            height: 22rem;
-            padding: 2rem;
+            height: auto;
+            aspect-ratio: 3 / 2;
+            padding: 5rem;
 
             img {
                 width: 100%;
@@ -190,7 +241,19 @@ $mFieldPadding: 3.6rem;
         }
 
         &__edition-number {
-            padding: 1rem 0 0.6rem;
+            display: flex;
+            justify-content: space-between;
+            padding: 1.6rem 0 0;
+            line-height: 1.3;
+        }
+
+        &__edition-next {
+            display: block;
+            padding: 0 0 0 4rem;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         &__editions-selection {
@@ -201,9 +264,25 @@ $mFieldPadding: 3.6rem;
         &__choice {
             gap: $mGap;
 
-            &--stacked {
+            // Side by side, equally wide and together as wide as the form;
+            // they wrap when the labels don't fit
+            .kv-form__option {
+                flex: 1 1 0;
+                min-width: max-content;
+                justify-content: center;
+            }
+
+            &--stacked,
+            &--prices {
+                flex-direction: column;
                 align-items: stretch;
                 gap: $mGap;
+
+                .kv-form__option {
+                    flex: none;
+                    min-width: 0;
+                    justify-content: flex-start;
+                }
             }
         }
 

@@ -1,0 +1,343 @@
+// ── Mobile: Shop overview and single shop items (Edition / Katalog) ──────────
+// Uses the variables and mixins of _mobile.scss. The selectors mirror the
+// desktop ones in _shop.scss so they win. The order form: _mobile-forms.scss.
+
+// Menü with the page title centred over it (as on the Reisen pages)
+@mixin mobileShopTopBox {
+    flex: none;
+    position: static;
+    width: auto;
+    height: auto;
+    padding: $mGap;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0;
+    background-color: white;
+
+    .shop-page-info {
+        grid-row: 1;
+        grid-column: 1 / -1;
+        padding: 0 !important;
+        font-size: $mBubbleFontSize;
+        line-height: 1.3;
+        text-align: center;
+    }
+
+    .menu-button-js {
+        @include mobileBubble;
+        grid-row: 1;
+        grid-column: 1;
+        justify-self: start;
+        position: relative;
+        width: auto;
+        color: black !important;
+    }
+
+    .shop-home-link {
+        display: none;
+    }
+}
+
+@mixin mobileShopDot {
+    padding-left: 4.6rem;
+    &::before {
+        width: 3.4rem;
+        height: 3.4rem;
+        border-radius: 3.4rem;
+        flex-basis: 3.4rem;
+    }
+}
+
+// Mobile only
+.shop-tabs,
+.shop-item-page__order--images {
+    display: none;
+}
+
+@include mobile {
+    // ── Overview ─────────────────────────────────────────────────────────────
+    // First a choice between the two sections (two big boxes), then tabs
+    // above the chosen one (src/js/shop.js)
+
+    body.shop {
+        height: auto;
+        overflow: visible;
+
+        .shop-layout {
+            display: block;
+
+            main.shop-overview {
+                flex-direction: column;
+                align-items: stretch;
+                gap: $mGap;
+                min-height: calc(100dvh - 2 * #{$mPadding});
+                padding-bottom: 0;
+                font-size: $mBubbleFontSize;
+                line-height: 1.3;
+
+                .shop-sidebar {
+                    @include mobileShopTopBox;
+                    .menu-button-js {
+                        background-color: $lightgrey !important;
+                    }
+                }
+
+                .shop-tabs {
+                    display: flex;
+                    flex-direction: column;
+                    gap: $mGap;
+                }
+
+                .shop-tabs__tab {
+                    display: block;
+                    width: 100%;
+                    padding: 2.1rem $mBoxPadding 1.5rem;
+                    border: none;
+                    border-radius: 0;
+                    background-color: white;
+                    color: black;
+                    font: inherit;
+                    text-transform: uppercase;
+                    text-align: center;
+                    cursor: pointer;
+                    -webkit-tap-highlight-color: transparent;
+
+                    // The chosen section: no box, just the frame colour
+                    &[aria-pressed='true'] {
+                        background-color: transparent;
+                    }
+                }
+
+                // The choice: two big boxes filling the screen, grey inside
+                &:not(.has-section) {
+                    .shop-tabs {
+                        flex: 1;
+                    }
+
+                    .shop-tabs__tab {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        padding: $mGap;
+                        // The grey inner box
+                        background-clip: content-box;
+                        box-shadow: inset 0 0 0 $mGap white;
+                        background-color: $lightgrey;
+                    }
+
+                    // „Editionen / Jahresgaben“ on two lines
+                    .shop-tabs__slash {
+                        display: none;
+                    }
+
+                    .shop-section {
+                        display: none;
+                    }
+                }
+
+                // The chosen section: every item in a white box of its own
+                .shop-section {
+                    flex: none;
+                    height: auto;
+                    padding: 0;
+                    overflow: visible;
+                    background-color: transparent;
+
+                    .shop-section-title {
+                        display: none;
+                    }
+
+                    .shop-item-card {
+                        margin-bottom: $mGap;
+                        padding: $mGap;
+                        background-color: white;
+
+                        &:hover {
+                            border-radius: 0;
+                            .shop-item-card__image-wrapper,
+                            .shop-item-card__image-wrapper img {
+                                border-radius: 0;
+                            }
+                        }
+
+                        &__image-wrapper {
+                            aspect-ratio: 3 / 2;
+                            overflow: hidden;
+                            background-color: $lightgrey;
+
+                            img {
+                                display: block;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        }
+
+                        &__info {
+                            padding: 1.6rem 0 0;
+
+                            p {
+                                line-height: 1.3;
+                            }
+
+                            .shop-item-card__link {
+                                gap: 1.2rem;
+                                line-height: 1.3;
+                                text-transform: uppercase;
+                                transform: none;
+
+                                &::before {
+                                    width: 3.4rem;
+                                    height: 3.4rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .shop-item-card:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+
+                &.is-showing-editionen #kataloge,
+                &.is-showing-kataloge #editionen {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    // ── Single shop item ─────────────────────────────────────────────────────
+    // Top box, the text box, the images box. Editions are ordered from below
+    // the first image, catalogues from the text box.
+
+    body.katalog,
+    body.edition {
+        height: auto;
+
+        main.shop-item-page {
+            flex-direction: column;
+            gap: $mGap;
+            height: auto;
+            font-size: $mFontSize;
+            line-height: 1.3;
+
+            // White top bar that stays while the boxes scroll underneath
+            .shop-sidebar {
+                @include mobileShopTopBox;
+                position: sticky;
+                top: $mPadding;
+                z-index: 20;
+                // Covers the frame above and the gap below it
+                box-shadow:
+                    0 (-$mPadding) 0 0 var(--colorPage),
+                    0 $mGap 0 0 var(--colorPage);
+                .menu-button-js {
+                    background-color: var(--colorPage) !important;
+                }
+            }
+
+            .shop-item-page__right {
+                display: block;
+                height: auto;
+                overflow: visible;
+
+                .shop-item-page__text {
+                    height: auto;
+                    margin-bottom: 0;
+                    padding: $mGap;
+                }
+
+                h2,
+                .shop-item-page__description {
+                    font-size: $mFontSize;
+                }
+
+                h2 {
+                    margin: 0 0 1.3em !important;
+
+                    span {
+                        line-height: 1.3;
+                    }
+                }
+
+                .shop-item-page__description {
+                    p {
+                        margin: 0 0 1.3em;
+                    }
+
+                    ul {
+                        margin: 0 0 1.3em;
+                        padding: 0;
+
+                        li p {
+                            margin: 0;
+                            line-height: 1.3;
+                            @include mobileShopDot;
+                        }
+                    }
+
+                    > :last-child {
+                        margin-bottom: 0;
+                    }
+                }
+
+                .shop-item-page__order {
+                    margin-top: 1.3em;
+                }
+
+                // Back to the shop: through the menu
+                .shop-item-buttons-wrapper {
+                    display: none;
+                }
+            }
+
+            // As specific as the desktop rule in _shop.scss
+            .shop-item-page__right .shop-item-page__order .bestellen-btn,
+            .shop-item-page__order--images .bestellen-btn {
+                @include bubble;
+                @include mobileBubble;
+                background-color: var(--colorPage);
+            }
+
+            .shop-item-page__left {
+                flex: none;
+                height: auto;
+                padding: $mGap;
+                overflow: visible;
+
+                .scroll-container {
+                    height: auto;
+                    overflow: visible;
+                    display: flex;
+                    flex-direction: column;
+                    gap: $mGap;
+                }
+
+                .shop-item-page__image-container {
+                    cursor: default;
+
+                    .shop-item-page__image-caption-wrapper {
+                        margin: 1rem 0 0;
+                    }
+                }
+
+                .shop-item-page__zoom-close {
+                    display: none;
+                }
+            }
+
+            // Editions: the order button below the first image replaces the
+            // one in the text box
+            &:has(.shop-item-page__order--images) .shop-item-page__text .shop-item-page__order {
+                display: none;
+            }
+
+            .shop-item-page__order--images {
+                display: block;
+            }
+        }
+    }
+}

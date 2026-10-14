@@ -1310,6 +1310,8 @@ function initPage(signal) {
 
         zoomToggles.forEach((toggle) => {
             toggle.addEventListener('click', () => {
+                // On mobile the images are already as wide as the screen
+                if (isMobile()) return
                 if (toggle.classList.contains('is-zoomed-image')) {
                     closeZoom()
                 } else {
@@ -1348,6 +1350,7 @@ const pageScripts = {
     ausstellung: () => import('./ausstellung.js'),
     reise: () => import('./reise.js'),
     kunstverein: () => import('./kunstverein.js'),
+    shop: () => import('./shop.js'),
 }
 
 let pageController = null

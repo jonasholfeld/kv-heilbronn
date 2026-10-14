@@ -10,7 +10,7 @@
     "isDynamicEntry": true
   },
   "src/js/form-overlay.js": {
-    "file": "assets/form-overlay-B9Mwdm4e.js",
+    "file": "assets/form-overlay--GAMHrVJ.js",
     "name": "form-overlay",
     "src": "src/js/form-overlay.js",
     "isDynamicEntry": true
@@ -22,7 +22,7 @@
     "isDynamicEntry": true
   },
   "src/js/main.js": {
-    "file": "assets/main-yJZy4cgJ.js",
+    "file": "assets/main-Uzd8MbMd.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true,
@@ -30,10 +30,11 @@
       "src/js/ausstellung.js",
       "src/js/reise.js",
       "src/js/kunstverein.js",
+      "src/js/shop.js",
       "src/js/form-overlay.js"
     ],
     "css": [
-      "assets/main-BS95r7Af.css"
+      "assets/main-C-a-pwB8.css"
     ],
     "assets": [
       "assets/AkzidenzGrotesk-DdqcRqkk.woff2"
@@ -43,6 +44,12 @@
     "file": "assets/reise-cBVQLG9t.js",
     "name": "reise",
     "src": "src/js/reise.js",
+    "isDynamicEntry": true
+  },
+  "src/js/shop.js": {
+    "file": "assets/shop-DGTRNqXk.js",
+    "name": "shop",
+    "src": "src/js/shop.js",
     "isDynamicEntry": true
   }
 }

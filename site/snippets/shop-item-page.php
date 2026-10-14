@@ -4,9 +4,10 @@
 // Editions and catalogues have order forms of their own (kv-forms plugin)
 $form       = $page->intendedTemplate()->name() === 'katalog' ? 'katalog' : 'edition';
 $formResult = $page->formResult($form);
+$orderLabel = kvFormConfig($form)?->formularOeffnen()->or(t('ui.order'))->value() ?? t('ui.order');
 ?>
 
-<main class="shop-item-page<?= $formResult ? ' is-form-open' : '' ?>" data-form-host style="--color: <?= $page->color()->or('#000000') ?>">
+<main class="shop-item-page shop-item-page--<?= $form ?><?= $formResult ? ' is-form-open' : '' ?>" data-form-host style="--color: <?= $page->color()->or('#000000') ?>">
     <aside class="shop-sidebar sidebar-small">
         <div class="shop-page-info page-info"><?= t('ui.shop') ?></div>
         <button class="menu-button-js bubble bubble-inverted" type="button"><?= t('ui.menu') ?></button>
@@ -24,7 +25,7 @@ $formResult = $page->formResult($form);
                 <?= $page->beschreibung()->kt() ?>
             </div>
             <div class="shop-item-page__order">
-                <button class="bestellen-btn" type="button" data-form-open><?= esc(kvFormConfig($form)?->formularOeffnen()->or(t('ui.order'))->value() ?? t('ui.order')) ?></button>
+                <button class="bestellen-btn" type="button" data-form-open><?= esc($orderLabel) ?></button>
             </div>
         </div>
         <div class="shop-item-buttons-wrapper">
@@ -57,6 +58,12 @@ $formResult = $page->formResult($form);
                         </div>
                     <?php endif ?>
                 </div>
+                <?php if ($form === 'edition' && $img->isFirst($galerie)): ?>
+                    <?php // Mobile only: editions are ordered from below the first image ?>
+                    <div class="shop-item-page__order shop-item-page__order--images">
+                        <button class="bestellen-btn" type="button" data-form-open><?= esc($orderLabel) ?></button>
+                    </div>
+                <?php endif ?>
             <?php endforeach ?>
         </div>
     </div>

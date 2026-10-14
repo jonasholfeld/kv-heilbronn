@@ -344,6 +344,11 @@ body.reise .single-reise-page__buttons-wrapper-outer .reise-form-open {
         line-height: 1.15;
     }
 
+    // Mobile only (_mobile-forms.scss)
+    &__edition-next {
+        display: none;
+    }
+
     &__editions-selection {
         margin-top: 0.6rem;
     }

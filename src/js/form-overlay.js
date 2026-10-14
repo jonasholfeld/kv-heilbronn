@@ -313,6 +313,24 @@ function setupEditionSelection(form, signal) {
         }
         update()
         fieldset.addEventListener('change', update, { signal })
+
+        // Mobile: the editions are a carousel, the arrow scrolls to the next
+        // one (after the last back to the first)
+        const list = fieldset.querySelector('.kv-form__edition-list')
+        fieldset.addEventListener(
+            'click',
+            (event) => {
+                const arrow = event.target.closest('[data-edition-next]')
+                if (!arrow || !list) return
+                // The arrow is inside the label: don't toggle the edition
+                event.preventDefault()
+                const edition = arrow.closest('.kv-form__edition')
+                const next = edition.nextElementSibling ?? list.firstElementChild
+                // The list is the offset parent (position: relative, _mobile-forms.scss)
+                list.scrollTo({ left: next.offsetLeft, behavior: 'smooth' })
+            },
+            { signal }
+        )
     })
 }
 
