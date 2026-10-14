@@ -41,6 +41,24 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
     // are set per page below; by default the menu takes the page colour
     // (--menuColor on the homepage, set by main.js) with white groups.
 
+    // While the menu or the homepage overlay is open, a white strip at the
+    // bottom: Safari (iOS 26) takes its colour for the area under the
+    // toolbar, so the page doesn't show there. Closed, the page shows again.
+    body.menu-is-open,
+    body:has(.home-overlay:not(.is-dismissed):not([style*='none'])) {
+        &::after {
+            content: '';
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: $mPadding;
+            z-index: 10001;
+            background-color: white;
+            pointer-events: none;
+        }
+    }
+
     body.menu-is-open {
         // The page behind the menu stays put
         overflow: hidden;
@@ -61,14 +79,7 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
         top: $mPadding;
         left: $mPadding !important;
         right: $mPadding;
-        // Down to the bottom of the screen, also behind the browser's
-        // (translucent) toolbar: `bottom` only reaches the viewport above it.
-        // The extra padding (the toolbar's height while it shows) keeps the
-        // language buttons above the toolbar.
-        bottom: auto;
-        height: calc(100vh - 2 * #{$mPadding});
-        height: calc(100lvh - 2 * #{$mPadding});
-        padding-bottom: calc(100lvh - 100dvh);
+        bottom: $mPadding;
         width: auto;
         margin-top: 0;
         z-index: 10000 !important;
@@ -79,10 +90,14 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
         opacity: 0 !important;
         transform: scaleY(0) !important;
         transform-origin: top center !important;
+        // Hidden once closed: Safari (iOS 26) tints the area under its
+        // toolbar with fixed elements at the bottom, even transparent ones
+        visibility: hidden;
         transition:
             opacity 0.2s ease,
             background-color 0.5s ease,
-            transform 0.45s $mEase;
+            transform 0.45s $mEase,
+            visibility 0s linear 0.45s;
 
         &.is-instant-hidden {
             transition: none;
@@ -91,6 +106,12 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
         &.is-open {
             opacity: 1 !important;
             transform: scaleY(1) !important;
+            visibility: visible;
+            transition:
+                opacity 0.2s ease,
+                background-color 0.5s ease,
+                transform 0.45s $mEase,
+                visibility 0s;
         }
 
         .inner-page-logo {

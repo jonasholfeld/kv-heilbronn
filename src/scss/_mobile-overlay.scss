@@ -10,15 +10,10 @@ $mOverlayFontSize: 6.4rem;
         top: $mPadding;
         left: $mPadding;
         width: calc(100% - 2 * #{$mPadding});
-        // Down to the bottom of the screen, also behind the browser's
-        // (translucent) toolbar: 100% is only the viewport above it. The
-        // extra padding (the toolbar's height while it shows) keeps the
-        // footer above the toolbar.
-        height: calc(100vh - 2 * #{$mPadding});
-        height: calc(100lvh - 2 * #{$mPadding});
+        height: calc(100% - 2 * #{$mPadding});
         padding: 2.2rem 2.4rem 3rem;
-        padding-bottom: calc(3rem + 100lvh - 100dvh);
-        // The frame around it hides the page as well
+        // The frame around it hides the page as well; below the browser's
+        // toolbar: see the white strip in _mobile.scss
         box-shadow: 0 0 0 #{$mPadding} white;
         cursor: pointer;
 
