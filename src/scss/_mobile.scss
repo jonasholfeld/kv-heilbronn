@@ -25,6 +25,25 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
     border-radius: 5rem;
 }
 
+// Sticky top boxes: the gap below them is covered with a shadow, the frame
+// above them with a block that reaches past the top of the screen. Safari on
+// iOS 26 draws the page behind the status bar as well, so without it the
+// content scrolling away would show up there.
+@mixin mobileStickyCover($color) {
+    box-shadow: 0 $mGap 0 0 $color;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: -$mPadding;
+        right: -$mPadding;
+        bottom: 100%;
+        height: calc(#{$mPadding} + 50vh);
+        background-color: $color;
+        pointer-events: none;
+    }
+}
+
 @include mobile {
     body {
         padding: $mPadding;

@@ -55,10 +55,7 @@ $mFieldPadding: 3.6rem;
             padding: 3.4rem $mBoxPadding 3rem;
             background-color: white;
             text-align: center;
-            // Covers the frame above and the gap below it
-            box-shadow:
-                0 (-$mPadding) 0 0 var(--colorPage),
-                0 $mGap 0 0 var(--colorPage);
+            @include mobileStickyCover(var(--colorPage));
 
             h2 {
                 font-size: $mBubbleFontSize;

@@ -27,10 +27,7 @@
                 grid-template-columns: auto 1fr;
                 align-items: center;
                 background-color: white;
-                // Covers the frame above and the gap below it
-                box-shadow:
-                    0 (-$mPadding) 0 0 var(--colorPage),
-                    0 $mGap 0 0 var(--colorPage);
+                @include mobileStickyCover(var(--colorPage));
 
                 .besuch-page-info {
                     grid-row: 1;

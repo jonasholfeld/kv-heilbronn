@@ -66,10 +66,7 @@
             position: sticky;
             top: $mPadding;
             z-index: 20;
-            // Covers the frame above and the gap below it
-            box-shadow:
-                0 (-$mPadding) 0 0 #{$lightgrey},
-                0 $mGap 0 0 #{$lightgrey};
+            @include mobileStickyCover($lightgrey);
             .menu-button-js {
                 background: $lightgrey;
             }
@@ -164,10 +161,7 @@
                 position: sticky;
                 top: $mPadding;
                 z-index: 20;
-                // Covers the frame above and the gap below it
-                box-shadow:
-                    0 (-$mPadding) 0 0 var(--colorPage),
-                    0 $mGap 0 0 var(--colorPage);
+                @include mobileStickyCover(var(--colorPage));
                 .menu-button-js {
                     background-color: var(--colorPage);
                 }
