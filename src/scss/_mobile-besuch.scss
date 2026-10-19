@@ -75,6 +75,18 @@
                 overflow: visible;
             }
 
+            .impressum-funding {
+                gap: 2.4rem;
+
+                &__logos {
+                    gap: 4rem;
+
+                    img {
+                        height: 12rem;
+                    }
+                }
+            }
+
             // Padding: the global h2 reset zeroes margins with !important
             .besuch-section-title {
                 font-size: inherit;

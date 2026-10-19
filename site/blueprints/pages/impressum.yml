@@ -16,3 +16,16 @@ tabs:
                 label: Datenschutz
                 type: writer
                 width: 1/2
+            foerderungtext:
+                label: Förderung – Text (z.B. „Der Kunstverein Heilbronn wird institutionell gefördert von:“)
+                type: text
+                width: 1/2
+            foerderunglogos:
+                label: Förderung – Logos (Reihenfolge wie im Frontend)
+                type: files
+                layout: cards
+                size: medium
+                width: 1/2
+                translate: false
+                uploads:
+                    template: default

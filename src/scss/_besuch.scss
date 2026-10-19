@@ -120,6 +120,28 @@ body.impressum {
             }
         }
 
+        // Impressum: funding note with logos below the imprint
+        .impressum-funding {
+            gap: $generalPadding;
+
+            &__logos {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                gap: 3rem;
+
+                a {
+                    display: block;
+                }
+
+                img {
+                    height: 4rem;
+                    width: auto;
+                    display: block;
+                }
+            }
+        }
+
         .besuch-section-title {
             text-transform: uppercase;
             font-weight: 400;
