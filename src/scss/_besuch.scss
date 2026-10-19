@@ -50,8 +50,9 @@ body.impressum {
 
     main.besuch-template {
         width: calc(100vw - 2 * $generalPadding);
+        // body's padding already frames it; no extra bottom padding here,
+        // otherwise the page scrolls by $generalPadding
         min-height: calc(100vh - 2 * $generalPadding);
-        padding-bottom: $generalPadding;
         display: flex;
         gap: $generalPadding;
 
