@@ -82,16 +82,7 @@ $formResult = $page->formResult('reise');
                                 'sizes'    => '50vw',
                                 'priority' => $img->isFirst($galerie),
                             ]) ?>
-                            <?php if ($img->credits()->isNotEmpty()): ?>
-                                <div class="credits-wrapper bubble">
-                                    <p>Credits</p>
-                                    <div class="credits-collapse-wrapper">
-                                        <div class="credits-content-wrapper">
-                                            <?= $img->credits()->kt() ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif ?>
+                            <?php snippet('image-credits', ['file' => $img]) ?>
                         </div>
                     </div>
                 <?php endforeach ?>

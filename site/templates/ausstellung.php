@@ -96,6 +96,7 @@ $renderGalleryImage = static function (array $item, string $ratioClass, bool $pr
     ]) . '>';
 };
 
+
 $galleryItems = array_values(array_filter(array_map(
     $prepareGalleryItem,
     $page->galerie()->toFiles()->values()
@@ -261,45 +262,13 @@ $galleryItems = array_values(array_filter(array_map(
                         <div class="single-ausstellung-page__images-wrapper__image">
                             <div class="inner-image-wrapper">
                                 <?php $renderGalleryImage($imageItem, $ratioClass, $i === 0) ?>
-                                <?php
-                                    $imageCredits = array_filter([
-                                        $image->title()->isNotEmpty() ? $image->title()->esc() : null,
-                                        $image->caption()->isNotEmpty() ? $image->caption()->esc() : null,
-                                        $image->credit()->isNotEmpty() ? $image->credit()->esc() : null,
-                                    ]);
-                                ?>
-                                <?php if (!empty($imageCredits)): ?>
-                                    <div class="credits-wrapper bubble">
-                                        <p>Credits</p>
-                                        <div class="credits-collapse-wrapper">
-                                            <div class="credits-content-wrapper">
-                                                <?= implode('<br>', $imageCredits) ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endif ?>
+                                <?php snippet('image-credits', ['file' => $image]) ?>
                             </div>
                         </div>
                         <div class="single-ausstellung-page__images-wrapper__image">
                             <div class="inner-image-wrapper">
                                 <?php $renderGalleryImage($nextImageItem, $ratioClass) ?>
-                                <?php
-                                    $nextImageCredits = array_filter([
-                                        $nextImage->title()->isNotEmpty() ? $nextImage->title()->esc() : null,
-                                        $nextImage->caption()->isNotEmpty() ? $nextImage->caption()->esc() : null,
-                                        $nextImage->credit()->isNotEmpty() ? $nextImage->credit()->esc() : null,
-                                    ]);
-                                ?>
-                                <?php if (!empty($nextImageCredits)): ?>
-                                    <div class="credits-wrapper bubble">
-                                        <p>Credits</p>
-                                        <div class="credits-collapse-wrapper">
-                                            <div class="credits-content-wrapper">
-                                                <?= implode('<br>', $nextImageCredits) ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endif ?>
+                                <?php snippet('image-credits', ['file' => $nextImage]) ?>
                             </div>
                         </div>
                     </div>
@@ -308,23 +277,7 @@ $galleryItems = array_values(array_filter(array_map(
                     <div class="single-ausstellung-page__images-wrapper__image">
                         <div class="inner-image-wrapper">
                             <?php $renderGalleryImage($imageItem, $ratioClass, $i === 0) ?>
-                            <?php
-                                $imageCredits = array_filter([
-                                    $image->title()->isNotEmpty() ? $image->title()->esc() : null,
-                                    $image->caption()->isNotEmpty() ? $image->caption()->esc() : null,
-                                    $image->credit()->isNotEmpty() ? $image->credit()->esc() : null,
-                                ]);
-                            ?>
-                            <?php if (!empty($imageCredits)): ?>
-                                <div class="credits-wrapper bubble">
-                                    <p>Credits</p>
-                                    <div class="credits-collapse-wrapper">
-                                        <div class="credits-content-wrapper">
-                                            <?= implode('<br>', $imageCredits) ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif ?>
+                            <?php snippet('image-credits', ['file' => $image]) ?>
                         </div>
                     </div>
                 <?php endif ?>
