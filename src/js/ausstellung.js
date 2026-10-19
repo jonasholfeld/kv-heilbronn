@@ -109,7 +109,9 @@ export function init(signal) {
         collapse.style.transition = `height ${duration} ${easing}, width ${duration} ${easing}`
         // Pull following content back up by the amount the bubble grows, so
         // the open bubble overlaps the white space instead of pushing the
-        // next image down. Same timing as the collapse keeps layout steady.
+        // next image down (CSS applies it via --credits-offset, except in
+        // text mode where images sit close together and must be pushed).
+        // Same timing as the collapse keeps layout steady.
         wrapper.style.transition = `border-radius 0.3s ease, margin-bottom ${duration} ${easing}`
 
         if (isOpen) {
@@ -119,7 +121,6 @@ export function init(signal) {
             requestAnimationFrame(() => {
                 collapse.style.height = '0px'
                 collapse.style.width = '0px'
-                wrapper.style.marginBottom = '0px'
             })
             wrapper.classList.remove('is-open')
             return
@@ -131,7 +132,7 @@ export function init(signal) {
         requestAnimationFrame(() => {
             collapse.style.height = targetHeight + 'px'
             collapse.style.width = targetWidth + 'px'
-            wrapper.style.marginBottom = -targetHeight + 'px'
+            wrapper.style.setProperty('--credits-offset', targetHeight + 'px')
         })
         wrapper.classList.add('is-open')
     }
@@ -148,7 +149,7 @@ export function init(signal) {
             if (!collapse || !content) return
             collapse.style.height = content.scrollHeight + 'px'
             collapse.style.width = content.scrollWidth + 'px'
-            wrapper.style.marginBottom = -content.scrollHeight + 'px'
+            wrapper.style.setProperty('--credits-offset', content.scrollHeight + 'px')
         })
     }, { signal })
 

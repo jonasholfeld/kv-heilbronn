@@ -240,6 +240,7 @@ body.ausstellung {
                 }
                 &.is-open {
                     border-radius: 0;
+                    margin-bottom: calc(-1 * var(--credits-offset, 0px));
                 }
             }
         }
@@ -499,6 +500,11 @@ body.ausstellung {
                     opacity: 1;
                     transform: none;
                     transition: none;
+                }
+                // Images are stacked tightly here, so an open credit must
+                // push the following image down instead of overlapping it
+                .credits-wrapper.is-open {
+                    margin-bottom: 0;
                 }
                 .image-coupler {
                     flex-direction: column;
