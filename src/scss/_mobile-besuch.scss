@@ -126,6 +126,10 @@
                                 transform: none;
                             }
                         }
+
+                        p + p {
+                            margin-top: 1.2em;
+                        }
                     }
                 }
 

@@ -181,6 +181,13 @@ body.impressum {
                     p::before {
                         background-color: var(--colorPage);
                     }
+                    // Further paragraphs in the same item: spaced, no bullet
+                    p + p {
+                        margin-top: 1.2rem;
+                        &::before {
+                            display: none;
+                        }
+                    }
                 }
             }
 
