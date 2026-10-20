@@ -4,13 +4,13 @@
     <?php foreach ($termineItems as $termin): ?>
       <?php $linkedExhibition = $termin->ausstellung()->toPages()->first() ?>
       <?php if ($linkedExhibition): ?>
-        <a href="<?= $linkedExhibition->url() ?>" class="termin-item__wrapper-link" style="--hovercolor: <?= $linkedExhibition->color() ?>;">
+        <a href="<?= $linkedExhibition->url() ?>" class="termin-item__wrapper-link termin-item__wrapper-link--hovercolor" style="--hovercolor: <?= $linkedExhibition->color() ?>;">
       <?php endif ?>
       <?php $linkedReise = $termin->reise()->toPages()->first() ?>
       <?php if ($linkedReise): 
         $reiseColor = $linkedReise->category() == 'kunstreise' ? page('reisen')->kunstreisecolor() : page('reisen')->atelierbesuchcolor();
       ?>
-        <a href="<?= $linkedReise->url() ?>" class="termin-item__wrapper-link" style="--hovercolor: <?= $reiseColor ?>;">
+        <a href="<?= $linkedReise->url() ?>" class="termin-item__wrapper-link termin-item__wrapper-link--hovercolor" style="--hovercolor: <?= $reiseColor ?>;">
       <?php endif ?>
       <?php $tags = $termin->kalender()->split() ?>
       <?php if (!$linkedExhibition && !$linkedReise): ?>

@@ -447,7 +447,7 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
                     &:hover {
                         background-color: transparent;
                         .termin__body {
-                            background-color: var(--hovercolor, #d8c0c8);
+                            background-color: var(--hovercolor, var(--color));
                         }
                     }
                 }

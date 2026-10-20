@@ -185,6 +185,19 @@ body.home-body-class {
             }
         }
 
+        // Linked to an exhibition or trip: takes on its colour on hover.
+        // Termine without one keep their colour.
+        .termin-item__wrapper-link--hovercolor .termin-item:hover {
+            background-color: var(--hovercolor);
+            ul li > p::before {
+                background-color: color-mix(
+                    in srgb,
+                    var(--hovercolor) 75%,
+                    black
+                );
+            }
+        }
+
         .termin-item {
             margin-bottom: $generalPadding;
             display: flex;
@@ -197,14 +210,6 @@ body.home-body-class {
 
             &:hover {
                 cursor: pointer;
-                background-color: var(--hovercolor, #d8c0c8);
-                ul li > p::before {
-                    background-color: color-mix(
-                        in srgb,
-                        var(--hovercolor, #d8c0c8) 75%,
-                        black
-                    );
-                }
             }
 
             .termin__label {
@@ -379,7 +384,7 @@ body.home-body-class {
 }
 
 // Hovering a box squares its tags too, like hovering a tag itself
-.home-item:has(a:hover) .label-wrapper .section-label {
+.home-item:has(:is(a, img):hover) .label-wrapper .section-label {
     border-radius: 0;
 }
 

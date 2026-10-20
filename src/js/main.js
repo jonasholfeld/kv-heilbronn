@@ -261,7 +261,10 @@ function setupCategoryButtonHover(signal) {
     document.addEventListener(
         'pointerover',
         (event) => {
-            const box = event.target.closest('a') && event.target.closest('.home-item')
+            // A box is a link or an image of a home section
+            const box =
+                event.target.closest('a, img') &&
+                event.target.closest('.home-item')
             const isMatch =
                 !!box && box.dataset.category === button.textContent.trim()
             button.classList.toggle('is-box-hovered', isMatch)
