@@ -43,7 +43,7 @@
 
         <div class="besuch-panel">
             <h2 class="besuch-section-title"><?= t('ui.privacy') ?></h2>
-            <div class="besuch-section-body">
+            <div class="besuch-section-body impressum-privacy">
                 <?= $page->datenschutz() ?>
             </div>
         </div>

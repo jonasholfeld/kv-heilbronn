@@ -143,6 +143,15 @@ body.impressum {
             }
         }
 
+        // Datenschutz: bold in the editor is set as capitals, not bold
+        .impressum-privacy {
+            strong,
+            b {
+                font-weight: inherit;
+                text-transform: uppercase;
+            }
+        }
+
         .besuch-section-title {
             text-transform: uppercase;
             font-weight: 400;
