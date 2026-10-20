@@ -175,8 +175,8 @@ foreach ($blocks as $block):
     </div>
 
 <?php elseif ($type === 'form-info'): ?>
-    <?php // Footnotes ("* …") hang the asterisk in front, the text lines up with the consents ?>
-    <?php $info = preg_replace('/<p>\*\s*/u', '<p class="kv-form__footnote"><span class="kv-form__footnote-mark">*</span>', $block->text()->permalinksToUrls()) ?>
+    <?php // Footnotes ("* …") are indented like the consent text ?>
+    <?php $info = preg_replace('/<p>(?=\*)/u', '<p class="kv-form__footnote">', $block->text()->permalinksToUrls()) ?>
     <div class="kv-form__item kv-form__info"><?= $info ?></div>
 
 <?php elseif ($type === 'form-spacer'): ?>
