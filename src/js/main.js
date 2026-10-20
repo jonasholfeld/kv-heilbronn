@@ -1,5 +1,6 @@
 import '../scss/main.scss'
 import { setupPageTransitions } from './page-transitions.js'
+import { setupLinkUnderlines } from './link-underline.js'
 
 // Old function
 requestAnimationFrame(() => {
@@ -256,6 +257,7 @@ function setupMobileHeaderLogo(siteHeader, footer, signal) {
 function initPage(signal) {
     setupAusstellungenImageRows(signal)
     setupSidebarWidths(signal)
+    setupLinkUnderlines()
 
     const siteHeader = document.querySelector('.site-header')
     const siteHeaderTitle = document.querySelector(
