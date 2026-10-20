@@ -1,5 +1,5 @@
 <?php $category = t('ui.kunstverein'); ?>
-<div data-category="<?= $category ?>" class="scroll-top-element infobox-wrapper infobox-wrapper--mitgliedschaft home-item" style="--color: <?= site()->mitgliedschaftColor()->esc() ?>;">
+<div data-category="<?= $category ?>" data-category-url="<?= page('kunstverein')?->url() ?>" class="scroll-top-element infobox-wrapper infobox-wrapper--mitgliedschaft home-item" style="--color: <?= site()->mitgliedschaftColor()->esc() ?>;">
   <header class="content-wrapper">
     <a href="<?= page('kunstverein')->url() ?>#mitgliedschaft" class="infobox-info">
         <?php if (site()->mitgliedschaftTextTitle()->isNotEmpty()): ?>

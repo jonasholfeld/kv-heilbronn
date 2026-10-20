@@ -1,5 +1,5 @@
 <?php $category = 'shop'; ?>
-<div data-category="<?= $category ?>" class=" scroll-top-element shop-item-wrapper home-item" style="--color: <?= $item->color()->esc() ?>;">
+<div data-category="<?= $category ?>" data-category-url="<?= page('shop')?->url() ?>" class=" scroll-top-element shop-item-wrapper home-item" style="--color: <?= $item->color()->esc() ?>;">
   <header class="content-wrapper">  
     <div class="shop-item-body">
         <a href="<?= $item->url() ?>" class="shop-item-info">

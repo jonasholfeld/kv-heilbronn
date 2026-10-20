@@ -486,6 +486,41 @@ function initPage(signal) {
         const DEFAULT_LOGO_FILL = '#DCE0E3'
         let hasInitializedHeaderColor = false
 
+        // The menu group of the section in view gets round corners, along
+        // with the menu's colour change: the group linking to the section's
+        // category page (data-category-url) or a page below it
+        const menuGroups = siteMenu
+            ? [...siteMenu.querySelectorAll('.site-menu__group')]
+            : []
+        // Without the language prefix: menu links are partly typed in as
+        // plain paths ("/ausstellungen")
+        const languageCodes = [
+            ...document.querySelectorAll('.site-menu__lang-btn[hreflang]'),
+        ].map((link) => link.getAttribute('hreflang'))
+        const pathOf = (url) => {
+            const segments = new URL(url, window.location.href).pathname
+                .split('/')
+                .filter(Boolean)
+            if (languageCodes.includes(segments[0])) segments.shift()
+            return '/' + segments.join('/')
+        }
+        function highlightMenuGroup(section) {
+            const categoryUrl = section?.dataset.categoryUrl
+            const categoryPath = categoryUrl ? pathOf(categoryUrl) : null
+            menuGroups.forEach((group) => {
+                const isMatch =
+                    !!categoryPath &&
+                    [...group.querySelectorAll('a[href]')].some((link) => {
+                        const path = pathOf(link.getAttribute('href'))
+                        return (
+                            path === categoryPath ||
+                            path.startsWith(categoryPath + '/')
+                        )
+                    })
+                group.classList.toggle('site-menu__group--section', isMatch)
+            })
+        }
+
         function updateHeaderLogoColor() {
             if (!headerSvgSt0) return
 
@@ -548,6 +583,7 @@ function initPage(signal) {
                 // Logo inside the mobile menu
                 siteMenu.style.setProperty('--menuColor', color)
             }
+            highlightMenuGroup(activeSection)
             if (topInfoRowCategoryButton) {
                 // On mobile the button stays visible above the footer, so it
                 // keeps the category of the last section

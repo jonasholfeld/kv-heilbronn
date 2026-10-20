@@ -89,6 +89,10 @@
         &:hover {
             border-radius: 2rem;
         }
+        // Home: the group of the section in view, set in main.js
+        &--section {
+            border-radius: 2rem;
+        }
         &:first-child {
             border-radius: 2rem;
             &:hover {

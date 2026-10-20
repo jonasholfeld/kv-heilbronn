@@ -3,7 +3,7 @@ $category = t('ui.exhibitions');
 $previewHeading = $exhiClass === 'archive' ? t('ui.from_archives') : t('ui.exhibition_preview');
 ?>
 
-<div data-category="<?= $category ?>" class="exhibition-wrapper exhibition-wrapper--<?= $exhiClass ?> home-item" style="--color: <?= $exhibition->color()->esc() ?>;">
+<div data-category="<?= $category ?>" data-category-url="<?= page('ausstellungen')?->url() ?>" class="exhibition-wrapper exhibition-wrapper--<?= $exhiClass ?> home-item" style="--color: <?= $exhibition->color()->esc() ?>;">
     <div class="inner-home-item">
     <a href="<?= $exhibition->url() ?>" class="exhibition-info exhibition-info--<?= $exhiClass ?>">
         <p class="exhibition__label exhibition__label--<?= $exhiClass ?>"><?= $previewHeading ?></p>

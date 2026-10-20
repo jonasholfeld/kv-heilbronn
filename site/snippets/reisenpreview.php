@@ -1,5 +1,5 @@
 <?php $category = t('ui.travels'); ?>
-<div data-category="<?= $category ?>" class="scroll-top-element infobox-wrapper infobox-wrapper--reisen home-item" style="--color: <?= $reisenPage->color()->esc() ?>;">
+<div data-category="<?= $category ?>" data-category-url="<?= page('reisen')?->url() ?>" class="scroll-top-element infobox-wrapper infobox-wrapper--reisen home-item" style="--color: <?= $reisenPage->color()->esc() ?>;">
   <header class="content-wrapper">  
     <a href="<?= $reisenPage->url() ?>" class="infobox-info">
         <p class="infobox__title"><?= site()->reisenTitle()->esc() ?></p>

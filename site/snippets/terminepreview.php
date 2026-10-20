@@ -1,5 +1,5 @@
 <?php $category = t('ui.dates'); ?>
-<div data-category="<?= $category ?>" class="scroll-top-element termine-section home-item" style="--color: <?= $termineColor ?>;">
+<div data-category="<?= $category ?>" data-category-url="<?= page('termine')?->url() ?>" class="scroll-top-element termine-section home-item" style="--color: <?= $termineColor ?>;">
   <header class="content-wrapper">
     <?php foreach ($termineItems as $termin): ?>
       <?php $linkedExhibition = $termin->ausstellung()->toPages()->first() ?>
