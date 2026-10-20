@@ -270,6 +270,17 @@ body.reise .single-reise-page__buttons-wrapper-outer .reise-form-open {
             margin-top: 0.75rem;
         }
 
+        // Same indent as the consent text (circle + gap)
+        .kv-form__footnote {
+            position: relative;
+            padding-left: $formPillPadding;
+        }
+
+        .kv-form__footnote-mark {
+            position: absolute;
+            left: 0;
+        }
+
         .kv-form__group-title + & {
             margin-top: 0.4rem;
         }

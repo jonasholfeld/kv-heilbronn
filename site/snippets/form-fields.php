@@ -175,7 +175,9 @@ foreach ($blocks as $block):
     </div>
 
 <?php elseif ($type === 'form-info'): ?>
-    <div class="kv-form__item kv-form__info"><?= $block->text()->permalinksToUrls() ?></div>
+    <?php // Footnotes ("* …") hang the asterisk in front, the text lines up with the consents ?>
+    <?php $info = preg_replace('/<p>\*\s*/u', '<p class="kv-form__footnote"><span class="kv-form__footnote-mark">*</span>', $block->text()->permalinksToUrls()) ?>
+    <div class="kv-form__item kv-form__info"><?= $info ?></div>
 
 <?php elseif ($type === 'form-spacer'): ?>
     <div class="kv-form__item kv-form__spacer"></div>
