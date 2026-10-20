@@ -361,6 +361,10 @@
                         min-width: 60rem;
                         padding-top: 1rem;
                         padding-bottom: 0.6rem;
+
+                        p + p {
+                            margin-top: 1.2em;
+                        }
                     }
                 }
             }
