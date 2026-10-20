@@ -378,6 +378,11 @@ body.home-body-class {
     margin-right: $generalPadding;
 }
 
+// Hovering a box squares its tags too, like hovering a tag itself
+.home-item:has(a:hover) .label-wrapper .section-label {
+    border-radius: 0;
+}
+
 body.menu-is-open {
     .exhibition-gallery {
         &.exhibition-gallery--count-1.exhibition-gallery--single-landscape {

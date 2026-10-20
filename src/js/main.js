@@ -252,12 +252,34 @@ function setupMobileHeaderLogo(siteHeader, footer, signal) {
     update()
 }
 
+// Home: hovering a box squares the sidebar's category button when it shows
+// that box's category (the tags below the box are squared in _home.scss)
+function setupCategoryButtonHover(signal) {
+    const button = document.querySelector('.top-info-row .category-button-js')
+    if (!button || !document.querySelector('.home-item')) return
+
+    document.addEventListener(
+        'pointerover',
+        (event) => {
+            const box = event.target.closest('a') && event.target.closest('.home-item')
+            const isMatch =
+                !!box && box.dataset.category === button.textContent.trim()
+            button.classList.toggle('is-box-hovered', isMatch)
+        },
+        { signal }
+    )
+    signal.addEventListener('abort', () =>
+        button.classList.remove('is-box-hovered')
+    )
+}
+
 // Everything tied to the current page's content. Runs on the initial load and
 // again after every page transition; listeners are removed when `signal` aborts.
 function initPage(signal) {
     setupAusstellungenImageRows(signal)
     setupSidebarWidths(signal)
     setupLinkUnderlines()
+    setupCategoryButtonHover(signal)
 
     const siteHeader = document.querySelector('.site-header')
     const siteHeaderTitle = document.querySelector(

@@ -194,6 +194,10 @@ html:not(.is-changing) body.pre-init {
         a {
             text-decoration: none !important;
         }
+        // Set in main.js while a box of the shown category is hovered
+        .category-button-js.is-box-hovered {
+            border-radius: 0;
+        }
     }
 }
 
