@@ -202,23 +202,21 @@ function setupSidebarWidths(signal) {
 }
 
 // Mobile: the header logo collapses while scrolling down and comes back after
-// scrolling up a bit. It stays collapsed while the footer logo is in view, so
-// the logo is never shown twice.
+// scrolling up a bit. Once the footer comes into view it is shown again (the
+// footer has no logo of its own).
 const LOGO_COLLAPSE_START_PX = 40
 const LOGO_REVEAL_DISTANCE_PX = 80
 
 function setupMobileHeaderLogo(siteHeader, footer, signal) {
     const headerTitle = siteHeader?.querySelector('.site-header__title')
     if (!headerTitle) return
-    const footerLogo = footer?.querySelector('.footer-logo')
 
     let lastY = window.scrollY
     let upDistance = 0
     let collapsed = false
 
-    const isFooterLogoInView = () =>
-        !!footerLogo &&
-        footerLogo.getBoundingClientRect().top < window.innerHeight
+    const isFooterInView = () =>
+        !!footer && footer.getBoundingClientRect().top < window.innerHeight
 
     const update = () => {
         if (!isMobile()) {
@@ -231,8 +229,8 @@ function setupMobileHeaderLogo(siteHeader, footer, signal) {
         const delta = y - lastY
         lastY = y
 
-        if (isFooterLogoInView()) {
-            collapsed = true
+        if (isFooterInView()) {
+            collapsed = false
             upDistance = 0
         } else if (y <= LOGO_COLLAPSE_START_PX) {
             collapsed = false
@@ -276,6 +274,53 @@ function setupCategoryButtonHover(signal) {
     )
 }
 
+// Mobile layout with a mouse (e.g. narrow desktop windows): while a menu group
+// is hovered the menu takes on the colour of the page it leads to
+// (data-color, set in navi.php). Touch screens keep the menu as it is.
+const MENU_HOVER_PROPERTIES = {
+    '--mMenuBg': (color) => color,
+    '--mMenuLogoBox': (color) => color,
+    '--mMenuGroup': () => 'white',
+    '--mMenuLogoLetters': () => 'white',
+}
+
+function setupMobileMenuHoverColor(signal) {
+    const siteMenu = document.getElementById('site-menu')
+    if (!siteMenu) return
+    const hoverQuery = window.matchMedia('(hover: hover)')
+
+    const clear = () => {
+        Object.keys(MENU_HOVER_PROPERTIES).forEach((property) =>
+            siteMenu.style.removeProperty(property)
+        )
+    }
+
+    const setColor = (color) => {
+        Object.entries(MENU_HOVER_PROPERTIES).forEach(([property, value]) =>
+            siteMenu.style.setProperty(property, value(color))
+        )
+    }
+
+    // The gaps between the groups keep the colour, so it doesn't flicker
+    // when moving from one group to the next
+    siteMenu.addEventListener(
+        'pointerover',
+        (event) => {
+            if (!isMobile() || !hoverQuery.matches) return
+            const group = event.target.closest('.site-menu__group')
+            const isGap = event.target.matches('.site-menu__inner')
+            if (group?.dataset.color) {
+                setColor(group.dataset.color)
+            } else if (!isGap) {
+                clear()
+            }
+        },
+        { signal }
+    )
+    siteMenu.addEventListener('pointerleave', clear, { signal })
+    signal.addEventListener('abort', clear)
+}
+
 // Everything tied to the current page's content. Runs on the initial load and
 // again after every page transition; listeners are removed when `signal` aborts.
 function initPage(signal) {
@@ -283,6 +328,7 @@ function initPage(signal) {
     setupSidebarWidths(signal)
     setupLinkUnderlines()
     setupCategoryButtonHover(signal)
+    setupMobileMenuHoverColor(signal)
 
     const siteHeader = document.querySelector('.site-header')
     const siteHeaderTitle = document.querySelector(

@@ -67,9 +67,11 @@
                 padding-bottom: 0;
             }
 
+            // Spaced like the event boxes on the homepage (_mobile.scss): the
+            // text sits between date and the bottom of the box
             .termin-card {
                 margin-bottom: $mGap;
-                padding: 3rem 3rem 3.4rem;
+                padding: $mBoxPadding;
                 &:last-child {
                     margin-bottom: 0;
                 }
@@ -81,14 +83,14 @@
                 &__header {
                     flex-direction: column;
                     gap: 0;
-                    margin-bottom: 14rem;
+                    margin-bottom: $mBlockSpacing;
                     .termin-card__date {
                         text-align: left;
                     }
                 }
 
                 &__bodytext {
-                    margin-bottom: 14rem;
+                    margin-bottom: $mBlockSpacing;
 
                     p {
                         margin-bottom: 0;
@@ -109,11 +111,6 @@
                     > :last-child {
                         margin-bottom: 0;
                     }
-                }
-
-                // Without a link the text ends the card
-                &:not(:has(.termin-card__cta)) .termin-card__bodytext {
-                    margin-bottom: 0;
                 }
             }
         }

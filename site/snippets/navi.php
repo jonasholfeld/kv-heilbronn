@@ -41,11 +41,29 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
       return false;
     };
 
+    // The colour of the page a group leads to, as set in head.php. Mobile
+    // with a mouse: the menu takes it on while hovering the group (main.js).
+    // Not for the homepage, its colour changes while scrolling.
+    $groupColor = function ($group, $entries) use ($pageFromPath) {
+      if ($group->linktitle()->isNotEmpty()) {
+        $target = $pageFromPath($group->linktitle()->value());
+      } else {
+        $entry = $entries->first();
+        $target = $entry?->linktype()->value() === 'true'
+          ? $pageFromPath($entry->url()->value())
+          : $entry?->page()->toPages()->first();
+      }
+      if (!$target || $target->isHomePage()) {
+        return null;
+      }
+      return $target->color()->or('#dce0e3')->value();
+    };
+
     foreach ($menuGroups as $group):
       $entries = $group->entries()->toBlocks();
       $entryCount = $entries->count();
     ?>
-      <div class="site-menu__group<?php e($isCurrentGroup($group, $entries), ' site-menu__group--current') ?>">
+      <div class="site-menu__group<?php e($isCurrentGroup($group, $entries), ' site-menu__group--current') ?>"<?= attr(['data-color' => $groupColor($group, $entries)], ' ') ?>>
         <?php if ($entryCount === 1):
           $entry = $entries->first();
           $isUrl = $entry->linktype()->value() === 'true';

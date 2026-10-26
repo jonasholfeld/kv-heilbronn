@@ -9,7 +9,7 @@ $orderLabel = kvFormConfig($form)?->formularOeffnen()->or(t('ui.order'))->value(
 
 <main class="shop-item-page shop-item-page--<?= $form ?><?= $formResult ? ' is-form-open' : '' ?>" data-form-host style="--color: <?= $page->color()->or('#000000') ?>">
     <aside class="shop-sidebar sidebar-small">
-        <div class="shop-page-info page-info"><?= t('ui.shop') ?></div>
+        <div class="shop-page-info page-info"><a href="<?= page('shop')->url() ?>"><?= t('ui.shop') ?></a></div>
         <button class="menu-button-js bubble bubble-inverted" type="button"><?= t('ui.menu') ?></button>
         <a class="shop-pill shop-pill--dark shop-home-link home-link bubble" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a>
     </aside>
@@ -58,12 +58,6 @@ $orderLabel = kvFormConfig($form)?->formularOeffnen()->or(t('ui.order'))->value(
                         </div>
                     <?php endif ?>
                 </div>
-                <?php if ($form === 'edition' && $img->isFirst($galerie)): ?>
-                    <?php // Mobile only: editions are ordered from below the first image ?>
-                    <div class="shop-item-page__order shop-item-page__order--images">
-                        <button class="bestellen-btn" type="button" data-form-open><?= esc($orderLabel) ?></button>
-                    </div>
-                <?php endif ?>
             <?php endforeach ?>
         </div>
     </div>

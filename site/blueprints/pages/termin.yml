@@ -24,6 +24,9 @@ tabs:
             bodytext:
                 label: Beschreibungstext
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 size: medium
             wordpressId:
                 label: WordPress-ID
@@ -59,6 +62,9 @@ tabs:
             notiz:
                 label: Notiz
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 size: medium
                 help: Optional, falls beim Import ergänzende Beschreibungstexte hinzukommen.
     media:

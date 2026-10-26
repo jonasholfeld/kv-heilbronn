@@ -55,6 +55,11 @@ $termineItems = $terminePage
     <?= snippet('exhibitionpreview', ['exhibition' => $currentExhibition, 'exhiClass' => 'current', 'exhiLabel' => t('ui.current')]) ?>
   <?php endif ?>
 
+  <?php // In the order of the menu: the exhibitions first ?>
+  <?php if ($archiveFallbackExhibition): ?>
+    <?= snippet('exhibitionpreview', ['exhibition' => $archiveFallbackExhibition, 'exhiClass' => 'archive', 'exhiLabel' => t('ui.archive')]) ?>
+  <?php endif ?>
+
   <?php foreach ($futureEvents as $futureEvent): ?>
     <?= snippet('exhibitionpreview', ['exhibition' => $futureEvent, 'exhiClass' => 'future', 'exhiLabel' => t('ui.preview')]) ?>
   <?php endforeach ?>
@@ -87,9 +92,6 @@ $termineItems = $terminePage
     <?= snippet('shopitempreview', ['item' => $katalog, 'itemLabel' => 'Katalog']) ?>
   <?php endif ?>
 
-  <?php if ($archiveFallbackExhibition): ?>
-    <?= snippet('exhibitionpreview', ['exhibition' => $archiveFallbackExhibition, 'exhiClass' => 'archive', 'exhiLabel' => t('ui.archive')]) ?>
-  <?php endif ?>
 </main>
 
 <?php snippet('foot') ?>

@@ -26,7 +26,7 @@ $reisenPage = page('reisen');
 
 <main class="termine-template">
     <aside class="termine-sidebar sidebar-small">
-        <div class="termine-page-info page-info"><?= t('ui.dates') ?></div>
+        <div class="termine-page-info page-info"><a href="<?= page('termine')->url() ?>"><?= t('ui.dates') ?></a></div>
         <button class="menu-button-js termine-pill termine-pill--dark" type="button"><?= t('ui.menu') ?></button>
         <a class="termine-pill termine-pill--dark termine-home-link" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a>
     </aside>

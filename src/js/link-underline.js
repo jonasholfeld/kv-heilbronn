@@ -1,5 +1,5 @@
-// Animated underline: on hover the line runs out to the right and is drawn
-// again from the left. Used for external links (other hosts, e-mail), the
+// Animated underline: on hover the line shrinks from the right to the left
+// and is drawn again from the left. Used for external links (other hosts, e-mail), the
 // "more" labels inside cards (hovering the whole card plays it) and links in
 // form consents. The text is wrapped in a span that carries the line as a
 // background, so it also works across line breaks and leaves the element's

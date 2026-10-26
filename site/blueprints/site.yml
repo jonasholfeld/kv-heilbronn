@@ -33,6 +33,9 @@ tabs:
                     mitgliedschaftText:
                         label: Text
                         type: writer
+                        nodes:
+                            - paragraph
+                            - bulletList
                         width: 2/3
                     mitgliedschaftColor:
                         label: Farbe
@@ -55,6 +58,9 @@ tabs:
                     reisenText:
                         label: Text
                         type: writer
+                        nodes:
+                            - paragraph
+                            - bulletList
                         width: 2/3
                     reisenLine:
                         type: line

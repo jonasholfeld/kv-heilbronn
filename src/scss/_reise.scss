@@ -132,6 +132,16 @@ body.reise {
         }
 
         &__text {
+            // A white strip at the top that the text scrolls under, as in
+            // the image column. The first box gives up the same space, so
+            // nothing moves before scrolling.
+            // Undone on mobile (_mobile-reisen.scss)
+            .scroll-container {
+                border-top: $generalPadding solid white;
+                > .single-reise-page__text-container:first-child {
+                    padding-top: 0;
+                }
+            }
             .single-reise-page__buttons-wrapper-outer {
                 background-color: white;
                 padding: $generalPadding;

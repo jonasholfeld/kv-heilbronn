@@ -200,6 +200,10 @@ export function setupPageTransitions({ onBeforeSwap, onAfterSwap }) {
         containers: ['#swup'],
         native,
         animationSelector: native ? false : '[class*="transition-"]',
+        // A link to the current page (e.g. "Startseite" in the menu on the
+        // homepage) loads it again instead of only scrolling to the top, so
+        // the open menu closes
+        linkToSelf: 'navigate',
         ignoreVisit: (url, { el } = {}) => {
             if (el?.closest('[data-no-swup]')) return true
             // Menu labels are translated server-side, so switching

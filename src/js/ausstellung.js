@@ -90,6 +90,21 @@ export function init(signal) {
 
         observer.observe(topInfoBox)
         signal.addEventListener('abort', () => observer.disconnect())
+
+        // Back to the top of the page, where the large box is
+        smallTopInfoBox.addEventListener(
+            'click',
+            () => {
+                const reduceMotion = window.matchMedia(
+                    '(prefers-reduced-motion: reduce)'
+                ).matches
+                window.scrollTo({
+                    top: 0,
+                    behavior: reduceMotion ? 'auto' : 'smooth',
+                })
+            },
+            { signal }
+        )
     }
 
     const creditWrappers = document.querySelectorAll('.credits-wrapper')

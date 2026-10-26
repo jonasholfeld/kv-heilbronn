@@ -1,8 +1,4 @@
 <footer>
-    <?php // Mobile only: the header logo collapses while this one is in view ?>
-    <a class="footer-logo" href="<?= site()->url() ?>">
-        <?php snippet('logo') ?>
-    </a>
     <div class="footer-contact">
         <h2><?= t('ui.contact') ?></h2>
         <?= page('besuch')->kontakt()->kt() ?>

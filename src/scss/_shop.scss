@@ -355,6 +355,18 @@ body.edition {
             .shop-item-page__description {
                 @include sansserif;
 
+                // Headings from imported texts look like the rest
+                h1,
+                h2,
+                h3,
+                h4,
+                h5,
+                h6 {
+                    margin: 0;
+                    font: inherit;
+                    line-height: inherit;
+                }
+
                 ul {
                     li > p::before {
                         background-color: var(--color);

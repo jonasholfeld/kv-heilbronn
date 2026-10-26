@@ -6,5 +6,8 @@ wysiwyg: true
 fields:
     text:
         type: writer
+        nodes:
+            - paragraph
+            - bulletList
         label: Text
         help: Erklärender Text zwischen den Feldern

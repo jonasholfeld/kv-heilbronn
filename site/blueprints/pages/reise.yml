@@ -36,13 +36,22 @@ tabs:
             beschreibung:
                 label: Beschreibung
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 size: large
             reiseplan:
                 label: Reiseplan
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
             anmeldung:
                 label: Anmeldung
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
     media:
         label: Medien
         fields:

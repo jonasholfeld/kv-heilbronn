@@ -27,6 +27,12 @@
         text-transform: uppercase;
         text-align: center;
         padding-bottom: 0;
+        // Leads to the section's overview, on mobile only (_mobile.scss)
+        a {
+            color: inherit;
+            text-decoration: none;
+            pointer-events: none;
+        }
     }
 
     .ausstellungen-home-link {

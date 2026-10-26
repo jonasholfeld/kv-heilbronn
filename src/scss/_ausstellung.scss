@@ -122,7 +122,9 @@ body.ausstellung {
             .single-ausstellung-page__text-mode-buttons-wrapper {
                 display: none;
             }
+            // Click: back to the top (ausstellung.js)
             .single-ausstellung-page__small-top-info-box {
+                cursor: pointer;
                 text-transform: uppercase;
                 background-color: var(--ausstellung-color);
                 @include sansserif;
@@ -244,9 +246,14 @@ body.ausstellung {
                         margin-top: 1.2rem;
                     }
                 }
+                // Overlaps the white space below the image (10rem), but
+                // long credits push the next image down instead of
+                // reaching under it
                 &.is-open {
                     border-radius: 0;
-                    margin-bottom: calc(-1 * var(--credits-offset, 0px));
+                    margin-bottom: calc(
+                        -1 * min(var(--credits-offset, 0px), 8rem)
+                    );
                 }
             }
         }
@@ -324,6 +331,10 @@ body.ausstellung {
                     .scroll-container {
                         height: calc(100vh - 4.3rem);
                         overflow: scroll;
+                        // A white strip at the top that the text scrolls
+                        // under, as in the image column; the first block
+                        // gives up the same space. Undone on mobile.
+                        border-top: $generalPadding solid white;
                         div:last-child {
                             margin-bottom: 0;
                         }
@@ -335,7 +346,7 @@ body.ausstellung {
                             .first-block-wrapper {
                                 padding: $generalPadding;
                                 background-color: white;
-                                padding-top: 1rem;
+                                padding-top: calc(1rem - #{$generalPadding});
                                 padding-bottom: 1.1rem !important;
                                 margin-bottom: 0 !important;
                                 div {

@@ -65,7 +65,7 @@ sort($allArtists, SORT_NATURAL | SORT_FLAG_CASE);
 
 <main class="ausstellungen-template">
   <aside class="ausstellungen-sidebar sidebar-small">
-    <div class="ausstellungen-page-info page-info"><?= t('ui.exhibitions') ?></div>
+    <div class="ausstellungen-page-info page-info"><a href="<?= page('ausstellungen')->url() ?>"><?= t('ui.exhibitions') ?></a></div>
     <button class="menu-button-js ausstellungen-pill ausstellungen-pill--dark" type="button"><?= t('ui.menu') ?></button>
     <button class="ausstellungen-filter" type="button" aria-expanded="false"><?= t('ui.filter') ?></button>
     <?php // Mobile only: the active filter (tap to remove) and closing the open filter ?>

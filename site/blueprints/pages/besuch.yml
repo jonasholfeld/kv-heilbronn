@@ -12,16 +12,28 @@ tabs:
             kontakt:
                 label: Kontakt
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 width: 1/2
             offnungszeiten:
                 label: Öffnungszeiten
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 width: 1/2
             anfahrt:
                 label: Anfahrt
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 width: 1/2
             ansprechpartner:
                 label: Ansprechpartner
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 width: 1/2

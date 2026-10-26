@@ -63,9 +63,25 @@ $weekdayField = $weekdayFields[$dayIndex];
 $openingHours = site()->{$weekdayField}()->value();
 $openingHoursDisplay = $openingHours;
 
+if (!function_exists('formatEnglishHour')) {
+    // 17 → "5 PM", 9:30 → "9:30 AM"
+    function formatEnglishHour(int $hour, ?string $minutes): string
+    {
+        $suffix = $hour >= 12 && $hour < 24 ? 'PM' : 'AM';
+        $hour12 = $hour % 12 === 0 ? 12 : $hour % 12;
+
+        return $hour12 . ($minutes && $minutes !== '00' ? ':' . $minutes : '') . ' ' . $suffix;
+    }
+}
+
 if ($isEnglish && $openingHoursDisplay) {
-    $openingHoursDisplay = preg_replace('/\s*UHR\s*/iu', ' ', $openingHoursDisplay) ?? $openingHoursDisplay;
-    $openingHoursDisplay = trim(preg_replace('/\s+/u', ' ', $openingHoursDisplay) ?? $openingHoursDisplay);
+    // "11–17 Uhr" → "11 AM – 5 PM"; anything else just loses the "Uhr"
+    if (preg_match('/^\s*(\d{1,2})(?:[:.](\d{2}))?\s*[–-]\s*(\d{1,2})(?:[:.](\d{2}))?\s*(?:UHR)?\s*$/iu', $openingHoursDisplay, $m)) {
+        $openingHoursDisplay = formatEnglishHour((int)$m[1], $m[2] ?: null) . ' – ' . formatEnglishHour((int)$m[3], $m[4] ?? null);
+    } else {
+        $openingHoursDisplay = preg_replace('/\s*UHR\s*/iu', ' ', $openingHoursDisplay) ?? $openingHoursDisplay;
+        $openingHoursDisplay = trim(preg_replace('/\s+/u', ' ', $openingHoursDisplay) ?? $openingHoursDisplay);
+    }
 }
 
 $dateLabel = $isEnglish
@@ -73,7 +89,7 @@ $dateLabel = $isEnglish
     : $day . '. ' . strtoupper($monthName) . ' ' . $year;
 
 $openingHoursLabel = $openingHours
-    ? ($isEnglish ? strtoupper($openingHoursDisplay . " O'CLOCK") : strtoupper($openingHours))
+    ? strtoupper($isEnglish ? $openingHoursDisplay : $openingHours)
     : null;
 
 $headerParts = [
@@ -133,8 +149,8 @@ $besuchPage = page('besuch');
         </svg>
     </div>
     <div class="home-overlay__main">
-        <?php // On mobile the weekday gets a line of its own (without the comma) ?>
-        <p class="home-overlay__header"><span class="home-overlay__weekday"><?= esc($headerParts[0]) ?></span><span class="home-overlay__separator">, </span><?= esc(implode(', ', array_slice($headerParts, 1))) ?></p>
+        <?php // On mobile weekday, date and opening hours get a line each (without the commas) ?>
+        <p class="home-overlay__header"><?php foreach ($headerParts as $i => $part): ?><?php if ($i > 0): ?><span class="home-overlay__separator">, </span><?php endif ?><span class="home-overlay__header-part<?= $i === 2 ? ' home-overlay__header-part--hours' : '' ?>"><?= esc($part) ?></span><?php endforeach ?></p>
         <?php if (!empty($bullets)): ?>
         <ul class="home-overlay__bullets">
             <?php foreach ($bullets as $bullet): ?>

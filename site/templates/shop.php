@@ -4,7 +4,7 @@
 
 <main class="shop-overview">
     <aside class="shop-sidebar sidebar-small">
-        <div class="shop-page-info page-info"><?= t('ui.shop') ?></div>
+        <div class="shop-page-info page-info"><a href="<?= page('shop')->url() ?>"><?= t('ui.shop') ?></a></div>
         <button class="menu-button-js bubble bubble-inverted" type="button"><?= t('ui.menu') ?></button>
         <a class="shop-pill shop-pill--dark shop-home-link home-link bubble" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a>
     </aside>

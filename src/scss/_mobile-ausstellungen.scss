@@ -275,6 +275,18 @@
     // ── Single Ausstellung: image mode ───────────────────────────────────────
 
     body.ausstellung {
+        // Dates and the lists in the text, in image and text mode
+        .single-ausstellung-page ul li > p {
+            padding-left: 4.6rem;
+            &::before {
+                width: 3.4rem;
+                height: 3.4rem;
+                border-radius: 3.4rem;
+                flex-basis: 3.4rem;
+                top: 0.6rem;
+            }
+        }
+
         .single-ausstellung-page {
             &.menu-is-open {
                 margin-left: 0;
@@ -283,10 +295,10 @@
                 }
             }
 
-            // A square box with the large title and dates
+            // A box with the large title and dates, as much space below the
+            // dates as between title and dates
             &__top-info-box {
-                min-height: calc(100vw - 2 * #{$mPadding});
-                padding: 2.4rem;
+                padding: 2.4rem 2.4rem 24rem;
                 font-size: $mTitleFontSize;
 
                 &__artist-title {
@@ -357,6 +369,12 @@
 
                 .credits-wrapper {
                     margin-top: 1.6rem;
+                    // The gap below is too small to overlap: the open
+                    // credits push the next image down instead of hiding
+                    // behind it
+                    &.is-open {
+                        margin-bottom: 0;
+                    }
                     .credits-content-wrapper {
                         min-width: 60rem;
                         padding-top: 1rem;
@@ -438,9 +456,13 @@
                         .scroll-container {
                             height: auto;
                             overflow: visible;
+                            border-top: 0;
 
+                            // The gaps between the boxes as wide as
+                            // everywhere else on mobile
                             .text-wrapper-white-bg {
                                 min-height: 0;
+                                margin-bottom: $mGap;
                                 .first-block-wrapper {
                                     padding: 2.6rem $mBoxPadding 1.3em !important;
                                 }
@@ -465,6 +487,10 @@
 
                             .logo-wrapper-white-bg .logo-wrapper {
                                 padding: $mBoxPadding;
+                                margin-bottom: $mGap;
+                                &:last-child {
+                                    margin-bottom: 0;
+                                }
                                 span {
                                     font-size: $mBubbleFontSize;
                                     margin-bottom: $mGap;
@@ -492,10 +518,7 @@
                             line-height: 1.3;
                         }
 
-                        ul li p {
-                            padding-left: 4.6rem;
-                        }
-
+                        // As specific as the desktop rule in _ausstellung.scss
                         .ausstellungen-row-dates,
                         .ausstellungen-row-opening {
                             &::before {

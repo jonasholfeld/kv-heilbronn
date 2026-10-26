@@ -11,10 +11,16 @@ tabs:
             impressum:
                 label: Impressum
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 width: 1/2
             datenschutz:
                 label: Datenschutz
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 width: 1/2
             foerderungtext:
                 label: Förderung – Text (z.B. „Der Kunstverein Heilbronn wird institutionell gefördert von:“)

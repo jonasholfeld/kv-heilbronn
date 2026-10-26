@@ -98,6 +98,11 @@
             .besuch-section-body {
                 font-size: inherit;
 
+                // Datenschutz: lists set off like paragraphs (see _besuch.scss)
+                &.impressum-privacy ul:not(:first-child) {
+                    margin-top: 1.2em;
+                }
+
                 p {
                     margin: 1.2em 0 0;
                     line-height: 1.2;
@@ -133,13 +138,19 @@
                     }
                 }
 
-                // Links as plain text, without the square in front of e-mails
+                // Links as plain text; e-mails get a square as large as the
+                // bullets, the address lines up with the bullet texts
                 a {
                     text-decoration: none;
                 }
 
                 a[href^='mailto:']::before {
-                    display: none;
+                    width: 3.4rem;
+                    height: 3.4rem;
+                    flex-basis: 3.4rem;
+                    margin-right: 1.2rem;
+                    vertical-align: top;
+                    transform: translateY(0.2rem);
                 }
             }
         }

@@ -1,6 +1,7 @@
 // ── Mobile: homepage overlay (site/snippets/home-overlay.php) ────────────────
-// Uses the variables of _mobile.scss. Date on top (the weekday on a line of
-// its own), the bullets in the middle, the address columns stacked below.
+// Uses the variables of _mobile.scss. Date on top (weekday, date and opening
+// hours on a line each), the bullets in the middle, the address columns
+// stacked below.
 // The close icon sits top right; a tap anywhere else closes it too (main.js).
 
 $mOverlayFontSize: 6.4rem;
@@ -33,8 +34,12 @@ $mOverlayFontSize: 6.4rem;
             letter-spacing: 0;
         }
 
-        &__weekday {
+        &__header-part {
             display: block;
+            // "11–17 UHR" stays on one line
+            &--hours {
+                white-space: nowrap;
+            }
         }
 
         &__separator {

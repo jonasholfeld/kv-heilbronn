@@ -40,7 +40,7 @@ function reiseCategoryLabel(string $category): string {
 
 <main class="reisen-template">
     <aside class="reisen-sidebar sidebar-small">
-        <div class="reisen-page-info page-info"><?= t('ui.travels') ?></div>
+        <div class="reisen-page-info page-info"><a href="<?= page('reisen')->url() ?>"><?= t('ui.travels') ?></a></div>
         <button class="menu-button-js reisen-pill reisen-pill--dark" type="button"><?= t('ui.menu') ?></button>
         <a class="reisen-pill reisen-pill--dark reisen-home-link" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a>
     </aside>

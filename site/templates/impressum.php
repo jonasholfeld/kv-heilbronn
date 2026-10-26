@@ -3,7 +3,7 @@
 
 <main class="besuch-template">
     <aside class="besuch-sidebar sidebar-small">
-        <div class="besuch-page-info page-info"><?= t('ui.imprint') ?></div>
+        <div class="besuch-page-info page-info"><a href="<?= page('impressum')->url() ?>"><?= t('ui.imprint') ?></a></div>
         <button class="menu-button-js besuch-pill besuch-pill--dark" type="button"><?= t('ui.menu') ?></button>
         <a class="besuch-pill besuch-pill--dark besuch-home-link" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a>
     </aside>

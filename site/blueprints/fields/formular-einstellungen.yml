@@ -13,6 +13,9 @@ fields:
         label: Beschriftung des Absende-Buttons
     formularIntro:
         type: writer
+        nodes:
+            - paragraph
+            - bulletList
         label: Text über den Feldern
     formularEmpfaenger:
         type: email
@@ -26,9 +29,15 @@ fields:
         translate: false
     formularErfolg:
         type: writer
+        nodes:
+            - paragraph
+            - bulletList
         label: Meldung nach erfolgreichem Absenden
     formularFehler:
         type: writer
+        nodes:
+            - paragraph
+            - bulletList
         label: Meldung bei einem Fehler
         help: Darunter wird automatisch aufgelistet, was schiefgelaufen ist.
     bestaetigungLine:
@@ -38,5 +47,8 @@ fields:
         label: Betreff der Bestätigungs-E-Mail
     bestaetigungText:
         type: writer
+        nodes:
+            - paragraph
+            - bulletList
         label: Text der Bestätigungs-E-Mail
         help: 'Platzhalter: {name} (Feld der Art „Name“), {titel} (Shop-Eintrag, Reise, …), {angaben} (alle Angaben aus dem Formular; IBANs gekürzt)'

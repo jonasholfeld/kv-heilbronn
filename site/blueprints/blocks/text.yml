@@ -5,6 +5,9 @@ preview: text
 fields:
     text:
         type: writer
+        nodes:
+            - paragraph
+            - bulletList
         placeholder: field.blocks.text.placeholder
     anchor:
         type: text

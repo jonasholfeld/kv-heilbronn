@@ -11,7 +11,7 @@ $satzung = $page->satzungpdf()->toFile();
 
 <main class="kunstverein-template<?= $formResult ? ' is-form-open' : '' ?>" data-form-host>
     <aside class="kunstverein-sidebar sidebar-small">
-        <div class="kunstverein-page-info page-info"><?= t('ui.kunstverein') ?></div>
+        <div class="kunstverein-page-info page-info"><a href="<?= page('kunstverein')->url() ?>"><?= t('ui.kunstverein') ?></a></div>
         <button class="menu-button-js kunstverein-pill kunstverein-pill--dark" type="button"><?= t('ui.menu') ?></button>
         <a class="kunstverein-pill kunstverein-pill--dark kunstverein-home-link" href="<?= site()->url() ?>"><?= t('ui.homepage') ?></a>
     </aside>

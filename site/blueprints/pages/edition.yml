@@ -21,6 +21,9 @@ tabs:
             beschreibung:
                 label: Beschreibung
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 size: large
     media:
         label: Medien
@@ -66,4 +69,7 @@ tabs:
             bestellHinweis:
                 label: Hinweis im Bestellformular
                 type: writer
+                nodes:
+                    - paragraph
+                    - bulletList
                 help: Wird unter den Editionsbildern angezeigt, z. B. welche Nummern bereits verkauft sind.

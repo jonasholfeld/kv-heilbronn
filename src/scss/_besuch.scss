@@ -144,11 +144,24 @@ body.impressum {
         }
 
         // Datenschutz: bold in the editor is set as capitals, not bold
-        .impressum-privacy {
+        // Outranks .besuch-section-body below
+        .besuch-section-body.impressum-privacy {
             strong,
             b {
                 font-weight: inherit;
                 text-transform: uppercase;
+            }
+            // Lists are set off like paragraphs here, not attached to the
+            // line above as in the other boxes (see below)
+            ul {
+                margin-top: 1.2rem;
+                margin-bottom: 1.2rem;
+                &:first-child {
+                    margin-top: 0;
+                }
+                &:last-child {
+                    margin-bottom: 0;
+                }
             }
         }
 

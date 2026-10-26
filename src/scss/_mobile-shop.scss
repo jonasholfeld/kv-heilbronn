@@ -50,8 +50,7 @@
 }
 
 // Mobile only
-.shop-tabs,
-.shop-item-page__order--images {
+.shop-tabs {
     display: none;
 }
 
@@ -107,8 +106,12 @@
                     cursor: pointer;
                     -webkit-tap-highlight-color: transparent;
 
-                    // The chosen section: no box, just the frame colour
+                    // The chosen section: no box, just the frame colour. Less
+                    // padding, so the grey band with the gaps around it is
+                    // only one gap taller than the other tab.
                     &[aria-pressed='true'] {
+                        padding-top: calc(2.1rem - #{$mGap} / 2);
+                        padding-bottom: calc(1.5rem - #{$mGap} / 2);
                         background-color: transparent;
                     }
                 }
@@ -214,8 +217,7 @@
     }
 
     // ── Single shop item ─────────────────────────────────────────────────────
-    // Top box, the text box, the images box. Editions are ordered from below
-    // the first image, catalogues from the text box.
+    // Top box, the text box (with the order button), the images box.
 
     body.katalog,
     body.edition {
@@ -251,12 +253,13 @@
                     padding: $mGap;
                 }
 
-                h2,
+                .shop-item-page__text > h2,
                 .shop-item-page__description {
                     font-size: $mFontSize;
                 }
 
-                h2 {
+                // The title, not headings in the description
+                .shop-item-page__text > h2 {
                     margin: 0 0 1.3em !important;
 
                     span {
@@ -296,8 +299,7 @@
             }
 
             // As specific as the desktop rule in _shop.scss
-            .shop-item-page__right .shop-item-page__order .bestellen-btn,
-            .shop-item-page__order--images .bestellen-btn {
+            .shop-item-page__right .shop-item-page__order .bestellen-btn {
                 @include bubble;
                 @include mobileBubble;
                 background-color: var(--colorPage);
@@ -328,16 +330,6 @@
                 .shop-item-page__zoom-close {
                     display: none;
                 }
-            }
-
-            // Editions: the order button below the first image replaces the
-            // one in the text box
-            &:has(.shop-item-page__order--images) .shop-item-page__text .shop-item-page__order {
-                display: none;
-            }
-
-            .shop-item-page__order--images {
-                display: block;
             }
         }
     }
