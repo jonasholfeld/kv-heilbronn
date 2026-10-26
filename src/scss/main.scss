@@ -99,6 +99,24 @@ a:has(.link-animated) {
     }
 }
 
+// Marker in front of a link (bullet or e-mail square), set up in
+// link-underline.js: circles turn square and squares round while the link is
+// hovered. !important: the markers' radii are set in many, more specific
+// places.
+.link-marker::before {
+    transition:
+        border-radius 0.3s ease,
+        background-color 0.3s ease !important;
+}
+
+.link-marker--round.is-link-hovered::before {
+    border-radius: 0 !important;
+}
+
+.link-marker--square.is-link-hovered::before {
+    border-radius: 50% !important;
+}
+
 a[x-apple-data-detectors],
 a[href^='tel:'] {
     color: inherit !important;
@@ -269,8 +287,23 @@ h1 {
 // ── Footer ────────────────────────────────────────────────────────────────
 
 footer {
+    // No underline, except while hovered: then it is drawn from the left
+    // (the other way round than .link-animated). Block links only as wide
+    // as their text, so the line ends with it.
     a {
+        width: fit-content;
         text-decoration: none !important;
+        background-image: linear-gradient(currentColor, currentColor);
+        background-repeat: no-repeat;
+        background-position: 0 calc(100% - 0.06em);
+        background-size: 0% var(--underline-thickness);
+        transition: background-size 0.6s ease-in-out;
+        &:hover {
+            background-size: 100% var(--underline-thickness);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
     }
     --backgroundColorFooter: #dce0e3;
     display: flex;

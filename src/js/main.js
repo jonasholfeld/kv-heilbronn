@@ -1,6 +1,6 @@
 import '../scss/main.scss'
 import { setupPageTransitions } from './page-transitions.js'
-import { setupLinkUnderlines } from './link-underline.js'
+import { setupLinkUnderlines, setupLinkMarkers } from './link-underline.js'
 
 // Old function
 requestAnimationFrame(() => {
@@ -327,6 +327,7 @@ function initPage(signal) {
     setupAusstellungenImageRows(signal)
     setupSidebarWidths(signal)
     setupLinkUnderlines()
+    setupLinkMarkers(signal)
     setupCategoryButtonHover(signal)
     setupMobileMenuHoverColor(signal)
 

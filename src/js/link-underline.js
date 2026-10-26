@@ -49,3 +49,63 @@ export function setupLinkUnderlines(root = document) {
         `:is(${CARD_LABELS}, ${TEXT_LINKS}):not(.link-animated)`
     ).forEach(animate)
 }
+
+// Links with a marker right in front of them (a bullet of their list item or
+// the square of an e-mail address): while the link is hovered the circle
+// turns into a square and the square into a circle (see .link-marker in
+// main.scss). Only if nothing but the link follows the marker.
+const MARKER_LEVELS = 3
+
+function hasMarker(element) {
+    const marker = getComputedStyle(element, '::before')
+    return (
+        marker.content !== 'none' &&
+        marker.display !== 'none' &&
+        parseFloat(marker.width) > 0 &&
+        parseFloat(marker.height) > 0
+    )
+}
+
+// The first node of `element` that is not just white space or a line break
+function firstContent(element) {
+    return [...element.childNodes].find((node) =>
+        node.nodeType === Node.TEXT_NODE
+            ? node.textContent.trim() !== ''
+            : node.nodeName !== 'BR'
+    )
+}
+
+// The link itself or an ancestor it starts with, if that carries a marker
+function findMarker(link) {
+    let element = link
+    for (let level = 0; level <= MARKER_LEVELS && element; level++) {
+        if (hasMarker(element)) return element
+        const parent = element.parentElement
+        if (!parent || firstContent(parent) !== element) return null
+        element = parent
+    }
+    return null
+}
+
+export function setupLinkMarkers(signal, root = document) {
+    root.querySelectorAll('a[href]').forEach((link) => {
+        if (link.closest('#site-menu, .bubble')) return
+        const marker = findMarker(link)
+        if (!marker) return
+
+        const isSquare =
+            parseFloat(getComputedStyle(marker, '::before').borderTopLeftRadius) === 0
+        marker.classList.add('link-marker', isSquare ? 'link-marker--square' : 'link-marker--round')
+
+        link.addEventListener(
+            'pointerenter',
+            () => marker.classList.add('is-link-hovered'),
+            { signal }
+        )
+        link.addEventListener(
+            'pointerleave',
+            () => marker.classList.remove('is-link-hovered'),
+            { signal }
+        )
+    })
+}
