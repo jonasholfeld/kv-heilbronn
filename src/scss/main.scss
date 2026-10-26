@@ -73,9 +73,9 @@ button {
     appearance: none;
 }
 
-// Animated underline, set up in link-underline.js: on hover of the
-// surrounding link the line shrinks from the right to the left and is then
-// drawn again from the left, the same way back
+// Animated underline, set up in link-underline.js: while the surrounding link
+// is hovered the line is gone (shrunk from the right to the left); once the
+// mouse leaves it is drawn again from the left
 .link-animated,
 a:has(.link-animated) {
     text-decoration: none !important;
@@ -86,26 +86,16 @@ a:has(.link-animated) {
     background-repeat: no-repeat;
     background-position: 0 calc(100% - 0.06em);
     background-size: 100% var(--underline-thickness);
+    transition: background-size 0.6s ease-in-out;
 
     a:hover & {
-        animation: link-underline 0.7s ease-in-out;
-    }
-}
-
-@keyframes link-underline {
-    0%,
-    100% {
-        background-size: 100% var(--underline-thickness);
-    }
-    45%,
-    55% {
         background-size: 0% var(--underline-thickness);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    a:hover .link-animated__label {
-        animation: none;
+    .link-animated__label {
+        transition: none;
     }
 }
 
