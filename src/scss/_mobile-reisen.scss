@@ -182,9 +182,10 @@
             }
 
             // No white strip above the text as on desktop (_reise.scss)
-            .single-reise-page__text > .scroll-container {
+            .single-reise-page__text > .scroll-container,
+            .single-reise-page__images.no-images > .scroll-container {
                 border-top: 0;
-                > .single-reise-page__text-container:first-child {
+                > :first-child {
                     padding-top: $mBoxPadding;
                 }
             }

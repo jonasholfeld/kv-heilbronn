@@ -183,8 +183,6 @@
     }
 }
 
-body.ausstellungen,
-body.reisen,
 body.shop,
 body.edition,
 body.katalog {
@@ -205,6 +203,9 @@ body.ausstellung {
     }
 }
 
+// The menu in the page colour (grey without one, e.g. Ausstellungen)
+body.ausstellungen,
+body.reisen,
 body.termine,
 body.besuch,
 body.kunstverein,

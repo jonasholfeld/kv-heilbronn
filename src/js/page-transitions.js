@@ -161,6 +161,22 @@ function syncPersistentChrome(incoming, handOff) {
         menu.setAttribute('aria-hidden', 'true')
         // Set by the homepage's scroll colour logic
         menu.style.backgroundColor = ''
+        menu.style.removeProperty('--menuColor')
+
+        // The round group is the one of the page shown (rendered server
+        // side, the menu itself is not swapped)
+        const incomingGroups = incoming.querySelectorAll(
+            '#site-menu .site-menu__group'
+        )
+        menu.querySelectorAll('.site-menu__group').forEach((group, index) => {
+            group.classList.toggle(
+                'site-menu__group--current',
+                !!incomingGroups[index]?.classList.contains(
+                    'site-menu__group--current'
+                )
+            )
+            group.classList.remove('site-menu__group--section')
+        })
 
         // Language links point at the page they were rendered for
         const languages = menu.querySelector('.site-menu__languages')

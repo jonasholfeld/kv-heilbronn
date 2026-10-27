@@ -319,6 +319,14 @@ body.reise {
                     background-color: white;
                     padding: $generalPadding;
                 }
+                // The white strip at the top, as in the text column. Undone
+                // on mobile (_mobile-reisen.scss)
+                > .scroll-container {
+                    border-top: $generalPadding solid white;
+                    > :first-child {
+                        padding-top: 0;
+                    }
+                }
             }
         }
 

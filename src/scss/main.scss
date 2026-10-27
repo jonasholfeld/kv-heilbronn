@@ -75,7 +75,8 @@ button {
 
 // Animated underline, set up in link-underline.js: while the surrounding link
 // is hovered the line is gone (shrunk from the right to the left); once the
-// mouse leaves it is drawn again from the left
+// mouse leaves it is drawn again from the left. The line sits on a span
+// around the text, so it never runs under a dot or square in front of it.
 .link-animated,
 a:has(.link-animated) {
     text-decoration: none !important;
@@ -90,6 +91,15 @@ a:has(.link-animated) {
 
     a:hover & {
         background-size: 0% var(--underline-thickness);
+    }
+
+    // The other way round (footer): no line until hovered, then it is
+    // drawn from the left
+    .link-animated--reveal & {
+        background-size: 0% var(--underline-thickness);
+    }
+    a.link-animated--reveal:hover & {
+        background-size: 100% var(--underline-thickness);
     }
 }
 
@@ -115,6 +125,19 @@ a:has(.link-animated) {
 
 .link-marker--square.is-link-hovered::before {
     border-radius: 50% !important;
+}
+
+// Dot in front of a text link (colour set in link-underline.js); bigger on
+// mobile (_mobile.scss)
+.link-dot::before {
+    content: '';
+    display: inline-block;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 1.2rem;
+    margin-right: 0.3rem;
+    background-color: var(--link-dot-color);
+    transform: translateY(0.2rem);
 }
 
 a[x-apple-data-detectors],
@@ -287,23 +310,11 @@ h1 {
 // ── Footer ────────────────────────────────────────────────────────────────
 
 footer {
-    // No underline, except while hovered: then it is drawn from the left
-    // (the other way round than .link-animated). Block links only as wide
-    // as their text, so the line ends with it.
+    // No underline, except while hovered (.link-animated--reveal). Block
+    // links only as wide as their text.
     a {
         width: fit-content;
         text-decoration: none !important;
-        background-image: linear-gradient(currentColor, currentColor);
-        background-repeat: no-repeat;
-        background-position: 0 calc(100% - 0.06em);
-        background-size: 0% var(--underline-thickness);
-        transition: background-size 0.6s ease-in-out;
-        &:hover {
-            background-size: 100% var(--underline-thickness);
-        }
-        @media (prefers-reduced-motion: reduce) {
-            transition: none;
-        }
     }
     --backgroundColorFooter: #dce0e3;
     display: flex;

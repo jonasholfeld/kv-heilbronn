@@ -24,15 +24,12 @@ body.reisen {
                 border-width: 0.4rem;
                 border-style: solid;
                 border-color: white !important;
-                box-shadow: inset 0 0 0 1px white !important;
-                background-color: #dce0e3 !important;
+                box-shadow: inset 0 0 0 1px var(--colorPage) !important;
+                background-color: var(--colorPage) !important;
                 .st0 {
                     fill: white !important;
                 }
             }
-        }
-        .site-menu__group {
-            background-color: $lightgrey;
         }
         @include short-window-ratio {
             #header-svg {

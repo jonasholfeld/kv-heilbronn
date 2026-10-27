@@ -66,6 +66,14 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
         pointer-events: auto;
     }
 
+    .link-dot::before {
+        width: 3.4rem;
+        height: 3.4rem;
+        border-radius: 3.4rem;
+        margin-right: 1.2rem;
+        vertical-align: top;
+    }
+
     // ── Menu ─────────────────────────────────────────────────────────────────
     // The same full-screen menu on every page. #site-menu outranks the
     // page-specific desktop menu styles (many of them !important). The colours
@@ -222,11 +230,19 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
             &:hover {
                 border-radius: 0;
             }
-            // The section of the current page
+            // The section of the current page; with a mouse the hovered
+            // group instead (main.js)
             &--current,
-            &--current:hover {
+            &--current:hover,
+            &--hovered,
+            &--hovered:hover {
                 border-radius: 9rem;
             }
+        }
+
+        &.has-hovered-group
+            .site-menu__group--current:not(.site-menu__group--hovered) {
+            border-radius: 0;
         }
 
         .site-menu__group-title {
@@ -265,16 +281,6 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
                 display: none;
             }
         }
-    }
-
-    // Overview pages: a white menu with grey groups, as on desktop
-    body.ausstellungen #site-menu,
-    body.reisen #site-menu {
-        --mMenuBg: white;
-        --mMenuGroup: #{$lightgrey};
-        --mMenuLogoBox: white;
-        --mMenuLogoLetters: #{$lightgrey};
-        --mMenuFrame: #{$lightgrey};
     }
 
     // Single trip: a white menu in the trip's colour
@@ -317,12 +323,19 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
                 height: auto !important;
                 margin: $mGap;
                 border-width: 0 !important;
-                box-shadow: 0 0 0 $mGap var(--svgColor) !important;
+                // The frame in the box colour, set as `color` by main.js:
+                // Safari on iOS doesn't reliably repaint a shadow following
+                // the animated --svgColor. The inset part covers the light
+                // seam at the edge of the box.
+                color: var(--svgColor);
+                box-shadow:
+                    0 0 0 $mGap currentColor,
+                    inset 0 0 0 2px currentColor !important;
                 background: none !important;
                 transform-origin: top center;
                 transition:
                     transform 0.45s $mEase,
-                    --svgColor 0.5s ease;
+                    color 0.5s ease;
             }
 
             &.logo-collapsed {

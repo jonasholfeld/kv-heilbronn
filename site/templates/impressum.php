@@ -13,7 +13,7 @@
         <div class="besuch-column">
             <div class="besuch-panel">
                 <h2 class="besuch-section-title"><?= t('ui.imprint') ?></h2>
-                <div class="besuch-section-body">
+                <div class="besuch-section-body impressum-imprint">
                     <?= $page->impressum() ?>
                 </div>
             </div>

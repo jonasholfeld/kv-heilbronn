@@ -98,8 +98,9 @@
             .besuch-section-body {
                 font-size: inherit;
 
-                // Datenschutz: lists set off like paragraphs (see _besuch.scss)
-                &.impressum-privacy ul:not(:first-child) {
+                // Impressum and Datenschutz: lists set off like paragraphs
+                // (see _besuch.scss)
+                &:is(.impressum-imprint, .impressum-privacy) ul:not(:first-child) {
                     margin-top: 1.2em;
                 }
 

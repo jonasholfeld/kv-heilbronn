@@ -274,9 +274,9 @@ function setupCategoryButtonHover(signal) {
     )
 }
 
-// Mobile layout with a mouse (e.g. narrow desktop windows): while a menu group
-// is hovered the menu takes on the colour of the page it leads to
-// (data-color, set in navi.php). Touch screens keep the menu as it is.
+// Mobile layout with a mouse (e.g. narrow desktop windows): the hovered menu
+// group is the round one, and the menu takes on the colour of the page it
+// leads to (data-color, set in navi.php). Touch screens keep the menu as it is.
 const MENU_HOVER_PROPERTIES = {
     '--mMenuBg': (color) => color,
     '--mMenuLogoBox': (color) => color,
@@ -288,30 +288,42 @@ function setupMobileMenuHoverColor(signal) {
     const siteMenu = document.getElementById('site-menu')
     if (!siteMenu) return
     const hoverQuery = window.matchMedia('(hover: hover)')
+    const groups = [...siteMenu.querySelectorAll('.site-menu__group')]
 
-    const clear = () => {
-        Object.keys(MENU_HOVER_PROPERTIES).forEach((property) =>
-            siteMenu.style.removeProperty(property)
+    const setRound = (hoveredGroup) => {
+        siteMenu.classList.toggle('has-hovered-group', !!hoveredGroup)
+        groups.forEach((group) =>
+            group.classList.toggle(
+                'site-menu__group--hovered',
+                group === hoveredGroup
+            )
         )
     }
 
     const setColor = (color) => {
         Object.entries(MENU_HOVER_PROPERTIES).forEach(([property, value]) =>
-            siteMenu.style.setProperty(property, value(color))
+            color
+                ? siteMenu.style.setProperty(property, value(color))
+                : siteMenu.style.removeProperty(property)
         )
     }
 
-    // The gaps between the groups keep the colour, so it doesn't flicker
+    const clear = () => {
+        setColor(null)
+        setRound(null)
+    }
+
+    // The gaps between the groups keep the state, so it doesn't flicker
     // when moving from one group to the next
     siteMenu.addEventListener(
         'pointerover',
         (event) => {
             if (!isMobile() || !hoverQuery.matches) return
             const group = event.target.closest('.site-menu__group')
-            const isGap = event.target.matches('.site-menu__inner')
-            if (group?.dataset.color) {
+            if (group) {
                 setColor(group.dataset.color)
-            } else if (!isGap) {
+                setRound(group)
+            } else if (!event.target.matches('.site-menu__inner')) {
                 clear()
             }
         },
@@ -658,6 +670,8 @@ function initPage(signal) {
             if (headerSvg) {
                 headerSvg.style.setProperty('--svgColor', color)
                 headerSvg.style.borderColor = color
+                // The mobile frame (_mobile.scss)
+                headerSvg.style.color = color
             }
 
             if (!hasInitializedHeaderColor) {
