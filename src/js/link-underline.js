@@ -150,18 +150,23 @@ function startsLine(element) {
     return true
 }
 
-// A link that looks like a button or tag (on a rounded background) is not a
-// text link
+// Tags and buttons are pills: rounded by at least half their height. Boxes
+// that round their corners a little while hovered (e.g. the trip cards)
+// don't count.
+function isPill(element) {
+    const { width, height } = element.getBoundingClientRect()
+    const radius = parseFloat(getComputedStyle(element).borderTopLeftRadius)
+    return radius > 0 && radius >= Math.min(width, height) / 2 - 1
+}
+
+// A link that looks like a button or tag (on a pill) is not a text link
 function isTextLink(element) {
     if (element.closest(NO_DOT) || element.matches(NO_DOT_LINKS)) return false
     if (!startsLine(element)) return false
     if (element.querySelector('img, svg, video, ' + BLOCK_CONTENT)) return false
     if (element.textContent.trim() === '') return false
     const backdrop = backdropOf(element)
-    return (
-        !backdrop ||
-        parseFloat(getComputedStyle(backdrop).borderTopLeftRadius) === 0
-    )
+    return !backdrop || !isPill(backdrop)
 }
 
 function dotColor(element) {
@@ -195,8 +200,31 @@ function updateDots(candidates) {
 }
 
 // Backgrounds and shapes are still fading in when a page is shown (0.5s),
-// so the dots are checked again once they are settled
+// so the dots are checked again once they are settled. Whatever is hovered
+// right then keeps its dot (hovering changes shapes and colours) and is
+// checked once the mouse has left it and the hover has faded (0.3s).
 const DOT_RECHECK_MS = 700
+const HOVER_FADE_MS = 400
+
+function recheckDots(candidates, signal) {
+    const hovered = candidates.filter((element) =>
+        backdropOf(element)?.matches(':hover')
+    )
+    updateDots(candidates.filter((element) => !hovered.includes(element)))
+    hovered.forEach((element) =>
+        backdropOf(element).addEventListener(
+            'pointerleave',
+            () => {
+                const timer = setTimeout(
+                    () => updateDots([element]),
+                    HOVER_FADE_MS
+                )
+                signal.addEventListener('abort', () => clearTimeout(timer))
+            },
+            { once: true, signal }
+        )
+    )
+}
 
 function addMarker(marker, link, signal) {
     const isSquare =
@@ -253,6 +281,9 @@ export function setupLinkMarkers(signal, root = document) {
     })
 
     updateDots(dotCandidates)
-    const recheck = setTimeout(() => updateDots(dotCandidates), DOT_RECHECK_MS)
+    const recheck = setTimeout(
+        () => recheckDots(dotCandidates, signal),
+        DOT_RECHECK_MS
+    )
     signal.addEventListener('abort', () => clearTimeout(recheck))
 }
