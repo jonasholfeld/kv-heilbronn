@@ -294,6 +294,34 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
         }
     }
 
+    // Homepage: the logo stands in the header already, at the same spot as
+    // the menu's. So the menu isn't stretched open: its logo shows at once
+    // on top of the header's, and only the rest unfolds below it.
+    body.home-body-class #site-menu {
+        opacity: 1 !important;
+        transform: none !important;
+        // Negative insets keep the white frame around it (its box-shadow)
+        clip-path: inset(
+            (-$mPadding) (-$mPadding) calc(100% - #{$mLogoHeight}) (-$mPadding)
+        );
+        transition:
+            background-color 0.5s ease,
+            clip-path 0.45s $mEase,
+            visibility 0s linear 0.45s;
+
+        &.is-open {
+            clip-path: inset(-$mPadding);
+            transition:
+                background-color 0.5s ease,
+                clip-path 0.45s $mEase,
+                visibility 0s;
+        }
+
+        &.is-instant-hidden {
+            transition: none;
+        }
+    }
+
     // Single trip: a white menu in the trip's colour
     body.reise #site-menu {
         --mMenuBg: white;
