@@ -114,15 +114,9 @@ body.reisen {
                 transition:
                     border-radius 0.3s ease,
                     background-color 0.3s ease;
-                ul li > p::before {
-                    transition: background-color 0.3s ease;
-                }
                 padding: 0 0.7rem;
                 &:hover {
                     border-radius: 1.3rem;
-                    ul li > p::before {
-                        background-color: black;
-                    }
                 }
 
                 &__header {
@@ -143,17 +137,22 @@ body.reisen {
                     }
                 }
 
+                // The date without a bullet (as in Ausstellungen): the dots
+                // mark the links below
                 &__dates {
                     margin: 0;
-                    padding-left: $generalPadding;
+                    padding-left: $innerBoxPadding;
                     list-style: none;
                     margin-bottom: 1rem;
 
                     li {
                         position: relative;
                         line-height: 1.2;
-                        p::before {
-                            background-color: white;
+                        p {
+                            padding-left: 0;
+                            &::before {
+                                display: none;
+                            }
                         }
                     }
                 }

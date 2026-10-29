@@ -93,12 +93,12 @@ a:has(.link-animated) {
         background-size: 0% var(--underline-thickness);
     }
 
-    // The other way round (footer): no line until hovered, then it is
-    // drawn from the left
+    // The other way round (footer, buttons in the menu): no line until
+    // hovered, then it is drawn from the left
     .link-animated--reveal & {
         background-size: 0% var(--underline-thickness);
     }
-    a.link-animated--reveal:hover & {
+    .link-animated--reveal:hover & {
         background-size: 100% var(--underline-thickness);
     }
 }

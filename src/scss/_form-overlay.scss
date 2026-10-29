@@ -528,7 +528,8 @@ body.reise .single-reise-page__buttons-wrapper-outer .reise-form-open {
             flex: 0 0 0.9rem;
             width: 0.9rem;
             height: 0.9rem;
-            margin: 0;
+            // Centred on the first line
+            margin: calc((1.05em - 0.9rem) / 2) 0 0;
             border-radius: 50%;
             background-color: var(--form-pill);
             cursor: pointer;

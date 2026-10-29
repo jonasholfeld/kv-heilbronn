@@ -40,12 +40,12 @@
 }
 
 @mixin mobileShopDot {
-    padding-left: 4.6rem;
+    padding-left: $mMarkerIndent;
     &::before {
-        width: 3.4rem;
-        height: 3.4rem;
-        border-radius: 3.4rem;
-        flex-basis: 3.4rem;
+        width: $mMarkerSize;
+        height: $mMarkerSize;
+        border-radius: $mMarkerSize;
+        flex-basis: $mMarkerSize;
     }
 }
 
@@ -86,6 +86,15 @@
                     }
                 }
 
+                // The first tab chosen: the white strip above it (see below)
+                // would be under the bar's cover, so the cover brings it
+                &:has(.shop-tabs__tab:first-child[aria-pressed='true'])
+                    .shop-sidebar {
+                    box-shadow:
+                        0 calc(#{$mGap} / 2) 0 0 white,
+                        0 $mGap 0 0 $lightgrey;
+                }
+
                 .shop-tabs {
                     display: flex;
                     flex-direction: column;
@@ -106,13 +115,28 @@
                     cursor: pointer;
                     -webkit-tap-highlight-color: transparent;
 
-                    // The chosen section: no box, just the frame colour. Less
-                    // padding, so the grey band with the gaps around it is
-                    // only one gap taller than the other tab.
+                    // The chosen section: no box, just the frame colour. White
+                    // strips fill half of the gaps above and below, so the
+                    // grey band is only one gap taller than the other tab.
+                    // Painted, not laid out: switching tabs moves nothing.
                     &[aria-pressed='true'] {
-                        padding-top: calc(2.1rem - #{$mGap} / 2);
-                        padding-bottom: calc(1.5rem - #{$mGap} / 2);
+                        position: relative;
                         background-color: transparent;
+                        &::before,
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            height: calc(#{$mGap} / 2);
+                            background-color: white;
+                        }
+                        &::before {
+                            top: -$mGap;
+                        }
+                        &::after {
+                            bottom: -$mGap;
+                        }
                     }
                 }
 
@@ -196,8 +220,8 @@
                                 transform: none;
 
                                 &::before {
-                                    width: 3.4rem;
-                                    height: 3.4rem;
+                                    width: $mMarkerSize;
+                                    height: $mMarkerSize;
                                 }
                             }
                         }

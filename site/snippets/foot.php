@@ -12,12 +12,19 @@
     <div class="footer-openings">
         <h2><?= t('ui.opening_hours') ?></h2>
         <?= page('besuch')->offnungszeiten()->kt() ?>
-        <p><?= t('ui.directions_to_kunstverein') ?></p>
+        <p><a href="<?= page('besuch')->url() ?>"><?= t('ui.directions_to_kunstverein') ?></a></p>
     </div>
+    <?php
+    $kunstvereinPage = page('kunstverein');
+    $satzung = $kunstvereinPage?->satzungpdf()->toFile();
+    ?>
     <div class="footer-membership">
         <h2><?= t('ui.membership') ?></h2>
-        <p><a>Digitaler Antrag</a>
-        <a>Satzung</a></p>
+        <?php // Opens the membership form on /kunstverein (form-overlay.js) ?>
+        <p><a href="<?= $kunstvereinPage?->url() ?>#formular">Digitaler Antrag</a>
+        <?php if ($satzung): ?>
+        <a href="<?= $satzung->url() ?>" target="_blank">Satzung</a>
+        <?php endif ?></p>
     </div>
     <?php // Mobile only: the imprint links get a box of their own ?>
     <div class="footer-imprint">

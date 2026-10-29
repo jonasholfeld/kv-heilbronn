@@ -10,7 +10,7 @@
     "isDynamicEntry": true
   },
   "src/js/form-overlay.js": {
-    "file": "assets/form-overlay--GAMHrVJ.js",
+    "file": "assets/form-overlay-DePMi1iH.js",
     "name": "form-overlay",
     "src": "src/js/form-overlay.js",
     "isDynamicEntry": true
@@ -22,7 +22,7 @@
     "isDynamicEntry": true
   },
   "src/js/main.js": {
-    "file": "assets/main-C3YYQi9o.js",
+    "file": "assets/main-BOlyrhM_.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true,
@@ -34,7 +34,7 @@
       "src/js/form-overlay.js"
     ],
     "css": [
-      "assets/main-C1410HQR.css"
+      "assets/main-Dg4AIDsg.css"
     ],
     "assets": [
       "assets/AkzidenzGrotesk-DdqcRqkk.woff2"

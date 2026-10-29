@@ -201,52 +201,62 @@ function setupSidebarWidths(signal) {
     window.addEventListener('resize', measure, { passive: true, signal })
 }
 
-// Mobile: the header logo collapses while scrolling down and comes back after
-// scrolling up a bit. Once the footer comes into view it is shown again (the
-// footer has no logo of its own).
-const LOGO_COLLAPSE_START_PX = 40
-const LOGO_REVEAL_DISTANCE_PX = 80
-
-function setupMobileHeaderLogo(siteHeader, footer, signal) {
-    const headerTitle = siteHeader?.querySelector('.site-header__title')
-    if (!headerTitle) return
-
-    let lastY = window.scrollY
-    let upDistance = 0
-    let collapsed = false
-
-    const isFooterInView = () =>
-        !!footer && footer.getBoundingClientRect().top < window.innerHeight
+// Mobile homepage: the logo stays in place, and the images scrolling
+// underneath show through its letters (the text boxes don't). The white
+// behind the letters (.site-header::before in _mobile.scss) is cut open
+// wherever an image passes under the logo.
+function setupMobileLogoWindow(siteHeader, signal) {
+    const logo = siteHeader?.querySelector('.site-header__title svg')
+    if (!logo) return
+    const images = [...document.querySelectorAll('.home img')]
+    let frame = null
 
     const update = () => {
+        frame = null
         if (!isMobile()) {
-            siteHeader.classList.remove('logo-collapsed')
-            lastY = window.scrollY
+            siteHeader.style.removeProperty('--logo-window')
             return
         }
-
-        const y = window.scrollY
-        const delta = y - lastY
-        lastY = y
-
-        if (isFooterInView()) {
-            collapsed = false
-            upDistance = 0
-        } else if (y <= LOGO_COLLAPSE_START_PX) {
-            collapsed = false
-        } else if (delta > 0) {
-            collapsed = true
-            upDistance = 0
-        } else if (delta < 0) {
-            upDistance -= delta
-            if (upDistance >= LOGO_REVEAL_DISTANCE_PX) collapsed = false
+        const header = siteHeader.getBoundingClientRect()
+        const box = logo.getBoundingClientRect()
+        const holes = images
+            .map((image) => image.getBoundingClientRect())
+            .map((rect) => ({
+                left: Math.max(rect.left, box.left),
+                right: Math.min(rect.right, box.right),
+                top: Math.max(rect.top, box.top),
+                bottom: Math.min(rect.bottom, box.bottom),
+            }))
+            .filter((hole) => hole.right > hole.left && hole.bottom > hole.top)
+        if (holes.length === 0) {
+            siteHeader.style.removeProperty('--logo-window')
+            return
         }
-
-        siteHeader.classList.toggle('logo-collapsed', collapsed)
+        // The whole header, minus the holes (even-odd)
+        const path = [
+            `M0 0H${header.width}V${header.height}H0Z`,
+            ...holes.map(
+                (hole) =>
+                    `M${hole.left - header.left} ${hole.top - header.top}` +
+                    `H${hole.right - header.left}V${hole.bottom - header.top}` +
+                    `H${hole.left - header.left}Z`
+            ),
+        ].join('')
+        siteHeader.style.setProperty('--logo-window', `path(evenodd, '${path}')`)
     }
 
-    window.addEventListener('scroll', update, { passive: true, signal })
-    window.addEventListener('resize', update, { passive: true, signal })
+    const schedule = () => {
+        if (frame === null) frame = requestAnimationFrame(update)
+    }
+    window.addEventListener('scroll', schedule, { passive: true, signal })
+    window.addEventListener('resize', schedule, { passive: true, signal })
+    // Lazy images get their size once loaded
+    images.forEach((image) =>
+        image.addEventListener('load', schedule, { signal })
+    )
+    signal.addEventListener('abort', () => {
+        if (frame !== null) cancelAnimationFrame(frame)
+    })
     update()
 }
 
@@ -423,8 +433,8 @@ function initPage(signal) {
 
     function updateHeaderWidth() {
         if (!siteHeader || isAusstellungPage) return
-        // On mobile the header keeps its width; the logo collapses instead
-        // (see setupMobileHeaderLogo)
+        // On mobile the header keeps its width and its logo (see
+        // setupMobileLogoWindow)
         if (isMobile()) {
             siteHeader.style.width = ''
             sideNavigation?.classList.remove('hidden')
@@ -697,7 +707,7 @@ function initPage(signal) {
         updateHeaderLogoColor()
     }
 
-    setupMobileHeaderLogo(siteHeader, footer, signal)
+    setupMobileLogoWindow(siteHeader, signal)
 
     const alignKunstvereinHashInBlocks = () => {
         if (!document.querySelector('.kunstverein')) return

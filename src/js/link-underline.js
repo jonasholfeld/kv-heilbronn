@@ -12,11 +12,20 @@ const CARD_LABELS = [
     '.shop-item__link',
     '.exhibition__link',
     '.reise-card__mehr',
+    '.reise-card__anmeldung',
     '.shop-item-card__link',
 ].join(', ')
 
 // Links in form consents, animated in any case
 const TEXT_LINKS = '.kv-form__consent a[href]'
+
+// Without a line until hovered
+const REVEAL_LINKS = [
+    'footer a',
+    '.site-menu__toggle--close',
+    '.site-menu__imprint-btn',
+    '.site-menu__data-btn',
+].join(', ')
 
 // Only links that are underlined anyway: buttons, bubbles and image links
 // keep their look
@@ -43,11 +52,14 @@ export function setupLinkUnderlines(root = document) {
         `:is(${CARD_LABELS}, ${TEXT_LINKS}):not(.link-animated)`
     ).forEach(animate)
 
-    // Footer links have no line; it is drawn while hovered
-    root.querySelectorAll('footer a:not(.link-animated)').forEach((link) => {
-        animate(link)
-        link.classList.add('link-animated--reveal')
-    })
+    // Footer links and some buttons of the menu have no line; it is drawn
+    // while hovered
+    root.querySelectorAll(`:is(${REVEAL_LINKS}):not(.link-animated)`).forEach(
+        (link) => {
+            animate(link)
+            link.classList.add('link-animated--reveal')
+        }
+    )
 }
 
 // Links with a marker right in front of them (a bullet of their list item or
@@ -101,6 +113,8 @@ function findMarker(link) {
 // buttons, image links, whole boxes that are links, the menu and the page
 // titles in the top bars.
 const NO_DOT = '#site-menu, .bubble, .page-info, .site-header'
+// Phone numbers, also the ones iOS turns into links by itself
+const NO_DOT_LINKS = 'a[href^="tel:"], a[x-apple-data-detectors]'
 const BLOCK_CONTENT = 'p, div, ul, ol, h1, h2, h3, h4, header, section'
 
 function isTransparent(color) {
@@ -115,10 +129,32 @@ function backdropOf(element) {
     return null
 }
 
+// Whether `element` starts a line: nothing but white space before it, up to
+// the next block or line break. Links within a sentence get no dot.
+function startsLine(element) {
+    for (let node = element; node.parentElement; node = node.parentElement) {
+        let previous = node.previousSibling
+        while (previous?.nodeType === Node.TEXT_NODE && !previous.textContent.trim()) {
+            previous = previous.previousSibling
+        }
+        if (previous) {
+            return (
+                previous.nodeName === 'BR' ||
+                (previous.nodeType === Node.ELEMENT_NODE &&
+                    getComputedStyle(previous).display !== 'inline') ||
+                getComputedStyle(node).display !== 'inline'
+            )
+        }
+        if (getComputedStyle(node.parentElement).display !== 'inline') return true
+    }
+    return true
+}
+
 // A link that looks like a button or tag (on a rounded background) is not a
 // text link
 function isTextLink(element) {
-    if (element.closest(NO_DOT)) return false
+    if (element.closest(NO_DOT) || element.matches(NO_DOT_LINKS)) return false
+    if (!startsLine(element)) return false
     if (element.querySelector('img, svg, video, ' + BLOCK_CONTENT)) return false
     if (element.textContent.trim() === '') return false
     const backdrop = backdropOf(element)
@@ -204,10 +240,14 @@ export function setupLinkMarkers(signal, root = document) {
         }
     })
 
-    // The "more" labels inside box links
+    // The "more" labels inside box links; some have a dot of their own
     root.querySelectorAll(CARD_LABELS).forEach((label) => {
         const link = label.closest('a[href]')
         if (!link || label.closest(NO_DOT)) return
+        if (hasMarker(label) && !label.classList.contains('link-dot')) {
+            addMarker(label, link, signal)
+            return
+        }
         dotCandidates.push(label)
         addHover(label, link, signal)
     })

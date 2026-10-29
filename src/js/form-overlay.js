@@ -393,6 +393,16 @@ export function init(signal) {
     })
     closeButton?.addEventListener('click', close, { signal })
 
+    // Links to the page with #formular (e.g. "Digitaler Antrag" in the
+    // footer) open the form right away
+    const openFromHash = () => {
+        if (window.location.hash !== '#formular' || !openButtons.length) return
+        if (host.classList.contains('is-form-open')) return
+        open({ currentTarget: openButtons[0] })
+    }
+    openFromHash()
+    window.addEventListener('hashchange', openFromHash, { signal })
+
     document.addEventListener(
         'keydown',
         (event) => {

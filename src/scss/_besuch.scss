@@ -152,8 +152,15 @@ body.impressum {
             }
         }
 
-        // Impressum and Datenschutz. Outranks .besuch-section-body below
-        .besuch-section-body:is(.impressum-imprint, .impressum-privacy) {
+        // Impressum: a list follows a single line ("REDAKTION") directly, as
+        // in the other boxes, but is set off from a paragraph of several
+        // lines like a paragraph. Outranks .besuch-section-body below.
+        .besuch-section-body.impressum-imprint p:has(br) + ul {
+            margin-top: 0;
+        }
+
+        // Datenschutz. Outranks .besuch-section-body below
+        .besuch-section-body.impressum-privacy {
             // Lists are set off like paragraphs here, not attached to the
             // line above as in the other boxes (see below)
             ul {

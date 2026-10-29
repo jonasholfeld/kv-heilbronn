@@ -107,12 +107,6 @@
         text-transform: uppercase;
         text-align: center;
         font-size: 1rem;
-
-        &--single {
-            &:hover {
-                opacity: 0.6;
-            }
-        }
     }
 
     &__entries {
@@ -131,9 +125,6 @@
         line-height: 1.15;
         padding-left: 1rem;
         font-size: 1rem;
-        &:hover {
-            opacity: 0.6;
-        }
     }
 
     &__languages {
