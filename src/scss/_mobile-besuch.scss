@@ -97,6 +97,9 @@
 
             .besuch-section-body {
                 font-size: inherit;
+                // Long web addresses (Datenschutz) break instead of making
+                // the page wider than the screen
+                overflow-wrap: anywhere;
 
                 // Datenschutz, and in the Impressum after a paragraph of
                 // several lines: lists set off like paragraphs (see

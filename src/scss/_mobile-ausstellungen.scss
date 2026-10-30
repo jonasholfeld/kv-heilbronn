@@ -293,12 +293,14 @@
 
             // A box with the large title and dates, as much space below the
             // dates as between title and dates
+            // The dates a bit closer to the title than to the bottom of the
+            // box
             &__top-info-box {
-                padding: 2.4rem 2.4rem 24rem;
+                padding: 2.4rem 2.4rem 29rem;
                 font-size: $mTitleFontSize;
 
                 &__artist-title {
-                    margin-bottom: 22rem;
+                    margin-bottom: 17rem;
                     line-height: 1.05;
                     span {
                         line-height: 1.05;

@@ -15,6 +15,7 @@ $overlayColor: #e4d6df;
     left: $generalPadding;
     height: calc(100% - (#{$generalPadding} * 2));
     top: $generalPadding;
+    border-radius: 2.4rem;
 
     // Bullet circles (global ul li > p::before) multiply the overlay colour
     // with itself, like the bullets on the home page

@@ -208,7 +208,11 @@ function setupSidebarWidths(signal) {
 function setupMobileLogoWindow(siteHeader, signal) {
     const logo = siteHeader?.querySelector('.site-header__title svg')
     if (!logo) return
-    const images = [...document.querySelectorAll('.home img')]
+    // Not the editions and catalogues: they stand on the grey of the page,
+    // which wouldn't read in the letters
+    const images = [
+        ...document.querySelectorAll('.home img:not(.shop-item-wrapper img)'),
+    ]
     let frame = null
 
     const update = () => {

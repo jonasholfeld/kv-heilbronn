@@ -1,10 +1,13 @@
 // ── Mobile: homepage overlay (site/snippets/home-overlay.php) ────────────────
 // Uses the variables of _mobile.scss. Date on top (weekday, date and opening
 // hours on a line each), the bullets in the middle, the address columns
-// stacked below.
+// stacked below. All text on one line on the left, the bullets hang in front
+// of it.
 // The close icon sits top right; a tap anywhere else closes it too (main.js).
 
 $mOverlayFontSize: 6.4rem;
+$mOverlayBulletIndent: 8.4rem;
+$mOverlayIndent: calc(2.4rem + #{$mOverlayBulletIndent});
 
 @include mobile {
     .home-overlay {
@@ -12,7 +15,8 @@ $mOverlayFontSize: 6.4rem;
         left: $mPadding;
         width: calc(100% - 2 * #{$mPadding});
         height: calc(100% - 2 * #{$mPadding});
-        padding: 2.2rem 2.4rem 3rem;
+        padding: 2.2rem 2.4rem 3rem $mOverlayIndent;
+        border-radius: 6.4rem;
         // The frame around it hides the page as well; below the browser's
         // toolbar: see the white strip in _mobile.scss
         box-shadow: 0 0 0 #{$mPadding} white;
@@ -55,7 +59,8 @@ $mOverlayFontSize: 6.4rem;
                 line-height: 1.08;
                 letter-spacing: 0;
                 margin: 0;
-                padding-left: 8.4rem !important;
+                margin-left: -$mOverlayBulletIndent !important;
+                padding-left: $mOverlayBulletIndent !important;
 
                 &::before {
                     --size: 6.6rem;

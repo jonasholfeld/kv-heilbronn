@@ -367,9 +367,12 @@ body.edition {
                     line-height: inherit;
                 }
 
+                // The colour of the frames, not multiplied with itself as
+                // elsewhere (_typography.scss)
                 ul {
                     li > p::before {
-                        background-color: var(--color);
+                        background-color: var(--colorPage);
+                        background-image: none;
                     }
                 }
             }

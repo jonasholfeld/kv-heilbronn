@@ -177,7 +177,10 @@
 body.shop,
 body.edition,
 body.katalog {
+    // Each edition and catalogue has a colour of its own; the menu keeps the
+    // grey of the shop (also on mobile, _mobile.scss)
     .site-menu {
+        --colorPage: #{$lightgrey};
         .site-menu__lang-btn {
             &.active {
                 &::before {

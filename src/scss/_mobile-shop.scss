@@ -101,6 +101,19 @@
                     gap: $mGap;
                 }
 
+                // With a section chosen the tabs stay below the top bar, so
+                // the other section is always at hand. The gaps between and
+                // below them are covered like the bar's.
+                &.has-section .shop-tabs {
+                    position: sticky;
+                    top: calc(
+                        #{$mPadding} + #{$mBubbleHeight} + 3 * #{$mGap}
+                    );
+                    z-index: 19;
+                    background-color: $lightgrey;
+                    box-shadow: 0 $mGap 0 0 $lightgrey;
+                }
+
                 .shop-tabs__tab {
                     display: block;
                     width: 100%;

@@ -19,9 +19,11 @@ $mLogoHeight: calc(
     (100rem - 2 * #{$mPadding} - 2 * #{$mGap}) * 112 / 429.05 + 2 * #{$mGap}
 );
 $mBubbleHeight: calc(#{$mBubbleFontSize} * 1.3 + 3.6rem);
-// From the top of the screen to the bottom of the header's white band
+// From the top of the screen to the bottom of the header's white band (the
+// logo is pushed down by a gap more than its frame)
 $mHeaderHeight: calc(
-    #{$mPadding} + #{$mLogoHeight} + #{$mGap} + #{$mBubbleHeight} + #{$mGap}
+    #{$mPadding} + #{$mLogoHeight} + 2 * #{$mGap} + #{$mBubbleHeight} +
+        #{$mGap}
 );
 $mEase: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -365,20 +367,23 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
 
             svg {
                 display: block;
+                box-sizing: content-box;
                 width: calc(100% - 2 * #{$mGap});
                 height: auto !important;
-                margin: $mGap;
-                border-width: 0 !important;
-                // The frame in the box colour, set as `color` by main.js:
-                // Safari on iOS doesn't reliably repaint a shadow following
-                // the animated --svgColor. The inset part covers the light
-                // seam at the edge of the box.
+                margin: 0;
+                // The frame in the box colour: a border, its colour set
+                // inline by main.js. Safari on iOS doesn't reliably repaint
+                // a shadow following a colour transition, so the frame got
+                // stuck in the colour of a box scrolled by. The inset shadow
+                // covers the light seam at the edge of the box.
+                border-width: $mGap !important;
+                border-style: solid !important;
                 color: var(--svgColor);
-                box-shadow:
-                    0 0 0 $mGap currentColor,
-                    inset 0 0 0 2px currentColor !important;
+                box-shadow: inset 0 0 0 2px currentColor !important;
                 background: none !important;
-                transition: color 0.5s ease;
+                transition:
+                    color 0.5s ease,
+                    border-color 0.5s ease;
             }
         }
 

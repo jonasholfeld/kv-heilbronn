@@ -340,19 +340,27 @@ footer {
     }
     ul {
         li {
-            line-height: 1;
+            line-height: 1.15;
             font-size: 1rem !important;
         }
         li::before {
             content: '';
             display: inline-block;
-            width: 1.1rem;
-            height: 1.1rem;
-            border-radius: 1.1rem;
-            flex: 0 0 1.1rem;
             background-color: white;
-            transform: translate(-0rem, 0.1rem);
             margin-right: 0.3rem;
+        }
+    }
+    // Smaller than the text, so links on consecutive lines keep the line
+    // height of the text (mobile: _mobile.scss)
+    @include desktop {
+        ul li::before,
+        .link-dot::before {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 0.75rem;
+            flex: 0 0 0.75rem;
+            transform: none;
+            vertical-align: baseline;
         }
     }
     .footer-membership {

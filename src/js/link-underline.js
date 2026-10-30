@@ -110,9 +110,9 @@ function findMarker(link) {
 // Every other text link gets a round dot in front of it (.link-dot in
 // main.scss): on white in the page colour (grey without one), on a coloured
 // box in white. It turns square on hover like the markers above. Not for
-// buttons, image links, whole boxes that are links, the menu and the page
-// titles in the top bars.
-const NO_DOT = '#site-menu, .bubble, .page-info, .site-header'
+// buttons, image links, whole boxes that are links, the menu, the page
+// titles in the top bars and the category tags on the homepage.
+const NO_DOT = '#site-menu, .bubble, .page-info, .site-header, .label-wrapper'
 // Phone numbers, also the ones iOS turns into links by itself
 const NO_DOT_LINKS = 'a[href^="tel:"], a[x-apple-data-detectors]'
 const BLOCK_CONTENT = 'p, div, ul, ol, h1, h2, h3, h4, header, section'
@@ -129,25 +129,34 @@ function backdropOf(element) {
     return null
 }
 
-// Whether `element` starts a line: nothing but white space before it, up to
-// the next block or line break. Links within a sentence get no dot.
-function startsLine(element) {
-    for (let node = element; node.parentElement; node = node.parentElement) {
-        let previous = node.previousSibling
-        while (previous?.nodeType === Node.TEXT_NODE && !previous.textContent.trim()) {
-            previous = previous.previousSibling
-        }
-        if (previous) {
-            return (
-                previous.nodeName === 'BR' ||
-                (previous.nodeType === Node.ELEMENT_NODE &&
-                    getComputedStyle(previous).display !== 'inline') ||
-                getComputedStyle(node).display !== 'inline'
-            )
-        }
-        if (getComputedStyle(node.parentElement).display !== 'inline') return true
+// The nearest node before (or after) `node` that is not just white space
+function sibling(node, forward) {
+    let next = forward ? node.nextSibling : node.previousSibling
+    while (next?.nodeType === Node.TEXT_NODE && !next.textContent.trim()) {
+        next = forward ? next.nextSibling : next.previousSibling
     }
-    return true
+    return next
+}
+
+// Whether `element` has a line of its own: nothing but white space before
+// and after it, up to the next block or line break. Links within a sentence
+// get no dot, also at its start or end.
+function standsAlone(element) {
+    return [false, true].every((forward) => {
+        for (let node = element; node.parentElement; node = node.parentElement) {
+            const next = sibling(node, forward)
+            if (next) {
+                return (
+                    next.nodeName === 'BR' ||
+                    (next.nodeType === Node.ELEMENT_NODE &&
+                        getComputedStyle(next).display !== 'inline') ||
+                    getComputedStyle(node).display !== 'inline'
+                )
+            }
+            if (getComputedStyle(node.parentElement).display !== 'inline') return true
+        }
+        return true
+    })
 }
 
 // Tags and buttons are pills: rounded by at least half their height. Boxes
@@ -162,7 +171,7 @@ function isPill(element) {
 // A link that looks like a button or tag (on a pill) is not a text link
 function isTextLink(element) {
     if (element.closest(NO_DOT) || element.matches(NO_DOT_LINKS)) return false
-    if (!startsLine(element)) return false
+    if (!standsAlone(element)) return false
     if (element.querySelector('img, svg, video, ' + BLOCK_CONTENT)) return false
     if (element.textContent.trim() === '') return false
     const backdrop = backdropOf(element)
