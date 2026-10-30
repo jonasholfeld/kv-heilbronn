@@ -1043,7 +1043,31 @@ function initPage(signal) {
             passive: true,
             signal,
         })
+        // Safari (iOS) may lay the page out before it is shown, e.g. when
+        // preloading it or restoring it from the back-forward cache. Then
+        // nothing counts as visible until the first scroll, so check again
+        // once it is shown and laid out.
+        window.addEventListener('pageshow', updateHomeSectionVisibility, {
+            signal,
+        })
+        window.addEventListener('load', updateHomeSectionVisibility, { signal })
+        document.addEventListener(
+            'visibilitychange',
+            () => {
+                if (document.visibilityState === 'visible') {
+                    updateHomeSectionVisibility()
+                }
+            },
+            { signal }
+        )
+        // Reports once the page is actually rendered, whatever the cause
+        const sectionObserver = new IntersectionObserver(
+            updateHomeSectionVisibility
+        )
+        homeSections.forEach((section) => sectionObserver.observe(section))
+        signal.addEventListener('abort', () => sectionObserver.disconnect())
         updateHomeSectionVisibility()
+        requestAnimationFrame(updateHomeSectionVisibility)
     }
 
     // ── Ausstellungen row expand/collapse ─────────────────────────────────────────

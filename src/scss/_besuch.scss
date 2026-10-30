@@ -3,6 +3,11 @@ body.impressum {
     background-color: var(--colorPage);
     @include sansserif;
 
+    // Selected text is marked in the page colour
+    ::selection {
+        background-color: var(--colorPage);
+    }
+
     .site-header {
         display: none;
     }
