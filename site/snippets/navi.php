@@ -22,6 +22,17 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
       $path = trim((string)parse_url($url, PHP_URL_PATH), '/');
       return $path === '' ? site()->homePage() : page($path);
     };
+    // Internal paths (/kunstverein#team) lead to the page's URL in the
+    // current language; the redirect from the bare path would drop the
+    // anchor. Other addresses stay as they are.
+    $linkUrl = function (string $url) use ($pageFromPath) {
+      $target = str_starts_with($url, '/') ? $pageFromPath($url) : null;
+      if (!$target) {
+        return esc($url);
+      }
+      $fragment = parse_url($url, PHP_URL_FRAGMENT);
+      return $target->url() . ($fragment ? '#' . esc($fragment) : '');
+    };
     // The group of the current page (or one of its parents) is highlighted
     $isCurrentGroup = function ($group, $entries) use ($page, $pageFromPath) {
       $targets = [];
@@ -68,7 +79,7 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
           $entry = $entries->first();
           $isUrl = $entry->linktype()->value() === 'true';
           if ($isUrl) {
-            $href = esc($entry->url()->value());
+            $href = $linkUrl($entry->url()->value());
           } else {
             $linkedPage = $entry->page()->toPages()->first();
             $href = $linkedPage ? $linkedPage->url() : '#';
@@ -79,7 +90,7 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
           </a>
         <?php else: ?>
           <?php if( $group->linktitle()->isNotEmpty() ):
-            $groupLink = esc($group->linktitle()->value());
+            $groupLink = $linkUrl($group->linktitle()->value());
           ?>
             <a class="site-menu__group-title" href="<?= $groupLink ?>">
               <?= $group->title()->html() ?>
@@ -91,7 +102,7 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
             <?php foreach ($entries as $entry):
               $isUrl = $entry->linktype()->value() === 'true';
               if ($isUrl) {
-                $href = esc($entry->url()->value());
+                $href = $linkUrl($entry->url()->value());
               } else {
                 $linkedPage = $entry->page()->toPages()->first();
                 $href = $linkedPage ? $linkedPage->url() : '#';

@@ -240,6 +240,15 @@ export function setupPageTransitions({ onBeforeSwap, onAfterSwap }) {
         ],
     })
 
+    // A link to a section of the current page (e.g. Team in the menu on
+    // /kunstverein) only scrolls there, which would leave the menu open.
+    // From the open menu the page is loaded again instead, like a link to
+    // the page itself.
+    swup.hooks.replace('link:anchor', (visit, args, defaultHandler) => {
+        if (!isMenuOpen()) return defaultHandler(visit, args)
+        swup.navigate(visit.to.url + args.hash)
+    })
+
     swup.hooks.on('visit:start', (visit) => {
         // Left over if the previous visit was aborted
         document.documentElement.classList.remove(
