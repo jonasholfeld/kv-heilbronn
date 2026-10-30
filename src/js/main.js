@@ -264,6 +264,65 @@ function setupMobileLogoWindow(siteHeader, signal) {
     update()
 }
 
+// Changes the text of a bubble (the sidebar's category button on the home
+// page): the old text fades out while the new one fades in on top of it, and
+// the bubble grows or shrinks to the new text meanwhile. It cuts off
+// whichever text is wider than it at that moment (main.scss). A change while
+// one is running starts from wherever that one is.
+const BUBBLE_CHANGE_MS = 300
+const BUBBLE_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)'
+
+async function setBubbleLabel(bubble, text) {
+    if (bubble.dataset.label === text) return
+    bubble.dataset.label = text
+
+    const label = bubble.querySelector('.bubble__label:not(.bubble__label--out)')
+    const incoming = document.createElement('span')
+    incoming.className = 'bubble__label'
+    incoming.textContent = text
+    if (!label) {
+        // The first text is set right away
+        bubble.replaceChildren(incoming)
+        return
+    }
+
+    // Where a running change has got to
+    const fromWidth = bubble.getBoundingClientRect().width
+    const fromOpacity = getComputedStyle(label).opacity
+    bubble.querySelectorAll('.bubble__label--out').forEach((old) => old.remove())
+    bubble.getAnimations().forEach((animation) => animation.cancel())
+    label.getAnimations().forEach((animation) => animation.cancel())
+
+    // The old text leaves the flow where it is, centred like before
+    label.style.top = `${label.offsetTop}px`
+    label.classList.add('bubble__label--out')
+    bubble.append(incoming)
+    bubble.style.width = ''
+    const toWidth = bubble.getBoundingClientRect().width
+    bubble.style.width = `${toWidth}px`
+
+    const options = { duration: BUBBLE_CHANGE_MS, easing: BUBBLE_EASE }
+    try {
+        await Promise.all([
+            bubble.animate(
+                [{ width: `${fromWidth}px` }, { width: `${toWidth}px` }],
+                options
+            ).finished,
+            label.animate([{ opacity: fromOpacity }, { opacity: 0 }], {
+                ...options,
+                fill: 'forwards',
+            }).finished,
+            incoming.animate([{ opacity: 0 }, { opacity: 1 }], options)
+                .finished,
+        ])
+    } catch {
+        // Cancelled by the next change, which carries on from here
+        return
+    }
+    label.remove()
+    bubble.style.width = ''
+}
+
 // Home: hovering a box squares the sidebar's category button when it shows
 // that box's category (the tags below the box are squared in _home.scss)
 function setupCategoryButtonHover(signal) {
@@ -278,7 +337,9 @@ function setupCategoryButtonHover(signal) {
                 event.target.closest('a, img') &&
                 event.target.closest('.home-item')
             const isMatch =
-                !!box && box.dataset.category === button.textContent.trim()
+                !!box &&
+                box.dataset.category ===
+                    (button.dataset.label ?? button.textContent.trim())
             button.classList.toggle('is-box-hovered', isMatch)
         },
         { signal }
@@ -668,13 +729,12 @@ function initPage(signal) {
                     (isMobile() ? homeColorSections.at(-1) : null)
                 const category =
                     categorySection?.getAttribute('data-category') || ''
-                topInfoRowCategoryButton.textContent = category
+                setBubbleLabel(topInfoRowCategoryButton, category)
                 if (topInfoRowCategoryButton instanceof HTMLAnchorElement) {
                     topInfoRowCategoryButton.setAttribute(
                         'href',
                         categoryPageByLabel[category] || '#'
                     )
-                    console.log(category)
                 }
             }
             if (footer) {

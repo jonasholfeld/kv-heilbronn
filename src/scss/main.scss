@@ -223,6 +223,26 @@ html:not(.is-changing) body.pre-init {
         .category-button-js.is-box-hovered {
             border-radius: 0;
         }
+        // A new text fades in over the old one while the width follows it
+        // (setBubbleLabel in main.js); the wider one is cut off
+        // Both texts are centred by offset: centred text that is wider than
+        // the bubble would stick to its left edge
+        .category-button-js {
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            text-align: left;
+            .bubble__label {
+                display: inline-block;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .bubble__label--out {
+                position: absolute;
+                pointer-events: none;
+            }
+        }
     }
 }
 
