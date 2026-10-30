@@ -883,7 +883,14 @@ function initPage(signal) {
                 if (singleReisePage) {
                     singleReisePage.classList.add('menu-is-open')
                 }
-                const targetY = HEADER_HEIGHT_REM * remToPx()
+                // The first box ends up level with the (fixed) logo
+                const firstHomeItem = document.querySelector('.home .home-item')
+                const targetY =
+                    firstHomeItem && siteHeader
+                        ? firstHomeItem.getBoundingClientRect().top +
+                          window.scrollY -
+                          siteHeader.getBoundingClientRect().top
+                        : HEADER_HEIGHT_REM * remToPx()
                 const distanceToTarget = targetY - window.scrollY
                 if (sideNavigation) {
                     sideNavigation.classList.add('hidden')
