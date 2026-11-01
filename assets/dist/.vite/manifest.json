@@ -22,7 +22,7 @@
     "isDynamicEntry": true
   },
   "src/js/main.js": {
-    "file": "assets/main-Kkn2BLfP.js",
+    "file": "assets/main-DE_hgLvg.js",
     "name": "main",
     "src": "src/js/main.js",
     "isEntry": true,
@@ -34,7 +34,7 @@
       "src/js/form-overlay.js"
     ],
     "css": [
-      "assets/main-CWnjsT3c.css"
+      "assets/main-D3zSqm5N.css"
     ],
     "assets": [
       "assets/AkzidenzGrotesk-DdqcRqkk.woff2"
