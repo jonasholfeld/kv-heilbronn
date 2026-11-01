@@ -103,6 +103,11 @@ $overlayColor: #e4d6df;
         }
     }
 
+    // Mobile only (_mobile-overlay.scss)
+    &__visit {
+        display: none;
+    }
+
     // ── Footer columns ───────────────────────────────────────────────────────
     &__footer {
         display: flex;

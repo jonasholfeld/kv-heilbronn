@@ -160,6 +160,12 @@ body {
     &::-webkit-scrollbar {
         display: none; /* Chrome, Safari, Opera */
     }
+
+    // Selected text is marked in the page colour (grey if the page has none,
+    // see head.php)
+    ::selection {
+        background-color: var(--colorPage);
+    }
 }
 
 // Skip menu transitions on first paint, but not during a page change, where

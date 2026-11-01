@@ -178,4 +178,11 @@ $besuchPage = page('besuch');
             <?php endif ?>
         </div>
     </div>
+
+    <?php // Mobile only: a link to the visit page instead of the footer columns ?>
+    <?php if ($besuchPage): ?>
+    <ul class="home-overlay__visit">
+        <li><p><a href="<?= $besuchPage->url() ?>"><?= t('ui.visit') ?></a></p></li>
+    </ul>
+    <?php endif ?>
 </div>
