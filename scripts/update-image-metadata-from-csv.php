@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Kirby\Cms\App;
 use Kirby\Cms\File;
 use Kirby\Cms\Page;
+use Kirby\Filesystem\F;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 require dirname(__DIR__) . '/kirby/bootstrap.php';
@@ -65,6 +66,9 @@ function isJunkMetadataValue(string $value): bool
         '/^DSC[_\-\s]?\d+/i',
         '/^Screenshot\b/i',
         '/^OLYMPUS DIGITAL CAMERA$/i',
+        '/^Bildunterschrift$/i',
+        // single tokens like file names or numbers ("369", "05_documenta_…")
+        '/^[\w\-.]+$/u',
     ];
 
     foreach ($patterns as $pattern) {
@@ -184,42 +188,131 @@ function collectSitePages(App $kirby): array
     return $pages;
 }
 
-function fileContentForUpdate(array $row): array
+/**
+ * All usable metadata values of a CSV row, in display order. post_excerpt is
+ * the WordPress caption ("Beschriftung"), but most images keep their caption
+ * in post_content ("Beschreibung"), so both are used.
+ */
+function csvMetadataValues(array $row): array
 {
-    $content = [
-        'title' => preferredMetadataValue($row, [
-            'wp_post_content',
-            'caption',
-            'wp_post_excerpt',
-            'title',
-            'wp_post_title',
-        ]),
-        'caption' => preferredMetadataValue($row, [
-            'caption',
-            'wp_post_excerpt',
-            'wp_post_content',
-        ]),
-        'credit' => preferredMetadataValue($row, [
-            'credit',
-            'wp_post_excerpt',
+    $values = [];
+
+    foreach (['wp_post_excerpt', 'caption', 'wp_post_content', 'credit'] as $column) {
+        $value = normalizeMetadataValue($row[$column] ?? '');
+        if (isJunkMetadataValue($value) === false) {
+            $values[] = $value;
+        }
+    }
+
+    return $values;
+}
+
+function comparableText(string $value): string
+{
+    $value = mb_strtolower(normalizeMetadataValue($value));
+    return trim((string)preg_replace('/[\s.,;:]+$/u', '', $value));
+}
+
+/**
+ * Joins values into one credit text, one value per line. Values that are
+ * empty, junk, duplicates or contained in a longer value are dropped.
+ */
+function mergeCreditValues(array $values): string
+{
+    $lines = [];
+
+    foreach ($values as $value) {
+        foreach (preg_split('/\R/u', (string)$value) as $line) {
+            $line = trim($line);
+            if ($line !== '' && isJunkMetadataValue($line) === false) {
+                $lines[] = $line;
+            }
+        }
+    }
+
+    $kept = [];
+    foreach ($lines as $index => $line) {
+        $comparable = comparableText($line);
+
+        foreach ($lines as $otherIndex => $other) {
+            if ($otherIndex === $index) {
+                continue;
+            }
+
+            $otherComparable = comparableText($other);
+            $isContained = $comparable !== $otherComparable && str_contains($otherComparable, $comparable);
+            $isEarlierDuplicate = $comparable === $otherComparable && $otherIndex < $index;
+
+            if ($isContained || $isEarlierDuplicate) {
+                continue 2;
+            }
+        }
+
+        $kept[] = $line;
+    }
+
+    return implode("\n", $kept);
+}
+
+/**
+ * Title and caption are merged into the single credit field, together with
+ * the CSV values, so that nothing entered in the Panel gets lost.
+ */
+function fileContentForUpdate(File $file, string $languageCode, array $csvValues): array
+{
+    $content = $file->content($languageCode);
+
+    return [
+        'title' => '',
+        'caption' => '',
+        'credit' => mergeCreditValues([
+            ...$csvValues,
+            $content->get('title')->value(),
+            $content->get('caption')->value(),
+            $content->get('credit')->value(),
         ]),
     ];
-
-    return array_filter(
-        $content,
-        static fn (string $value): bool => isJunkMetadataValue($value) === false
-    );
 }
 
 function needsUpdate(File $file, array $content, string $languageCode): bool
 {
     foreach ($content as $field => $value) {
-        if ($file->content($languageCode)->get($field)->value() !== $value) {
+        if ((string)$file->content($languageCode)->get($field)->value() !== $value) {
             return true;
         }
     }
 
     return false;
+}
+
+/**
+ * Kirby stores uploads under a sanitized (lowercase) name, so lookups use
+ * the same sanitizing. The second key ignores the hash suffix for files that
+ * were imported without one.
+ */
+function lookupKeys(string $filename): array
+{
+    $safeName = F::safeName($filename);
+    $extension = F::extension($safeName);
+    $stem = F::name($safeName);
+
+    return [
+        $safeName,
+        preg_replace('/-[0-9a-f]{8}$/', '', $stem) . ($extension !== '' ? '.' . $extension : ''),
+    ];
+}
+
+function languagesWithOwnContent(File $file, App $kirby): array
+{
+    $codes = [];
+
+    foreach ($kirby->languages() as $language) {
+        if ($language->isDefault() || is_file($file->root() . '.' . $language->code() . '.txt')) {
+            $codes[] = $language->code();
+        }
+    }
+
+    return $codes;
 }
 
 function fileIdList(array $files): string
@@ -259,96 +352,114 @@ if (is_file($csvPath) === false) {
 }
 
 $pages = collectSitePages($kirby);
-$pagesByFilename = [];
+$filesByKey = [];
+$allFiles = [];
 
 foreach ($pages as $page) {
     foreach ($page->files() as $file) {
-        $pagesByFilename[$file->filename()][] = $file;
+        $allFiles[$file->id()] = $file;
+        foreach (array_unique(lookupKeys($file->filename())) as $key) {
+            $filesByKey[$key][] = $file;
+        }
     }
 }
 
-$languageCode = 'de';
+$languageCode = $kirby->defaultLanguage()?->code() ?? 'de';
 $stats = [
     'rows' => 0,
     'with_metadata' => 0,
-    'matched_files' => 0,
-    'updated_files' => 0,
-    'unchanged_files' => 0,
+    'matched_rows' => 0,
     'missing_files' => 0,
     'ambiguous_matches' => 0,
+    'files' => count($allFiles),
+    'updated_files' => 0,
+    'unchanged_files' => 0,
 ];
 $debugDir = $websiteRoot . '/assets/image-metadata-debug';
 $missingRows = [];
 $ambiguousRows = [];
 $matchedRows = [];
+$csvValuesByFileId = [];
 
 foreach (csvRows($csvPath) as $row) {
     $stats['rows']++;
 
     $imageUrl = trim((string)($row['image_url'] ?? ''));
     $filename = filenameFromImageUrl($imageUrl);
-    $content = fileContentForUpdate($row);
+    $csvValues = csvMetadataValues($row);
 
-    if ($filename === null || $content === []) {
+    if ($filename === null || $csvValues === []) {
         continue;
     }
 
     $stats['with_metadata']++;
-    $matches = uniqueFilesByRoot($pagesByFilename[$filename] ?? []);
+    $matches = [];
+    foreach (lookupKeys($filename) as $key) {
+        $matches = uniqueFilesByRoot($filesByKey[$key] ?? []);
+        if ($matches !== []) {
+            break;
+        }
+    }
+
+    $debugRow = [
+        'attachment_id' => trim((string)($row['attachment_id'] ?? '')),
+        'image_url' => $imageUrl,
+        'expected_filename' => $filename,
+        'credit' => mergeCreditValues($csvValues),
+    ];
 
     if ($matches === []) {
         $stats['missing_files']++;
-        $missingRows[] = [
-            'attachment_id' => trim((string)($row['attachment_id'] ?? '')),
-            'image_url' => $imageUrl,
-            'expected_filename' => $filename,
-            'title' => $content['title'] ?? '',
-            'caption' => $content['caption'] ?? '',
-            'credit' => $content['credit'] ?? '',
-        ];
+        $missingRows[] = $debugRow;
         continue;
     }
 
+    $stats['matched_rows']++;
+
     if (count($matches) > 1) {
         $stats['ambiguous_matches']++;
-        $ambiguousRows[] = [
-            'attachment_id' => trim((string)($row['attachment_id'] ?? '')),
-            'image_url' => $imageUrl,
-            'expected_filename' => $filename,
+        $ambiguousRows[] = $debugRow + [
             'match_count' => (string)count($matches),
             'matched_file_ids' => fileIdList($matches),
-            'title' => $content['title'] ?? '',
-            'caption' => $content['caption'] ?? '',
-            'credit' => $content['credit'] ?? '',
         ];
     }
 
     foreach ($matches as $file) {
-        $stats['matched_files']++;
-        $needsUpdate = needsUpdate($file, $content, $languageCode);
-        $matchedRows[] = [
-            'attachment_id' => trim((string)($row['attachment_id'] ?? '')),
-            'image_url' => $imageUrl,
-            'expected_filename' => $filename,
-            'matched_file_id' => $file->id(),
-            'matched_filename' => $file->filename(),
-            'title' => $content['title'] ?? '',
-            'caption' => $content['caption'] ?? '',
-            'credit' => $content['credit'] ?? '',
-            'needs_update' => $needsUpdate ? 'yes' : 'no',
-        ];
+        $csvValuesByFileId[$file->id()] = [...($csvValuesByFileId[$file->id()] ?? []), ...$csvValues];
+    }
+}
 
-        if ($needsUpdate === false) {
-            $stats['unchanged_files']++;
+foreach ($allFiles as $id => $file) {
+    $updated = false;
+    // in WordPress, shop images carry the whole product text incl. prices
+    $usesCsv = str_starts_with($file->page()->id(), 'shop/') === false;
+
+    foreach (languagesWithOwnContent($file, $kirby) as $code) {
+        $csvValues = $usesCsv && $code === $languageCode ? ($csvValuesByFileId[$id] ?? []) : [];
+        $content = fileContentForUpdate($file, $code, $csvValues);
+
+        if (needsUpdate($file, $content, $code) === false) {
             continue;
         }
 
+        $matchedRows[] = [
+            'file_id' => $id,
+            'language' => $code,
+            'from_csv' => $csvValues !== [] ? 'yes' : 'no',
+            'old_title' => (string)$file->content($code)->get('title')->value(),
+            'old_caption' => (string)$file->content($code)->get('caption')->value(),
+            'old_credit' => (string)$file->content($code)->get('credit')->value(),
+            'new_credit' => $content['credit'],
+        ];
+
         if ($dryRun === false) {
-            $file->update($content, $languageCode);
+            $file = $file->update($content, $code);
         }
 
-        $stats['updated_files']++;
+        $updated = true;
     }
+
+    $stats[$updated ? 'updated_files' : 'unchanged_files']++;
 }
 
 if (is_dir($debugDir) === false) {
@@ -357,11 +468,11 @@ if (is_dir($debugDir) === false) {
 
 $missingPath = $debugDir . '/missing-image-metadata-matches.csv';
 $ambiguousPath = $debugDir . '/ambiguous-image-metadata-matches.csv';
-$matchedPath = $debugDir . '/matched-image-metadata-matches.csv';
+$matchedPath = $debugDir . '/changed-files.csv';
 
-writeCsv($missingPath, $missingRows, ['attachment_id', 'image_url', 'expected_filename', 'title', 'caption', 'credit']);
-writeCsv($ambiguousPath, $ambiguousRows, ['attachment_id', 'image_url', 'expected_filename', 'match_count', 'matched_file_ids', 'title', 'caption', 'credit']);
-writeCsv($matchedPath, $matchedRows, ['attachment_id', 'image_url', 'expected_filename', 'matched_file_id', 'matched_filename', 'title', 'caption', 'credit', 'needs_update']);
+writeCsv($missingPath, $missingRows, ['attachment_id', 'image_url', 'expected_filename', 'credit']);
+writeCsv($ambiguousPath, $ambiguousRows, ['attachment_id', 'image_url', 'expected_filename', 'match_count', 'matched_file_ids', 'credit']);
+writeCsv($matchedPath, $matchedRows, ['file_id', 'language', 'from_csv', 'old_title', 'old_caption', 'old_credit', 'new_credit']);
 
 echo ($dryRun ? "Dry run" : "Update") . " completed.\n";
 echo "CSV: {$csvPath}\n";
@@ -370,4 +481,4 @@ foreach ($stats as $label => $count) {
 }
 echo "debug_missing: {$missingPath}\n";
 echo "debug_ambiguous: {$ambiguousPath}\n";
-echo "debug_matched: {$matchedPath}\n";
+echo "debug_changed: {$matchedPath}\n";

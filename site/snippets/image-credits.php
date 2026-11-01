@@ -1,13 +1,12 @@
 <?php
 /**
- * Collapsible credits bubble below a gallery image: title, caption and
- * credit, one line each. Line breaks set in the Panel are kept, a blank
- * line starts a new paragraph.
+ * Collapsible credits bubble below a gallery image. Line breaks set in the
+ * Panel are kept, a blank line starts a new paragraph.
  *
  * @var Kirby\Cms\File $file
  */
 $paragraphs = [[]];
-foreach ([$file->title(), $file->caption(), $file->credit()] as $field) {
+foreach ([$file->credit()] as $field) {
     $value = trim((string)$field->value());
     if ($value === '') {
         continue;

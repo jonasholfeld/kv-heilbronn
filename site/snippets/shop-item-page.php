@@ -46,14 +46,8 @@ $orderLabel = kvFormConfig($form)?->formularOeffnen()->or(t('ui.order'))->value(
                             'priority' => $img->isFirst($galerie),
                         ]) ?>
                         <div class="shop-item-page__image-caption-wrapper">
-                            <?php if($img->title()->isNotEmpty()): ?>
-                                <div class="shop-item-page__image-title"><?= $img->title()->html() ?></div>
-                            <?php endif ?>
-                            <?php if($img->caption()->isNotEmpty()): ?>
-                                <div class="shop-item-page__image-caption"><?= $img->caption()->html() ?></div>
-                            <?php endif ?>
                             <?php if($img->credit()->isNotEmpty()): ?>
-                                <div class="shop-item-page__image-credit"><?= $img->credit()->html() ?></div>
+                                <div class="shop-item-page__image-credit"><?= nl2br($img->credit()->html()) ?></div>
                             <?php endif ?>
                         </div>
                     <?php endif ?>

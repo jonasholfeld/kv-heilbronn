@@ -437,14 +437,16 @@ function ensureFiles(Page $page, array $imageUrls, string $downloadsDir, array $
         if ($extension !== '') {
             $filename .= '.' . $extension;
         }
-        $content = array_filter(
-            [
-                'title' => trim((string)($fileMetadataByUrl[$imageUrl]['title'] ?? '')),
-                'caption' => trim((string)($fileMetadataByUrl[$imageUrl]['caption'] ?? '')),
-                'credit' => trim((string)($fileMetadataByUrl[$imageUrl]['credit'] ?? '')),
-            ],
+        // images only have one credit field; update-image-metadata-from-csv.php
+        // fills in the rest and removes junk values
+        $credit = implode("\n", array_unique(array_filter(
+            array_map(
+                static fn ($value) => trim((string)$value),
+                $fileMetadataByUrl[$imageUrl] ?? []
+            ),
             static fn ($item) => $item !== ''
-        );
+        )));
+        $content = $credit !== '' ? ['credit' => $credit] : [];
 
         if ($page->file($filename) === null) {
             $page->createFile([
