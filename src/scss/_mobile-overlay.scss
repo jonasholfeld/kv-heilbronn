@@ -1,13 +1,12 @@
 // ── Mobile: homepage overlay (site/snippets/home-overlay.php) ────────────────
 // Uses the variables of _mobile.scss. Date on top (weekday, date and opening
 // hours on a line each), the bullets in the middle, a link to the visit page
-// at the bottom. The left text edge is the margin on all four sides, the
-// bullets hang in front of it.
+// at the bottom. A narrow margin on all four sides; the bullets sit on the
+// left edge, their text is indented.
 // The close icon sits top right; a tap anywhere else closes it too (main.js).
 
 $mOverlayFontSize: 6.4rem;
 $mOverlayBulletIndent: 8.4rem;
-$mOverlayIndent: calc(2.4rem + #{$mOverlayBulletIndent});
 $mOverlayVisitBulletSize: 3.4rem;
 $mOverlayVisitIndent: 6.8rem;
 
@@ -17,13 +16,13 @@ $mOverlayVisitIndent: 6.8rem;
         left: $mPadding;
         width: calc(100% - 2 * #{$mPadding});
         height: calc(100% - 2 * #{$mPadding});
-        padding: $mOverlayIndent;
+        padding: $mBoxPadding;
         border-radius: 6.4rem;
         cursor: pointer;
 
         .close-button-js {
-            top: $mOverlayIndent;
-            right: $mOverlayIndent;
+            top: $mBoxPadding;
+            right: $mBoxPadding;
             width: 6.4rem;
             height: 6.4rem;
             opacity: 1;
@@ -57,8 +56,7 @@ $mOverlayVisitIndent: 6.8rem;
                 font-size: $mOverlayFontSize;
                 line-height: 1.08;
                 letter-spacing: 0;
-                margin: 0;
-                margin-left: -$mOverlayBulletIndent !important;
+                margin: 0 !important;
                 padding-left: $mOverlayBulletIndent !important;
 
                 &::before {
@@ -82,7 +80,6 @@ $mOverlayVisitIndent: 6.8rem;
 
             li > p {
                 margin: 0;
-                margin-left: -$mOverlayVisitIndent;
                 padding-left: $mOverlayVisitIndent !important;
                 font-size: $mBubbleFontSize;
                 line-height: 1.3;

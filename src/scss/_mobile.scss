@@ -89,7 +89,7 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
     // Safari (iOS 26) keeps drawing the page below the viewport, behind its
     // translucent toolbar, and cuts fixed elements (menu, overlay) off where
     // that area starts. So the page itself is hidden behind the open menu
-    // (once it has opened) and blurred behind the homepage overlay.
+    // (once it has opened).
     // Fades out while the menu opens (as long as its transform), then
     // `visibility` takes it out. As specific as the --colorPage transition
     // in _page-transitions.scss, which it keeps.
@@ -105,27 +105,6 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
             transition:
                 opacity 0.45s $mEase,
                 visibility 0s linear 0.45s;
-        }
-    }
-
-    // The blur fades out with the overlay (the footer keeps its transitions)
-    body.home-body-class {
-        #swup > header,
-        #swup > main {
-            transition: filter 0.5s ease;
-        }
-
-        #swup > footer {
-            transition:
-                margin-left 0.5s ease,
-                background-color 0.5s ease,
-                filter 0.5s ease;
-        }
-    }
-
-    body:has(.home-overlay:not(.is-dismissed):not([style*='none'])) {
-        #swup > :not(.home-overlay) {
-            filter: blur(22px);
         }
     }
 
