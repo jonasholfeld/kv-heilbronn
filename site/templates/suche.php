@@ -24,9 +24,11 @@ $colors = [
         <form class="suche-form" action="<?= $page->url() ?>" method="get" role="search">
             <div class="suche-form__field">
                 <?php // The hint stands in for the placeholder, which can't wrap (mobile) ?>
-                <input class="suche-form__input" type="search" name="q" value="<?= esc($query, 'attr') ?>" placeholder=" " aria-label="<?= esc(t('ui.search_placeholder'), 'attr') ?>" autocomplete="off">
+                <input class="suche-form__input" type="search" name="q" value="<?= esc($query, 'attr') ?>" placeholder=" " aria-label="<?= esc(t('ui.search_placeholder'), 'attr') ?>" autocomplete="off" enterkeyhint="search">
                 <span class="suche-form__hint" aria-hidden="true"><?= esc(t('ui.search_placeholder')) ?></span>
             </div>
+            <?php // Without a submit button, mobile Safari doesn't submit from the keyboard ?>
+            <button class="suche-form__submit" type="submit"><?= t('ui.search') ?></button>
         </form>
 
         <div class="suche-results" id="suche-results">

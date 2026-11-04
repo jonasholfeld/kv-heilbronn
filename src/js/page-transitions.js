@@ -267,6 +267,15 @@ export function setupPageTransitions({ onBeforeSwap, onAfterSwap }) {
         swup.navigate(url.href, { animation: 'search' })
     })
 
+    // Some mobile keyboards' enter key doesn't submit by itself
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' || event.isComposing) return
+        const form = event.target.closest?.('.suche-form')
+        if (!form) return
+        event.preventDefault()
+        form.requestSubmit()
+    })
+
     swup.hooks.on('visit:start', (visit) => {
         // Left over if the previous visit was aborted
         document.documentElement.classList.remove(

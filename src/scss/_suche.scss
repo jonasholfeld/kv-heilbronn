@@ -98,6 +98,11 @@ body.suche {
             }
         }
 
+        // Only there for the keyboard's search key (suche.php)
+        .suche-form__submit {
+            @include formVisuallyHidden;
+        }
+
         .suche-results {
             flex: 1;
             min-height: 0;
