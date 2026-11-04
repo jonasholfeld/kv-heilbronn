@@ -75,10 +75,13 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
       $entryCount = $entries->count();
     ?>
       <div class="site-menu__group<?php e($isCurrentGroup($group, $entries), ' site-menu__group--current') ?>"<?= attr(['data-color' => $groupColor($group, $entries)], ' ') ?>>
-        <?php if ($entryCount === 1):
+        <?php if ($entryCount <= 1):
+          // Without entries the group title leads to its link
           $entry = $entries->first();
-          $isUrl = $entry->linktype()->value() === 'true';
-          if ($isUrl) {
+          $isUrl = $entry?->linktype()->value() === 'true';
+          if (!$entry) {
+            $href = $group->linktitle()->isNotEmpty() ? $linkUrl($group->linktitle()->value()) : '#';
+          } elseif ($isUrl) {
             $href = $linkUrl($entry->url()->value());
           } else {
             $linkedPage = $entry->page()->toPages()->first();
@@ -116,6 +119,10 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
         <?php endif ?>
       </div>
     <?php endforeach ?>
+
+    <?php if ($searchPage = page('suche')): ?>
+      <a class="site-menu__search<?php e($page->is($searchPage), ' site-menu__search--current') ?>" href="<?= $searchPage->url() ?>"><?= t('ui.search') ?></a>
+    <?php endif ?>
 
     <div class="site-menu__languages">
       <div class="languages-wrapper">

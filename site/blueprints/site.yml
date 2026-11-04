@@ -16,6 +16,7 @@ tabs:
                     - kunstverein
                     - impressum
                     - besuch
+                    - suche
 
     homepageElements:
         label: Homepage Elements

@@ -14,6 +14,7 @@ const CARD_LABELS = [
     '.reise-card__mehr',
     '.reise-card__anmeldung',
     '.shop-item-card__link',
+    '.search-card__link',
 ].join(', ')
 
 // Links in form consents, animated in any case

@@ -1,0 +1,192 @@
+// ── Search page ───────────────────────────────────────────────────────────────
+// Grey like a page without colour; the results come in the colours of their
+// sections. The search field stays at the top while the results scroll
+// beneath it. Menu and page background: body.suche in _termine.scss.
+
+body.suche {
+    main.suche-template {
+        width: calc(100vw - 2 * $generalPadding);
+        min-height: calc(100vh - 2 * $generalPadding);
+        display: flex;
+        gap: $generalPadding;
+
+        .suche-sidebar {
+            flex: 0;
+
+            .suche-page-info {
+                padding-top: 0rem !important;
+            }
+
+            .suche-pill {
+                @include bubble;
+                border-radius: 2rem;
+                background: $lightgrey;
+                transition: border-radius 0.3s ease;
+                text-decoration: none;
+                &:hover {
+                    border-radius: 0;
+                }
+            }
+
+            .suche-pill--dark {
+                background: black;
+                color: white;
+            }
+
+            .menu-button-js {
+                transition: border-radius 0.3s ease;
+                &:hover {
+                    border-radius: 0 !important;
+                }
+            }
+
+            .suche-home-link {
+                margin-top: auto;
+            }
+        }
+
+        .suche-content {
+            flex: 1;
+            min-width: 0;
+            height: calc(100vh - 2 * $generalPadding);
+            display: flex;
+            flex-direction: column;
+            gap: $generalPadding;
+        }
+
+        .suche-form {
+            background: white;
+            padding: 2rem 2.5rem;
+        }
+
+        // Field and hint on top of each other, as high as the higher one
+        .suche-form__field {
+            display: grid;
+            border-bottom: 1px solid currentColor;
+
+            > * {
+                grid-area: 1 / 1;
+            }
+        }
+
+        // In place of the placeholder; gone while the cursor is in the field
+        // or something is typed in
+        .suche-form__hint {
+            pointer-events: none;
+        }
+
+        .suche-form__input:focus + .suche-form__hint,
+        .suche-form__input:not(:placeholder-shown) + .suche-form__hint {
+            visibility: hidden;
+        }
+
+        .suche-form__input {
+            width: 100%;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            outline: none;
+            background: transparent;
+            @include sansserif;
+            -webkit-appearance: none;
+            appearance: none;
+
+            align-self: start;
+
+            &::-webkit-search-cancel-button {
+                display: none;
+            }
+        }
+
+        .suche-results {
+            flex: 1;
+            min-height: 0;
+            background: white;
+            padding: 0.5rem;
+
+            .scroll-container {
+                height: 100%;
+                overflow-y: scroll;
+            }
+        }
+
+        .suche-empty {
+            margin: 0.5rem;
+            animation: search-card-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .search-card {
+            display: block;
+            margin-bottom: 0.55rem;
+            padding: 0.5rem;
+            background-color: var(--color, $lightgrey);
+            color: inherit;
+            text-decoration: none;
+            transition: border-radius 0.3s ease;
+            // Fade in and rise a little, one after the other (only the first
+            // ones are staggered, so long lists don't keep you waiting)
+            animation: search-card-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+            animation-delay: calc(min(var(--index, 0), 8) * 0.05s);
+
+            &:hover {
+                border-radius: 1.3rem;
+            }
+
+            &.white-font {
+                color: white;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            &__category {
+                text-transform: uppercase;
+                margin-bottom: 1rem !important;
+            }
+
+            &__details {
+                display: grid;
+                grid-template-columns: 1fr 2fr auto;
+                gap: $generalPadding;
+                align-items: end;
+            }
+
+            &__names,
+            &__dates {
+                align-self: start;
+            }
+
+            &__link {
+                white-space: nowrap;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+// A new search (page-transitions.js): the old results fade out within their
+// white box, then the new ones come in as above
+html.to-search {
+    &.is-leaving #suche-results .scroll-container {
+        transition: opacity 0.2s ease-in;
+    }
+
+    &.is-animating.is-leaving #suche-results .scroll-container {
+        opacity: 0;
+    }
+}
+
+@keyframes search-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(0.75rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.suche main.suche-template .search-card,
+    body.suche main.suche-template .suche-empty {
+        animation: none;
+    }
+}

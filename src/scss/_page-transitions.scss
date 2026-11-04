@@ -34,7 +34,8 @@ html:not(.swup-native) body {
     transition: --colorPage 0.5s ease;
 }
 
-html:not(.swup-native):not(.is-handoff-visit) {
+// A search only swaps its results (_suche.scss)
+html:not(.swup-native):not(.is-handoff-visit):not(.to-search) {
     &.is-changing.is-leaving .transition-page {
         transition: opacity 0.25s ease-in;
     }

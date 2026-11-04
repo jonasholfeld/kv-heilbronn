@@ -93,5 +93,12 @@ return [
     'ui.form_no' => 'no',
     'ui.form_attachment' => 'attached',
     'ui.order_honeypot' => 'Please leave this field empty',
+    'ui.search' => 'Search',
+    'ui.search_placeholder' => 'SEARCH: Exhibition, trip, artist, event, person …',
+    'ui.search_no_results' => 'No results for “{query}”.',
+    'ui.exhibition' => 'Exhibition',
+    'ui.event' => 'Event',
+    'ui.edition' => 'Edition',
+    'ui.catalogue' => 'Catalogue',
   ]
 ];

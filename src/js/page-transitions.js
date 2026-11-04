@@ -25,6 +25,9 @@ const isMenuOpen = () =>
     document.getElementById('site-menu')?.classList.contains('is-open') ??
     false
 
+// Swapped on its own when searching on the search page
+const SEARCH_RESULTS = '#suche-results'
+
 // Everything in the incoming content except the small sidebar
 const HANDOFF_FADE_SELECTOR =
     '.transition-page :has(> .sidebar-small) > :not(.sidebar-small)'
@@ -249,6 +252,21 @@ export function setupPageTransitions({ onBeforeSwap, onAfterSwap }) {
         swup.navigate(visit.to.url + args.hash)
     })
 
+    // The search form loads its results through swup as well (see
+    // 'visit:start' below)
+    document.addEventListener('submit', (event) => {
+        const form = event.target.closest('.suche-form')
+        if (!form) return
+        event.preventDefault()
+        const url = new URL(form.action)
+        url.search = new URLSearchParams(new FormData(form)).toString()
+        // On touch screens the keyboard would cover the results
+        if (window.matchMedia('(pointer: coarse)').matches) {
+            document.activeElement?.blur()
+        }
+        swup.navigate(url.href, { animation: 'search' })
+    })
+
     swup.hooks.on('visit:start', (visit) => {
         // Left over if the previous visit was aborted
         document.documentElement.classList.remove(
@@ -257,6 +275,24 @@ export function setupPageTransitions({ onBeforeSwap, onAfterSwap }) {
         )
         frozenCopies.forEach((copy) => copy.remove())
         frozenCopies = []
+        // A search swaps only the results, the field stays: the old results
+        // fade out, the new ones rise in by themselves (_suche.scss). Also
+        // when going back and forth between searches.
+        const isSearchPage =
+            new URL(visit.to.url, window.location.origin).pathname ===
+            window.location.pathname
+        if (
+            document.querySelector(SEARCH_RESULTS) &&
+            (visit.animation.name === 'search' ||
+                (visit.history.popstate && isSearchPage))
+        ) {
+            visit.animation.name = 'search'
+            visit.containers = [SEARCH_RESULTS]
+            visit.animation.native = false
+            // Only the results fade, the white box stays
+            visit.animation.selector = `${SEARCH_RESULTS} .scroll-container`
+            return
+        }
         // Browsers abort View Transitions in hidden tabs (and log an error)
         if (document.visibilityState !== 'visible') {
             visit.animation.native = false
@@ -294,6 +330,12 @@ export function setupPageTransitions({ onBeforeSwap, onAfterSwap }) {
         if (!native) menu?.classList.add('is-page-hidden')
     })
 
+    // The new search results animate on their own, nothing to wait for
+    swup.hooks.replace('animation:in:await', (visit, args, defaultHandler) => {
+        if (visit.animation.name === 'search') return
+        return defaultHandler(visit, args)
+    })
+
     // Hand-off visits wait for the content fading in next to the sidebar
     swup.hooks.on('content:replace', (visit) => {
         if (visit.meta.menuHandoff) {
@@ -325,6 +367,13 @@ export function setupPageTransitions({ onBeforeSwap, onAfterSwap }) {
     // Runs after the new content is in place and scrolled to top
     swup.hooks.on('page:view', (visit) => {
         onAfterSwap()
+
+        // The field stays, so it shows the query of a search gone back to
+        if (visit.animation.name === 'search') {
+            const input = document.querySelector('.suche-form input[name="q"]')
+            const query = new URL(window.location.href).searchParams.get('q')
+            if (input) input.value = query ?? ''
+        }
 
         const copies = frozenCopies
         frozenCopies = []

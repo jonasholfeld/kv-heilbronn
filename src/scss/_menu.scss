@@ -127,6 +127,29 @@
         font-size: 1rem;
     }
 
+    // Link to the search page, set apart from the groups and always round
+    &__search {
+        display: block;
+        margin: auto $generalPadding 0;
+        padding: $innerBoxPadding;
+        border: 2px solid $lightgrey;
+        border-radius: 2rem;
+        background-color: white;
+        @include sansserif;
+        font-size: 1rem;
+        text-transform: uppercase;
+        text-align: center;
+        transition: border-radius 0.3s ease;
+
+        &:hover {
+            border-radius: 0;
+        }
+
+        + .site-menu__languages {
+            margin-top: 2rem;
+        }
+    }
+
     &__languages {
         margin-top: auto;
         padding: $generalPadding $generalPadding 0;
@@ -197,6 +220,15 @@ body.ausstellung {
     }
 }
 
+// The search link's outline only shows on a white menu, not on the coloured
+// ones (homepage: colour of the section in view, set in main.js; exhibition)
+body.home-body-class,
+body.ausstellung:not(.text-mode) {
+    .site-menu__search {
+        border-color: transparent;
+    }
+}
+
 // The menu in the page colour (grey without one, e.g. Ausstellungen)
 body.ausstellungen,
 body.reisen,
@@ -204,6 +236,7 @@ body.termine,
 body.besuch,
 body.kunstverein,
 body.impressum,
+body.suche,
 body.reise {
     .site-menu {
         .site-menu__lang-btn {

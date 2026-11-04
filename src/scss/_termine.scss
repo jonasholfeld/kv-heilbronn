@@ -1,4 +1,6 @@
-body.termine {
+// The search page shares the menu of the Termine page (_suche.scss)
+body.termine,
+body.suche {
     background-color: var(--colorPage);
     @include sansserif;
 

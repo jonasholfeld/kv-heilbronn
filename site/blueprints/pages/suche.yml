@@ -1,0 +1,12 @@
+title: Suche
+icon: search
+
+options:
+    changeTemplate: false
+    changeSlug: false
+    delete: false
+
+sections:
+    info:
+        type: info
+        text: Die Suche findet Ausstellungen, Reisen, kommende Termine, Editionen, Kataloge sowie die Seiten Kunstverein und Besuch. Das Menü verlinkt hierher.

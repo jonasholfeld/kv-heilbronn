@@ -93,5 +93,12 @@ return [
     'ui.form_no' => 'nein',
     'ui.form_attachment' => 'im Anhang',
     'ui.order_honeypot' => 'Bitte dieses Feld leer lassen',
+    'ui.search' => 'Suche',
+    'ui.search_placeholder' => 'SUCHE: Ausstellung, Reise, Künstler*in, Termin, Person …',
+    'ui.search_no_results' => 'Keine Ergebnisse für „{query}“.',
+    'ui.exhibition' => 'Ausstellung',
+    'ui.event' => 'Termin',
+    'ui.edition' => 'Edition',
+    'ui.catalogue' => 'Katalog',
   ]
 ];

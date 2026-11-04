@@ -992,7 +992,7 @@ function initPage(signal) {
         menuButtons.forEach((button) => {
             button.addEventListener('click', () => {
                 void handleMenuButtonClick(button)
-            })
+            }, { signal })
         })
 
         document.addEventListener('click', (event) => {

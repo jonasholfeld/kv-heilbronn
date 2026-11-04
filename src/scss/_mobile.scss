@@ -209,7 +209,9 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
                 border-radius 0.3s ease,
                 background-color 0.5s ease;
             margin: $mGap $mGap 0;
-            padding: 4.6rem $mBoxPadding 3.8rem;
+            // As high as possible while the search link still fits below
+            // the groups on small phones
+            padding: 3.4rem $mBoxPadding 2.7rem;
             background-color: var(--mMenuGroup) !important;
             border-radius: 0;
             &,
@@ -244,6 +246,32 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
 
         .site-menu__entries {
             display: none;
+        }
+
+        // Set apart from the groups, also when space is short
+        .site-menu__group:has(+ .site-menu__search) {
+            margin-bottom: 4rem;
+        }
+
+        // Always round; outlined on a white menu only (as on desktop,
+        // _menu.scss)
+        .site-menu__search {
+            margin: auto $mGap 0;
+            padding: 3.4rem $mBoxPadding 2.7rem;
+            border: 0.5rem solid transparent;
+            border-radius: 9rem;
+            background-color: var(--mMenuGroup);
+            color: black !important;
+            font-size: $mBubbleFontSize;
+            line-height: 1.3;
+
+            &:hover {
+                border-radius: 0;
+            }
+
+            + .site-menu__languages {
+                margin-top: 0;
+            }
         }
 
         .site-menu__languages {
@@ -310,6 +338,11 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
         --mMenuLogoBox: white;
         --mMenuLogoLetters: var(--colorPage);
         --mMenuFrame: var(--colorPage);
+
+        .site-menu__search {
+            border-color: $lightgrey;
+            background-color: white;
+        }
     }
 
     body.home-body-class {
