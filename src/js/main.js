@@ -351,14 +351,8 @@ function setupCategoryButtonHover(signal) {
 
 // Mobile layout with a mouse (e.g. narrow desktop windows): the hovered menu
 // group is the round one, and the menu takes on the colour of the page it
-// leads to (data-color, set in navi.php). Touch screens keep the menu as it is.
-const MENU_HOVER_PROPERTIES = {
-    '--mMenuBg': (color) => color,
-    '--mMenuLogoBox': (color) => color,
-    '--mMenuGroup': () => 'white',
-    '--mMenuLogoLetters': () => 'white',
-}
-
+// leads to (data-color, set in navi.php), in the colour scheme of the page
+// shown (_mobile.scss, --mMenuHover). Touch screens keep the menu as it is.
 function setupMobileMenuHoverColor(signal) {
     const siteMenu = document.getElementById('site-menu')
     if (!siteMenu) return
@@ -376,11 +370,10 @@ function setupMobileMenuHoverColor(signal) {
     }
 
     const setColor = (color) => {
-        Object.entries(MENU_HOVER_PROPERTIES).forEach(([property, value]) =>
-            color
-                ? siteMenu.style.setProperty(property, value(color))
-                : siteMenu.style.removeProperty(property)
-        )
+        siteMenu.classList.toggle('has-hover-color', !!color)
+        color
+            ? siteMenu.style.setProperty('--mMenuHover', color)
+            : siteMenu.style.removeProperty('--mMenuHover')
     }
 
     const clear = () => {
@@ -709,7 +702,7 @@ function initPage(signal) {
             }
             headerSvgSt0.style.fill = color
             if (siteMenu) {
-                siteMenu.style.backgroundColor = color
+                siteMenu.style.setProperty('--homeMenuColor', color)
                 // Logo inside the mobile menu
                 siteMenu.style.setProperty('--menuColor', color)
             }

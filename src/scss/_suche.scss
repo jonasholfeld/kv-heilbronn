@@ -150,10 +150,12 @@ body.suche {
                 margin-bottom: 1rem !important;
             }
 
-            // The dates start in the middle of the card
+            // The dates in a column centred in the card (as wide as the
+            // longest opening line, so they all start at the same place), the
+            // names in a narrower column on the left, the link on the right
             &__details {
                 display: grid;
-                grid-template-columns: calc(50% - #{$generalPadding}) 1fr auto;
+                grid-template-columns: minmax(0, 1fr) 20rem minmax(0, 1fr);
                 gap: $generalPadding;
                 align-items: end;
             }
@@ -161,6 +163,14 @@ body.suche {
             &__names,
             &__dates {
                 align-self: start;
+            }
+
+            &__names {
+                max-width: 24rem;
+            }
+
+            &__link {
+                justify-self: end;
             }
 
             &__link {

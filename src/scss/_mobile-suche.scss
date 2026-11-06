@@ -116,6 +116,10 @@
                 gap: 0;
             }
 
+            &__names {
+                max-width: none;
+            }
+
             &__dates:has(p) {
                 margin-top: $mGap;
             }

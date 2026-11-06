@@ -1,4 +1,21 @@
 body.home-body-class {
+    // In the colour of the section in view (main.js, _page-transitions.scss)
+    .site-menu {
+        background-color: var(--homeMenuColor);
+        transition:
+            opacity 0.2s ease,
+            --homeMenuColor 0.5s ease,
+            transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        &.is-closing-fast {
+            transition:
+                opacity 0s linear,
+                --homeMenuColor 0.5s ease,
+                transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        &.is-instant-hidden {
+            transition: none;
+        }
+    }
     // Menü / Schliessen on a line with the tags below the first box (their
     // text starts $generalPadding below the tag's top)
     .site-menu .site-menu__toggle-container {

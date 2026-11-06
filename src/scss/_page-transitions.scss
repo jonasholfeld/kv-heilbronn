@@ -19,6 +19,16 @@
     initial-value: transparent;
 }
 
+// Background of the open menu on the homepage, in the colour of the section
+// in view (main.js). A tweened variable like --svgColor, so menu and logo
+// change colour in step: Chrome draws a background-color transition that is
+// interrupted by the next one with a stale colour.
+@property --homeMenuColor {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: white;
+}
+
 // ── Native: cross-fade ───────────────────────────────────────────────────────
 
 ::view-transition-old(root),

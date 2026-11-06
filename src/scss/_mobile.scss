@@ -148,6 +148,7 @@ $mMenuMinGap: 4.5rem;
         transition:
             opacity 0.2s ease,
             background-color 0.5s ease,
+            box-shadow 0.5s ease,
             transform 0.45s $mEase,
             visibility 0s linear 0.45s;
 
@@ -162,6 +163,7 @@ $mMenuMinGap: 4.5rem;
             transition:
                 opacity 0.2s ease,
                 background-color 0.5s ease,
+                box-shadow 0.5s ease,
                 transform 0.45s $mEase,
                 visibility 0s;
         }
@@ -357,6 +359,20 @@ $mMenuMinGap: 4.5rem;
         --mMenuLogoBox: white;
         --mMenuLogoLetters: var(--colorPage);
         --mMenuFrame: var(--colorPage);
+    }
+
+    // Hovering a group with a mouse (main.js): its page's colour takes the
+    // place of the current one, in the same scheme
+    #site-menu.has-hover-color {
+        --mMenuBg: var(--mMenuHover);
+    }
+
+    body:not(.home-body-class):not(.ausstellung:not(.text-mode))
+        #site-menu.has-hover-color {
+        --mMenuBg: white;
+        --mMenuGroup: var(--mMenuHover);
+        --mMenuLogoLetters: var(--mMenuHover);
+        --mMenuFrame: var(--mMenuHover);
     }
 
     body.home-body-class {

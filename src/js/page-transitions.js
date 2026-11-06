@@ -163,7 +163,7 @@ function syncPersistentChrome(incoming, handOff) {
         menu.classList.remove('is-open', 'is-closing-fast', 'is-instant-hidden')
         menu.setAttribute('aria-hidden', 'true')
         // Set by the homepage's scroll colour logic
-        menu.style.backgroundColor = ''
+        menu.style.removeProperty('--homeMenuColor')
         menu.style.removeProperty('--menuColor')
 
         // The round group is the one of the page shown (rendered server
