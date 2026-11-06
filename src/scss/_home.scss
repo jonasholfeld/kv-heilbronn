@@ -177,14 +177,18 @@ $homeGalleryGap: 1rem;
                 margin-left: calc($sideWidth + $generalPadding);
                 .exhibition-gallery__item {
                     img {
-                        width: calc((#{$homeWidthBeside} - #{$homeGalleryGap}) / 2);
+                        width: calc(
+                            (#{$homeWidthBeside} - #{$homeGalleryGap}) / 2
+                        );
                     }
                 }
             }
             &.exhibition-gallery--count-3 {
                 .exhibition-gallery__item {
                     img {
-                        width: calc((#{$homeWidth} - 2 * #{$homeGalleryGap}) / 3);
+                        width: calc(
+                            (#{$homeWidth} - 2 * #{$homeGalleryGap}) / 3
+                        );
                     }
                 }
             }
@@ -309,7 +313,7 @@ $homeGalleryGap: 1rem;
             padding: $innerBoxPadding;
             display: flex;
             flex-direction: column;
-            margin-right: 1rem;
+            margin-right: $generalPadding;
             color: inherit;
             text-decoration: none;
             @include sansserif;
