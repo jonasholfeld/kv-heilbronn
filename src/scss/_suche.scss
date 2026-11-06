@@ -150,9 +150,10 @@ body.suche {
                 margin-bottom: 1rem !important;
             }
 
+            // The dates start in the middle of the card
             &__details {
                 display: grid;
-                grid-template-columns: 1fr 2fr auto;
+                grid-template-columns: calc(50% - #{$generalPadding}) 1fr auto;
                 gap: $generalPadding;
                 align-items: end;
             }

@@ -74,6 +74,17 @@
         padding-bottom: $generalPadding;
     }
 
+    // The groups stand centred between the toggles and the search link, at
+    // least $menuMinGap apart from both; the menu scrolls when it is too
+    // short for that
+    &__groups {
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+        // The toggles keep a gap of $generalPadding below them
+        padding: calc(#{$menuMinGap} - #{$generalPadding}) 0 $menuMinGap;
+    }
+
     // Override global link underlines
     a,
     a:link,
@@ -82,10 +93,16 @@
     }
 
     &__group {
-        padding: $innerBoxPadding;
+        padding: $menuFieldPadding $innerBoxPadding;
         background-color: white;
-        margin: $generalPadding $generalPadding 0 $generalPadding;
+        margin: $menuGroupGap $generalPadding 0 $generalPadding;
         transition: border-radius 0.3s ease;
+        &:first-child {
+            margin-top: auto;
+        }
+        &:last-child {
+            margin-bottom: auto;
+        }
         &:hover {
             border-radius: 2rem;
         }
@@ -109,36 +126,19 @@
         font-size: 1rem;
     }
 
-    &__entries {
-        list-style: none;
-        padding: 0;
-        margin: 0.4rem 0 0 0;
-
-        li {
-            line-height: 1.4;
-        }
-    }
-
-    &__entry {
-        @include sansserif;
-        display: block;
-        line-height: 1.15;
-        padding-left: 1rem;
-        font-size: 1rem;
-    }
-
-    // Link to the search page, set apart from the groups and always round
+    // Link to the search page, set apart from the groups and always round;
+    // filled like the groups
     &__search {
         display: block;
-        margin: auto $generalPadding 0;
-        padding: $innerBoxPadding;
-        border: 2px solid $lightgrey;
+        margin: 0 $generalPadding;
+        padding: $menuFieldPadding $innerBoxPadding;
         border-radius: 2rem;
         background-color: white;
         @include sansserif;
         font-size: 1rem;
         text-transform: uppercase;
         text-align: center;
+        line-height: 1.15;
         transition: border-radius 0.3s ease;
 
         &:hover {
@@ -197,35 +197,9 @@
     }
 }
 
-body.shop,
-body.edition,
-body.katalog {
-    // Each edition and catalogue has a colour of its own; the menu keeps the
-    // grey of the shop (also on mobile, _mobile.scss)
-    .site-menu {
-        --colorPage: #{$lightgrey};
-        .site-menu__lang-btn {
-            &.active {
-                &::before {
-                    background-color: $lightgrey;
-                }
-            }
-        }
-    }
-}
-
 body.ausstellung {
     .site-menu__group {
         background-color: white !important;
-    }
-}
-
-// The search link's outline only shows on a white menu, not on the coloured
-// ones (homepage: colour of the section in view, set in main.js; exhibition)
-body.home-body-class,
-body.ausstellung:not(.text-mode) {
-    .site-menu__search {
-        border-color: transparent;
     }
 }
 
@@ -247,7 +221,8 @@ body.reise {
             }
         }
     }
-    .site-menu__group {
+    .site-menu__group,
+    .site-menu__search {
         background-color: var(--colorPage) !important;
     }
 }
@@ -323,18 +298,19 @@ body.reise {
         .site-menu__inner {
             background-color: transparent !important;
         }
-        .site-menu__group {
+        .site-menu__group,
+        .site-menu__search {
             background-color: var(--colorPage) !important;
-        }
-        .site-menu__lang-btn {
-            // background-color: var(--colorPage) !important;
         }
     }
 }
 
-body.ausstellung.white-font {
+// Exhibitions with white text. In text mode: a white menu with the groups
+// in the page colour, their text white.
+body.ausstellung.white-font.text-mode {
     .site-menu {
-        .site-menu__group {
+        .site-menu__group,
+        .site-menu__search {
             color: white !important;
             a {
                 color: white !important;
@@ -350,6 +326,24 @@ body.ausstellung.white-font {
         }
         .site-menu__toggle-container button {
             color: var(--colorPage) !important;
+        }
+    }
+}
+
+// With the gallery: a menu in the page colour with white groups, their text
+// in the page colour, the rest white
+body.ausstellung.white-font:not(.text-mode) {
+    .site-menu {
+        .site-menu__group,
+        .site-menu__search {
+            color: var(--colorPage) !important;
+            a {
+                color: var(--colorPage) !important;
+            }
+        }
+        .site-menu__languages a,
+        .site-menu__toggle-container button {
+            color: white !important;
         }
     }
 }

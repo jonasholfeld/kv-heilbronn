@@ -70,55 +70,33 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
       return $target->color()->or('#dce0e3')->value();
     };
 
+    ?>
+    <?php // Centred between the toggles and the search link; scrolls on its own when space is short (mobile) ?>
+    <div class="site-menu__groups">
+    <?php
     foreach ($menuGroups as $group):
       $entries = $group->entries()->toBlocks();
-      $entryCount = $entries->count();
     ?>
+      <?php
+      // Only the group titles are shown (the entries below them were
+      // dropped to keep the menu compact); a title leads to the group's
+      // link, else to its first entry
+      $entry = $entries->first();
+      if ($group->linktitle()->isNotEmpty()) {
+        $href = $linkUrl($group->linktitle()->value());
+      } elseif ($entry?->linktype()->value() === 'true') {
+        $href = $linkUrl($entry->url()->value());
+      } else {
+        $href = $entry?->page()->toPages()->first()?->url() ?? '#';
+      }
+      ?>
       <div class="site-menu__group<?php e($isCurrentGroup($group, $entries), ' site-menu__group--current') ?>"<?= attr(['data-color' => $groupColor($group, $entries)], ' ') ?>>
-        <?php if ($entryCount <= 1):
-          // Without entries the group title leads to its link
-          $entry = $entries->first();
-          $isUrl = $entry?->linktype()->value() === 'true';
-          if (!$entry) {
-            $href = $group->linktitle()->isNotEmpty() ? $linkUrl($group->linktitle()->value()) : '#';
-          } elseif ($isUrl) {
-            $href = $linkUrl($entry->url()->value());
-          } else {
-            $linkedPage = $entry->page()->toPages()->first();
-            $href = $linkedPage ? $linkedPage->url() : '#';
-          }
-        ?>
-          <a class="site-menu__group-title site-menu__group-title--single" href="<?= $href ?>">
-            <?= $group->title()->html() ?>
-          </a>
-        <?php else: ?>
-          <?php if( $group->linktitle()->isNotEmpty() ):
-            $groupLink = $linkUrl($group->linktitle()->value());
-          ?>
-            <a class="site-menu__group-title" href="<?= $groupLink ?>">
-              <?= $group->title()->html() ?>
-            </a>
-          <?php else: ?>
-          <span class="site-menu__group-title"><?= $group->title()->html() ?></span>
-          <?php endif ?>
-          <ul class="site-menu__entries">
-            <?php foreach ($entries as $entry):
-              $isUrl = $entry->linktype()->value() === 'true';
-              if ($isUrl) {
-                $href = $linkUrl($entry->url()->value());
-              } else {
-                $linkedPage = $entry->page()->toPages()->first();
-                $href = $linkedPage ? $linkedPage->url() : '#';
-              }
-            ?>
-              <li>
-                <a class="site-menu__entry" href="<?= $href ?>"><?= $entry->label()->html() ?></a>
-              </li>
-            <?php endforeach ?>
-          </ul>
-        <?php endif ?>
+        <a class="site-menu__group-title site-menu__group-title--single" href="<?= $href ?>">
+          <?= $group->title()->html() ?>
+        </a>
       </div>
     <?php endforeach ?>
+    </div>
 
     <?php if ($searchPage = page('suche')): ?>
       <a class="site-menu__search<?php e($page->is($searchPage), ' site-menu__search--current') ?>" href="<?= $searchPage->url() ?>"><?= t('ui.search') ?></a>
@@ -143,6 +121,10 @@ $headerPathStyle = $initialHeaderColor ? 'fill: ' . $initialHeaderColor . ';' : 
     </div>
   </div>
 </nav>
+
+<?php // The white band above the homepage (_home.scss). Outside #swup like the
+// menu, so it is there also when the homepage is reached by a page transition ?>
+<div class="space-top"></div>
 
 <div id="swup" class="transition-page">
 <?php if($includeSiteMenu): ?>

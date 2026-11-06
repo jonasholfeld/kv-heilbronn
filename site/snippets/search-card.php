@@ -59,7 +59,10 @@ switch ($template) {
     default:
         $category = $item->title()->value();
         $color    = $item->color()->or('#dce0e3')->value();
-        $names    = [Str::excerpt(KvSearch::plain($item->content()->get(KvSearch::FIELDS[$template][1] ?? 'title')), 140)];
+        // The preview text set in the Panel, else the start of the page's text
+        $names    = [$item->searchpreview()->isNotEmpty()
+            ? $item->searchpreview()->value()
+            : Str::excerpt(KvSearch::plain($item->content()->get(KvSearch::FIELDS[$template][1] ?? 'title')), 140)];
 }
 
 $names = array_filter($names, fn ($name) => trim((string)$name) !== '');

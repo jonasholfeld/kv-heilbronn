@@ -29,8 +29,12 @@ const REVEAL_LINKS = [
 ].join(', ')
 
 // Only links that are underlined anyway: buttons, bubbles and image links
-// keep their look
+// keep their look. Never whole boxes that are links (their text is wrapped
+// in blocks): the line would run along the bottom of the box.
 function isUnderlined(link) {
+    if (link.matches('.bubble, .section-label')) return false
+    if (link.querySelector('p, div, ul, ol, h1, h2, h3, h4, header, section'))
+        return false
     return getComputedStyle(link).textDecorationLine.includes('underline')
 }
 

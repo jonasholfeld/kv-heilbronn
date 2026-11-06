@@ -398,7 +398,9 @@ function setupMobileMenuHoverColor(signal) {
             if (group) {
                 setColor(group.dataset.color)
                 setRound(group)
-            } else if (!event.target.matches('.site-menu__inner')) {
+            } else if (
+                !event.target.matches('.site-menu__inner, .site-menu__groups')
+            ) {
                 clear()
             }
         },
@@ -444,15 +446,6 @@ function initPage(signal) {
         document.querySelector('main.home') !== null
 
     const categoryLabels = document.querySelectorAll('.category-label')
-    const categoryPageByLabel = {
-        Ausstellungen: '/ausstellungen',
-        Kunstverein: '/kunstverein',
-        Termine: '/termine',
-        Reisen: '/reisen',
-        Shop: '/shop',
-        shop: '/shop',
-    }
-
     const HEADER_MAX_WIDTH = 99 // rem
     const HEADER_MIN_WIDTH = 23.4 // rem
     const SVG_ASPECT_RATIO = 429.05 / 112 // viewBox width / height
@@ -730,10 +723,12 @@ function initPage(signal) {
                 const category =
                     categorySection?.getAttribute('data-category') || ''
                 setBubbleLabel(topInfoRowCategoryButton, category)
+                // The section's category page in the current language
+                // (data-category-url, set in the snippets)
                 if (topInfoRowCategoryButton instanceof HTMLAnchorElement) {
                     topInfoRowCategoryButton.setAttribute(
                         'href',
-                        categoryPageByLabel[category] || '#'
+                        categorySection?.dataset.categoryUrl || '#'
                     )
                 }
             }
@@ -1564,14 +1559,6 @@ function initPage(signal) {
     //     el.style.setProperty('height', contentHeight + tenViewWidth + 'px')
     // })
 
-    // on resize, recalculate heights for all scroll top elements
-    window.addEventListener('resize', () => {
-        scrollTopElements.forEach((el) => {
-            const contentHeight = el.querySelector('.content-wrapper').scrollHeight
-            const tenViewWidth = window.innerWidth * 0.15
-            el.style.setProperty('height', contentHeight + tenViewWidth + 'px')
-        })
-    }, { signal })
 }
 
 // Template-specific scripts, keyed by the template's body class
@@ -1610,5 +1597,26 @@ function stopPage() {
     pageController?.abort()
 }
 
-startPage()
-setupPageTransitions({ onBeforeSwap: stopPage, onAfterSwap: startPage })
+// The set-up reads computed styles (e.g. which links are underlined,
+// link-underline.js). Safari may run this module before the stylesheet has
+// loaded, when every link still has the browser's underline; so the first
+// run waits for the stylesheets.
+function whenStylesLoaded() {
+    const pending = [
+        ...document.querySelectorAll('link[rel="stylesheet"]'),
+    ].filter((link) => !link.sheet)
+    return Promise.all(
+        pending.map(
+            (link) =>
+                new Promise((resolve) => {
+                    link.addEventListener('load', resolve, { once: true })
+                    link.addEventListener('error', resolve, { once: true })
+                })
+        )
+    )
+}
+
+whenStylesLoaded().then(() => {
+    startPage()
+    setupPageTransitions({ onBeforeSwap: stopPage, onAfterSwap: startPage })
+})

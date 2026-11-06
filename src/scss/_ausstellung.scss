@@ -577,3 +577,9 @@ body.ausstellung {
         }
     }
 }
+
+// Without images the text is in the right column; the copy in the box with
+// the title is for mobile only (_mobile-ausstellungen.scss)
+.text-wrapper-white-bg--mobile-text > :not(.first-block-wrapper) {
+    display: none;
+}

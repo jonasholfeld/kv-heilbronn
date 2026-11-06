@@ -26,6 +26,9 @@ $mHeaderHeight: calc(
         #{$mGap}
 );
 $mEase: cubic-bezier(0.22, 1, 0.36, 1);
+// Menu: the gap between logo and Menü / Schliessen, also the least gap
+// between them and the groups and between the groups and the search link
+$mMenuMinGap: 4.5rem;
 
 @mixin mobileBubble {
     font-size: $mBubbleFontSize;
@@ -189,7 +192,7 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
         .site-menu__toggle-container {
             flex: none;
             margin: 0;
-            padding: 4.5rem 2.2rem 6rem;
+            padding: $mMenuMinGap 2.2rem 0;
             background-color: transparent !important;
             button {
                 font-size: $mBubbleFontSize;
@@ -197,11 +200,29 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
             }
         }
 
+        // Menü / Schliessen and the search link stay in place; the groups
+        // between them are centred and scroll when they don't fit
         .site-menu__inner {
-            flex: 1 0 auto;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
             min-height: 0;
             padding-bottom: $mGap;
             background-color: transparent !important;
+        }
+
+        .site-menu__groups {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-width: none;
+            // Outside the scrolling area, so the gaps stay when it scrolls
+            margin: $mMenuMinGap 0;
+            padding: 0;
+            &::-webkit-scrollbar {
+                display: none;
+            }
         }
 
         .site-menu__group {
@@ -219,7 +240,10 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
                 color: black !important;
             }
             &:first-child {
-                margin-top: 0;
+                margin-top: auto;
+            }
+            &:last-child {
+                margin-bottom: auto;
             }
             &:hover {
                 border-radius: 0;
@@ -244,23 +268,14 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
             line-height: 1.3;
         }
 
-        .site-menu__entries {
-            display: none;
-        }
-
-        // Set apart from the groups, also when space is short
-        .site-menu__group:has(+ .site-menu__search) {
-            margin-bottom: 4rem;
-        }
-
-        // Always round; outlined on a white menu only (as on desktop,
+        // Always round, filled like the groups and as high (as on desktop,
         // _menu.scss)
         .site-menu__search {
-            margin: auto $mGap 0;
+            flex: none;
+            margin: 0 $mGap;
             padding: 3.4rem $mBoxPadding 2.7rem;
-            border: 0.5rem solid transparent;
             border-radius: 9rem;
-            background-color: var(--mMenuGroup);
+            background-color: var(--mMenuGroup) !important;
             color: black !important;
             font-size: $mBubbleFontSize;
             line-height: 1.3;
@@ -274,23 +289,25 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
             }
         }
 
+        // Plain text like Menü / Schliessen, the current language underlined
         .site-menu__languages {
-            padding: $mGap $mGap 0;
+            flex: none;
+            margin-top: 0;
+            padding: $mMenuMinGap $mGap 0;
             .languages-wrapper {
                 flex-direction: row;
+                justify-content: space-between;
                 width: 100%;
                 padding-left: 0;
-                gap: $mGap;
                 .site-menu__lang-btn {
-                    flex: 1;
-                    padding: 2.1rem 1rem 1.5rem;
-                    background-color: var(--mMenuGroup);
                     color: black !important;
                     font-size: $mBubbleFontSize;
                     line-height: 1.3;
                     text-transform: uppercase;
                     &.active {
-                        border-radius: 5rem;
+                        text-decoration: underline;
+                        text-underline-offset: 0.2em;
+                        text-decoration-thickness: var(--underline-thickness);
                         &::before {
                             display: none;
                         }
@@ -331,18 +348,15 @@ $mEase: cubic-bezier(0.22, 1, 0.36, 1);
         }
     }
 
-    // Single trip: a white menu in the trip's colour
-    body.reise #site-menu {
+    // Subpages, as on desktop: a white menu with the groups in the page
+    // colour. The homepage and exhibitions with a gallery keep the coloured
+    // menu with white groups.
+    body:not(.home-body-class):not(.ausstellung:not(.text-mode)) #site-menu {
         --mMenuBg: white;
         --mMenuGroup: var(--colorPage);
         --mMenuLogoBox: white;
         --mMenuLogoLetters: var(--colorPage);
         --mMenuFrame: var(--colorPage);
-
-        .site-menu__search {
-            border-color: $lightgrey;
-            background-color: white;
-        }
     }
 
     body.home-body-class {

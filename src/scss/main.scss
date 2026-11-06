@@ -20,6 +20,13 @@ $horizontalMargin: 5rem;
 
 $lightgrey: #dce0e3;
 
+// Desktop menu: the fields' height (with a line of 1.15) and the gaps
+$menuFieldPadding: 0.9rem;
+$menuGroupGap: 0.8rem;
+$menuMinGap: 2rem;
+// Homepage: lowers Menü / Schliessen onto the line of the first tags
+$homeToggleOffset: 0.6rem;
+
 @import 'breakpoints';
 @import 'mixins';
 @import 'typography';

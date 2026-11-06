@@ -37,3 +37,10 @@ tabs:
                     - paragraph
                     - bulletList
                 width: 1/2
+            searchpreview:
+                label: Vorschautext in der Suche
+                type: textarea
+                buttons: false
+                maxlength: 200
+                help: Erscheint im Suchergebnis dieser Seite. Leer gelassen steht dort der Anfang des Kontakts.
+                width: 1/2

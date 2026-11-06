@@ -7,8 +7,9 @@
 
 $mOverlayFontSize: 6.4rem;
 $mOverlayBulletIndent: 8.4rem;
-$mOverlayVisitBulletSize: 3.4rem;
-$mOverlayVisitIndent: 6.8rem;
+// The visit link sits close to its bullet
+$mOverlayVisitBulletSize: 4.4rem;
+$mOverlayVisitIndent: 5.5rem;
 
 @include mobile {
     .home-overlay {

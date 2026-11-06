@@ -550,6 +550,15 @@
                     }
                 }
 
+                // Without images the text stands in the box with the title,
+                // as with images, not in a box of its own
+                .text-wrapper-white-bg--mobile-text > :not(.first-block-wrapper) {
+                    display: block;
+                }
+                .single-ausstellung-page__images-wrapper--text {
+                    display: none;
+                }
+
                 .single-ausstellung-page__images-wrapper {
                     flex: none;
                     height: auto;

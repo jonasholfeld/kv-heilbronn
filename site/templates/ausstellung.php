@@ -145,7 +145,7 @@ $galleryItems = array_values(array_filter(array_map(
     <div class="single-ausstellung-page__text-container">
         <div class="inner-text-wrapper">
             <div class="scroll-container">
-                <div class="text-wrapper-white-bg">
+                <div class="text-wrapper-white-bg<?php e($page->galerie()->toFiles()->count() === 0, ' text-wrapper-white-bg--mobile-text') ?>">
                     <div class="first-block-wrapper">
                         <h2>
                             <span><?= $page->kuenstler() ?></span>
@@ -174,6 +174,9 @@ $galleryItems = array_values(array_filter(array_map(
                         </div>
                     </div>
                     <?php if ( $page->galerie()->toFiles()->count() > 0): ?>
+                        <?= $page->beschreibung()->toBlocks() ?>
+                    <?php else: ?>
+                        <?php // Without images the text stands on the right (below); on mobile here instead, in the box with the title as with images (_mobile-ausstellungen.scss) ?>
                         <?= $page->beschreibung()->toBlocks() ?>
                     <?php endif; ?>
                 </div>
@@ -236,7 +239,7 @@ $galleryItems = array_values(array_filter(array_map(
                 
         </div>
     </div>
-    <div class="single-ausstellung-page__images-wrapper">
+    <div class="single-ausstellung-page__images-wrapper<?php e($page->galerie()->toFiles()->count() === 0, ' single-ausstellung-page__images-wrapper--text') ?>">
         <div class="scroll-container">
             <?php if ( $page->galerie()->toFiles()->count() == 0): ?>
                 <div class="single-ausstellung-page__text-container__text">
