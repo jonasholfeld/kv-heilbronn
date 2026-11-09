@@ -150,9 +150,8 @@ body.suche {
                 margin-bottom: 1rem !important;
             }
 
-            // The dates in a column centred in the card (as wide as the
-            // longest opening line, so they all start at the same place), the
-            // names in a narrower column on the left, the link on the right
+            // The dates centred in the card, whatever its width, the names
+            // in a narrower column on the left, the link on the right
             &__details {
                 display: grid;
                 grid-template-columns: minmax(0, 1fr) 20rem minmax(0, 1fr);
@@ -167,6 +166,10 @@ body.suche {
 
             &__names {
                 max-width: 24rem;
+            }
+
+            &__dates {
+                text-align: center;
             }
 
             &__link {

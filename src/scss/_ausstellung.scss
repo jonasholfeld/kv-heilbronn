@@ -534,7 +534,10 @@ body.ausstellung {
                     transform: none;
                     transition: none;
                 }
-                img {
+                // .landscape too: the open menu's wider landscape images are
+                // for the image mode only
+                img,
+                img.landscape {
                     width: 41rem;
                     height: auto;
                 }

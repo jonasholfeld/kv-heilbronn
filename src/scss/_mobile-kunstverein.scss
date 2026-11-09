@@ -78,10 +78,15 @@ $mKunstvereinTopBox: calc(#{$mPadding} + #{$mBubbleHeight} + 2 * #{$mGap} + #{$m
             height: auto;
             overflow: visible;
             gap: $mGap;
+            border-top: 0;
 
             .kunstverein-block {
                 padding: 2.6rem 2.4rem 2.2rem;
                 scroll-margin-top: $mKunstvereinTopBox;
+
+                &:first-child {
+                    padding-top: 2.6rem;
+                }
 
                 p {
                     margin-top: 1.3em;

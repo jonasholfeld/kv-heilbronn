@@ -20,6 +20,11 @@ const CARD_LABELS = [
 // Links in form consents, animated in any case
 const TEXT_LINKS = '.kv-form__consent a[href]'
 
+// Whether it shows a line depends on the layout (only mobile, see
+// _menu.scss), so it can't be told from its look: the layout can change after
+// this has run, when the window is resized
+const LAYOUT_LINKS = '.site-menu__lang-btn.active'
+
 // Without a line until hovered
 const REVEAL_LINKS = [
     'footer a',
@@ -54,7 +59,7 @@ export function setupLinkUnderlines(root = document) {
     })
 
     root.querySelectorAll(
-        `:is(${CARD_LABELS}, ${TEXT_LINKS}):not(.link-animated)`
+        `:is(${CARD_LABELS}, ${TEXT_LINKS}, ${LAYOUT_LINKS}):not(.link-animated)`
     ).forEach(animate)
 
     // Footer links and some buttons of the menu have no line; it is drawn

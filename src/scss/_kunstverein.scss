@@ -135,11 +135,18 @@ body.kunstverein {
             display: flex;
             flex-direction: column;
             gap: $generalPadding;
+            // A white strip at the top that the text scrolls under; the
+            // first block gives up the same space
+            border-top: $generalPadding solid white;
 
             .kunstverein-block {
                 background-color: white;
                 padding: $generalPadding;
                 padding-bottom: 1.5rem;
+
+                &:first-child {
+                    padding-top: 0;
+                }
 
                 &.satzung {
                     padding-bottom: $generalPadding;

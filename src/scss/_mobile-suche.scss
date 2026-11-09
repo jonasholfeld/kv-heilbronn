@@ -120,6 +120,10 @@
                 max-width: none;
             }
 
+            &__dates {
+                text-align: left;
+            }
+
             &__dates:has(p) {
                 margin-top: $mGap;
             }

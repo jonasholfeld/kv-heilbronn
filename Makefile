@@ -1,8 +1,10 @@
 .PHONY: start serve
 
+PORT ?= 8001
+
 start:
 	@trap 'kill 0' INT; \
-	php -S 127.0.0.1:8000 -t . kirby/router.php & \
+	php -S 127.0.0.1:$(PORT) -t . kirby/router.php & \
 	npm run dev
 
 serve:

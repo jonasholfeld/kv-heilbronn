@@ -109,8 +109,9 @@ body.impressum {
         .besuch-panel {
             flex: 1;
             background-color: white;
-            padding: $generalPadding;
-            padding-bottom: 1.5rem;
+            // A white strip at the top that the text scrolls under
+            border-top: $generalPadding solid white;
+            padding: 0 $generalPadding 1.5rem;
             overflow-y: scroll;
             display: flex;
             flex-direction: column;

@@ -172,6 +172,10 @@
                 }
                 &.active {
                     position: relative;
+                    // Marked with the dot here, underlined on mobile
+                    .link-animated__label {
+                        background-image: none;
+                    }
                     &::before {
                         content: '';
                         position: absolute;
