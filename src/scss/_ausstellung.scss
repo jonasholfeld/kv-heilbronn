@@ -355,6 +355,13 @@ body.ausstellung {
                                     margin-bottom: 0 !important;
                                 }
                             }
+                            // Without images the text is in the right column
+                            // and only the title box is left here: it reaches
+                            // down to the buttons, as the last block does
+                            // otherwise (div:last-child below)
+                            &--mobile-text .first-block-wrapper {
+                                flex: 1 0 auto;
+                            }
                             div:not(
                                 .single-ausstellung-page__text-container__dateime
                             ) {
