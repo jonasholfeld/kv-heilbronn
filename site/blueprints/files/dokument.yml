@@ -1,0 +1,9 @@
+title: Dokument
+
+accept:
+    mime: application/pdf
+
+fields:
+    info:
+        type: info
+        text: Dokumente werden auf der Website als Download verlinkt. Der Dateiname ist im Browser sichtbar, er sollte also verständlich sein (z. B. „satzung-kunstverein-heilbronn.pdf“).

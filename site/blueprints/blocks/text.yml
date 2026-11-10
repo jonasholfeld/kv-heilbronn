@@ -10,5 +10,9 @@ fields:
             - bulletList
         placeholder: field.blocks.text.placeholder
     anchor:
+        label: Anker
         type: text
         width: 1/2
+        pattern: '^[a-z0-9-]*$'
+        placeholder: z. B. team
+        help: Optional. Macht diesen Abschnitt direkt verlinkbar, z. B. „team“ für /kunstverein#team. Nur Kleinbuchstaben, Ziffern und Bindestriche. Die Startseite verlinkt auf den Anker „mitgliedschaft“.

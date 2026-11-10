@@ -1,4 +1,4 @@
-name: Menu-Gruppe
+name: Menü-Gruppe
 icon: list-bullet
 label: '{{ title }}'
 wysiwyg: true
@@ -6,12 +6,15 @@ wysiwyg: true
 fields:
     title:
         type: text
-        label: Gruppenbezeichnung
+        label: Überschrift der Gruppe
         required: true
+        width: 1/2
     linktitle:
         type: text
-        label: Link
-        help: Link-Ziel, auf den die Überschrift der Gruppe verlinkt. Wenn leer, wird die Überschrift nicht verlinkt.
+        label: Link der Überschrift
+        placeholder: z. B. /ausstellungen
+        help: Optional. Ohne Link führt die Überschrift zum ersten Eintrag der Gruppe.
+        width: 1/2
     entries:
         type: blocks
         label: Einträge

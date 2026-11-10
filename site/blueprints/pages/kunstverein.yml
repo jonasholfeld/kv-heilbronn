@@ -1,37 +1,54 @@
 title: Kunstverein
+icon: users
 
+options:
+    changeTemplate: false
+    delete: false
 
 tabs:
     content:
         label: Inhalt
-        fields:
-            color:
-                label: Farbe
-                type: color
-                translate: false
-                width: 1/2
-            gallery:
-                label: Galerie
-                type: files
-                width: 1/2
-            searchpreview:
-                label: Vorschautext in der Suche
-                type: textarea
-                buttons: false
-                maxlength: 200
-                help: Erscheint im Suchergebnis dieser Seite. Leer gelassen steht dort der Anfang der Textblöcke.
-            blockseditor:
-                label: Textblöcke
-                type: blocks
-                fieldsets:
-                    - text
-                    - file
-            satzungpdf:
-                translate: false
-                label: Satzung PDF
-                type: files
-                multiple: false
-                width: 1/2
+        icon: text
+        columns:
+            main:
+                width: 2/3
+                fields:
+                    blockseditor:
+                        label: Textblöcke
+                        type: blocks
+                        help: Jeder Block erscheint als eigener Abschnitt. Über den Anker eines Textblocks kann das Menü direkt auf ihn verlinken (z. B. /kunstverein#team).
+                        fieldsets:
+                            - text
+                            - file
+                    searchpreview:
+                        label: Vorschautext in der Suche
+                        type: textarea
+                        buttons: false
+                        maxlength: 200
+                        help: Erscheint im Suchergebnis dieser Seite. Leer gelassen steht dort der Anfang der Textblöcke.
+            sidebar:
+                width: 1/3
+                fields:
+                    color:
+                        label: Farbe
+                        type: color
+                        help: Hintergrund der Seite Kunstverein.
+                        translate: false
+                    gallery:
+                        label: Bilder
+                        type: files
+                        help: Bitte bei jedem Bild Alt-Text und Credits ausfüllen (auf das Bild klicken).
+                        translate: false
+                        uploads:
+                            template: default
+                    satzungpdf:
+                        label: Satzung (PDF)
+                        type: files
+                        multiple: false
+                        help: Wird auf der Seite Kunstverein und im Footer verlinkt.
+                        translate: false
+                        uploads:
+                            template: dokument
     formular:
         label: Mitgliedsantrag
         icon: email

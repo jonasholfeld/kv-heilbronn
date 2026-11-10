@@ -7,40 +7,71 @@ options:
 
 tabs:
     reisen:
+        label: Reisen
+        icon: globe
         sections:
             fields:
                 type: fields
                 fields:
                     color:
-                        label: Farbe
+                        label: Farbe der Seite
                         type: color
+                        help: Hintergrund der Seite Reisen und der Reisen-Box auf der Startseite.
                         translate: false
                         width: 1/3
                     kunstreisecolor:
-                        label: Farbe
+                        label: Farbe Kunstreisen
                         type: color
+                        help: Für Reisen der Kategorie Kunstreise (Karten, Reiseseite, Termine).
                         translate: false
                         width: 1/3
-                        label: Farbe Kunstreise
                     atelierbesuchcolor:
-                        label: Farbe
+                        label: Farbe Atelierbesuche
                         type: color
+                        help: Für Reisen der Kategorie Atelierbesuch (Karten, Reiseseite, Termine).
                         translate: false
                         width: 1/3
-                        label: Farbe Atelierbesuch
             drafts:
                 type: pages
                 label: Entwürfe
+                help: Entwürfe sind auf der Website nicht sichtbar.
                 status: draft
+                sortBy: reiseStart desc
+                layout: table
                 templates:
                     - reise
+                columns:
+                    category:
+                        label: Kategorie
+                        type: text
+                        value: '{{ page.categoryLabel }}'
+                        width: 1/6
+                    reisestart:
+                        label: Beginn
+                        type: date
+                        display: DD.MM.YYYY
+                        width: 1/6
             published:
                 type: pages
-                label: Reisen
-                status: all
+                label: Veröffentlicht
+                status: published
+                sortBy: reiseStart desc
+                layout: table
+                limit: 25
+                search: true
                 templates:
                     - reise
-                sortBy: reiseStart desc
+                columns:
+                    category:
+                        label: Kategorie
+                        type: text
+                        value: '{{ page.categoryLabel }}'
+                        width: 1/6
+                    reisestart:
+                        label: Beginn
+                        type: date
+                        display: DD.MM.YYYY
+                        width: 1/6
     formular:
         label: Anmeldeformular
         icon: email

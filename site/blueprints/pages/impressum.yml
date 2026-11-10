@@ -1,13 +1,24 @@
 title: Impressum
+icon: info
+
+options:
+    changeTemplate: false
+    delete: false
 
 tabs:
     infos:
+        label: Inhalt
+        icon: text
         fields:
             color:
                 label: Farbe
                 type: color
+                help: Hintergrund der Seite Impressum.
                 translate: false
-                width: 1
+                width: 1/3
+            colorGap:
+                type: gap
+                width: 2/3
             impressum:
                 label: Impressum
                 type: writer
@@ -22,16 +33,21 @@ tabs:
                     - paragraph
                     - bulletList
                 width: 1/2
+            foerderungHeadline:
+                label: Förderung
+                type: headline
             foerderungtext:
-                label: Förderung – Text (z.B. „Der Kunstverein Heilbronn wird institutionell gefördert von:“)
+                label: Überschrift der Förderer
                 type: text
+                placeholder: z. B. „Der Kunstverein Heilbronn wird institutionell gefördert von:“
                 width: 1/2
             foerderunglogos:
-                label: Förderung – Logos (Reihenfolge wie im Frontend)
+                label: Logos der Förderer
                 type: files
                 layout: cards
-                size: medium
+                size: small
+                help: Reihenfolge wie auf der Website. Bitte bei jedem Logo den Namen der Institution als Alt-Text eintragen (auf das Logo klicken).
                 width: 1/2
                 translate: false
                 uploads:
-                    template: default
+                    template: logo

@@ -18,7 +18,7 @@ class KvSearch
     // The fields searched per template. Titles of dates are just the date.
     public const FIELDS = [
         'ausstellung' => ['title', 'kuenstler', 'beschreibung', 'kooperationtext'],
-        'reise'       => ['title', 'reiseDatumText', 'beschreibung', 'reiseplan'],
+        'reise'       => ['title', 'beschreibung', 'reiseplan'],
         'termin'      => ['eventCategory', 'bodytext', 'kalender'],
         'edition'     => ['title', 'kuenstler', 'beschreibung'],
         'katalog'     => ['title', 'kuenstler', 'beschreibung'],

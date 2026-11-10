@@ -1,0 +1,22 @@
+title: Logo
+
+accept:
+    mime: image/*
+
+fields:
+    alt:
+        label: Alt-Text (Name der Institution)
+        type: text
+        help: Für Menschen, die das Logo nicht sehen können (Screenreader), z. B. „Stadt Heilbronn“.
+        width: 1/2
+    linkurl:
+        label: Link
+        type: url
+        help: Optional. Webseite der Institution, das Logo wird dann dorthin verlinkt.
+        translate: false
+        width: 1/2
+
+create:
+    width: 2500
+    height: 2500
+    quality: 85

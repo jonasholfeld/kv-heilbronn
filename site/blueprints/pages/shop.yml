@@ -7,23 +7,33 @@ options:
 
 tabs:
     shop:
+        label: Einträge
+        icon: cart
         sections:
-            kataloge:
-                type: pages
-                label: Kataloge
-                templates:
-                    - katalog
-                status: all
-                limit: 10
-                width: 1/2
             editionen:
                 type: pages
                 label: Editionen
                 templates:
                     - edition
                 status: all
-                limit: 10
-                width: 1/2
+                limit: 15
+                layout: table
+                search: true
+                columns:
+                    kuenstler:
+                        label: Künstler:in
+            kataloge:
+                type: pages
+                label: Kataloge
+                templates:
+                    - katalog
+                status: all
+                limit: 15
+                layout: table
+                search: true
+                columns:
+                    kuenstler:
+                        label: Künstler:in
     # Editions and catalogues have forms of their own, see site/plugins/kv-forms.
     # The catalogue form's fields are prefixed with `katalog`.
     formular:

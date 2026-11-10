@@ -2,13 +2,15 @@ title: Website
 
 tabs:
     inhalt:
-        label: Inhalt
+        label: Seiten
+        icon: page
         sections:
             hauptnavigation:
                 type: pages
-                label: Inhaltsbereiche
+                label: Bereiche der Website
+                help: Die Bereiche sind fest angelegt. Neue Ausstellungen, Reisen, Termine und Shop-Einträge werden im jeweiligen Bereich hinzugefügt.
+                create: false
                 templates:
-                    - home
                     - ausstellungen
                     - reisen
                     - termine
@@ -19,8 +21,13 @@ tabs:
                     - suche
 
     homepageElements:
-        label: Homepage Elements
+        label: Startseite
+        icon: home
         sections:
+            startseiteInfo:
+                type: info
+                label: Hinweis
+                text: Ausstellungen und Termine erscheinen automatisch auf der Startseite. Hier werden die übrigen Elemente der Startseite gepflegt.
             mitgliedschaft:
                 type: fields
                 fields:
@@ -37,9 +44,10 @@ tabs:
                         nodes:
                             - paragraph
                             - bulletList
+                        help: Die Box verlinkt auf den Abschnitt „Mitgliedschaft“ der Seite Kunstverein (Anker „mitgliedschaft“).
                         width: 2/3
                     mitgliedschaftColor:
-                        label: Farbe
+                        label: Farbe der Box
                         type: color
                         translate: false
                         width: 1/3
@@ -62,6 +70,7 @@ tabs:
                         nodes:
                             - paragraph
                             - bulletList
+                        help: Die Box verlinkt auf die Seite Reisen. Ihre Farbe ist die Farbe der Seite Reisen.
                         width: 2/3
                     reisenLine:
                         type: line
@@ -73,13 +82,15 @@ tabs:
                         label: Edition
                         type: headline
                     editionItem:
-                        label: Eintrag
+                        label: Gezeigte Edition
                         type: select
                         width: 2/3
                         translate: false
+                        help: Leer gelassen erscheint auf der Startseite keine Edition.
                         options:
                             type: query
                             query: site.find('shop').children.filterBy('template', 'edition')
+                            text: '{{ page.title }}'
                             value: '{{ page.id }}'
                     editionLine:
                         type: line
@@ -91,20 +102,20 @@ tabs:
                         label: Katalog
                         type: headline
                     katalogItem:
-                        label: Eintrag
+                        label: Gezeigter Katalog
                         type: select
                         width: 2/3
                         translate: false
+                        help: Leer gelassen erscheint auf der Startseite kein Katalog.
                         options:
                             type: query
                             query: site.find('shop').children.filterBy('template', 'katalog')
                             text: '{{ page.title }}'
                             value: '{{ page.id }}'
-                    katalogLine:
-                        type: line
 
     navigation:
         label: Menü
+        icon: menu
         sections:
             menu:
                 type: fields
@@ -112,12 +123,18 @@ tabs:
                     navigation:
                         type: blocks
                         label: Menü
+                        help: Das große Menü, das sich über den Menü-Button öffnet. Jede Gruppe hat eine Überschrift und beliebig viele Einträge.
                         fieldsets:
                             - menugroup
 
     openings:
-        label: Startseite Overlay
+        label: Öffnungszeiten
+        icon: clock
         sections:
+            openingInfo:
+                type: info
+                label: Overlay der Startseite
+                text: Diese Angaben erscheinen im Overlay, das sich über die Startseite legt. Gibt es in den nächsten 7 Tagen einen Termin, zeigt das Overlay diesen Tag und den Termin, sonst den heutigen Tag.
             openingTimes:
                 type: fields
                 fields:
@@ -125,30 +142,56 @@ tabs:
                         label: Adresse
                         type: textarea
                         buttons: false
+                        width: 1/2
+                    openingTexts:
+                        type: gap
+                        width: 1/2
                     regularOpen:
-                        label: Text für regulär geöffnete Tage
+                        label: Text für geöffnete Tage
                         type: text
+                        help: Erscheint an Tagen mit Öffnungszeit, wenn es keinen Termin gibt.
+                        width: 1/2
                     regularClosed:
-                        label: Text für regulär geschlossene Tage
+                        label: Text für geschlossene Tage
                         type: text
+                        help: Erscheint an Tagen ohne Öffnungszeit, wenn es keinen Termin gibt.
+                        width: 1/2
+                    weekdaysHeadline:
+                        label: Öffnungszeiten je Wochentag
+                        type: headline
+                        help: z. B. „11–17 Uhr“. Ein leeres Feld bedeutet „geschlossen“. Auf der englischen Seite wird die Uhrzeit automatisch umgeschrieben (11 AM – 5 PM).
                     monday:
                         label: Montag
                         type: text
+                        translate: false
+                        width: 1/4
                     tuesday:
                         label: Dienstag
                         type: text
+                        translate: false
+                        width: 1/4
                     wednesday:
                         label: Mittwoch
                         type: text
+                        translate: false
+                        width: 1/4
                     thursday:
                         label: Donnerstag
                         type: text
+                        translate: false
+                        width: 1/4
                     friday:
                         label: Freitag
                         type: text
+                        translate: false
+                        width: 1/4
                     saturday:
                         label: Samstag
                         type: text
+                        translate: false
+                        width: 1/4
                     sunday:
                         label: Sonntag
                         type: text
+                        translate: false
+                        width: 1/4

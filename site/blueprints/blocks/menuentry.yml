@@ -7,12 +7,14 @@ fields:
         type: text
         label: Bezeichnung
         required: true
+        width: 1/2
     linkType:
         type: toggle
-        label: Link-Typ
+        label: Ziel
+        width: 1/2
         text:
-            - Seite
-            - URL / Anker / Extern
+            - Seite der Website
+            - Adresse (Anker oder extern)
     page:
         type: pages
         label: Seite
@@ -21,7 +23,8 @@ fields:
             linkType: false
     url:
         type: text
-        label: URL
-        placeholder: 'z.B. /seite#anker oder https://extern.de'
+        label: Adresse
+        placeholder: z. B. /kunstverein#team oder https://www.beispiel.de
+        help: Ein Anker (#…) muss in einem Textblock der Zielseite gesetzt sein.
         when:
             linkType: true

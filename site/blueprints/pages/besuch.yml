@@ -1,20 +1,31 @@
 title: Besuch
+icon: pin
+
+options:
+    changeTemplate: false
+    delete: false
 
 tabs:
     infos:
         label: Informationen
+        icon: text
         fields:
             color:
                 label: Farbe
                 type: color
+                help: Hintergrund der Seite Besuch.
                 translate: false
-                width: 1
+                width: 1/3
+            colorGap:
+                type: gap
+                width: 2/3
             kontakt:
                 label: Kontakt
                 type: writer
                 nodes:
                     - paragraph
                     - bulletList
+                help: Erscheint auch im Footer jeder Seite.
                 width: 1/2
             offnungszeiten:
                 label: Öffnungszeiten
@@ -22,6 +33,7 @@ tabs:
                 nodes:
                     - paragraph
                     - bulletList
+                help: Erscheint auch im Footer. Die Öffnungszeiten im Overlay der Startseite werden getrennt unter Website › Öffnungszeiten gepflegt.
                 width: 1/2
             anfahrt:
                 label: Anfahrt
@@ -31,7 +43,7 @@ tabs:
                     - bulletList
                 width: 1/2
             ansprechpartner:
-                label: Ansprechpartner
+                label: Ansprechpartner:innen
                 type: writer
                 nodes:
                     - paragraph

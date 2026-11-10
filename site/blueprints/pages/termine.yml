@@ -7,6 +7,8 @@ options:
 
 tabs:
     termine:
+        label: Termine
+        icon: calendar
         sections:
             fields:
                 type: fields
@@ -14,18 +16,49 @@ tabs:
                     color:
                         label: Farbe
                         type: color
+                        help: Hintergrund der Seite Termine und Farbe der Termine auf der Startseite.
                         translate: false
                         width: 1/3
             drafts:
                 type: pages
                 label: Entwürfe
+                help: Entwürfe sind auf der Website nicht sichtbar.
                 status: draft
+                sortBy: startdatum desc
+                layout: table
+                text: '{{ page.bodytext.excerpt(90).or(page.title) }}'
                 templates:
                     - termin
+                columns:
+                    title:
+                        label: Beschreibung
+                    startdatum:
+                        label: Datum
+                        type: date
+                        display: DD.MM.YYYY
+                        width: 1/6
+                    eventcategory:
+                        label: Art
+                        width: 1/6
             published:
                 type: pages
-                label: Termine
-                status: all
+                label: Veröffentlicht
+                status: published
+                sortBy: startdatum desc
+                layout: table
+                limit: 25
+                search: true
+                text: '{{ page.bodytext.excerpt(90).or(page.title) }}'
                 templates:
                     - termin
-                sortBy: startdatum desc
+                columns:
+                    title:
+                        label: Beschreibung
+                    startdatum:
+                        label: Datum
+                        type: date
+                        display: DD.MM.YYYY
+                        width: 1/6
+                    eventcategory:
+                        label: Art
+                        width: 1/6

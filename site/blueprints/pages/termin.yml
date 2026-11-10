@@ -1,85 +1,104 @@
 title: Termin
 icon: calendar
 
+# Dates are only shown with their date and description on the website,
+# so the title is just the date
+create:
+    title: "{{ page.startdatum.toDate('Y-m-d') }}"
+    slug: "{{ page.startdatum.toDate('Y-m-d') }}-{{ page.eventTime.toDate('Hi') }}"
+    fields:
+        - startdatum
+        - eventTime
+
 tabs:
     content:
         label: Inhalt
-        fields:
-            eventCategory:
-                label: Veranstaltungskategorie
-                type: text
-            showOnHomepage:
-                label: Auf der Startseite anzeigen
-                type: toggle
-                default: true
-            eventTime:
-                label: Veranstaltungszeit
-                type: time
-            parentPage:
-                label: Zugeordneter Bereich
-                type: select
-                options:
-                    - Ausstellungen
-                    - Reisen
-            bodytext:
-                label: Beschreibungstext
-                type: writer
-                nodes:
-                    - paragraph
-                    - bulletList
-                size: medium
-            wordpressId:
-                label: WordPress-ID
-                type: text
-                width: 1/4
-            kalender:
-                label: Kalender
-                type: tags
-                width: 3/4
-            startdatum:
-                label: Startdatum
-                type: date
-                width: 1/2
-            enddatum:
-                label: Enddatum
-                type: date
-                width: 1/2
-            ausstellung:
-                when:
-                    parentPage: 'Ausstellungen'
-                label: Zugehörige Ausstellung
-                type: pages
-                max: 1
-                store: id
-                query: site.index.filterBy("intendedTemplate", "ausstellung")
-            reise:
-                when:
-                    parentPage: 'Reisen'
-                type: pages
-                max: 1
-                store: id
-                query: site.index.filterBy("intendedTemplate", "reise")
-            notiz:
-                label: Notiz
-                type: writer
-                nodes:
-                    - paragraph
-                    - bulletList
-                size: medium
-                help: Optional, falls beim Import ergänzende Beschreibungstexte hinzukommen.
-    media:
-        label: Medien
-        fields:
-            galerie:
-                label: Galerie
-                type: files
-                store: id
-                layout: cards
-                size: medium
-    import:
-        label: Import
-        fields:
-            legacyBildquellen:
-                label: Ursprüngliche Bildreferenzen
-                type: textarea
-                buttons: false
+        icon: text
+        columns:
+            main:
+                width: 2/3
+                fields:
+                    startdatum:
+                        label: Datum
+                        type: date
+                        display: DD.MM.YYYY
+                        required: true
+                        translate: false
+                        width: 1/3
+                    eventTime:
+                        label: Uhrzeit
+                        type: time
+                        translate: false
+                        width: 1/3
+                    enddatum:
+                        label: Enddatum
+                        type: date
+                        display: DD.MM.YYYY
+                        help: Nur bei mehrtägigen Terminen. Der Termin bleibt bis dahin in der Liste.
+                        translate: false
+                        width: 1/3
+                    bodytext:
+                        label: Beschreibung
+                        type: writer
+                        nodes:
+                            - paragraph
+                            - bulletList
+                        size: medium
+                        help: Erscheint auf der Seite Termine, auf der Startseite und im Overlay der Startseite.
+                    eventCategory:
+                        label: Art der Veranstaltung
+                        type: text
+                        placeholder: z. B. Führung, Vortrag, Eröffnung
+                        help: Steht über dem Termin.
+                        width: 1/2
+                    kalender:
+                        label: Schlagworte
+                        type: tags
+                        help: Optional. Erscheinen auf der Startseite in Großbuchstaben über dem Termin.
+                        width: 1/2
+            sidebar:
+                width: 1/3
+                fields:
+                    showOnHomepage:
+                        label: Auf der Startseite anzeigen
+                        type: toggle
+                        default: true
+                        help: Die Startseite zeigt die Termine des kommenden Monats.
+                        translate: false
+                    parentPage:
+                        label: Verknüpfen mit
+                        type: select
+                        help: Der Termin verlinkt dann auf die Ausstellung oder Reise. Ohne Verknüpfung führt er zur Seite Termine.
+                        translate: false
+                        options:
+                            Ausstellungen: einer Ausstellung
+                            Reisen: einer Reise
+                    ausstellung:
+                        when:
+                            parentPage: Ausstellungen
+                        label: Ausstellung
+                        type: pages
+                        max: 1
+                        store: id
+                        translate: false
+                        query: site.find('ausstellungen').childrenAndDrafts.sortBy('startdatum', 'desc')
+                        info: '{{ page.kuenstler }}'
+                    reise:
+                        when:
+                            parentPage: Reisen
+                        label: Reise
+                        type: pages
+                        max: 1
+                        store: id
+                        translate: false
+                        query: site.find('reisen').childrenAndDrafts.sortBy('reiseStart', 'desc')
+                        info: "{{ page.reiseStart.toDate('d.m.Y') }}"
+                    # Only from the WordPress import, not shown on the website
+                    wordpressId:
+                        type: hidden
+                    notiz:
+                        type: hidden
+                    galerie:
+                        type: hidden
+                    legacyBildquellen:
+                        type: hidden

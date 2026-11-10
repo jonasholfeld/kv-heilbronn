@@ -6,7 +6,7 @@ Diese Dokumentation richtet sich an Nutzer:innen des Kirby Panels. Sie erklärt,
 
 - Das Panel wird über `https://kvheilbronn.jholfeld.uber.space/panel` aufgerufen.
 - Dort mit den persönlichen Zugangsdaten einloggen.
-- Nach dem Login erscheint die Startansicht mit den vier Bereichen `Inhalt`, `Homepage Elements`, `Menü` und `Startseite Overlay`.
+- Nach dem Login erscheint die Startansicht mit den vier Bereichen `Seiten`, `Startseite`, `Menü` und `Öffnungszeiten`.
 
 ## Änderungen speichern
 
@@ -17,11 +17,10 @@ Diese Dokumentation richtet sich an Nutzer:innen des Kirby Panels. Sie erklärt,
 
 ## Die vier Tabs auf der Panel-Startseite
 
-## Inhalt
+## Seiten
 
 Hier werden die Hauptbereiche der Website geöffnet:
 
-- Startseite
 - Ausstellungen
 - Reisen
 - Termine
@@ -30,9 +29,9 @@ Hier werden die Hauptbereiche der Website geöffnet:
 - Impressum
 - Besuch
 
-Von hier aus gelangt man in die einzelnen Seiten und Unterseiten.
+Von hier aus gelangt man in die einzelnen Seiten und Unterseiten. Die Bereiche selbst sind fest angelegt und können nicht gelöscht werden.
 
-## Homepage Elements
+## Startseite
 
 Hier werden die zusätzlichen Inhaltselemente der Startseite gepflegt:
 
@@ -64,21 +63,23 @@ Das Menü ist in Gruppen aufgebaut:
 
 Wichtig:
 
-- Wenn eine Gruppe nur einen Eintrag hat, wirkt die Gruppenüberschrift im Frontend direkt wie ein Link.
-- Über freie URLs können auch Anker wie `/kunstverein#team` gesetzt werden.
+- Die Überschrift einer Gruppe führt zum `Link der Überschrift`; ist dieser leer, zum ersten Eintrag der Gruppe.
+- Bei `Ziel` → `Adresse` können auch Anker wie `/kunstverein#team` gesetzt werden. Der Anker (`team`) muss in einem Textblock der Zielseite eingetragen sein.
 
-## Startseite Overlay
+## Öffnungszeiten
 
 Hier wird das Informations-Overlay auf der Startseite gepflegt.
 
 Bearbeitet werden können:
 
 - Adresse
-- Text für regulär geöffnete Tage
-- Text für regulär geschlossene Tage
-- Öffnungszeiten für Montag bis Sonntag
+- Text für geöffnete Tage
+- Text für geschlossene Tage
+- Öffnungszeiten für Montag bis Sonntag (z. B. `11–17 Uhr`; ein leeres Feld bedeutet „geschlossen“)
 
-Dieser Bereich ist vor allem für die allgemeinen Hinweise und die Tageslogik des Overlays wichtig.
+Gibt es in den nächsten 7 Tagen einen Termin, zeigt das Overlay diesen Tag und den Termin, sonst den heutigen Tag mit seiner Öffnungszeit. Die Öffnungszeiten je Wochentag gelten für beide Sprachen; auf der englischen Seite wird die Uhrzeit automatisch umgeschrieben (11 AM – 5 PM).
+
+Die Öffnungszeiten im Footer und auf der Seite `Besuch` werden getrennt davon auf der Seite `Besuch` gepflegt.
 
 ## Seiten und Unterseiten
 
@@ -123,7 +124,7 @@ Einige Felder gelten für beide Sprachen gleichzeitig. Dazu gehören vor allem:
 
 Das bedeutet:
 
-- Diese Angaben müssen nur einmal gepflegt werden und können nur in Deutsch bearbeitet werden.
+- Diese Angaben müssen nur einmal gepflegt werden und können nur in Deutsch bearbeitet werden (in Englisch sind sie ausgegraut).
 - Eine Änderung gilt dann automatisch für Deutsch und Englisch.
 
 ## Wichtige Sonderfunktionen
@@ -153,21 +154,24 @@ Zusätzlich kann bei den Logos ein eigener Text über dem Logo-Bereich eingetrag
 
 ## Bilder und Bildangaben
 
-Bei hochgeladenen Bildern und Dateien können zusätzliche Angaben gepflegt werden:
+Ein Klick auf ein Bild öffnet seine Angaben:
 
-- Alt-Text
-- Titel
-- Bildunterschrift
-- Credits
-- Link-URL
+- `Alt-Text (Bildbeschreibung)`
+    - beschreibt in einem kurzen Satz, was auf dem Bild zu sehen ist – für Menschen, die das Bild nicht sehen können (Screenreader) oder wenn es nicht lädt
+    - z. B. „Raumansicht mit drei großformatigen Gemälden in Rot- und Blautönen“
+    - nicht mit „Bild von …“ beginnen, keine Fotocredits
+    - der Alt-Text kann pro Sprache gepflegt werden
+- `Credits`
+    - Werkangaben und Fotocredits, eine Angabe pro Zeile; erscheinen in der Bildunterschrift
+- `Darf neben einem anderen Bild stehen`
+    - nur für Ausstellungsgalerien: zwei aufeinanderfolgende Hochformate werden nebeneinander gezeigt, wenn beide dies erlauben
 
-Diese Angaben sind wichtig, weil sie im Frontend an verschiedenen Stellen sichtbar sein können.
+Logos haben eigene Angaben:
 
-Bei Ausstellungen gibt es außerdem die Funktion:
+- `Alt-Text`: der Name der Institution, z. B. „Stadt Heilbronn“
+- `Link`: optional die Webseite der Institution, das Logo wird dann dorthin verlinkt
 
-- `Kann als Bild-Paar dargestellt werden`
-
-Damit kann gesteuert werden, ob Bilder gemeinsam als Paar angezeigt werden dürfen, wenn zwei aufeinander folgende Hochformate dieses Feld auf "on" gestellt haben.
+Ältere Logos, die vor dieser Unterscheidung hochgeladen wurden, zeigen noch die Bild-Angaben; dort gilt dasselbe (Name als Alt-Text, Link im Feld `Link (nur bei Logos)`).
 
 ## Block-Editoren
 
@@ -212,7 +216,7 @@ Dort werden zum Beispiel gepflegt:
 - Logos
 - weitere Bildauswahlen
 
-Gerade bei Ausstellungen, Reisen, Terminen, Editionen und Katalogen sollte dieser Bereich immer mitgeprüft werden.
+Gerade bei Ausstellungen, Reisen, Editionen und Katalogen sollte dieser Bereich immer mitgeprüft werden.
 
 ## Unterseiten
 
@@ -220,9 +224,9 @@ Gerade bei Ausstellungen, Reisen, Terminen, Editionen und Katalogen sollte diese
 
 Die Startseite selbst wird inhaltlich vor allem über die Panel-Startseite gepflegt:
 
-- über `Homepage Elements`
+- über `Startseite`
 - über `Menü`
-- über `Startseite Overlay`
+- über `Öffnungszeiten`
 
 Zusätzlich fließen Inhalte aus:
 
@@ -238,7 +242,7 @@ Dies ist die Sammelseite für alle Ausstellungen.
 Hier gibt es:
 
 - einen Bereich für Entwürfe
-- einen Bereich für bestehende Ausstellungen
+- eine Tabelle der veröffentlichten Ausstellungen mit Künstler:in, Start und Ende; über `Filter` lässt sie sich durchsuchen
 
 ## Ausstellung
 
@@ -259,35 +263,31 @@ Diese Seite wird für eine einzelne Ausstellung verwendet.
 
 ### Wie funktionieren die wichtigsten Felder?
 
-- `Auf Startseite anzeigen`
-    - wichtig für ältere Ausstellungen, die trotzdem auf der Startseite erscheinen dürfen
 - `Künstler:in`
     - Name der beteiligten Künstler:in bzw. Künstler:innen
-- `Farbe`
-    - bestimmt die Darstellungsfarbe der Ausstellung
+- `Farbe` (rechte Spalte `Darstellung`)
+    - Hintergrund der Ausstellungsseite, Hover-Farbe in der Ausstellungsliste und Farbe der Startseite, solange die Ausstellung dort oben steht
 - `Weiße Schrift`
-    - schaltet auf helle Schrift um
-- `Jahr`
-    - wichtig für Einordnung und Filter
+    - schaltet auf helle Schrift um, bei dunklen Farben einschalten
+- `Als Archiv-Ausstellung auf der Startseite möglich`
+    - gibt es keine laufende oder keine kommende Ausstellung, zeigt die Startseite zufällig eine vergangene Ausstellung, bei der dies eingeschaltet ist
 - `Eröffnung`
     - Datum und Uhrzeit der Eröffnung
 - `Startdatum` und `Enddatum`
     - Zeitraum der Ausstellung
 - `Beschreibung`
     - Hauptinhalt der Ausstellung
-- `Katalog` und `Edition`
-    - verknüpfen passende Shop-Einträge
+- `Zugehöriger Katalog` und `Zugehörige Edition`
+    - verknüpfen passende Shop-Einträge, die auf der Ausstellungsseite als Buttons erscheinen
 
-### Welche Sonderfunktionen gibt es?
+### Welche Sonderfunktionen gibt es? (Tab `Medien`)
 
-- `Homepage-Bilder`
-    - damit kann gezielt ausgewählt werden, welche Bilder in der Startseitenvorschau erscheinen
-- `Logos`
-    - Bereich für Förderlogos
-- `Logos mit freiem Text`
-    - Bereich für Kooperationslogos oder andere frei beschriftete Logo-Gruppen
-- `Text für Kooperation`
-    - Überschrift über der zweiten Logo-Gruppe
+- `Bilder auf der Startseite`
+    - maximal 3 Bilder für die Startseitenvorschau; ohne Auswahl die ersten 3 Bilder der Galerie
+- `Gefördert von`
+    - Förderlogos
+- `Kooperation`
+    - zweite Logo-Gruppe mit frei wählbarer `Überschrift`, z. B. „In Kooperation mit“
 
 ## Reisen
 
@@ -304,12 +304,12 @@ Dies ist die Sammelseite für Reisen und Atelierbesuche.
 
 ### Wie funktionieren die wichtigsten Felder?
 
-- `Farbe`
-    - Grundfarbe des Bereichs
-- `Farbe Kunstreise`
-    - Farbe für Einträge der Kategorie Kunstreise
-- `Farbe Atelierbesuch`
-    - Farbe für Einträge der Kategorie Atelierbesuch
+- `Farbe der Seite`
+    - Hintergrund der Seite Reisen und der Reisen-Box auf der Startseite
+- `Farbe Kunstreisen`
+    - Farbe für Reisen der Kategorie Kunstreise (Karten, Reiseseite, Termine)
+- `Farbe Atelierbesuche`
+    - Farbe für Reisen der Kategorie Atelierbesuch
 
 ### Welche Sonderfunktionen gibt es?
 
@@ -333,17 +333,17 @@ Diese Seite wird für eine einzelne Reise oder einen Atelierbesuch verwendet.
 ### Wie funktionieren die wichtigsten Felder?
 
 - `Kategorie`
-    - wählt zwischen `Atelierbesuch` und `Kunstreise`
-- `Reise-Datumstext`
-    - freier Datumstext
-- `Reisebeginn` und `Reiseende`
-    - zeitliche Einordnung
+    - wählt zwischen `Atelierbesuch` und `Kunstreise` und bestimmt damit die Farbe
+- `Reisebeginn`
+    - das Anmeldeformular ist bis zum Vortag geöffnet
+- `Reiseende`
+    - nur bei mehrtägigen Reisen; erscheint in den Suchergebnissen
 - `Beschreibung`
     - Haupttext
 - `Reiseplan`
     - eigener Abschnitt für Ablauf oder Programm
 - `Anmeldung`
-    - eigener Abschnitt für Anmeldeinformationen
+    - z. B. Preis und Anmeldeschluss; erscheint auf der Reiseseite und oben im Anmeldeformular
 
 ### Welche Sonderfunktionen gibt es?
 
@@ -369,7 +369,9 @@ Dies ist die Sammelseite für alle Termine.
 ### Wie funktionieren die wichtigsten Felder?
 
 - `Farbe`
-    - Grundfarbe des Terminbereichs
+    - Hintergrund der Seite Termine und Farbe der Termine auf der Startseite
+
+Die Tabelle zeigt für jeden Termin den Anfang der Beschreibung, das Datum und die Art der Veranstaltung.
 
 ## Termin
 
@@ -389,26 +391,19 @@ Diese Seite wird für einen einzelnen Termin verwendet.
 
 ### Wie funktionieren die wichtigsten Felder?
 
-- `Veranstaltungskategorie`
-    - sichtbare Bezeichnung des Termintyps
+- `Datum`, `Uhrzeit` und `Enddatum`
+    - beim Anlegen werden nur Datum und Uhrzeit abgefragt; der Titel des Termins ist sein Datum
+    - das `Enddatum` nur bei mehrtägigen Terminen, der Termin bleibt bis dahin in der Liste
+- `Beschreibung`
+    - erscheint auf der Seite Termine, auf der Startseite und im Overlay der Startseite
+- `Art der Veranstaltung`
+    - z. B. Führung, Vortrag, Eröffnung; steht über dem Termin
+- `Schlagworte`
+    - optional, erscheinen auf der Startseite in Großbuchstaben über dem Termin
 - `Auf der Startseite anzeigen`
-    - legt fest, ob der Termin auf der Startseite erscheint
-- `Veranstaltungszeit`
-    - Uhrzeit des Termins
-- `Zugeordneter Bereich`
-    - entscheidet, ob der Termin zu einer Ausstellung oder Reise gehört
-- `Beschreibungstext`
-    - kurzer Inhaltstext
-- `Kalender`
-    - zusätzliche Schlagwörter oder Labels
-- `Startdatum` und `Enddatum`
-    - zeitliche Einordnung
-- `Zugehörige Ausstellung`
-    - Verknüpfung mit einer Ausstellung
-- `Zugehörige Reise`
-    - Verknüpfung mit einer Reise
-- `Notiz`
-    - zusätzlicher interner Text
+    - die Startseite zeigt die Termine des kommenden Monats
+- `Verknüpfen mit`
+    - einer Ausstellung oder einer Reise; danach erscheint die Auswahl der Ausstellung bzw. Reise
 
 ### Welche Sonderfunktionen gibt es?
 
@@ -450,16 +445,16 @@ Diese Seite wird für einen einzelnen Editions-Eintrag verwendet.
 ### Wie funktionieren die wichtigsten Felder?
 
 - `Farbe`
-    - Darstellungsfarbe des Eintrags
+    - Hintergrund der Shop-Seite und Farbe der Karte im Shop und auf der Startseite
 - `Künstler:in`
     - Name zum Eintrag
 - `Beschreibung`
-    - Inhalt des Eintrags
+    - Werkangaben wie Titel, Jahr, Technik, Maße und Auflage
 
 ### Welche Sonderfunktionen gibt es?
 
 - `Galerie`
-    - Bilder für Vorschau und Detailseite
+    - das erste Bild erscheint im Shop und auf der Startseite
     - erscheinen im Bestellformular als auswählbare Editionsnummern (#1 = erstes Bild)
 - Tab `Bestellung`
     - `Preisoptionen`: Auswahl im Bestellformular, z. B. „800 Euro (ohne Rahmen)“
@@ -483,16 +478,16 @@ Diese Seite wird für einen einzelnen Katalog-Eintrag verwendet.
 ### Wie funktionieren die wichtigsten Felder?
 
 - `Farbe`
-    - Darstellungsfarbe des Eintrags
+    - Hintergrund der Shop-Seite und Farbe der Karte im Shop und auf der Startseite
 - `Künstler:in`
     - Name zum Eintrag
 - `Beschreibung`
-    - Inhalt des Eintrags
+    - Angaben wie Herausgeber, Umfang, Format und ISBN
 
 ### Welche Sonderfunktionen gibt es?
 
 - `Galerie`
-    - Bilder für Vorschau und Detailseite
+    - das erste Bild erscheint im Shop und auf der Startseite
 - Tab `Bestellung`
     - `Preisoptionen`: Auswahl im Bestellformular der Kataloge, z. B. „25 Euro“
 
@@ -508,8 +503,7 @@ Diese Seite wird für Kontakt- und Besuchsinformationen verwendet.
 ### Wo erscheinen die Änderungen im Frontend?
 
 - auf der Seite `Besuch`
-- in Teilen des Footers
-- teilweise im Startseiten-Overlay
+- `Kontakt` und `Öffnungszeiten` auch im Footer jeder Seite
 
 ### Wie funktionieren die wichtigsten Felder?
 
@@ -521,8 +515,10 @@ Diese Seite wird für Kontakt- und Besuchsinformationen verwendet.
     - Öffnungszeiten für die Besuchsseite
 - `Anfahrt`
     - Anfahrtsinformationen
-- `Ansprechpartner`
+- `Ansprechpartner:innen`
     - zuständige Kontaktpersonen
+- `Vorschautext in der Suche`
+    - erscheint im Suchergebnis der Seite
 
 ## Kunstverein
 
@@ -540,12 +536,12 @@ Diese Seite wird für Informationen über den Kunstverein verwendet.
 
 - `Farbe`
     - Seitenfarbe
-- `Galerie`
-    - Bildbereich der Seite
 - `Textblöcke`
-    - inhaltliche Blöcke der Seite
-- `Satzung PDF`
-    - Datei-Link zur Satzung
+    - inhaltliche Blöcke der Seite; über den `Anker` eines Textblocks kann das Menü direkt auf ihn verlinken (z. B. `/kunstverein#team`). Die Startseite verlinkt auf den Anker `mitgliedschaft`.
+- `Bilder`
+    - Bildbereich der Seite
+- `Satzung (PDF)`
+    - Datei-Link zur Satzung, auch im Footer
 
 ### Welche Sonderfunktionen gibt es?
 
@@ -574,6 +570,8 @@ Diese Seite wird für rechtliche Inhalte verwendet.
     - Inhalt des Impressums
 - `Datenschutz`
     - Inhalt der Datenschutzerklärung
+- `Förderung`
+    - `Überschrift der Förderer` und `Logos der Förderer` (Reihenfolge wie auf der Website; Name der Institution als Alt-Text)
 
 ## Formulare
 
@@ -590,7 +588,7 @@ Es gibt drei Formulare, die gleich aufgebaut sind und sich als Overlay über der
 - `Textfeld`: die Bezeichnung steht als Platzhalter im Feld und verschwindet beim Tippen
     - `Art`: `Name` füllt den Platzhalter {name}, das erste Feld `E-Mail` erhält die Bestätigungs-E-Mail; `Telefon`, `Datum` (mit optionalem `Mindestalter`), `Anzahl`, `IBAN` und `BIC` werden auf Gültigkeit geprüft
     - `Breite`: ganze oder halbe Breite (zwei halbe Felder stehen nebeneinander), `Schmal` oder `Wie die Bezeichnung`
-- `Textbereich`: mehrzeiliges Feld; `Groß` für eine Nachricht
+- `Textbereich`: mehrzeiliges Feld; `Großes Feld` für eine Nachricht
 - `Auswahl`: genau eine Option (z. B. Anrede); `Untereinander` stapelt die Optionen (z. B. Mitgliedsart); Optionen werden mit Enter oder `;` getrennt
 - `Einwilligung`: Text mit Haken, Links über das Link-Werkzeug; ohne `Pflichtfeld` freiwillig (z. B. Newsletter); die `Bezeichnung` erscheint in der E-Mail
 - `Datei-Upload`: PDF, JPG oder PNG bis 5 MB, wird an die E-Mail angehängt
@@ -613,5 +611,5 @@ Es gibt drei Formulare, die gleich aufgebaut sind und sich als Overlay über der
 - Nach Änderungen immer speichern.
 - Bei zweisprachigen Inhalten immer beide Sprachen prüfen.
 - Bei Ausstellungen, Reisen und Terminen immer auch Datumsangaben kontrollieren.
-- Bei Bildern nach Möglichkeit Alt-Text und weitere Bildangaben ergänzen.
+- Bei jedem Bild Alt-Text und Credits ergänzen, bei Logos den Namen der Institution als Alt-Text.
 - Bei Startseiten-Inhalten immer zusätzlich prüfen, ob die Änderungen auch wirklich im richtigen Bereich erscheinen.

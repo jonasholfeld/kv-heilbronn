@@ -7,18 +7,51 @@ options:
 
 tabs:
     ausstellungen:
+        label: Ausstellungen
+        icon: image
         sections:
             drafts:
                 type: pages
                 label: Entwürfe
+                help: Entwürfe sind auf der Website nicht sichtbar. Zum Veröffentlichen den Status oben rechts auf der Seite ändern.
                 status: draft
                 sortBy: startdatum desc
+                layout: table
                 templates:
                     - ausstellung
+                columns:
+                    kuenstler:
+                        label: Künstler:in
+                    startdatum:
+                        label: Start
+                        type: date
+                        display: DD.MM.YYYY
+                        width: 1/6
+                    enddatum:
+                        label: Ende
+                        type: date
+                        display: DD.MM.YYYY
+                        width: 1/6
             published:
                 type: pages
-                label: Ausstellungen
-                status: all
+                label: Veröffentlicht
+                status: published
+                sortBy: startdatum desc
+                layout: table
+                limit: 25
+                search: true
                 templates:
                     - ausstellung
-                sortBy: startdatum desc
+                columns:
+                    kuenstler:
+                        label: Künstler:in
+                    startdatum:
+                        label: Start
+                        type: date
+                        display: DD.MM.YYYY
+                        width: 1/6
+                    enddatum:
+                        label: Ende
+                        type: date
+                        display: DD.MM.YYYY
+                        width: 1/6

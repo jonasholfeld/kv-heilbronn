@@ -17,6 +17,6 @@ fields:
         width: 1/4
     tall:
         type: toggle
-        label: Groß
+        label: Großes Feld
         help: Mehrzeilig, z. B. für eine Nachricht
         width: 1/4

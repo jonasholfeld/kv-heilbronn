@@ -33,9 +33,7 @@ switch ($template) {
         $names     = [$item->title()->value()];
         $startStr  = $item->reiseStart()->toDate('d.m.Y');
         $endStr    = $item->reiseEnde()->toDate('d.m.Y');
-        $dates[]   = $item->reiseDatumText()->isNotEmpty()
-            ? $item->reiseDatumText()->value()
-            : ($startStr ?: '') . ($startStr && $endStr && $endStr !== $startStr ? ' – ' . $endStr : '');
+        $dates[]   = ($startStr ?: '') . ($startStr && $endStr && $endStr !== $startStr ? ' – ' . $endStr : '');
         break;
 
     case 'termin':

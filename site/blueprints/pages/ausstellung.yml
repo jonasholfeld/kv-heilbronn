@@ -1,110 +1,150 @@
 title: Ausstellung
 icon: image
 
+create:
+    fields:
+        - kuenstler
+
 tabs:
     content:
         label: Inhalt
-        fields:
-            canBeDisplayedOnHomepage:
-                label: Auf Startseite anzeigen
-                type: toggle
-                width: 1/4
-                translate: false
-            wordpressId:
-                label: WordPress-ID
-                type: text
-                width: 1/4
-                translate: false
-            kuenstler:
-                label: Künstler:in
-                type: text
-                width: 2/4
-                translate: false
-            color:
-                label: Farbe
-                type: color
-                width: 1/4
-                translate: false
-            whiteFont:
-                label: Weiße Schrift
-                type: toggle
-                width: 1/4
-                translate: false
-            eroffnungsdatum:
-                label: Eröffnung
-                type: date
-                time: true
-                width: 1/4
-                translate: false
-            startdatum:
-                label: Startdatum
-                type: date
-                width: 1/4
-                translate: false
-            enddatum:
-                label: Enddatum
-                type: date
-                width: 1/4
-                translate: false
-            beschreibung:
-                label: Beschreibung
-                type: blocks
-                size: large
-                fieldsets:
-                    - text
-            katalog:
-                label: Katalog
-                type: pages
-                multiple: false
-                width: 1/2
-                query: site.find('shop').children.filterBy('template', 'katalog')
-            edition:
-                label: Edition
-                type: pages
-                multiple: false
-                width: 1/2
-                query: site.find('shop').children.filterBy('template', 'edition')
+        icon: text
+        columns:
+            main:
+                width: 2/3
+                fields:
+                    kuenstler:
+                        label: Künstler:in
+                        type: text
+                        help: Bei mehreren Künstler:innen durch Komma trennen. Bei Gruppenausstellungen leer lassen.
+                        translate: false
+                    startdatum:
+                        label: Startdatum
+                        type: date
+                        display: DD.MM.YYYY
+                        translate: false
+                        width: 1/2
+                    enddatum:
+                        label: Enddatum
+                        type: date
+                        display: DD.MM.YYYY
+                        translate: false
+                        width: 1/2
+                    eroffnungsdatum:
+                        label: Eröffnung
+                        type: date
+                        display: DD.MM.YYYY
+                        time: true
+                        help: Datum und Uhrzeit der Eröffnung. Optional.
+                        translate: false
+                    beschreibung:
+                        label: Beschreibung
+                        type: blocks
+                        size: large
+                        fieldsets:
+                            - text
+                    katalog:
+                        label: Zugehöriger Katalog
+                        type: pages
+                        multiple: false
+                        help: Wird auf der Ausstellungsseite als Button „Katalog“ verlinkt.
+                        query: site.find('shop').children.filterBy('template', 'katalog')
+                        translate: false
+                        width: 1/2
+                    edition:
+                        label: Zugehörige Edition
+                        type: pages
+                        multiple: false
+                        help: Wird auf der Ausstellungsseite als Button „Edition“ verlinkt.
+                        query: site.find('shop').children.filterBy('template', 'edition')
+                        translate: false
+                        width: 1/2
+            sidebar:
+                width: 1/3
+                fields:
+                    darstellungHeadline:
+                        label: Darstellung
+                        type: headline
+                    color:
+                        label: Farbe
+                        type: color
+                        help: Hintergrund der Ausstellungsseite, Hover-Farbe in der Ausstellungsliste und Farbe der Startseite, solange die Ausstellung dort oben steht.
+                        translate: false
+                    whiteFont:
+                        label: Weiße Schrift
+                        type: toggle
+                        help: Bei dunklen Farben einschalten, damit der Text gut lesbar bleibt.
+                        translate: false
+                    canBeDisplayedOnHomepage:
+                        label: Als Archiv-Ausstellung auf der Startseite möglich
+                        type: toggle
+                        help: Gibt es keine laufende oder keine kommende Ausstellung, zeigt die Startseite zufällig eine vergangene Ausstellung, bei der dies eingeschaltet ist. Laufende und kommende Ausstellungen erscheinen immer.
+                        translate: false
+                    # Only from the WordPress import, not shown on the website
+                    wordpressId:
+                        type: hidden
+                    legacyBildquellen:
+                        type: hidden
+
     media:
         label: Medien
-        fields:
-            galerie:
-                label: Galerie
-                type: files
-                store: id
-                layout: cards
-                size: medium
+        icon: image
+        columns:
+            images:
                 width: 1/2
-                translate: false
-            homepageImages:
-                help: Wählen Sie hier die Bilder aus, die auf der Startseite als Teil der Ausstellungsankündigung angezeigt werden sollen. Es können maximal 3 Bilder ausgewählt werden. Bei Querformaten sollte nur ein Bild ausgewählt werden. Sind keine Bilder ausgewählt, werden automatisch die ersten 3 Bilder aus der Galerie verwendet.
-                label: Homepage-Bilder
-                type: files
+                fields:
+                    galerie:
+                        label: Galerie
+                        type: files
+                        store: id
+                        layout: cards
+                        size: medium
+                        help: Bilder der Ausstellungsseite in dieser Reihenfolge. Bitte bei jedem Bild Alt-Text und Credits ausfüllen (auf das Bild klicken).
+                        translate: false
+                        uploads:
+                            template: default
+            homepage:
                 width: 1/2
-                translate: false
-            logoskooperation:
-                label: Logos (Text frei wählbar, z.B. "In Kooperation mit")
-                type: files
-                layout: cards
-                size: medium
+                fields:
+                    homepageImages:
+                        label: Bilder auf der Startseite
+                        type: files
+                        help: Maximal 3 Bilder, bei Querformaten nur eins. Sind keine Bilder ausgewählt, werden die ersten 3 Bilder der Galerie verwendet.
+                        max: 3
+                        translate: false
+                        uploads:
+                            template: default
+            logosLinks:
                 width: 1/2
-                translate: false
-            logos:
-                label: Logos ("Gefördert von")
-                type: files
-                layout: cards
-                size: medium
+                fields:
+                    logosHeadline:
+                        label: Gefördert von
+                        type: headline
+                        help: Erscheint mit der Überschrift „Gefördert von“ unter dem Text.
+                    logos:
+                        label: Logos
+                        type: files
+                        layout: cards
+                        size: small
+                        translate: false
+                        uploads:
+                            template: logo
+            logosRechts:
                 width: 1/2
-                translate: false
-            kooperationtext:
-                label: Text für Kooperation (z.B. "In Kooperation mit")
-                type: text
-                width: 1/2
-                translate: false
-    import:
-        label: Import
-        fields:
-            legacyBildquellen:
-                label: Ursprüngliche Bildreferenzen
-                type: textarea
-                buttons: false
-                help: Sammelfeld für alte WordPress-URLs oder IDs aus mehreren Bildspalten.
+                fields:
+                    kooperationHeadline:
+                        label: Kooperation
+                        type: headline
+                        help: Zweite Logo-Gruppe mit frei wählbarer Überschrift.
+                    kooperationtext:
+                        label: Überschrift
+                        type: text
+                        placeholder: z. B. „In Kooperation mit“
+                    logoskooperation:
+                        label: Logos
+                        type: files
+                        layout: cards
+                        size: small
+                        translate: false
+                        uploads:
+                            template: logo
